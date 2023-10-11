@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Management 12Trading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #00569D;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: left;
+            padding: 10px;
+            background-color: #00569D;
+            color: #fff;
+        }
+        #clock {
+            font-size: 60px;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>API Management 12Trading Dashboard</h1>
+    </header>
+    <main>
+        <div id="clock">00:00:00</div>
+        <!-- สร้างส่วนเนื้อหาของหน้าเว็บของคุณที่นี่ -->
+        <h1>/GET  10 </h1>
+        <h1>/POST 20</h1>
+        <h1>/PUT 9999</h1>
+        <h1>/DELETE 4</h1>
+    </main>
+    <footer>
+        &copy; 2023 12Trading
+    </footer>
+
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            clockElement.textContent = timeString;
+        }
+
+        // เรียกใช้งานฟังก์ชันเพื่ออัปเดตนาฬิกาทุกวินาที
+        setInterval(updateClock, 1000);
+
+        // เรียกใช้งานฟังก์ชันเพื่อแสดงเวลาเริ่มต้นทันที
+        updateClock();
+        // JavaScript สามารถเขียนตรงนี้
+        // นี่คือตัวอย่างการใช้ JavaScript ในการจัดการ API
+    </script>
+</body>
+</html>
