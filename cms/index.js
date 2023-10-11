@@ -10,7 +10,3 @@ cms.use('/manage',manage)
 cms.use('/supervisor',supervisor)
 
 module.exports = cms
-
-
-
-
