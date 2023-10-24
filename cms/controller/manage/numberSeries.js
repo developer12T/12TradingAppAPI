@@ -14,6 +14,17 @@ numberSeries.post('/getAll', async(req, res) => {
     } 
 })
 
+numberSeries.post('/getAvailable', async(req, res) => {
+    const { currentdateDash } = require('../../utils/utility.js')
+    try {
+        const data = await NumberSeries.find({type:req.body.type,zone:req.body.zone}).sort({'detail.available':-1}).exec()
+        res.status(200).json(data)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
 numberSeries.post('/addSeries', async(req, res) => {
     const { currentdateDash } = require('../../utils/utility.js')
     try {
