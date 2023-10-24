@@ -49,4 +49,3 @@ addStore.post('/newStore', upload.single('picture'),async(req, res) => {
 })
  
 module.exports = addStore
-
