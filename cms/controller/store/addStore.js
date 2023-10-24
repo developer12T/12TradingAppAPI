@@ -42,7 +42,7 @@ addStore.post('/newStore', upload.single('picture'),async(req, res) => {
             dateAction:"",
             appPerson: approvePerson
         }
-        const mainData = { idCharecter:numberSeries.zone,idNumber:idAvailable, taxId,name,tel,route,type,addressTitle,distric,subDistric,province,provinceCode,postCode,zone,latitude,longtitude,lineId,approve: approveData,status:"0", policyConsent,imageList,note }
+        const mainData = { idCharecter:numberSeries.zone,idNumber:idAvailable, taxId,name,tel,route,type,addressTitle,distric,subDistric,province,provinceCode,postCode,zone,latitude,longtitude,lineId,approve: approveData,status:"0", policyConsent,imageList,note,createdDate:currentdateDash(),updatedDate:currentdateDash() }
         console.log(mainData)
         const newStore = new Store(mainData)
         await newStore.save()
