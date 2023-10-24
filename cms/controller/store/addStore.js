@@ -22,17 +22,6 @@ addStore.post('/newStore', upload.single('picture'),async(req, res) => {
         // fs.writeFileSync(imagePath, image.buffer)
         // สิ้นสุด
 
-
-
-        // const id_count = await Store.findOne().sort({ idNumber: -1 }).exec()
-        // if(id_count === null){
-        //     var idIncret = 1
-        // }else{
-        //     var idIncret = id_count.idNumber + 1
-        // }
-
-
-
         const { taxId ,name,tel ,route ,type ,addressTitle ,distric ,subDistric ,province ,provinceCode ,postCode ,zone ,latitude ,longtitude ,lineId ,approvePerson ,policyConsent ,imageList ,note,numberSeries } = req.body
         const idAvailable = await available(numberSeries.type,numberSeries.zone)
         // console.log(idAvailable)

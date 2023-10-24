@@ -2,7 +2,6 @@ const {NumberSeries} = require("../models/numberSeries");
 const {History} = require('../models/history')
 const {Store} = require("../models/store");
 
-
 async function available(type, zone) {
     const data = await NumberSeries.findOne({
         type: type,
