@@ -22,14 +22,14 @@ addStore.post('/newStore', upload.single('picture'),async(req, res) => {
         // fs.writeFileSync(imagePath, image.buffer)
         // สิ้นสุด
 
-        const { taxId ,name,tel ,route ,type ,addressTitle ,distric ,subDistric ,province ,provinceCode ,postCode ,zone ,latitude ,longtitude ,lineId ,approvePerson ,policyConsent ,imageList ,note,numberSeries } = req.body
+        const { taxId ,name,tel ,route ,type ,addressTitle ,distric ,subDistric ,province ,provinceCode ,postCode ,zone ,latitude ,longtitude ,lineId  ,policyConsent ,imageList ,note,numberSeries } = req.body
         const idAvailable = await available(numberSeries.type,numberSeries.zone)
         // console.log(idAvailable)
         const approveData = {
             status:"1",
              dateSend:currentdateDash(),
             dateAction:"",
-            appPerson: approvePerson
+            appPerson: ""
         }
         const mainData = { idCharecter:numberSeries.zone,idNumber:idAvailable, taxId,name,tel,route,type,addressTitle,distric,subDistric,province,provinceCode,postCode,zone,latitude,longtitude,lineId,approve: approveData,status:"0", policyConsent,imageList,note,createdDate:currentdateDash(),updatedDate:currentdateDash() }
         console.log(mainData)
