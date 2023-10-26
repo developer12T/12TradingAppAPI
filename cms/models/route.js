@@ -11,8 +11,8 @@ const routeSchema = mongoose.Schema({
 
 const detailSchema = mongoose.Schema({
     storeId: { type: String, require: true},
-    lat:{type:String,require:true},
-    long:{type:String,require:true},
+    latitude:{type:String,require:true},
+    longtitude:{type:String,require:true},
     note:{type:String,require:true},
     status:{type:String,require:true},
     dateCheck:{type:String,require:true},

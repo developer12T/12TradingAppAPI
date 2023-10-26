@@ -12,8 +12,8 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
                 const listDetail = {
                     storeId: data,
                     status: 'ยังไม่เช็คอิน',
-                    lat: '',
-                    long: '',
+                    latitude: '',
+                    longtitude: '',
                     note: ''
                 }
                 await Checkin.updateOne({id: req.body.id}, {$push: {detail: listDetail}})
@@ -27,8 +27,8 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
                 const listDetail = {
                     storeId: data,
                     status: 'ยังไม่เช็คอิน',
-                    lat: '',
-                    long: '',
+                    latitude: '',
+                    longtitude: '',
                     note: ''
                 }
                 list.push(listDetail)
@@ -46,19 +46,37 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
 })
 
 addCheckIn.post('/visit', async (req, res) => {
-    // Create a new "lat" field if it doesn't exist in the "detail" array
+    // await Checkin.updateOne(
+    //     { id: req.body.id, 'detail.storeId': req.body.storeId },
+    //     {
+    //         $set: {
+    //             'detail.latitude': req.body.latitude,
+    //             'detail.longtitude': req.body.longtitude,
+    //             'detail.note': req.body.note,
+    //             'detail.status': req.body.status
+    //         }
+    //     }
+    // )
     await Checkin.updateOne(
-        { id: req.body.id, 'detail.storeId': req.body.storeId },
+        {
+            $and: [
+                { id: req.body.id }, // กำหนดเงื่อนไขสำหรับ id นอก detail
+                { 'detail.storeId': req.body.storeId } // กำหนดเงื่อนไขสำหรับ storeId ใน detail
+            ]
+        },
         {
             $set: {
-                'detail.lat': req.body.latt, // This will create the "lat" field if it doesn't exist
-                'detail.long': req.body.longt,
-                'detail.note': req.body.note,
-                'detail.status': req.body.status
+                'detail.$.latitude': req.body.latitude,
+                'detail.$.longtitude': req.body.longtitude,
+                'detail.$.note': req.body.note,
+                'detail.$.status': req.body.status
             }
         }
-    );
-    res.status(200).json('test visit');
+    )
+
+    const data = await Checkin.find({}, {'_id': 0, 'detail': { $elemMatch: { 'storeId': 'MBE2300006' } }}).exec();
+
+    res.status(200).json(data)
 })
 
 module.exports = addCheckIn
