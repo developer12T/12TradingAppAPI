@@ -46,22 +46,11 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
 })
 
 addCheckIn.post('/visit', async (req, res) => {
-    // await Checkin.updateOne(
-    //     { id: req.body.id, 'detail.storeId': req.body.storeId },
-    //     {
-    //         $set: {
-    //             'detail.latitude': req.body.latitude,
-    //             'detail.longtitude': req.body.longtitude,
-    //             'detail.note': req.body.note,
-    //             'detail.status': req.body.status
-    //         }
-    //     }
-    // )
     await Checkin.updateOne(
         {
             $and: [
-                { id: req.body.id }, // กำหนดเงื่อนไขสำหรับ id นอก detail
-                { 'detail.storeId': req.body.storeId } // กำหนดเงื่อนไขสำหรับ storeId ใน detail
+                {id: req.body.id},
+                {'detail.storeId': req.body.storeId}
             ]
         },
         {
@@ -73,9 +62,7 @@ addCheckIn.post('/visit', async (req, res) => {
             }
         }
     )
-
-    const data = await Checkin.find({}, {'_id': 0, 'detail': { $elemMatch: { 'storeId': 'MBE2300006' } }}).exec();
-
+    const data = await Checkin.find({}, {'_id': 0, 'detail': {$elemMatch: {'storeId': req.body.storeId}}}).exec()
     res.status(200).json(data)
 })
 
