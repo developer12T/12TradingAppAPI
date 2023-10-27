@@ -62,9 +62,12 @@ getRoute.post('/getRouteDetail', async (req, res) => {
             const numberPart = data.list[i].substring(3)
             const dataStore = await Store.findOne({idCharecter:prefix,idNumber:numberPart},{name:1,_id:0})
             // console.log(prefix)
+            const status_store = await Checkin.findOne({id:req.body.id}, {'_id': 0, 'detail': {$elemMatch: {'storeId': data.list[i]}}}).exec()
+            console.log()
             const showData_obj = {
                 id:data.list[i],
-                name:dataStore.name
+                name:dataStore.name,
+                status:'พัฒนาต่อ'
             }
             showData.push(showData_obj)
         }

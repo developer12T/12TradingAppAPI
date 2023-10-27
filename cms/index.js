@@ -10,6 +10,7 @@ const checkin = require('./routes/checkin')
 cms.use('/store',store)
 cms.use('/route',route)
 cms.use('/manage',manage)
+cms.use('/supervisor',supervisor)
 cms.use('/checkin',checkin)
 
 module.exports = cms
