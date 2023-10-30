@@ -3,9 +3,7 @@ const express = require('express')
 require('../../configs/connect')
 const getRoute = express.Router()
 const {Route, Checkin} = require('../../models/route')
-const {currentdateDash} = require("../../utils/utility");
 const {Store} = require("../../models/store");
-const {log} = require("winston");
 
 getRoute.get('/getAll', async (req, res) => {
     try {
@@ -54,20 +52,23 @@ getRoute.post('/getRouteShowHome', async (req, res) => {
 
 getRoute.post('/getRouteDetail', async (req, res) => {
     try {
-        const data = await Route.findOne({id:req.body.id},{ _id:0,__v:0 })
+        const data = await Route.findOne({id: req.body.id}, {_id: 0, __v: 0})
         const showData = []
-        for (let i = 0 ; i < data.list.length;i++){
+        for (let i = 0; i < data.list.length; i++) {
             console.log(data.list[i])
             const prefix = data.list[i].substring(0, 3)
             const numberPart = data.list[i].substring(3)
-            const dataStore = await Store.findOne({idCharecter:prefix,idNumber:numberPart},{name:1,_id:0})
+            const dataStore = await Store.findOne({idCharecter: prefix, idNumber: numberPart}, {name: 1, _id: 0})
             // console.log(prefix)
-            const status_store = await Checkin.findOne({id:req.body.id}, {'_id': 0, 'detail': {$elemMatch: {'storeId': data.list[i]}}}).exec()
+            const status_store = await Checkin.findOne({id: req.body.id}, {
+                '_id': 0,
+                'detail': {$elemMatch: {'storeId': data.list[i]}}
+            }).exec()
             console.log()
             const showData_obj = {
-                id:data.list[i],
-                name:dataStore.name,
-                status:'พัฒนาต่อ'
+                id: data.list[i],
+                name: dataStore.name,
+                status: 'พัฒนาต่อ'
             }
             showData.push(showData_obj)
         }
@@ -76,6 +77,22 @@ getRoute.post('/getRouteDetail', async (req, res) => {
     } catch (e) {
         res.status(500).json(e)
     }
+})
+
+getRoute.post('/getRouteStore', async (req, res) => {
+    const data = await Store.find({zone: req.body.zone}, {
+        _id: 0,
+        idCharecter: 1,
+        idNumber: 1,
+        name: 1,
+        route: 1,
+        addressTitle: 1,
+        distric: 1,
+        subDistric: 1,
+        province: 1,
+        provinceCode: 1
+    }).sort({idNumber: 1})
+    res.json(data)
 })
 
 
