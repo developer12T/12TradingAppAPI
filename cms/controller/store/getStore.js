@@ -18,20 +18,40 @@ getStore.post('/getWithCondition', async (req, res) => {
         if (req.body.tab === 'new') {
             // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
             // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-            const data = await Store.find().sort({idNumber: -1}).exec()
+            const data = await Store.find({zone:req.body.zone}, {
+                _id: 0,
+                idCharecter: 1,
+                idNumber: 1,
+                name: 1,
+                route: 1,
+               'approve.status':1
+            }).sort({idNumber: -1}).exec()
+
+            data.forEach(item => {
+                if (item.approve.status === '1') {
+                    item.approve.status = 'รออนุมัติ'
+                    console.log(item.approve.status)
+                }else if(item.approve.status === '0'){
+                    item.approve.status = 'ไม่อนุมัติ'
+                    console.log(item.approve.status)
+                }else if(item.approve.status === '2'){
+                    item.approve.status = 'อนุมัติแล้ว'
+                    console.log(item.approve.status)
+                }
+            })
 
             res.status(200).json(data)
         } else if (req.body.tab === 'all') {
             const data = await Store.find({status: '1', 'approve.status': '2'}, {
                 _id: 0,
                 idCharecter: 1,
-                idNumber:1,
-                name:1,
-                route:1,
-                addressTitle:1,
-                distric:1,
-                subDistric:1,
-                province:1
+                idNumber: 1,
+                name: 1,
+                route: 1,
+                addressTitle: 1,
+                distric: 1,
+                subDistric: 1,
+                province: 1
             }).sort({idNumber: 1}).exec()
             res.status(200).json(data)
         } else {
@@ -46,7 +66,7 @@ getStore.post('/getWithCondition', async (req, res) => {
 getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.id !== '' && req.body.id !== undefined) {
-            const data = await Store.find({idNumber: req.body.id},
+            const data = await Store.find({idNumber: req.body.id,idNumber:req.body.idC},
                 {
                     _id: 0,
                     'approve._id': 0,
