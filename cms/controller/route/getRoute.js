@@ -80,7 +80,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
 })
 
 getRoute.post('/getRouteStore', async (req, res) => {
-    const data = await Store.find({zone: req.body.zone}, {
+    const data = await Store.find({$and:[{zone: req.body.zone,'approve.status':1}]}, {
         _id: 0,
         idCharecter: 1,
         idNumber: 1,
