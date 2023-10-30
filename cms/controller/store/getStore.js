@@ -42,7 +42,7 @@ getStore.post('/getWithCondition', async (req, res) => {
 
             res.status(200).json(data)
         } else if (req.body.tab === 'all') {
-            const data = await Store.find({status: '1', 'approve.status': '2'}, {
+            const data = await Store.find({status: '1', 'approve.status': '2',zone:req.body.zone}, {
                 _id: 0,
                 idCharecter: 1,
                 idNumber: 1,
