@@ -3,8 +3,8 @@ const express = require('express')
 require('../../configs/connect')
 const addRoute = express.Router()
 const {Route, Checkin} = require('../../models/route')
-const {currentdateDash} = require("../../utils/utility");
-const {Store} = require("../../models/store");
+const {currentdateDash} = require("../../utils/utility")
+const {Store} = require("../../models/store")
 
 addRoute.post('/newRoute', async (req, res) => {
     try {
