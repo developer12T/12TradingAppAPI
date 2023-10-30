@@ -29,6 +29,4 @@ UserManage.put('/updateUser', async (req, res) => {
     res.status(200).json(update)
 })
 
-
-
 module.exports = UserManage
