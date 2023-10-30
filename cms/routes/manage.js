@@ -10,11 +10,11 @@ manage.use(cors())
 const TypeStore = require('../controller/manage/typeStore')
 const numberSeries = require('../controller/manage/numberSeries')
 const address = require('../controller/manage/address')
-const User = require('../controller/manage/user')
+const UserManage = require('../controller/manage/user')
 
 manage.use('/TypeStore',TypeStore)
 manage.use('/NumberSeries',numberSeries)
 manage.use('/Address',address)
-manage.use('/User',User)
+manage.use('/User',UserManage)
 
 module.exports = manage
