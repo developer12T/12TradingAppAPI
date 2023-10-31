@@ -9,7 +9,7 @@ UserManage.post('/getAll', async (req, res) => {
 })
 
 UserManage.post('/getDetail', async (req, res) => {
-    const data = await User.findOne({id:req.body.id},{_id:0,__v:0})
+    const data = await User.findOne({id:req.body.id},{_id:0,__v:0,passWord:0})
     res.status(200).json(data)
 })
 
