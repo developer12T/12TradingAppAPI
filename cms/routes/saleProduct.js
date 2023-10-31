@@ -7,9 +7,11 @@ saleProduct.use(express.json())
 saleProduct.use(cors())
 
 const addCart = require('../controller/saleProduct/addCart')
+const getCart = require('../controller/saleProduct/getCart')
 const getProduct = require('../controller/saleProduct/getProduct')
 
 saleProduct.use('/Cart',addCart)
+saleProduct.use('/Cart',getCart)
 saleProduct.use('/Product',getProduct)
 
 

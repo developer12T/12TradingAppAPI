@@ -28,11 +28,10 @@ addCart.post('/addCart', async (req, res) => {
                     area: req.body.area,
                     storeId: req.body.storeId
                 }, {$push: {list: req.body.list[i]}})
-
             }
             var summaryPrice = totalPrice_bath + priceData.totalPrice
             await Cart.updateOne({area: req.body.area, storeId: req.body.storeId}, {$set: {totalPrice: summaryPrice}})
-            res.status(200).json(summaryPrice)
+            res.status(200).json('update Successfully')
         }
     } catch (e) {
         res.status(500).json(e)
