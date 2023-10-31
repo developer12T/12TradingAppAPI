@@ -11,8 +11,11 @@ const skuList = mongoose.Schema({
 const productSchema = mongoose.Schema({
     idIndex:{type:Number},
     id:{type:String},
-    productType:{type:String},
     name:{type:String},
+    type:{type:String},
+    brand:{type:String},
+    size:{type:String},
+    flavour:{type:String},
     skuList:[skuList],
     status:{type:String}
 })
