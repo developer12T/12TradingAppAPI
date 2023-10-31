@@ -10,12 +10,14 @@ ProductManage.post('/getAll', async (req, res) => {
 
 ProductManage.post('/addProduct', async (req, res) => {
     const data = await Product.find({},{_id:0,__v:0})
-    res.status(200).json(data)
+    res.status(200).json('add product')
 })
 
 ProductManage.put('/updateProduct', async (req, res) => {
     const data = await Product.find({},{_id:0,__v:0})
-    res.status(200).json(data)
+    res.status(200).json('update product')
 })
+
+
 
 module.exports = ProductManage
