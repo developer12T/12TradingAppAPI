@@ -2,7 +2,8 @@ const express = require('express')
 
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
-const {Checkin} = require("../../models/route");
+const {Store} = require("../../models/store")
+
 const getCart = express.Router()
 
 getCart.post('/getCart', async (req, res) => {
@@ -15,21 +16,34 @@ getCart.post('/getCart', async (req, res) => {
 })
 getCart.post('/getCartToShow', async (req, res) => {
     try {
+        var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         const data_arr = []
         for(let i = 0;i < data.list.length; i++) {
-            const data_obj = {
+            const list_obj = {
+                id:data.list[i].id,
                 name:data.list[i].name,
                 qty:data.list[i].qty + data.list[i].typeQty,
                 summaryPrice: data.list[i].pricePerQty * data.list[i].qty
             }
-            data_arr.push(data_obj)
+            totalAmount = totalAmount+(data.list[i].pricePerQty * data.list[i].qty)
+            data_arr.push(list_obj)
         }
-        var storeName = 'ร้านทดสอบระบบ'
-        data_arr.push(storeName)
-        res.status(200).json(data_arr)
-    } catch (e) {
-        res.status(500).json(e)
+
+        const storeData = await Store.findOne({idCharecter:req.body.storeId.substring(0, 3),idNumber:req.body.storeId.substring(3)},{})
+        const mainData = {
+            idCart:data.id,
+            storeId:storeData.idCharecter + storeData.idNumber,
+            name:storeData.name,
+            totalProductAmount:data_arr.length,
+            totalAmount:totalAmount,
+            list:data_arr
+        }
+        // console.log(data.id)
+        // console.log(data)
+        res.status(200).json(mainData)
+    } catch (error) {
+        res.status(500).json(error)
     }
 })
 
