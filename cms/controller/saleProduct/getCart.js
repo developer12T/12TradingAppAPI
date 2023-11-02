@@ -19,25 +19,27 @@ getCart.post('/getCartToShow', async (req, res) => {
         var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         const data_arr = []
-        for(let i = 0;i < data.list.length; i++) {
+        for (let i = 0; i < data.list.length; i++) {
             const list_obj = {
-                id:data.list[i].id,
-                name:data.list[i].name,
-                qty:data.list[i].qty + data.list[i].typeQty,
+                id: data.list[i].id,
+                name: data.list[i].name,
+                qty: data.list[i].qty + data.list[i].typeQty,
                 summaryPrice: data.list[i].pricePerQty * data.list[i].qty
             }
-            totalAmount = totalAmount+( data.list[i].pricePerQty * data.list[i].qty )
-            data_arr.push( list_obj )
+            totalAmount = totalAmount + (data.list[i].pricePerQty * data.list[i].qty)
+            data_arr.push(list_obj)
         }
 
-        const storeData = await Store.findOne({idCharecter:req.body.storeId.substring(0, 3),idNumber:req.body.storeId.substring(3)},{})
+        const storeData = await Store.findOne({
+            idCharecter: req.body.storeId.substring(0, 3), idNumber: req.body.storeId.substring(3)
+        }, {})
         const mainData = {
-            idCart:data.id,
-            storeId:storeData.idCharecter + storeData.idNumber,
-            name:storeData.name,
-            totalProductAmount:data_arr.length,
-            totalAmount:totalAmount,
-            list:data_arr
+            idCart: data.id,
+            storeId: storeData.idCharecter + storeData.idNumber,
+            name: storeData.name,
+            totalProductAmount: data_arr.length,
+            totalAmount: totalAmount,
+            list: data_arr
         }
         res.status(200).json(mainData)
     } catch (error) {
