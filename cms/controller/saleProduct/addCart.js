@@ -34,7 +34,7 @@ addCart.post('/addCart', async (req, res) => {
             res.status(200).json('update Successfully')
         }
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json(e.message)
     }
 })
 

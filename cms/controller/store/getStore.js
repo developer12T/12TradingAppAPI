@@ -9,7 +9,7 @@ getStore.post('/getAll', async (req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
@@ -59,7 +59,7 @@ getStore.post('/getWithCondition', async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
@@ -82,7 +82,7 @@ getStore.post('/getDetail', async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 

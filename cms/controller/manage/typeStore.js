@@ -10,7 +10,7 @@ typeStore.post('/getAll', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 
@@ -32,7 +32,7 @@ typeStore.post('/addTypeStore', async(req, res) => {
         res.status(200).json(req.body)
     } catch (error) { 
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 
@@ -56,7 +56,7 @@ typeStore.put('/editTypeStore', async(req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 
@@ -81,7 +81,7 @@ typeStore.put('/updateTypeStore', async(req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
  

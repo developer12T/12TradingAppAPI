@@ -41,29 +41,33 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
             res.status(200).json('add CheckIn')
         }
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json(e.message)
     }
 })
 
 addCheckIn.post('/visit', async (req, res) => {
-    await Checkin.updateOne(
-        {
-            $and: [
-                {id: req.body.id},
-                {'detail.storeId': req.body.storeId}
-            ]
-        },
-        {
-            $set: {
-                'detail.$.latitude': req.body.latitude,
-                'detail.$.longtitude': req.body.longtitude,
-                'detail.$.note': req.body.note,
-                'detail.$.status': req.body.status
+    try{
+        await Checkin.updateOne(
+            {
+                $and: [
+                    {id: req.body.id},
+                    {'detail.storeId': req.body.storeId}
+                ]
+            },
+            {
+                $set: {
+                    'detail.$.latitude': req.body.latitude,
+                    'detail.$.longtitude': req.body.longtitude,
+                    'detail.$.note': req.body.note,
+                    'detail.$.status': req.body.status
+                }
             }
-        }
-    )
-    const data = await Checkin.find({}, {'_id': 0, 'detail': {$elemMatch: {'storeId': req.body.storeId}}}).exec()
-    res.status(200).json(data)
+        )
+        const data = await Checkin.find({}, {'_id': 0, 'detail': {$elemMatch: {'storeId': req.body.storeId}}}).exec()
+        res.status(200).json(data)
+    }catch (e) {
+        res.status(500).json(e.message)
+    }
 })
 
 module.exports = addCheckIn

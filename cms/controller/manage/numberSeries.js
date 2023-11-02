@@ -10,7 +10,7 @@ numberSeries.post('/getAll', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 
@@ -21,7 +21,7 @@ numberSeries.post('/getAvailable', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
@@ -42,18 +42,17 @@ numberSeries.post('/addSeries', async(req, res) => {
         res.status(200).json(newStore)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 
 numberSeries.post('/editSeries', async(req, res) => {
     const { currentdateDash } = require('../../utils/utility.js')
     try {
-
         res.status(200).json({message:'wait for dev TT'})
     } catch (error) {
         console.log(error)
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     } 
 })
 

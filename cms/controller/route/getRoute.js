@@ -75,24 +75,28 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         res.status(200).json(showData)
 
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json(e.message)
     }
 })
 
 getRoute.post('/getRouteStore', async (req, res) => {
-    const data = await Store.find({$and:[{zone: req.body.zone,'approve.status':1}]}, {
-        _id: 0,
-        idCharecter: 1,
-        idNumber: 1,
-        name: 1,
-        route: 1,
-        addressTitle: 1,
-        distric: 1,
-        subDistric: 1,
-        province: 1,
-        provinceCode: 1
-    }).sort({idNumber: 1})
-    res.json(data)
+    try{
+        const data = await Store.find({$and:[{zone: req.body.zone,'approve.status':1}]}, {
+            _id: 0,
+            idCharecter: 1,
+            idNumber: 1,
+            name: 1,
+            route: 1,
+            addressTitle: 1,
+            distric: 1,
+            subDistric: 1,
+            province: 1,
+            provinceCode: 1
+        }).sort({idNumber: 1})
+        res.status(200).json(data)
+    }catch (e) {
+        res.status(500).json(e.message)
+    }
 })
 
 

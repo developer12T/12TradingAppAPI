@@ -4,8 +4,12 @@ const ProductManage = express.Router()
 const {Product} = require('../../models/product')
 
 ProductManage.post('/getAll', async (req, res) => {
-    const data = await Product.find({}, {_id: 0, __v: 0})
-    res.status(200).json(data)
+    try{
+        const data = await Product.find({}, {_id: 0, __v: 0})
+        res.status(200).json(data)
+    }catch (e) {
+        res.status(500).json(e.message)
+    }
 })
 
 ProductManage.post('/addProduct', async (req, res) => {
@@ -21,7 +25,7 @@ ProductManage.post('/addProduct', async (req, res) => {
         await newRoute.save()
         res.status(200).json(newRoute)
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json(e.message)
     }
 })
 

@@ -9,7 +9,7 @@ getProduct.post('/getAll', async (req, res) => {
         const data = await Product.find({}, {_id: 0, id: 1, name: 1, skuList: 1})
         res.status(200).json(data)
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
@@ -18,7 +18,7 @@ getProduct.post('/getDetail', async (req, res) => {
         const data = await Product.findOne({id:req.body.id}, {_id: 0, id: 1, name: 1, skuList: 1})
         res.status(200).json(data)
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
