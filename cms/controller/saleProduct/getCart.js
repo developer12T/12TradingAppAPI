@@ -39,8 +39,6 @@ getCart.post('/getCartToShow', async (req, res) => {
             totalAmount:totalAmount,
             list:data_arr
         }
-        // console.log(data.id)
-        // console.log(data)
         res.status(200).json(mainData)
     } catch (error) {
         res.status(500).json(error)
