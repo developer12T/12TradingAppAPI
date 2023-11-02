@@ -11,7 +11,7 @@ getCart.post('/getCart', async (req, res) => {
         const data = await Cart.find({area: req.body.area, storeId: req.body.storeId})
         res.status(200).json(data)
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json(e.message)
     }
 })
 getCart.post('/getCartToShow', async (req, res) => {
@@ -43,7 +43,7 @@ getCart.post('/getCartToShow', async (req, res) => {
         }
         res.status(200).json(mainData)
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json(error.message)
     }
 })
 
