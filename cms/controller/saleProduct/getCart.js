@@ -26,8 +26,8 @@ getCart.post('/getCartToShow', async (req, res) => {
                 qty:data.list[i].qty + data.list[i].typeQty,
                 summaryPrice: data.list[i].pricePerQty * data.list[i].qty
             }
-            totalAmount = totalAmount+(data.list[i].pricePerQty * data.list[i].qty)
-            data_arr.push(list_obj)
+            totalAmount = totalAmount+( data.list[i].pricePerQty * data.list[i].qty )
+            data_arr.push( list_obj )
         }
 
         const storeData = await Store.findOne({idCharecter:req.body.storeId.substring(0, 3),idNumber:req.body.storeId.substring(3)},{})
@@ -46,6 +46,5 @@ getCart.post('/getCartToShow', async (req, res) => {
         res.status(500).json(error)
     }
 })
-
 
 module.exports = getCart
