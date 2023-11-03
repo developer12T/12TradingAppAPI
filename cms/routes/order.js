@@ -9,7 +9,9 @@ order.use(cors())
 
 
 const getOrder = require('../controller/order/getOrder')
+const addOrder = require('../controller/order/addOrder')
 
 order.use('/getOrder',getOrder)
+order.use('/addOrder',addOrder)
 
 module.exports = order
