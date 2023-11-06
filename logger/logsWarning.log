@@ -56,3 +56,235 @@
     timestamp: '2023-11-03T09:53:00.213Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '9342f1cd-6ce8-4ea3-a137-b0ec111c35e7',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-11-06T03:26:59.749Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '19b0d388-a916-428b-a8fb-2aa4c68b9876',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-06T03:27:01.416Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'cc251a48-6126-4029-a1af-7d9ef51578ed',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-11-06T03:27:13.071Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'a172d3dc-941c-40fd-aaf8-b112077b6607',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-06T03:27:14.477Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '4611bb55-0227-4e2c-b9e6-40e749171124',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-11-06T03:27:15.594Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '7151946f-2f80-4ce2-960e-25fdec77e00c',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-11-06T03:27:16.580Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '518bd90f-1284-41b7-888c-996251a04869',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 49
+    },
+    timestamp: '2023-11-06T08:52:34.500Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/order/addOrder/newOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/addOrder/newOrder',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'abcbd415-7400-4ffc-970f-1fd9ef856a90',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '77'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/addOrder/newOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 28
+    },
+    timestamp: '2023-11-06T08:55:29.751Z'
+  }
+}
