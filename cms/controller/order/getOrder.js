@@ -34,12 +34,11 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
             tel: data.tel,
             totalAmount:totalAmount.toFixed(2),
             discount: '0.00',
-            totalAmountNoVat:(totalAmount/1.07).toFixed(2),
+            totalAmountNoVat:(totalAmount/1.07).toFixed (2),
             vat:(totalAmount-(totalAmount/1.07)).toFixed(2),
             summaryAmount:totalAmount.toFixed(2),
             list:data.list
         }
-
         res.status(200).json(mainData)
 
     } catch (error) {
