@@ -120,7 +120,6 @@ addOrder.post('/getShipment', async (req, res) => {
         }else{
             res.status(501).json({status:501,message:'Require selection or id!!!'})
         }
-
     } catch (error) {
         res.status(500).json(error.message)
     }
