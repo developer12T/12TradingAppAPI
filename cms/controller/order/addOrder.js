@@ -51,7 +51,7 @@ addOrder.post('/newPreOrder', async (req, res) => {
             saleMan: userData.firstName + ' ' + userData.surName,
             storeId: storeData.idCharecter + storeData.idNumber,
             storeName: storeData.name,
-            address: storeData.addressTitle + storeData.distric + storeData.subDistric + storeData.province,
+            address: storeData.addressTitle +' ' +storeData.distric +' '+ storeData.subDistric +' '+ storeData.province,
             taxID: storeData.taxId,
             tel: storeData.tel,
             list: listProduct
@@ -66,6 +66,15 @@ addOrder.post('/newPreOrder', async (req, res) => {
 })
 
 addOrder.post('/newOrder',async (req,res)=>{
+    try{
+        const data = await PreOrder.findOne({id:req.body.idPreOrder},{_id:0,idIndex:0,__v:0,'list._id':0})
+        res.status(200).json(data)
+    }catch (error){
+        res.status(500).json(error.message)
+    }
+})
+
+addOrder.post('/addShipment',async (req,res)=>{
     try{
         const data = await PreOrder.findOne({id:req.body.idPreOrder},{_id:0,idIndex:0,__v:0,'list._id':0})
         res.status(200).json(data)

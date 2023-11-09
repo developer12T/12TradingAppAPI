@@ -288,3 +288,354 @@
     timestamp: '2023-11-06T08:55:29.751Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '9bf29386-670c-4e15-9dc6-a035f1b062ab',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:22:27.732Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '41d21772-1f01-4233-9b9d-2b94cbcc91cf',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:24:33.036Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '82c214f5-4376-4f6e-8c80-664d7497149b',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:25:04.313Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '08ed6d5b-624c-400b-aae8-c9eee855988f',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-06T10:25:06.730Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '4a77c08f-0cbc-47f4-8590-f726ffc2dddf',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:25:15.378Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '19586fec-065f-4936-baae-4ebc084f6298',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:25:16.584Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'ae71a95c-a073-421b-882c-7865e810264f',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:25:34.860Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '64a2a5c6-d899-4665-927d-859cb3d91729',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:26:13.168Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '0269307c-e4cb-4dfa-b21c-52465a7d95ff',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:26:15.185Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'c3426d72-c536-4abc-ba77-64892abd9654',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:26:33.206Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '261185b1-3cf3-4ef3-882a-d707475a4e9a',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:30:48.317Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'f395dee8-0b5d-4217-b717-14300fbb021b',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:31:27.404Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP GET /cms/order/getOrder/getAllPreOrder',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/getOrder/getAllPreOrder',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.34.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '3a77a8eb-2704-4fa9-9b82-064f90ad1ada',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/getOrder/getAllPreOrder',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-06T10:32:03.075Z'
+  }
+}

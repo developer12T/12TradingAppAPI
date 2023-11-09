@@ -35,6 +35,14 @@ const preOrderSchema = mongoose.Schema({
     status:{type:String}
 })
 
+const shippingSchema = mongoose.Schema({
+    id:{type:String},
+    address:{type:String},
+    dateShip:{type:String},
+    note:{type:String}
+})
+
 const Order = mongoose.model('Order',orderSchema)
 const PreOrder = mongoose.model('PreOrder',preOrderSchema)
-module.exports = { Order,PreOrder }
+const Shipping = mongoose.model('Shipping',shippingSchema)
+module.exports = { Order,PreOrder,Shipping }
