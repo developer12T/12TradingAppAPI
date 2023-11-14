@@ -1,7 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 const getStore = express.Router()
-const {Store} = require('../../models/store')
+const {Store,TypeStore} = require('../../models/store')
 
 getStore.post('/getAll', async (req, res) => {
     try {
@@ -95,6 +95,7 @@ getStore.post('/getWithCondition', async (req, res) => {
 getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.id !== '' && req.body.id !== undefined) {
+
             const data = await Store.findOne({idNumber: req.body.id,idNumber:req.body.idC},
                 {
                     _id: 0,
@@ -105,6 +106,17 @@ getStore.post('/getDetail', async (req, res) => {
                     updatedAt: 0,
                     __v: 0
                 }).sort({idNumber: -1}).exec()
+            const type = await TypeStore.findOne({id:data.type},{})
+            if (data.approve.status === '1') {
+                data.approve.status = 'รออนุมัติ'
+                console.log(data.approve.status)
+            }else if(data.approve.status === '0'){
+                data.approve.status = 'ไม่อนุมัติ'
+                console.log(data.approve.status)
+            }else if(data.approve.status === '2'){
+                data.approve.status = 'อนุมัติแล้ว'
+                console.log(data.approve.status)
+            }
 
             const newData = {
                 idCharecter: data.idCharecter,
@@ -113,7 +125,7 @@ getStore.post('/getDetail', async (req, res) => {
                 taxId: data.taxId,
                 tel: data.tel,
                 route: data.route,
-                type: data.type,
+                type: type.name,
                 addressTitle:data.addressTitle,
                 distric: data.distric,
                 subDistric: data.subDistric,
