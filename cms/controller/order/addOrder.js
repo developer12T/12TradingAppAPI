@@ -1,7 +1,7 @@
 const express = require('express')
 
 require('../../configs/connect')
-const {Order, PreOrder,Shipping} = require("../../models/order")
+const {Order, PreOrder, Shipping} = require("../../models/order")
 const addOrder = express.Router()
 var _ = require('lodash')
 const {Cart} = require("../../models/saleProduct")
@@ -82,11 +82,11 @@ addOrder.post('/newOrder', async (req, res) => {
 addOrder.post('/addShipment', async (req, res) => {
     try {
         // const data = await PreOrder.findOne({ id: req.body.idPreOrder }, {_id: 0, idIndex: 0, __v: 0, 'list._id': 0})
-        const shlist={
+        const shlist = {
             id: req.body.idPreOrder,
             address: req.body.address,
             dateShip: req.body.dateShip,
-            note:req.body.note
+            note: req.body.note
         }
 
         // const dataList = {
@@ -103,7 +103,7 @@ addOrder.post('/addShipment', async (req, res) => {
 
         await Shipping.create(shlist)
 
-        res.status(200).json({status:200,message:'Successfully Add Shipment'})
+        res.status(200).json({status: 200, message: 'Successfully Add Shipment'})
     } catch (error) {
         res.status(500).json(error.message)
     }
@@ -111,17 +111,17 @@ addOrder.post('/addShipment', async (req, res) => {
 
 addOrder.post('/getShipment', async (req, res) => {
     try {
-        if(req.body.selection === 'All'){
+        if (req.body.selection === 'All') {
             const data = await Shipping.find()
             res.status(200).json(data)
-        }else if(req.body.selection === 'filter'){
-            const data = await Shipping.findOne({id:req.body.id})
+        } else if (req.body.selection === 'filter') {
+            const data = await Shipping.findOne({id: req.body.id})
             res.status(200).json(data)
-        }else{
-            res.status(501).json({status:501,message:'Require selection or id!!!'})
+        } else {
+            res.status(501).json({status: 501, message: 'Require selection or id!!!'})
         }
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(500).json({status: 500, message: error.message})
     }
 })
 
