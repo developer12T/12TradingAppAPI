@@ -1,11 +1,11 @@
 const express = require('express')
 require('../../configs/connect')
 const getStore = express.Router()
-const {Store,TypeStore} = require('../../models/store')
+const { Store, TypeStore } = require('../../models/store')
 
 getStore.post('/getAll', async (req, res) => {
     try {
-        const data = await Store.find().sort({idNumber: 1}).exec()
+        const data = await Store.find().sort({ idNumber: 1 }).exec()
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
@@ -13,79 +13,85 @@ getStore.post('/getAll', async (req, res) => {
     }
 })
 
-getStore.post('/getWithCondition', async (req, res) => {
+getStore.post('/getStore', async (req, res) => {
     try {
-        if (req.body.tab === 'new') {
-            // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
-            // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-            const data = await Store.find({zone:req.body.zone}, {
-                _id: 0,
-                idCharecter: 1,
-                idNumber: 1,
-                name: 1,
-                route: 1,
-               'approve.status':1
-            }).sort({idNumber: -1}).exec()
-
-            data.forEach(item => {
-                if (item.approve.status === '1') {
-                    item.approve.status = 'รออนุมัติ'
-                    console.log(item.approve.status)
-                }else if(item.approve.status === '0'){
-                    item.approve.status = 'ไม่อนุมัติ'
-                    console.log(item.approve.status)
-                }else if(item.approve.status === '2'){
-                    item.approve.status = 'อนุมัติแล้ว'
-                    console.log(item.approve.status)
-                }
-            })
-            const mainData = []
-            for(const list of data){
-                const newData = {
-                    idCharecter: list.idCharecter,
-                    idNumber: list.idNumber,
-                    idStore:list.idCharecter + list.idNumber,
-                    name: list.name,
-                    route: list.route,
-                    approve:list.approve
-                }
-                mainData.push(newData)
-
+        const data = await Store.find({ status: '1', 'approve.status': '2', zone: req.body.zone }, {
+            _id: 0,
+            idCharecter: 1,
+            idNumber: 1,
+            name: 1,
+            route: 1,
+            addressTitle: 1,
+            distric: 1,
+            subDistric: 1,
+            province: 1
+        }).sort({ idNumber: 1 }).exec()
+        const mainData = []
+        for (const list of data) {
+            const newData = {
+                idCharecter: list.idCharecter,
+                idNumber: list.idNumber,
+                idStore: list.idCharecter + list.idNumber,
+                name: list.name,
+                route: list.route,
+                addressTitle: list.addressTitle,
+                distric: list.distric,
+                subDistric: list.subDistric,
+                province: list.province
             }
-            res.status(200).json(mainData)
-        } else if (req.body.tab === 'all') {
-            const data = await Store.find({status: '1', 'approve.status': '2',zone:req.body.zone}, {
-                _id: 0,
-                idCharecter: 1,
-                idNumber: 1,
-                name: 1,
-                route: 1,
-                addressTitle: 1,
-                distric: 1,
-                subDistric: 1,
-                province: 1
-            }).sort({idNumber: 1}).exec()
-            const mainData = []
-            for(const list of data){
-                const newData = {
-                    idCharecter: list.idCharecter,
-                    idNumber: list.idNumber,
-                    idStore:list.idCharecter + list.idNumber,
-                    name: list.name,
-                    route: list.route,
-                    addressTitle: list.addressTitle,
-                    distric: list.distric,
-                    subDistric: list.subDistric,
-                    province: list.province
-                }
-                mainData.push(newData)
+            mainData.push(newData)
 
-            }
-
-            res.status(200).json(mainData)
-        } else {
-            res.status(501).json({message: 'empty tab!'})
         }
+
+        res.status(200).json(mainData)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error.message)
+    }
+})
+
+getStore.post('/getStoreNew', async (req, res) => {
+    try {
+
+        // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
+        // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
+        const data = await Store.find({ zone: req.body.zone }, {
+            _id: 0,
+            idCharecter: 1,
+            idNumber: 1,
+            name: 1,
+            route: 1,
+            'approve.status': 1
+        }).sort({ idNumber: -1 }).exec()
+
+        data.forEach(item => {
+            if (item.approve.status === '1') {
+                item.approve.status = 'รออนุมัติ'
+                console.log(item.approve.status)
+            } else if (item.approve.status === '0') {
+                item.approve.status = 'ไม่อนุมัติ'
+                console.log(item.approve.status)
+            } else if (item.approve.status === '2') {
+                item.approve.status = 'อนุมัติแล้ว'
+                console.log(item.approve.status)
+            }
+        })
+        const mainData = []
+        for (const list of data) {
+            const newData = {
+                idCharecter: list.idCharecter,
+                idNumber: list.idNumber,
+                idStore: list.idCharecter + list.idNumber,
+                name: list.name,
+                route: list.route,
+                approved: list.approve.status
+            }
+            mainData.push(newData)
+
+        }
+        res.status(200).json(mainData)
+
     } catch (error) {
         console.log(error)
         res.status(500).json(error.message)
@@ -96,7 +102,7 @@ getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.id !== '' && req.body.id !== undefined) {
 
-            const data = await Store.findOne({idNumber: req.body.id,idNumber:req.body.idC},
+            const data = await Store.findOne({ idNumber: req.body.id, idNumber: req.body.idC },
                 {
                     _id: 0,
                     'approve._id': 0,
@@ -105,15 +111,15 @@ getStore.post('/getDetail', async (req, res) => {
                     createdAt: 0,
                     updatedAt: 0,
                     __v: 0
-                }).sort({idNumber: -1}).exec()
-            const type = await TypeStore.findOne({id:data.type},{})
+                }).sort({ idNumber: -1 }).exec()
+            const type = await TypeStore.findOne({ id: data.type }, {})
             if (data.approve.status === '1') {
                 data.approve.status = 'รออนุมัติ'
                 console.log(data.approve.status)
-            }else if(data.approve.status === '0'){
+            } else if (data.approve.status === '0') {
                 data.approve.status = 'ไม่อนุมัติ'
                 console.log(data.approve.status)
-            }else if(data.approve.status === '2'){
+            } else if (data.approve.status === '2') {
                 data.approve.status = 'อนุมัติแล้ว'
                 console.log(data.approve.status)
             }
@@ -126,7 +132,7 @@ getStore.post('/getDetail', async (req, res) => {
                 tel: data.tel,
                 route: data.route,
                 type: type.name,
-                addressTitle:data.addressTitle,
+                addressTitle: data.addressTitle,
                 distric: data.distric,
                 subDistric: data.subDistric,
                 province: data.province,
@@ -136,7 +142,7 @@ getStore.post('/getDetail', async (req, res) => {
                 longtitude: data.longtitude,
                 lineId: data.lineId,
                 approve: {
-                    status:data.approve.status,
+                    status: data.approve.status,
                     dateSend: data.approve.dateSend,
                     dateAction: data.approve.dateAction
                 },
@@ -146,7 +152,7 @@ getStore.post('/getDetail', async (req, res) => {
             }
             res.status(200).json(newData)
         } else {
-            res.status(501).json({message: 'require body!'})
+            res.status(501).json({ message: 'require body!' })
         }
     } catch (error) {
         console.log(error)
