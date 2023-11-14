@@ -39,8 +39,20 @@ getStore.post('/getWithCondition', async (req, res) => {
                     console.log(item.approve.status)
                 }
             })
+            const mainData = []
+            for(const list of data){
+                const newData = {
+                    idCharecter: list.idCharecter,
+                    idNumber: list.idNumber,
+                    idStore:list.idCharecter + list.idNumber,
+                    name: list.name,
+                    route: list.route,
+                    approve:list.approve
+                }
+                mainData.push(newData)
 
-            res.status(200).json(data)
+            }
+            res.status(200).json(mainData)
         } else if (req.body.tab === 'all') {
             const data = await Store.find({status: '1', 'approve.status': '2',zone:req.body.zone}, {
                 _id: 0,
@@ -53,7 +65,24 @@ getStore.post('/getWithCondition', async (req, res) => {
                 subDistric: 1,
                 province: 1
             }).sort({idNumber: 1}).exec()
-            res.status(200).json(data)
+            const mainData = []
+            for(const list of data){
+                const newData = {
+                    idCharecter: list.idCharecter,
+                    idNumber: list.idNumber,
+                    idStore:list.idCharecter + list.idNumber,
+                    name: list.name,
+                    route: list.route,
+                    addressTitle: list.addressTitle,
+                    distric: list.distric,
+                    subDistric: list.subDistric,
+                    province: list.province
+                }
+                mainData.push(newData)
+
+            }
+
+            res.status(200).json(mainData)
         } else {
             res.status(501).json({message: 'empty tab!'})
         }
