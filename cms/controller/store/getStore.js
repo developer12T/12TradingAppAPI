@@ -95,7 +95,7 @@ getStore.post('/getWithCondition', async (req, res) => {
 getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.id !== '' && req.body.id !== undefined) {
-            const data = await Store.find({idNumber: req.body.id,idNumber:req.body.idC},
+            const data = await Store.findOne({idNumber: req.body.id,idNumber:req.body.idC},
                 {
                     _id: 0,
                     'approve._id': 0,
@@ -105,7 +105,34 @@ getStore.post('/getDetail', async (req, res) => {
                     updatedAt: 0,
                     __v: 0
                 }).sort({idNumber: -1}).exec()
-            res.status(200).json(data)
+
+            const newData = {
+                idCharecter: data.idCharecter,
+                idNumber: data.idNumber,
+                name: data.name,
+                taxId: data.taxId,
+                tel: data.tel,
+                route: data.route,
+                type: data.type,
+                addressTitle:data.addressTitle,
+                distric: data.distric,
+                subDistric: data.subDistric,
+                province: data.province,
+                provinceCode: data.provinceCode,
+                zone: data.zone,
+                latitude: data.latitude,
+                longtitude: data.longtitude,
+                lineId: data.lineId,
+                approve: {
+                    status:data.approve.status,
+                    dateSend: data.approve.dateSend,
+                    dateAction: data.approve.dateAction
+                },
+                status: data.status,
+                createdDate: data.createdDate,
+                updatedDate: data.updatedDate
+            }
+            res.status(200).json(newData)
         } else {
             res.status(501).json({message: 'require body!'})
         }
