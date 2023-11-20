@@ -1306,3 +1306,3650 @@
     timestamp: '2023-11-20T09:18:22.182Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '62f3323b-7cde-4b67-bd94-df4f5a35e8bb',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 8
+    },
+    timestamp: '2023-11-20T09:25:32.108Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCefr',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCefr',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCefr',
+        query: { EIO: '4', transport: 'polling', t: 'OliCefr' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:06:57.145Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /favicon.ico',
+  metadata: {
+    meta: {
+      req: {
+        url: '/favicon.ico',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          accept: 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'no-cors',
+          'sec-fetch-dest': 'image',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/favicon.ico',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:06:57.153Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCeot',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCeot',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCeot',
+        query: { EIO: '4', transport: 'polling', t: 'OliCeot' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:06:57.721Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCfUO',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCfUO',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCfUO',
+        query: { EIO: '4', transport: 'polling', t: 'OliCfUO' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:00.506Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCfiN',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCfiN',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCfiN',
+        query: { EIO: '4', transport: 'polling', t: 'OliCfiN' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:01.402Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCft1',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCft1',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCft1',
+        query: { EIO: '4', transport: 'polling', t: 'OliCft1' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:02.084Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCgB_',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCgB_',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCgB_',
+        query: { EIO: '4', transport: 'polling', t: 'OliCgB_' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:03.426Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliChQH',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliChQH',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliChQH',
+        query: { EIO: '4', transport: 'polling', t: 'OliChQH' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:08.436Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCieX',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCieX',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCieX',
+        query: { EIO: '4', transport: 'polling', t: 'OliCieX' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:13.444Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCjst',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCjst',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCjst',
+        query: { EIO: '4', transport: 'polling', t: 'OliCjst' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:18.457Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCl5E',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCl5E',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCl5E',
+        query: { EIO: '4', transport: 'polling', t: 'OliCl5E' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:23.475Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCmJU',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCmJU',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCmJU',
+        query: { EIO: '4', transport: 'polling', t: 'OliCmJU' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:28.483Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCnXq',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCnXq',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCnXq',
+        query: { EIO: '4', transport: 'polling', t: 'OliCnXq' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:33.497Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCoxr',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCoxr',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCoxr',
+        query: { EIO: '4', transport: 'polling', t: 'OliCoxr' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:39.258Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCqPj',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCqPj',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCqPj',
+        query: { EIO: '4', transport: 'polling', t: 'OliCqPj' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:45.266Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCrtU',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCrtU',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCrtU',
+        query: { EIO: '4', transport: 'polling', t: 'OliCrtU' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:07:51.268Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCtLJ',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCtLJ',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCtLJ',
+        query: { EIO: '4', transport: 'polling', t: 'OliCtLJ' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:07:57.271Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCuou',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCuou',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCuou',
+        query: { EIO: '4', transport: 'polling', t: 'OliCuou' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:03.258Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCwGi',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCwGi',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCwGi',
+        query: { EIO: '4', transport: 'polling', t: 'OliCwGi' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:09.264Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCxkY',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCxkY',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCxkY',
+        query: { EIO: '4', transport: 'polling', t: 'OliCxkY' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:15.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliCzC7',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliCzC7',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliCzC7',
+        query: { EIO: '4', transport: 'polling', t: 'OliCzC7' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:21.258Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliC-g1',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliC-g1',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliC-g1',
+        query: { EIO: '4', transport: 'polling', t: 'OliC-g1' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:27.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD07r',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD07r',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD07r',
+        query: { EIO: '4', transport: 'polling', t: 'OliD07r' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:33.274Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD1bZ',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD1bZ',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD1bZ',
+        query: { EIO: '4', transport: 'polling', t: 'OliD1bZ' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:08:39.272Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD339',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD339',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD339',
+        query: { EIO: '4', transport: 'polling', t: 'OliD339' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:08:45.262Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD4X1',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD4X1',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD4X1',
+        query: { EIO: '4', transport: 'polling', t: 'OliD4X1' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:51.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD5-o',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD5-o',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD5-o',
+        query: { EIO: '4', transport: 'polling', t: 'OliD5-o' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:08:57.270Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD7SQ',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD7SQ',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD7SQ',
+        query: { EIO: '4', transport: 'polling', t: 'OliD7SQ' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:03.261Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD8mn',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD8mn',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD8mn',
+        query: { EIO: '4', transport: 'polling', t: 'OliD8mn' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:08.664Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD9F1',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD9F1',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD9F1',
+        query: { EIO: '4', transport: 'polling', t: 'OliD9F1' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:09:10.596Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD9Z5',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD9Z5',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD9Z5',
+        query: { EIO: '4', transport: 'polling', t: 'OliD9Z5' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:11.879Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD9-U',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD9-U',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD9-U',
+        query: { EIO: '4', transport: 'polling', t: 'OliD9-U' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:13.633Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDBCh',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDBCh',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDBCh',
+        query: { EIO: '4', transport: 'polling', t: 'OliDBCh' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:18.638Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDCQv',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDCQv',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDCQv',
+        query: { EIO: '4', transport: 'polling', t: 'OliDCQv' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:23.644Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDDfF',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDDfF',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDDfF',
+        query: { EIO: '4', transport: 'polling', t: 'OliDDfF' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:28.660Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDEtc',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDEtc',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDEtc',
+        query: { EIO: '4', transport: 'polling', t: 'OliDEtc' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:33.676Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDG62',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDG62',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDG62',
+        query: { EIO: '4', transport: 'polling', t: 'OliDG62' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:09:38.695Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDHKL',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDHKL',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDHKL',
+        query: { EIO: '4', transport: 'polling', t: 'OliDHKL' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:43.705Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDIYZ',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDIYZ',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDIYZ',
+        query: { EIO: '4', transport: 'polling', t: 'OliDIYZ' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:09:48.712Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDJmx',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDJmx',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDJmx',
+        query: { EIO: '4', transport: 'polling', t: 'OliDJmx' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-20T10:09:53.732Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDK_R',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDK_R',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDK_R',
+        query: { EIO: '4', transport: 'polling', t: 'OliDK_R' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:09:58.750Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDMDp',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDMDp',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDMDp',
+        query: { EIO: '4', transport: 'polling', t: 'OliDMDp' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:03.765Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDMeS',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDMeS',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDMeS',
+        query: { EIO: '4', transport: 'polling', t: 'OliDMeS' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:05.469Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDMs7',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDMs7',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDMs7',
+        query: { EIO: '4', transport: 'polling', t: 'OliDMs7' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:06.344Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDNBk',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDNBk',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDNBk',
+        query: { EIO: '4', transport: 'polling', t: 'OliDNBk' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:07.727Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDO3X',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDO3X',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDO3X',
+        query: { EIO: '4', transport: 'polling', t: 'OliDO3X' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:11.299Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDPHu',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDPHu',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDPHu',
+        query: { EIO: '4', transport: 'polling', t: 'OliDPHu' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:10:16.314Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDQW6',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDQW6',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDQW6',
+        query: { EIO: '4', transport: 'polling', t: 'OliDQW6' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:10:21.320Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDRkW',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDRkW',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDRkW',
+        query: { EIO: '4', transport: 'polling', t: 'OliDRkW' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:10:26.339Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDSyo',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDSyo',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDSyo',
+        query: { EIO: '4', transport: 'polling', t: 'OliDSyo' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:31.350Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDUBA',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDUBA',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDUBA',
+        query: { EIO: '4', transport: 'polling', t: 'OliDUBA' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:10:36.368Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDVPW',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDVPW',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDVPW',
+        query: { EIO: '4', transport: 'polling', t: 'OliDVPW' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:41.380Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDWra',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDWra',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDWra',
+        query: { EIO: '4', transport: 'polling', t: 'OliDWra' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:47.272Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDYJL',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDYJL',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDYJL',
+        query: { EIO: '4', transport: 'polling', t: 'OliDYJL' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:10:53.274Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDZn0',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDZn0',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDZn0',
+        query: { EIO: '4', transport: 'polling', t: 'OliDZn0' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:10:59.267Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDbEo',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDbEo',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDbEo',
+        query: { EIO: '4', transport: 'polling', t: 'OliDbEo' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:11:05.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDcia',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDcia',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDcia',
+        query: { EIO: '4', transport: 'polling', t: 'OliDcia' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:11.271Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDeAM',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDeAM',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDeAM',
+        query: { EIO: '4', transport: 'polling', t: 'OliDeAM' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:17.273Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDfe5',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDfe5',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDfe5',
+        query: { EIO: '4', transport: 'polling', t: 'OliDfe5' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:23.272Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDh5v',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDh5v',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDh5v',
+        query: { EIO: '4', transport: 'polling', t: 'OliDh5v' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:29.277Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDiZb',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDiZb',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDiZb',
+        query: { EIO: '4', transport: 'polling', t: 'OliDiZb' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:35.273Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDk1O',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDk1O',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDk1O',
+        query: { EIO: '4', transport: 'polling', t: 'OliDk1O' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:11:41.278Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDlUz',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDlUz',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDlUz',
+        query: { EIO: '4', transport: 'polling', t: 'OliDlUz' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:11:47.265Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDmyv',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDmyv',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDmyv',
+        query: { EIO: '4', transport: 'polling', t: 'OliDmyv' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:11:53.277Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDoQg',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDoQg',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDoQg',
+        query: { EIO: '4', transport: 'polling', t: 'OliDoQg' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:11:59.276Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDpuL',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDpuL',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDpuL',
+        query: { EIO: '4', transport: 'polling', t: 'OliDpuL' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:12:05.271Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDrM0',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDrM0',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDrM0',
+        query: { EIO: '4', transport: 'polling', t: 'OliDrM0' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:12:11.267Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDspq',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDspq',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDspq',
+        query: { EIO: '4', transport: 'polling', t: 'OliDspq' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-20T10:12:17.789Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '38807f88-22e0-4e22-b281-7dddeec7e0fe',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '85'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 11
+    },
+    timestamp: '2023-11-20T10:12:19.662Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'e53b8ba7-1ce2-4499-94c5-3176cbf53306',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '85'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-20T10:12:20.899Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDuHY',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDuHY',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDuHY',
+        query: { EIO: '4', transport: 'polling', t: 'OliDuHY' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:12:23.270Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDvlP',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDvlP',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDvlP',
+        query: { EIO: '4', transport: 'polling', t: 'OliDvlP' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:12:29.279Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'fece5948-7a39-4eef-8439-66d79e836108',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '85'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-11-20T10:12:33.284Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDxDA',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDxDA',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDxDA',
+        query: { EIO: '4', transport: 'polling', t: 'OliDxDA' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:12:35.282Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliDygl',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliDygl',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliDygl',
+        query: { EIO: '4', transport: 'polling', t: 'OliDygl' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:12:41.268Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD-8X',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD-8X',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD-8X',
+        query: { EIO: '4', transport: 'polling', t: 'OliD-8X' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:12:47.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliD_cH',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliD_cH',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliD_cH',
+        query: { EIO: '4', transport: 'polling', t: 'OliD_cH' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:12:53.270Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE13-',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE13-',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE13-',
+        query: { EIO: '4', transport: 'polling', t: 'OliE13-' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:12:59.268Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE2Xp',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE2Xp',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE2Xp',
+        query: { EIO: '4', transport: 'polling', t: 'OliE2Xp' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:13:05.270Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE3_e',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE3_e',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE3_e',
+        query: { EIO: '4', transport: 'polling', t: 'OliE3_e' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:13:11.276Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE5TQ',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE5TQ',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE5TQ',
+        query: { EIO: '4', transport: 'polling', t: 'OliE5TQ' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:13:17.278Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE6x5',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE6x5',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE6x5',
+        query: { EIO: '4', transport: 'polling', t: 'OliE6x5' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:13:23.272Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE8Om',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE8Om',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE8Om',
+        query: { EIO: '4', transport: 'polling', t: 'OliE8Om' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:13:29.267Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliE9si',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliE9si',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliE9si',
+        query: { EIO: '4', transport: 'polling', t: 'OliE9si' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:13:35.280Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEBKT',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEBKT',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEBKT',
+        query: { EIO: '4', transport: 'polling', t: 'OliEBKT' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-20T10:13:41.290Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliECoA',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliECoA',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliECoA',
+        query: { EIO: '4', transport: 'polling', t: 'OliECoA' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:13:47.278Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEEFx',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEEFx',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEEFx',
+        query: { EIO: '4', transport: 'polling', t: 'OliEEFx' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:13:53.279Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEFjh',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEFjh',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEFjh',
+        query: { EIO: '4', transport: 'polling', t: 'OliEFjh' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:13:59.278Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEHBM',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEHBM',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEHBM',
+        query: { EIO: '4', transport: 'polling', t: 'OliEHBM' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-20T10:14:05.284Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEIfE',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEIfE',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEIfE',
+        query: { EIO: '4', transport: 'polling', t: 'OliEIfE' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:14:11.283Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEK6r',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEK6r',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEK6r',
+        query: { EIO: '4', transport: 'polling', t: 'OliEK6r' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:17.272Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliELal',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliELal',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliELal',
+        query: { EIO: '4', transport: 'polling', t: 'OliELal' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:23.282Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEN2V',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEN2V',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEN2V',
+        query: { EIO: '4', transport: 'polling', t: 'OliEN2V' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:29.283Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEOW3',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEOW3',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEOW3',
+        query: { EIO: '4', transport: 'polling', t: 'OliEOW3' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:35.271Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEPzz',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEPzz',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEPzz',
+        query: { EIO: '4', transport: 'polling', t: 'OliEPzz' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:41.281Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliERRW',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliERRW',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliERRW',
+        query: { EIO: '4', transport: 'polling', t: 'OliERRW' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:47.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliESvU',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliESvU',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliESvU',
+        query: { EIO: '4', transport: 'polling', t: 'OliESvU' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:14:53.281Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEUN1',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEUN1',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEUN1',
+        query: { EIO: '4', transport: 'polling', t: 'OliEUN1' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:14:59.269Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEVqx',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEVqx',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEVqx',
+        query: { EIO: '4', transport: 'polling', t: 'OliEVqx' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:05.279Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEXIl',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEXIl',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEXIl',
+        query: { EIO: '4', transport: 'polling', t: 'OliEXIl' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:15:11.283Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEYmI',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEYmI',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEYmI',
+        query: { EIO: '4', transport: 'polling', t: 'OliEYmI' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:15:17.271Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEaEE',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEaEE',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEaEE',
+        query: { EIO: '4', transport: 'polling', t: 'OliEaEE' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:15:23.282Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEbhs',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEbhs',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEbhs',
+        query: { EIO: '4', transport: 'polling', t: 'OliEbhs' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:29.274Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEd9Z',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEd9Z',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEd9Z',
+        query: { EIO: '4', transport: 'polling', t: 'OliEd9Z' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:35.270Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEedV',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEedV',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEedV',
+        query: { EIO: '4', transport: 'polling', t: 'OliEedV' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:41.283Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEg5D',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEg5D',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEg5D',
+        query: { EIO: '4', transport: 'polling', t: 'OliEg5D' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:15:47.281Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEhYx',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEhYx',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEhYx',
+        query: { EIO: '4', transport: 'polling', t: 'OliEhYx' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:53.279Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEj0m',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEj0m',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEj0m',
+        query: { EIO: '4', transport: 'polling', t: 'OliEj0m' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:15:59.284Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliEkUM',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliEkUM',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliEkUM',
+        query: { EIO: '4', transport: 'polling', t: 'OliEkUM' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-11-20T10:16:05.274Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /socket.io/?EIO=4&transport=polling&t=OliElyG',
+  metadata: {
+    meta: {
+      req: {
+        url: '/socket.io/?EIO=4&transport=polling&t=OliElyG',
+        headers: {
+          host: '127.0.0.1:9999',
+          connection: 'keep-alive',
+          'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+          accept: '*/*',
+          'sec-ch-ua-mobile': '?0',
+          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+          'sec-ch-ua-platform': '"Windows"',
+          'sec-fetch-site': 'same-origin',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-dest': 'empty',
+          referer: 'http://127.0.0.1:9999/testApi',
+          'accept-encoding': 'gzip, deflate, br, zstd',
+          'accept-language': 'en-US,en;q=0.9,th;q=0.8'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/socket.io/?EIO=4&transport=polling&t=OliElyG',
+        query: { EIO: '4', transport: 'polling', t: 'OliElyG' }
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T10:16:11.284Z'
+  }
+}

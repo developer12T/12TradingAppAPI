@@ -33,6 +33,11 @@ saleLogin.post('/login', async (req, res) => {
                         token:token
                     }
                 })
+            }else{
+                res.status(507).json({
+                    status:507,
+                    massage:'Validation failed'
+                })
             }
 
         }

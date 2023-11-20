@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Management 12Trading</title>
+    <style>
+        body {
+            background-color: #f2f2f2; /* เปลี่ยนสีพื้นหลังให้เป็นสีเทาอ่อน */
+            color: #333; /* เปลี่ยนสีตัวอักษรให้เป็นสีดำ */
+            font-family: Arial, sans-serif; /* เปลี่ยนแบบอักษรให้เป็น Sans-serif */
+            margin: 0; /* ลบ margin ที่ถูกกำหนดโดย browser */
+            padding: 0; /* ลบ padding ที่ถูกกำหนดโดย browser */
+        }
+
+        header {
+            background-color: #007bff; /* เปลี่ยนสีพื้นหลังของ header เป็นสีน้ำเงิน */
+            color: #fff; /* เปลี่ยนสีตัวอักษรใน header เป็นสีขาว */
+            text-align: center;
+            padding: 1em 0;
+        }
+
+        main {
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007bff; /* เปลี่ยนสีของตัวอักษรใน h1 เป็นสีน้ำเงิน */
+        }
+
+        #clock {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            background-color: #333; /* เปลี่ยนสีพื้นหลังของ footer เป็นสีดำ */
+            color: #fff; /* เปลี่ยนสีตัวอักษรใน footer เป็นสีขาว */
+            text-align: center;
+            padding: 1em 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -12,10 +53,10 @@
     <main>
         <div id="clock">00:00:00</div>
         <!-- สร้างส่วนเนื้อหาของหน้าเว็บของคุณที่นี่ -->
-        <h1>/GET  10 </h1>
-        <h1>/POST 20</h1>
-        <h1>/PUT 9999</h1>
-        <h1>/DELETE 4</h1>
+        <h1>/GET  10 request </h1>
+        <h1>/POST 23 request</h1>
+        <h1>/PUT 41 request</h1>
+        <h1>/DELETE 4 request</h1>
     </main>
     <footer>
         &copy; 2023 12Trading
