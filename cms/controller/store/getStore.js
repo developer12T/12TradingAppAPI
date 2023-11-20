@@ -100,9 +100,8 @@ getStore.post('/getStoreNew', async (req, res) => {
 
 getStore.post('/getDetail', async (req, res) => {
     try {
-        if (req.body.id !== '' && req.body.id !== undefined) {
-
-            const data = await Store.findOne({ idNumber: req.body.id, idNumber: req.body.idC },
+        if (req.body.idCharecter !== '' && req.body.idNumber !== undefined) {
+            const data = await Store.findOne({ idCharecter: req.body.idCharecter, idNumber: req.body.idNumber },
                 {
                     _id: 0,
                     'approve._id': 0,
@@ -150,13 +149,15 @@ getStore.post('/getDetail', async (req, res) => {
                 createdDate: data.createdDate,
                 updatedDate: data.updatedDate
             }
-            res.status(200).json(newData)
+            res.status(200).json({newData})
         } else {
-            res.status(501).json({ message: 'require body!' })
+            res.status(501).json({ status:501,message: 'require body!' })
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:error.stack,
+            message:error.message})
     }
 })
 

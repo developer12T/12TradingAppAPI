@@ -842,3 +842,148 @@
     timestamp: '2023-11-09T09:10:36.389Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/getStore/getDetail',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/getStore/getDetail',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '45e39275-1354-4924-bf4e-585104a80994',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '56'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/getStore/getDetail',
+        query: {}
+      },
+      res: { statusCode: 501 },
+      responseTime: 5
+    },
+    timestamp: '2023-11-20T04:37:47.697Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/getStore/getDetail',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/getStore/getDetail',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'feac9311-dbd7-473c-9bd9-445536a843f1',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '56'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/getStore/getDetail',
+        query: {}
+      },
+      res: { statusCode: 501 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-20T04:37:48.833Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/getStore/getDetail',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/getStore/getDetail',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'ea860863-4e96-454f-9731-74a9e8cb5022',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '56'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/getStore/getDetail',
+        query: {}
+      },
+      res: { statusCode: 501 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T04:38:00.419Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/getStore/getDetail',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/getStore/getDetail',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '92b88f45-78d8-4783-901f-81252d86185b',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '56'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/getStore/getDetail',
+        query: {}
+      },
+      res: { statusCode: 501 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T04:38:01.355Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/getStore/getDetail',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/getStore/getDetail',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '02ff83d2-b513-448f-8173-e488af85dbe5',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '29'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/getStore/getDetail',
+        query: {}
+      },
+      res: { statusCode: 501 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-20T04:43:38.973Z'
+  }
+}
