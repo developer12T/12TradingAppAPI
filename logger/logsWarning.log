@@ -1016,3 +1016,293 @@
     timestamp: '2023-11-20T04:43:38.973Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '743e2678-f563-4d49-8d5d-5a0afb94194b',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 8
+    },
+    timestamp: '2023-11-20T08:46:05.745Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'affc9a79-0946-4d35-8afd-9a1f82459a2f',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 9
+    },
+    timestamp: '2023-11-20T08:46:24.473Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '48e4c0a9-66c5-4ca1-915c-1b08ae2bfd35',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-11-20T08:46:26.299Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'ed676ffb-c41e-4ec9-ba89-f10360487806',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 9
+    },
+    timestamp: '2023-11-20T08:46:33.657Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '2838498b-656c-4c27-bcce-72f0a3076190',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-11-20T08:46:34.678Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '3177697f-8dc7-4b5b-a57e-1b35178b7a74',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-11-20T08:46:47.838Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '4db62fa2-6554-4212-8957-56721d7d310c',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-11-20T08:48:56.796Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'f362b6fe-d2cd-4283-a4d6-ac32f2c9d67d',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 8
+    },
+    timestamp: '2023-11-20T08:53:33.451Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'fe845646-236a-4932-8fa9-e9c24b867ba8',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 9
+    },
+    timestamp: '2023-11-20T09:17:42.366Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/authen/saleAuthen/login',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/authen/saleAuthen/login',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '2f7efae9-f90d-4827-8b6a-80c46f00f7b7',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '81'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/authen/saleAuthen/login',
+        query: {}
+      },
+      res: { statusCode: 507 },
+      responseTime: 3
+    },
+    timestamp: '2023-11-20T09:18:22.182Z'
+  }
+}

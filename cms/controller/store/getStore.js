@@ -1,11 +1,11 @@
 const express = require('express')
 require('../../configs/connect')
 const getStore = express.Router()
-const { Store, TypeStore } = require('../../models/store')
+const {Store, TypeStore} = require('../../models/store')
 
 getStore.post('/getAll', async (req, res) => {
     try {
-        const data = await Store.find().sort({ idNumber: 1 }).exec()
+        const data = await Store.find().sort({idNumber: 1}).exec()
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
@@ -15,7 +15,7 @@ getStore.post('/getAll', async (req, res) => {
 
 getStore.post('/getStore', async (req, res) => {
     try {
-        const data = await Store.find({ status: '1', 'approve.status': '2', zone: req.body.zone }, {
+        const data = await Store.find({status: '1', 'approve.status': '2', zone: req.body.zone}, {
             _id: 0,
             idCharecter: 1,
             idNumber: 1,
@@ -25,7 +25,7 @@ getStore.post('/getStore', async (req, res) => {
             distric: 1,
             subDistric: 1,
             province: 1
-        }).sort({ idNumber: 1 }).exec()
+        }).sort({idNumber: 1}).exec()
         const mainData = []
         for (const list of data) {
             const newData = {
@@ -56,14 +56,14 @@ getStore.post('/getStoreNew', async (req, res) => {
 
         // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
         // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-        const data = await Store.find({ zone: req.body.zone }, {
+        const data = await Store.find({zone: req.body.zone}, {
             _id: 0,
             idCharecter: 1,
             idNumber: 1,
             name: 1,
             route: 1,
             'approve.status': 1
-        }).sort({ idNumber: -1 }).exec()
+        }).sort({idNumber: -1}).exec()
 
         data.forEach(item => {
             if (item.approve.status === '1') {
@@ -101,7 +101,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.idCharecter !== '' && req.body.idNumber !== undefined) {
-            const data = await Store.findOne({ idCharecter: req.body.idCharecter, idNumber: req.body.idNumber },
+            const data = await Store.findOne({idCharecter: req.body.idCharecter, idNumber: req.body.idNumber},
                 {
                     _id: 0,
                     'approve._id': 0,
@@ -110,8 +110,8 @@ getStore.post('/getDetail', async (req, res) => {
                     createdAt: 0,
                     updatedAt: 0,
                     __v: 0
-                }).sort({ idNumber: -1 }).exec()
-            const type = await TypeStore.findOne({ id: data.type }, {})
+                }).sort({idNumber: -1}).exec()
+            const type = await TypeStore.findOne({id: data.type}, {})
             if (data.approve.status === '1') {
                 data.approve.status = 'รออนุมัติ'
                 console.log(data.approve.status)
@@ -151,13 +151,14 @@ getStore.post('/getDetail', async (req, res) => {
             }
             res.status(200).json({newData})
         } else {
-            res.status(501).json({ status:501,message: 'require body!' })
+            res.status(501).json({status: 501, message: 'require body!'})
         }
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            status:error.stack,
-            message:error.message})
+            status: error.stack,
+            message: error.message
+        })
     }
 })
 

@@ -10,6 +10,7 @@ services สำหรับตรรกะ การคำนวณ ต่าง
 status http{
     500 = Internal overall
     501 = !req.body
+    507 = Validation fail
 
     200 = complete
 }

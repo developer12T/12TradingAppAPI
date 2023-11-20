@@ -1,5 +1,6 @@
 const express = require('express')
 
+const auth = require('./cms/controller/authen/middleware/authen')
 const app = express()
 const cors = require('cors')
 app.use(express.json())
