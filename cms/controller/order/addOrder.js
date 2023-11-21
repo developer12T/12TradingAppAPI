@@ -75,7 +75,10 @@ addOrder.post('/newOrder', async (req, res) => {
         const data = await PreOrder.findOne({id: req.body.idPreOrder}, {_id: 0, idIndex: 0, __v: 0, 'list._id': 0})
         res.status(200).json(data)
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     }
 })
 
@@ -105,7 +108,10 @@ addOrder.post('/addShipment', async (req, res) => {
 
         res.status(200).json({status: 200, message: 'Successfully Add Shipment'})
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     }
 })
 

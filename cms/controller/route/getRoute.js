@@ -11,7 +11,10 @@ getRoute.get('/getAll', async (req, res) => {
         res.status(200).json(data)
 
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -46,7 +49,10 @@ getRoute.post('/getRouteShowHome', async (req, res) => {
         res.status(200).json(showData)
 
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -75,7 +81,10 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         res.status(200).json(showData)
 
     } catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -95,7 +104,10 @@ getRoute.post('/getRouteStore', async (req, res) => {
         }).sort({idNumber: 1})
         res.status(200).json(data)
     }catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 

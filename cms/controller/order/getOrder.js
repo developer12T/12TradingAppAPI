@@ -11,7 +11,10 @@ getOrder.get('/getAll', async (req, res) => {
         res.status(200).json(data)
 
     } catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -44,7 +47,7 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
     } catch (error) {
         res.status(500).json(
             {
-                status: error.stack,
+                status: 500,
                 message: error.message
             }
         )

@@ -10,7 +10,10 @@ addRoute.post('/newRoute', async (req, res) => {
         await newRoute.save()
         res.status(200).json('add route --')
     } catch (e) {
-        res.status(500).json(e)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 

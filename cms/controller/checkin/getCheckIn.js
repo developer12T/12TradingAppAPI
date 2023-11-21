@@ -8,7 +8,10 @@ getCheckIn.post('/getAll', async (req, res) => {
         const data = await Checkin.find().exec()
         res.status(200).json(data)
     } catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -20,7 +23,10 @@ getCheckIn.post('/getVisitDetail', async (req, res) => {
         }).exec()
         res.status(200).json(data.detail)
     } catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 

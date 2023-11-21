@@ -10,7 +10,10 @@ typeStore.post('/getAll', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -32,7 +35,10 @@ typeStore.post('/addTypeStore', async(req, res) => {
         res.status(200).json(req.body)
     } catch (error) { 
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -56,7 +62,10 @@ typeStore.put('/editTypeStore', async(req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -64,7 +73,7 @@ typeStore.put('/updateTypeStore', async(req, res) => {
     const { currentdateDash } = require('../../utils/utility.js')
     try {
         if(!req.body.id){
-            res.status(501).json({message:'require body'})
+            res.status(501).json({status:501,message:'require body'})
         }else{
             if(req.body.id !== ''){
                 const data = await TypeStore.findOne({id:req.body.id}).exec();
@@ -74,14 +83,17 @@ typeStore.put('/updateTypeStore', async(req, res) => {
                     var st = '1'
                 }
                  await TypeStore.updateOne({id:req.body.id}, { $set: { status: st} })
-                res.status(200).json({message:'Update Status Success'})
+                res.status(200).json({status:200,message:'Update Status Successfully'})
             }else{
-                res.status(501).json({message:'empty body require!'})
+                res.status(501).json({status:501,message:'empty body require!'})
             }
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
  

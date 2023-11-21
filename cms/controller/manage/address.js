@@ -10,7 +10,10 @@ address.post('/getAll', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -29,7 +32,10 @@ address.post('/getProvince', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -47,7 +53,10 @@ address.post('/getAmphoe', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -64,7 +73,10 @@ address.post('/getDistrict', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 
@@ -85,7 +97,10 @@ address.post('/getZipcode', async(req, res) => {
         res.status(200).json(data)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
     } 
 })
 

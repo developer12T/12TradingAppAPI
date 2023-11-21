@@ -41,7 +41,10 @@ addCheckIn.post('/newCheckIn', async (req, res) => {
             res.status(200).json('add CheckIn')
         }
     } catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
@@ -66,7 +69,10 @@ addCheckIn.post('/visit', async (req, res) => {
         const data = await Checkin.find({}, {'_id': 0, 'detail': {$elemMatch: {'storeId': req.body.storeId}}}).exec()
         res.status(200).json(data)
     }catch (e) {
-        res.status(500).json(e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
