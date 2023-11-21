@@ -8,8 +8,10 @@ getStore.post('/getAll', async (req, res) => {
         const data = await Store.find().sort({idNumber: 1}).exec()
         res.status(200).json(data)
     } catch (error) {
-        console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
     }
 })
 
@@ -40,7 +42,6 @@ getStore.post('/getStore', async (req, res) => {
                 province: list.province
             }
             mainData.push(newData)
-
         }
 
         res.status(200).json(mainData)
@@ -160,7 +161,7 @@ getStore.post('/getDetail', async (req, res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            status: error.stack,
+            status: 500,
             message: error.message
         })
     }
