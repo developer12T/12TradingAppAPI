@@ -6,12 +6,26 @@ dotenv.config()
 
 const { PORT } = process.env;
 
+
+const newStore = require('./dataRealtime/cms/newStore')
+// const server = http.createServer(app)
+
+
 const server = http.createServer(app)
+
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "http://localhost:5173",
+        methods: ["GET", "POST"]
+    }
+})
 
 app.get('/testApi', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 });
 
+
+newStore(io)
 connectDB().then(() => {
     server.listen(PORT, () => {
       console.log(`server start on port ${PORT}`)

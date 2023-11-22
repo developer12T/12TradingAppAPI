@@ -1,5 +1,4 @@
 const express = require('express')
-
 const auth = require('./cms/controller/authen/middleware/authen')
 const app = express()
 const cors = require('cors')
@@ -26,7 +25,6 @@ const errFormat = format.printf(({level,meta}) => {
 
 
 const cms = require('./cms/index')
-
 
 app.use('/cms', cms)
 
