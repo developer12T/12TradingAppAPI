@@ -1,8 +1,8 @@
-const {Store} = require('../../cms/models/store');
+const {Store} = require('../../cms/models/store')
 
 const newStore = (io) => {
     io.on('connection', (socket) => {
-        console.log({status:204,message:'Client Connected!'})
+        console.log({status: 204, message: 'Client Connected!'})
 
         //check data and emit to Client
         Store.find().then((data) => {
@@ -10,7 +10,7 @@ const newStore = (io) => {
         })
 
         socket.on('disconnect', () => {
-            console.log({status: 900, message: 'Client disconnected!'})
+            console.log({status: 900, message: 'Client Disconnected!'})
         })
 
         //find data

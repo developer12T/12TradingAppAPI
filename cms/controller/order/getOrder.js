@@ -43,7 +43,6 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
             list:data.list
         }
         res.status(200).json(mainData)
-
     } catch (error) {
         res.status(500).json(
             {
