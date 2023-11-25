@@ -1,4 +1,4 @@
-const express = require('express')
+ const express = require('express')
 const cms = express.Router()
 
 const store = require('./routes/store')
@@ -9,6 +9,7 @@ const checkin = require('./routes/checkin')
 const saleProduct = require('./routes/saleProduct')
 const authen = require('./routes/authen')
 const order = require('./routes/order')
+const refund = require('./routes/refund')
 
 cms.use('/store',store)
 cms.use('/route',route)
@@ -18,5 +19,6 @@ cms.use('/checkin',checkin)
 cms.use('/saleProduct',saleProduct)
 cms.use('/authen',authen)
 cms.use('/order',order)
+cms.use('/refund',refund)
 
 module.exports = cms

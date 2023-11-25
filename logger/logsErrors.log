@@ -1393,3 +1393,32 @@
     timestamp: '2023-11-20T10:12:33.284Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/newRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/newRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'caa91559-40d2-47f3-a5e4-83a13bd19d50',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '339'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/newRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 18
+    },
+    timestamp: '2023-11-25T16:19:11.304Z'
+  }
+}

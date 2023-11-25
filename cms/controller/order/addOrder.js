@@ -9,8 +9,8 @@ const {User} = require("../../models/user")
 const {NumberSeries} = require("../../models/numberSeries")
 const {Store} = require("../../models/store")
 const {History} = require('../../models/history')
-const {currentdateDash} = require("../../utils/utility");
-const {diskStorage} = require("multer");
+const {currentdateDash} = require("../../utils/utility")
+const {diskStorage} = require("multer")
 
 addOrder.post('/newPreOrder', async (req, res) => {
     try {
