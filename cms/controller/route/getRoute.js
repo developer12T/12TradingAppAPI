@@ -39,8 +39,6 @@ getRoute.post('/getRouteMain', async (req, res) => {
                 id: data[i].id,
                 day: 'Day ' + day,
                 route: i + 1,
-                statusFront: statusCount,
-                statusBack: statusBlack,
                 status:{
                     number:statusCount+'/'+statusBlack,
                   detail:descript
