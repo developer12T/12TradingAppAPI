@@ -31,9 +31,9 @@ getRoute.post('/getRouteMain', async (req, res) => {
             }
             const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
             var descript =
-                statusCount < statusBlack ? 'in progress' :
-                    statusCount === statusBlack ? 'progress' :
-                        statusBlack === 0 ? 'take action' :
+                statusCount < statusBlack ? 'running' :
+                    statusCount === statusBlack ? 'success' :
+                        statusBlack === 0 ? 'waiting' :
                             'progress'
             const showData_obj = {
                 id: data[i].id,
@@ -41,7 +41,10 @@ getRoute.post('/getRouteMain', async (req, res) => {
                 route: i + 1,
                 statusFront: statusCount,
                 statusBack: statusBlack,
-                descript: descript
+                status:{
+                    number:statusCount+'/'+statusBlack,
+                  detail:descript
+                },
             }
             showData.push(showData_obj)
             statusCount = 0
