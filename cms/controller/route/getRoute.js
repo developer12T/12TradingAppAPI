@@ -31,9 +31,9 @@ getRoute.post('/getRouteMain', async (req, res) => {
             }
             const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
             var descript =
-                statusCount < statusBlack ? 'waiting' :
+                (statusCount < statusBlack && statusCount !== 0) ? 'processing':
                     statusCount === statusBlack ? 'success' :
-                        statusBlack === 0 ? 'waiting' :
+                        statusBlack === 0 ? 'pending' :
                             'progress'
             const showData_obj = {
                 id: data[i].id,
