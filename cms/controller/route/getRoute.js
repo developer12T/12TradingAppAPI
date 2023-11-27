@@ -18,7 +18,7 @@ getRoute.get('/getAll', async (req, res) => {
     }
 })
 
-getRoute.post('/getRouteShowHome', async (req, res) => {
+getRoute.post('/getRouteMain', async (req, res) => {
     try {
         const showData = []
         let statusCount = 0
