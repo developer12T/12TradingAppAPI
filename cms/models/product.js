@@ -11,15 +11,9 @@ const unitSchema = mongoose.Schema({
 const unitList = mongoose.Schema({
     id: { type: String},
     name:{type:String},
-    pricePerSku:{type:Number},
-
-})
-
-const refundList = mongoose.Schema({
-    id: { type: String},
-    type:{type:String},
-    description:{type:String},
-    price:{type:Number},
+    pricePerUnitSale:{type:Number},
+    pricePerUnitRefund:{type:Number},
+    pricePerUnitChange:{type:Number}
 })
 
 const productSchema = mongoose.Schema({
@@ -31,7 +25,6 @@ const productSchema = mongoose.Schema({
     size:{type:String},
     flavour:{type:String},
     unitList:[unitList],
-    refundList:[refundList],
     status:{type:String}
 })
 

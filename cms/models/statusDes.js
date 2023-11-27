@@ -10,7 +10,7 @@ const list = mongoose.Schema({
 const statusDesSchema = mongoose.Schema(
     {
         id:{type:Number,require:true},
-        name:{type:String,require:true},
+        // name:{type:String,require:true},
         descript:{type:String,require:true},
         type:{type:String,require:true},
         list:[list],

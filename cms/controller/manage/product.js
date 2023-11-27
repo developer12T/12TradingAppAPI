@@ -2,6 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const ProductManage = express.Router()
 const {Product} = require('../../models/product')
+const {statusDes} = require("../../models/statusDes");
 
 ProductManage.post('/getAll', async (req, res) => {
     try{
@@ -24,6 +25,7 @@ ProductManage.post('/addProduct', async (req, res) => {
             var idIndex = idInsert.idIndex + 1
         }
         req.body.idIndex = idIndex
+        req.body.status = 1
         const newRoute = new Product(req.body)
         await newRoute.save()
         res.status(200).json(newRoute)
