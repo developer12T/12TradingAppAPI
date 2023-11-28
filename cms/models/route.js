@@ -2,9 +2,8 @@ const mongoose = require('mongoose')
 
 const listCheck = mongoose.Schema({
     number: { type: Number,},
-    note:{type:String,require:true},
     orderId:{type:String,require:true},
-    dete:{type:String,require:true},
+    date:{type:String,require:true},
 })
 
 

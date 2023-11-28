@@ -4,6 +4,7 @@ require('../../configs/connect')
 const getRoute = express.Router()
 const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
+const {statusDes} = require("../../models/statusDes");
 
 getRoute.get('/getAll', async (req, res) => {
     try {
@@ -23,11 +24,11 @@ getRoute.post('/getRouteMain', async (req, res) => {
         const showData = []
         let statusCount = 0
         let statusBlack = 0
-        const data = await Checkin.find({}, {_id: 0}).exec()
+        const data = await Route.find({}, {_id: 0}).exec()
         for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].detail.length; j++) {
-                statusCount += (data[i].detail[j].status === 'เช็คอิน') ? 1 : 0;
-                statusBlack = data[i].detail.length
+            for (let j = 0; j < data[i].list.length; j++) {
+                statusCount += (data[i].list[j].status === '1') ? 1 : 0;
+                statusBlack = data[i].list.length
             }
             const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
             var descript =
@@ -39,10 +40,8 @@ getRoute.post('/getRouteMain', async (req, res) => {
                 id: data[i].id,
                 day: 'Day ' + day,
                 route: i + 1,
-                status:{
-                    number:statusCount+'/'+statusBlack,
-                  detail:descript
-                },
+                statusNumber:statusCount+'/'+statusBlack,
+                statusText:descript
             }
             showData.push(showData_obj)
             statusCount = 0
@@ -62,25 +61,27 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         const data = await Route.findOne({id: req.body.id}, {_id: 0, __v: 0})
         const showData = []
         for (let i = 0; i < data.list.length; i++) {
-            console.log(data.list[i])
-            const prefix = data.list[i].substring(0, 3)
-            const numberPart = data.list[i].substring(3)
+            // console.log(data.list[i])
+            const prefix = data.list[i].storeId.substring(0, 3)
+            const numberPart = data.list[i].storeId.substring(3)
             const dataStore = await Store.findOne({idCharecter: prefix, idNumber: numberPart}, {name: 1, _id: 0})
             // console.log(prefix)
-            const status_store = await Checkin.findOne({id: req.body.id}, {
+            const status_store = await Route.findOne({id: req.body.id}, {
                 '_id': 0,
-                'detail': {$elemMatch: {'storeId': data.list[i]}}
+                'list': {$elemMatch: {'storeId': data.list[i].storeId}}
             }).exec()
-            console.log()
+            const statusText = await statusDes.findOne({type:'route'},{ 'list': {$elemMatch: {'id': status_store.list[0].status}}})
+            // console.log()
             const showData_obj = {
-                id: data.list[i],
+                idRoute:data.id,
+                id: data.list[i].storeId,
                 name: dataStore.name,
-                status: 'พัฒนาต่อ'
+                status: statusText.list[0].id,
+                statusText: statusText.list[0].name
             }
             showData.push(showData_obj)
         }
         res.status(200).json(showData)
-
     } catch (e) {
         res.status(500).json({
             status:500,
@@ -105,6 +106,46 @@ getRoute.post('/getRouteStore', async (req, res) => {
         }).sort({idNumber: 1})
         res.status(200).json(data)
     }catch (e) {
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
+    }
+})
+
+getRoute.post('/getStoreDetail', async (req, res) => {
+    try {
+
+            const data = await Route.findOne({id: req.body.idRoute}, {
+                '_id': 0,
+                'list': {$elemMatch: {'storeId': req.body.storeId}}
+            }).exec()
+
+        const id = req.body.storeId;
+
+
+        let idCharecterEnd = 0;
+        while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
+            idCharecterEnd++;
+        }
+        const idCharecter = id.substring(0, idCharecterEnd);
+        const idNumber = parseInt(id.substring(idCharecterEnd));
+
+        const dataStore = await Store.findOne({
+            idCharecter: idCharecter,
+            idNumber: idNumber
+        },{})
+
+
+        const mainData = {
+            storeId:id,
+            name:dataStore.name,
+            address: dataStore.addressTitle +' '+ dataStore.distric+' '+ dataStore.subDistric+' '+dataStore.province,
+            list:data.list[0].listCheck
+        }
+
+        res.status(200).json(mainData)
+    } catch (e) {
         res.status(500).json({
             status:500,
             message:e.message
