@@ -18,7 +18,7 @@ addCart.post('/addCart', async (req, res) => {
             req.body.totalPrice = totalPrice_bath
             const addCart = new Cart(req.body)
             await addCart.save()
-            res.status(200).json('addCart')
+            res.status(200).json({status:201,message:'AddCart Successfully'})
         } else {
 
             for (let i = 0; i < req.body.list.length; i++) {
@@ -31,7 +31,7 @@ addCart.post('/addCart', async (req, res) => {
             }
             var summaryPrice = totalPrice_bath + priceData.totalPrice
             await Cart.updateOne({area: req.body.area, storeId: req.body.storeId}, {$set: {totalPrice: summaryPrice}})
-            res.status(200).json('update Successfully')
+            res.status(200).json({status:201,message:'update Successfully'})
         }
     } catch (e) {
         res.status(500).json({

@@ -1,16 +1,15 @@
 const express = require('express')
-
 require('../../configs/connect')
-const {Order, PreOrder, Shipping} = require("../../models/order")
+const {Order, PreOrder, Shipping} = require('../../models/order')
 const addOrder = express.Router()
 var _ = require('lodash')
-const {Cart} = require("../../models/saleProduct")
-const {User} = require("../../models/user")
-const {NumberSeries} = require("../../models/numberSeries")
-const {Store} = require("../../models/store")
+const {Cart} = require('../../models/saleProduct')
+const {User} = require('../../models/user')
+const {NumberSeries} = require('../../models/numberSeries')
+const {Store} = require('../../models/store')
 const {History} = require('../../models/history')
-const {currentdateDash} = require("../../utils/utility")
-const axios = require("axios");
+const {currentdateDash} = require('../../utils/utility')
+const axios = require('axios')
 
 addOrder.post('/newOrder', async (req, res) => {
     try {
@@ -62,24 +61,38 @@ addOrder.post('/newOrder', async (req, res) => {
         await Order.create(mainData)
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
         const requestBody = {
-            case: 'sale',
-            area: req.body.area,
-            storeId: req.body.storeId,
-            idRoute: req.body.idRoute,
-            note: 'ขายสินค้าแล้ว',
-            orderId: mainData.id
+
         }
 
         // const fextcapi =  await axios.post(process.env.API_URL_IN_USE, requestBody)
-         await axios.post('http://127.0.0.1:9999/cms/route/addRoute/visit', requestBody,)
+        const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/addRoute/visit', {
+             case: 'sale',
+             area: req.body.area,
+             storeId: req.body.storeId,
+             idRoute: req.body.idRoute,
+             note: 'ขายสินค้าแล้ว',
+             orderId: mainData.id
+             })
         // console.log(fextcapi.data)
         await History.create({
             type: 'updateNumber',
             collectionName: 'NumberSeries',
             description: `update type:order zone:MBE NumberSeries:${availableNumber} date:${currentdateDash()}`
         })
-        res.status(200).json(mainData)
+        res.status(200).json({
+            order:{
+                status:201,
+                message:'Create Order Successfully'
+            },
+            visit:{
+                status:201,
+                message:`Visit Store : ${req.body.storeId} and OrderId : ${mainData.id} Success`,
+                respone:visitResponse.data
+            }
+        })
+        await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
     } catch (error) {
+        console.log(error.stack)
         res.status(500).json({
             status:500,
             message:error.message

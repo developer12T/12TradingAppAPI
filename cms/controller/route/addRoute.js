@@ -4,6 +4,7 @@ require('../../configs/connect')
 const addRoute = express.Router()
 const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
+const {currentdateDash} = require("../../utils/utility");
 
 addRoute.post('/addRoute', async (req, res) => {
     try {
@@ -77,7 +78,7 @@ addRoute.post('/visit', async (req, res) => {
                     id: req.body.idRoute,
                     area: req.body.area
                 }, {'list': {$elemMatch: {'storeId': req.body.storeId}}})
-                console.log(statusCheck2.list[0].listCheck)
+                // console.log(statusCheck2.list[0].listCheck)
                 if(statusCheck2.list[0].listCheck.length === 0){
                    var number = 1
                 }else{
@@ -86,17 +87,32 @@ addRoute.post('/visit', async (req, res) => {
                     var number = nextNumber
                 }
 
-                const subData = {
-                    number:number,
-                    orderId:req.body.orderId,
-                    date:currentdateDash()
+                if(statusCheck2.list[0].listCheck.length === 0){
+                    const subData = {
+                        number:number,
+                        orderId:req.body.orderId,
+                        date:currentdateDash()
+                    }
+                    await Route.updateOne({
+                        id: req.body.idRoute,
+                        area: req.body.area,
+                        'list.storeId': req.body.storeId
+                    }, {$push: {'list.$.listCheck': subData},$set:{'list.$.dateCheck':currentdateDash(),'list.$.status':'2'}})
+                    responseMessage = 'เข้าเยี่ยมแบบขายสินค้า'
+                }else{
+                    const subData = {
+                        number:number,
+                        orderId:req.body.orderId,
+                        date:currentdateDash()
+                    }
+                    await Route.updateOne({
+                        id: req.body.idRoute,
+                        area: req.body.area,
+                        'list.storeId': req.body.storeId
+                    }, {$push: {'list.$.listCheck': subData}})
+                    responseMessage = 'เข้าเยี่ยมแล้ว/เพิ่มรายการขายในเส้นทางสำเร็จ'
                 }
-                await Route.updateOne({
-                    id: req.body.idRoute,
-                    area: req.body.area,
-                    'list.storeId': req.body.storeId
-                }, {$push: {'list.$.listCheck': subData},$set:{'list.$.dateCheck':currentdateDash()}})
-                responseMessage = 'เข้าเยี่ยมแบบขายสินค้า'
+
                 break
             default:
                 responseMessage = ' Is no this case in the system.'
