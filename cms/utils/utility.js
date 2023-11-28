@@ -24,11 +24,17 @@ function currentdateDash() {
     return dateslash
   }
 
+function currentdateFormatYearMont() {
+  const date = moment().format('YYYYMM', 'th');
+  return date
+}
+
   
   module.exports = {
     currentdateDash,
     currentdateSlash,
     currentdate,
     currenttime,
-    currentdatena
+    currentdatena,
+    currentdateFormatYearMont
   };

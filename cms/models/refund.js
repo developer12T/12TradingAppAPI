@@ -4,6 +4,7 @@ const list = mongoose.Schema({
     id: { type: String},
     name:{type:String},
     qty:{type:Number},
+    unit:{type:String},
     pricePerQty:{type:Number},
     totalAmount:{type:Number}
 })
@@ -39,8 +40,6 @@ const refundSchema = mongoose.Schema({
     approve:approve,
     refundDate:{type:String}
 })
-
-
 
 const Refund = mongoose.model('Refund',refundSchema)
 

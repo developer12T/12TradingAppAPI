@@ -40,7 +40,7 @@ ProductManage.post('/addProduct', async (req, res) => {
 ProductManage.put('/updateProduct', async (req, res) => {
     try{
         const data = await Product.updateOne({id: req.body.id}, {$set: req.body})
-        res.status(200).json('update '+data.modifiedCount+' row complete')
+        res.status(200).json({status:201,message:'update '+data.modifiedCount+' row complete'})
     }catch (error){
         res.status(500).json({
             status:500,

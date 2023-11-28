@@ -31,31 +31,55 @@ refundProduct.post('/newRefund', async (req, res) => {
         const idChange = await available(req.body.numberSeries.type, req.body.numberSeries.zone)
         const idRepair = await available('orderRefund', 'MBE')
 
-        const datalLisrtReturn = []
-        const datalLisrtChange = []
+        const datalListReturn = []
+        const datalListChange = []
+
         for(const list of req.body.listReturn){
             const dataProduct = await Product.findOne({id:list.id})
-            const  mainData = {
-                id:dataProduct.id,
-                name:dataProduct.name,
-                qty:list.qty,
-                pricePerQty: dataProduct.pricePerQty,
-                totalAmount:list.qty * dataProduct.skuList
+
+            if (dataProduct) {
+                const unitsWithIdOne = dataProduct.unitList.filter(unit => unit.id === list.unit);
+
+                if (unitsWithIdOne.length > 0) {
+
+                    const  mainData = {
+                        id:dataProduct.id,
+                        name:dataProduct.name,
+                        unit:list.unit,
+                        qty:list.qty,
+                        pricePerQty: dataProduct.pricePerUnitRefund,
+                        // totalAmount:list.qty * dataProduct.pricePerUnitRefund
+                    }
+                    datalListReturn.push(mainData)
+                } else {
+                }
+            } else {
             }
-            datalLisrtReturn.push(mainData)
+
             // console.log(dataProduct)
         }
 
         for(const list of req.body.listChange){
             const dataProduct = await Product.findOne({id:list.id})
-            const  mainData = {
-                id:dataProduct.id,
-                name:dataProduct.name,
-                qty:list.qty,
-                pricePerQty: dataProduct.pricePerQty,
-                totalAmount:list.qty * dataProduct.pricePerQty
+
+            if (dataProduct) {
+                const unitsWithIdOne = dataProduct.unitList.filter(unit => unit.id === list.unit);
+
+                if (unitsWithIdOne.length > 0) {
+
+                    const  mainData = {
+                        id:dataProduct.id,
+                        name:dataProduct.name,
+                        unit:list.unit,
+                        qty:list.qty,
+                        pricePerQty: dataProduct.pricePerUnitChange,
+                        // totalAmount:list.qty * dataProduct.pricePerUnitChange
+                    }
+                    datalListChange.push(mainData)
+                } else {
+                }
+            } else {
             }
-            datalLisrtChange.push(mainData)
             // console.log(dataProduct)
         }
 
@@ -70,11 +94,11 @@ refundProduct.post('/newRefund', async (req, res) => {
             diffAmount:req.body.diffAmount,
             listReturn: {
                 id: idChange,
-                list: datalLisrtReturn
+                list: datalListReturn
             },
             listChange: {
                 id: idRepair,
-                list: datalLisrtChange
+                list: datalListChange
             },
             approve:{
                 sender:req.body.saleMan,
