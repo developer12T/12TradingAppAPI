@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const detailSchema = mongoose.Schema({
     id: { type: String, require: true},
     name: { type: String, require: true},
-    pricePerQty: { type: Number, require: true},
+    pricePerUnitSale: { type: Number, require: true},
     qty:{type:String,require:true},
     typeQty:{type:String,require:true},
 })

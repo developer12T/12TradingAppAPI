@@ -10,21 +10,21 @@ const {NumberSeries} = require("../../models/numberSeries")
 const {Store} = require("../../models/store")
 const {History} = require('../../models/history')
 const {currentdateDash} = require("../../utils/utility")
-const {diskStorage} = require("multer")
+const axios = require("axios");
 
-addOrder.post('/newPreOrder', async (req, res) => {
+addOrder.post('/newOrder', async (req, res) => {
     try {
         const index = await Order.findOne({}, {idIndex: 1}).sort({idIndex: -1})
-
+        // console.log(index)
         if (index === null) {
             var indexPlus = 1
         } else {
-            var indexPlus = index + 1
+            var indexPlus = index.idIndex + 1
         }
 
         const numberSeries = await NumberSeries.findOne({type: 'order'}, {'detail.available': 1, _id: 0})
         const availableNumber = numberSeries.detail.available
-        const cartData = await Cart.findOne({id: req.body.cartId}, {'list._id': 0})
+        const cartData = await Cart.findOne({area:req.body.area,storeId:req.body.storeId}, {'list._id': 0})
         const userData = await User.findOne({'description.area': req.body.area}, {})
         const storeData = await Store.findOne({
             idCharecter: cartData.storeId.substring(0, 3),
@@ -34,13 +34,15 @@ addOrder.post('/newPreOrder', async (req, res) => {
         const listProduct = []
 
         for (const data of cartData.list) {
+            const totalAmount = data.qty * data.pricePerUnitSale
+             // console.log(data.qty)
             const listData = {
                 id: data.id,
                 name: data.name,
                 qty: data.qty,
-                pricePerQty: data.pricePerQty,
+                pricePerQty: data.pricePerUnitSale,
                 typeQty: data.typeQty,
-                totalAmount: data.qty * data.pricePerQty,
+                totalAmount:totalAmount ,
                 discount: 0
             }
             listProduct.push(listData)
@@ -57,23 +59,26 @@ addOrder.post('/newPreOrder', async (req, res) => {
             tel: storeData.tel,
             list: listProduct
         }
-        await PreOrder.create(mainData)
+        await Order.create(mainData)
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
+        const requestBody = {
+            case: 'sale',
+            area: req.body.area,
+            storeId: req.body.storeId,
+            idRoute: req.body.idRoute,
+            note: 'ขายสินค้าแล้ว',
+            orderId: mainData.id
+        }
+
+        // const fextcapi =  await axios.post(process.env.API_URL_IN_USE, requestBody)
+         await axios.post('http://127.0.0.1:9999/cms/route/addRoute/visit', requestBody,)
+        // console.log(fextcapi.data)
         await History.create({
             type: 'updateNumber',
             collectionName: 'NumberSeries',
             description: `update type:order zone:MBE NumberSeries:${availableNumber} date:${currentdateDash()}`
         })
         res.status(200).json(mainData)
-    } catch (e) {
-        res.status(500).json(e.message)
-    }
-})
-
-addOrder.post('/newOrder', async (req, res) => {
-    try {
-        const data = await PreOrder.findOne({id: req.body.idPreOrder}, {_id: 0, idIndex: 0, __v: 0, 'list._id': 0})
-        res.status(200).json(data)
     } catch (error) {
         res.status(500).json({
             status:500,
