@@ -15,7 +15,7 @@ const list = mongoose.Schema({
     note:{type:String,require:true},
     status:{type:String,require:true},
     dateCheck:{type:String,require:true},
-    listCheck:listCheck
+    listCheck:[listCheck]
 })
 
 const routeSchema = mongoose.Schema({

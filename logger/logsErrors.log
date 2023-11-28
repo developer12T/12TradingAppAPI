@@ -2727,3 +2727,351 @@
     timestamp: '2023-11-28T04:45:12.371Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'e6903ce8-43e3-4f04-a27f-81b61e95a87e',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 13
+    },
+    timestamp: '2023-11-28T04:54:15.272Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'd6f498d0-e58a-42f2-9fb9-92315541c0b5',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 13
+    },
+    timestamp: '2023-11-28T04:57:03.734Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'b1b474b5-405d-4d9d-b6a0-53d9264ce2c8',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 25
+    },
+    timestamp: '2023-11-28T05:00:27.980Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'a9307022-5e0e-477c-81ca-fe6a5a69669a',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 25
+    },
+    timestamp: '2023-11-28T05:01:06.391Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'c381b5e8-191e-4377-990c-b3d4bc3244cb',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 22
+    },
+    timestamp: '2023-11-28T06:17:15.939Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '79bb0855-c049-43b6-bcdb-caf39ba050e0',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 23
+    },
+    timestamp: '2023-11-28T06:24:20.813Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'ca7e38ec-eec7-4d84-b0f7-650bc6a1b364',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 7
+    },
+    timestamp: '2023-11-28T06:24:21.997Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '285720ca-6e57-48f7-a44e-c5ff04bcd1b0',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 24
+    },
+    timestamp: '2023-11-28T06:25:28.391Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '08ee5c7f-f64a-43a6-b2de-15783b0a6ff4',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 22
+    },
+    timestamp: '2023-11-28T06:26:17.436Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '84097388-9144-49db-8df0-da9e7e88af80',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 6
+    },
+    timestamp: '2023-11-28T06:27:55.876Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '97ab2c07-828c-4839-85ac-669d1cbff19a',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 22
+    },
+    timestamp: '2023-11-28T06:28:16.117Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/route/addRoute/addRoute',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/route/addRoute/addRoute',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '84a1b767-368f-4d6b-9cb0-b7d88585bbd5',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '66'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/route/addRoute/addRoute',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 5
+    },
+    timestamp: '2023-11-28T06:28:17.290Z'
+  }
+}

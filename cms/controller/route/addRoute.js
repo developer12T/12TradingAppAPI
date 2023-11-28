@@ -13,46 +13,36 @@ addRoute.post('/addRoute', async (req, res) => {
         if(!idRu){
             var idRoute = currentdateFormatYearMont()+'R1'
         }else{
-            var matches = idRu.match(/^(\D+)(\d+)(\D+)$/);
+            var prefix= idRu.id.slice(0,7)
+            var subfix= parseInt(idRu.id.slice(7)) + 1
 
-            if (matches && matches.length === 4) {
-                var prefix = matches[1];
-                var numericPart = parseInt(matches[2]);
-                var suffix = matches[3];
-
-                if (!isNaN(numericPart)) {
-                    var idRoute = prefix + (numericPart + 1) + suffix;
-                    console.log(idRoute);
-                } else {
-                    console.log("ไม่พบตัวเลขที่จะเพิ่ม");
-                }
-            } else {
-                console.log("รูปแบบ idRu ไม่ถูกต้อง");
-            }
+           var idRoute = prefix + subfix
         }
 
         const listStore = []
-        for(const list of req.body.list){
+
+        for(const storeList of req.body.list){
             // const dataStore = await Store.findOne({idCharecter:list.slice(3),idNumber:parseInt(list.slice(0,3))})
             const newData = {
-                storeId:list ,
+                storeId:storeList ,
                 latitude:'',
                 longtitude:'',
-                status:0, // ทำ status
+                status:0,
+                note:'',
                 dateCheck:'****-**-**T**:**',
                 listCheck:[]
             }
             listStore.push(newData)
         }
 
-
         const mainData = {
             id:idRoute,
             area:req.body.area,
             round:currentdateFormatYearMont(),
-            list:[listStore]
+            list:listStore
         }
-        res.status(200).json(mainData)
+        await Route.create(mainData)
+        res.status(200).json({status:201,message:'Add Route Successfully'})
     } catch (e) {
         res.status(500).json({
             status:500,
