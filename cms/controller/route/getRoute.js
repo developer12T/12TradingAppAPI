@@ -89,7 +89,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         const status2Count = statusCounts['2'] || 0
 
         const mainData = {
-            target:showData.length,
+            targetGroup:showData.length,
             progress:status0Count,
             checkin:status1Count,
             buy:status2Count,
