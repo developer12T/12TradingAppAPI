@@ -2,6 +2,7 @@ const express = require('express')
 
 require('../../configs/connect')
 const getRoute = express.Router()
+const _ = require('lodash')
 const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
 const {statusDes} = require("../../models/statusDes");
@@ -81,7 +82,16 @@ getRoute.post('/getRouteDetail', async (req, res) => {
             }
             showData.push(showData_obj)
         }
-        res.status(200).json(showData)
+        const statusCounts = _.countBy(showData, 'status')
+        // console.log(statusCounts)
+        const mainData = {
+            target:showData.length,
+            checkin:statusCounts['1'],
+            openPo:statusCounts['2'],
+            list:showData
+        }
+
+        res.status(200).json(mainData)
     } catch (e) {
         res.status(500).json({
             status:500,
