@@ -5,7 +5,7 @@ const list = mongoose.Schema({
     name:{type:String},
     qty:{type:Number},
     unit:{type:String},
-    pricePerQty:{type:Number},
+    pricePerUnitRefund:{type:Number},
     totalAmount:{type:Number}
 })
 

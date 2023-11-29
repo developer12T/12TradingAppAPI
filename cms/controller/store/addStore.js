@@ -44,6 +44,10 @@ addStore.post('/newStore', upload.single('picture'), async (req, res) => {
             numberSeries
         } = req.body
         const idAvailable = await available(numberSeries.type, numberSeries.zone)
+        const poliAgree ={
+            status:policyConsent,
+            date:currentdateDash()
+        }
         // console.log(idAvailable)
         const approveData = {
             status: "1",
@@ -71,7 +75,7 @@ addStore.post('/newStore', upload.single('picture'), async (req, res) => {
             lineId,
             approve: approveData,
             status: "0",
-            policyConsent,
+            policyConsent:poliAgree,
             imageList,
             note,
             createdDate: currentdateDash(),
