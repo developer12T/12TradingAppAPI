@@ -1,7 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 
-const {Refund} = require('../../models/refund')
+const {Refund, CartRefund} = require('../../models/refund')
 const {NumberSeries} = require("../../models/numberSeries");
 const {available, updateAvailable} = require("../../services/numberSeriers");
 const {currentdateDash} = require("../../utils/utility");
@@ -47,8 +47,8 @@ refundProduct.post('/newRefund', async (req, res) => {
                         name:dataProduct.name,
                         unit:list.unit,
                         qty:list.qty,
-                        pricePerUnitRefund: dataProduct.pricePerUnitRefund,
-                         totalAmount:list.qty * dataProduct.pricePerUnitRefund
+                        pricePerUnitRefund: unitsWithIdOne[0].pricePerUnitChange,
+                        totalAmount:list.qty * unitsWithIdOne[0].pricePerUnitChange
                     }
                     // console.log(dataProduct)
                     datalListReturn.push(mainData)
@@ -65,23 +65,22 @@ refundProduct.post('/newRefund', async (req, res) => {
 
             if (dataProduct) {
                 const unitsWithIdOne = dataProduct.unitList.filter(unit => unit.id === list.unit);
-
+                console.log(unitsWithIdOne[0])
                 if (unitsWithIdOne.length > 0) {
-
                     const  mainData = {
                         id:dataProduct.id,
                         name:dataProduct.name,
                         unit:list.unit,
                         qty:list.qty,
-                        pricePerQty: dataProduct.pricePerUnitChange,
-                        // totalAmount:list.qty * dataProduct.pricePerUnitChange
+                        pricePerUnitRefund: unitsWithIdOne[0].pricePerUnitRefund,
+                        totalAmount:list.qty *  unitsWithIdOne[0].pricePerUnitRefund
                     }
                     datalListChange.push(mainData)
                 } else {
                 }
             } else {
             }
-            // console.log(dataProduct)
+
         }
 
         const newData = {
@@ -120,6 +119,20 @@ refundProduct.post('/newRefund', async (req, res) => {
             message: e.message
         })
     }
+})
+
+refundProduct.post('/addCartRefund', async (req, res) => {
+    try{
+        
+        await CartRefund.create(req.body)
+        res.status(201).json({status: 201, message: 'AddProduct to cartRefund Successfully'})
+    }catch (e){
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+
 })
 
 module.exports = refundProduct

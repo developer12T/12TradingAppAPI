@@ -41,6 +41,22 @@ const refundSchema = mongoose.Schema({
     refundDate:{type:String}
 })
 
-const Refund = mongoose.model('Refund',refundSchema)
+const listRefundCart = mongoose.Schema({
+    id: String,
+    name: String,
+    unitId: String,
+    priceUnit: Number,
+    qty: Number,
+    sumPrice:Number,
+})
 
-module.exports = { Refund }
+const cartRefundSchema = mongoose.Schema({
+    area:{type:String},
+    storeId:{type:String},
+    list:[listRefundCart]
+})
+
+const Refund = mongoose.model('Refund',refundSchema)
+const CartRefund = mongoose.model('cartRefund',cartRefundSchema)
+
+module.exports = { Refund,CartRefund }
