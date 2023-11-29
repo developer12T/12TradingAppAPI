@@ -48,8 +48,9 @@ refundProduct.post('/newRefund', async (req, res) => {
                         unit:list.unit,
                         qty:list.qty,
                         pricePerUnitRefund: dataProduct.pricePerUnitRefund,
-                        // totalAmount:list.qty * dataProduct.pricePerUnitRefund
+                         totalAmount:list.qty * dataProduct.pricePerUnitRefund
                     }
+                    // console.log(dataProduct)
                     datalListReturn.push(mainData)
                 } else {
                 }

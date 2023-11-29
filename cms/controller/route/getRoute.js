@@ -84,14 +84,17 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         }
         const statusCounts = _.countBy(showData, 'status')
         // console.log(statusCounts)
+        const status0Count = statusCounts['0'] || 0
+        const status1Count = statusCounts['1'] || 0
+        const status2Count = statusCounts['2'] || 0
+
         const mainData = {
             target:showData.length,
-            progress:statusCounts['0'],
-            checkin:statusCounts['1'],
-            buy:statusCounts['2'],
+            progress:status0Count,
+            checkin:status1Count,
+            buy:status2Count,
             list:showData
         }
-
         res.status(200).json(mainData)
     } catch (e) {
         res.status(500).json({
