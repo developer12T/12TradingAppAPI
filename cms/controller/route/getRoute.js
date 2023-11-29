@@ -86,8 +86,9 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         // console.log(statusCounts)
         const mainData = {
             target:showData.length,
+            progress:statusCounts['0'],
             checkin:statusCounts['1'],
-            openPo:statusCounts['2'],
+            buy:statusCounts['2'],
             list:showData
         }
 
