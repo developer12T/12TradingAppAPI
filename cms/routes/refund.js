@@ -10,8 +10,10 @@ refund.use(cors())
 
 const refundProduct = require('../controller/refund/openRefund')
 const getProduct = require('../controller/refund/getProduct')
+const getRefundProduct = require('../controller/refund/getRefund')
 
 refund.use('/openRefund',refundProduct)
 refund.use('/openRefund',getProduct)
+refund.use('/openRefund',getRefundProduct)
 
 module.exports = refund

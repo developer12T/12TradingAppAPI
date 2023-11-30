@@ -2315,3 +2315,380 @@
     timestamp: '2023-11-29T07:19:13.487Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'efaa72a1-b0cc-4ee3-8dec-4f4921f66abc',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-30T03:24:38.560Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '28a35e6a-87fa-4b00-8d03-4a7cebb10fe7',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 10
+    },
+    timestamp: '2023-11-30T03:25:36.143Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'b79d68a2-432f-4efb-a6cc-df0a94499302',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 11
+    },
+    timestamp: '2023-11-30T03:26:29.395Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'b7c5e2ce-e70d-447b-9f9e-407b1f7d4a70',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-30T03:26:31.758Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '76cdc730-eea2-4a26-ac79-0b4c975717f6',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 25
+    },
+    timestamp: '2023-11-30T03:28:44.496Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '859b8ab6-80d5-4899-998f-d138603e436e',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 23
+    },
+    timestamp: '2023-11-30T03:28:51.943Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '52f912b7-ffaa-4fe1-b811-92e7a7c9c684',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 24
+    },
+    timestamp: '2023-11-30T03:29:42.429Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'df736ec5-9cad-48a4-adec-727ceabc69cc',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 8
+    },
+    timestamp: '2023-11-30T03:29:43.374Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'df11f708-e562-4856-a2ef-f25d649a3ebc',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 16
+    },
+    timestamp: '2023-11-30T03:39:54.017Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '3edd66ca-41cd-472b-b32e-cf5983b686b6',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 21
+    },
+    timestamp: '2023-11-30T03:45:46.446Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/addCartRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/addCartRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'f56a709e-e2d3-4534-872e-8eb898d47d6a',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '380'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/addCartRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 5
+    },
+    timestamp: '2023-11-30T03:49:05.047Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/getPreRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/getPreRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'f32cc06c-aeed-4592-8870-7b2cb03989bf',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '51'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/getPreRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 18
+    },
+    timestamp: '2023-11-30T04:52:28.465Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/refund/openRefund/getPreRefund',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/refund/openRefund/getPreRefund',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '5b4e3488-2c7a-48a0-a6d5-dce4fdadde8f',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '51'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/refund/openRefund/getPreRefund',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 9
+    },
+    timestamp: '2023-11-30T04:52:29.978Z'
+  }
+}

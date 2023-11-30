@@ -48,11 +48,13 @@ const listRefundCart = mongoose.Schema({
     priceUnit: Number,
     qty: Number,
     sumPrice:Number,
+    productCondition:String,
 })
 
 const cartRefundSchema = mongoose.Schema({
     area:{type:String},
     storeId:{type:String},
+    type:String,
     list:[listRefundCart]
 })
 
