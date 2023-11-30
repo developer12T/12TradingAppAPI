@@ -60,5 +60,3 @@ routeManage.post('/newRoute', async(req, res) => {
 })
 
 module.exports = routeManage
-
-0

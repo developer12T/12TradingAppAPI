@@ -2634,3 +2634,199 @@
     timestamp: '2023-11-30T04:52:29.978Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'a1be4d6b-e6c1-4d1e-9672-8c84ac87a51c',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-30T09:21:02.414Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '692a9909-645d-46fc-bab3-e61a4de26a84',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 4
+    },
+    timestamp: '2023-11-30T09:21:55.985Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '727c242d-1d4d-45ed-a5d6-b19d2b409245',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-30T09:21:56.729Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '7093c4fd-f42b-41b3-af6a-2b1a62ae622f',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 2
+    },
+    timestamp: '2023-11-30T09:21:58.834Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '969968bc-3de2-4b81-b198-b6dcc2e4feaf',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 1
+    },
+    timestamp: '2023-11-30T09:21:59.899Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'd912f29a-cd08-4882-b1b0-706685c87b27',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 7
+    },
+    timestamp: '2023-11-30T09:23:00.326Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/manage/Policy/addPolicy',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/manage/Policy/addPolicy',
+        headers: {
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '779ff91e-5467-4803-a069-22518c54f6e2',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '0'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/manage/Policy/addPolicy',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 6
+    },
+    timestamp: '2023-11-30T09:23:57.628Z'
+  }
+}

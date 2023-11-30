@@ -155,7 +155,16 @@ getRoute.post('/getStoreDetail', async (req, res) => {
             storeId:id,
             name:dataStore.name,
             address: dataStore.addressTitle +' '+ dataStore.distric+' '+ dataStore.subDistric+' '+dataStore.province,
-            list:data.list[0].listCheck
+            list:data.list[0].listCheck.map(item => {
+                const dateObject = new Date(item.date);
+                const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
+                return {
+                    number: item.number,
+                    orderId: item.orderId,
+                    date: formattedDate,
+                    _id: item._id
+                };
+            })
         }
 
         res.status(200).json(mainData)
