@@ -1,22 +1,14 @@
 const mongoose = require('mongoose')
 
 const list = mongoose.Schema({
-
+        title:String,
+        text:String
 })
 
 const policySchema = mongoose.Schema({
-
-    "title1":String,
-    "subTitile1":String,
-    "subTitile2":String,
-    "subTitile3":String,
-    "title2":String,
-    "subTitle21":String,
-    "subTitle22": String,
-    "subTitile31":String,
-    "subTitile32":String
+    id:Number,
+    list:[list]
 })
-
 
 const Policy = mongoose.model('Policy',policySchema)
 

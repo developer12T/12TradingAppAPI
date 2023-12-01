@@ -5,7 +5,19 @@ const policyManage = express.Router()
 
 policyManage.post('/addPolicy', async (req, res) => {
     try {
-        await Policy.create(req.body)
+
+        const idA = await Policy.findOne({},{id:1}).sort({id:-1})
+        if(!idA){
+            var idIn = 1
+        }else{
+            var idIn = idA.id +1
+        }
+
+        const mainData = {
+            id:idIn,
+            list:req.body.list
+        }
+        await Policy.create(mainData)
         res.json({
             status: 200,
             message: 'Policy added successfully'
@@ -22,7 +34,8 @@ policyManage.post('/addPolicy', async (req, res) => {
 
 policyManage.post('/getPolicy', async (req, res) => {
     try {
-        res.json( await Policy.find())
+        const data = await Policy.findOne({id:req.body.id})
+        res.status(200).json(data.list )
     } catch (error) {
         console.error(error)
 
