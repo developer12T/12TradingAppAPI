@@ -2888,3 +2888,291 @@
     timestamp: '2023-11-30T09:23:57.628Z'
   }
 }
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '95509f86-c510-42fb-8482-29ff1dfb04e1',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 3
+    },
+    timestamp: '2023-12-01T04:01:45.159Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '6631d40e-9755-4a86-a7ea-10d232df13f6',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-12-01T04:01:46.744Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '57d18265-a37a-4525-86e7-4627b59f2307',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-12-01T04:02:02.886Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '35c7ab1b-d6fc-4414-9400-e404b59b80ce',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 2
+    },
+    timestamp: '2023-12-01T04:02:04.622Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '3b062949-084c-40c9-ad08-c6874b7c7c14',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 0
+    },
+    timestamp: '2023-12-01T04:02:05.519Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP PUT /cms/order//UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order//UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'd0dea9e6-2749-4fe6-b407-d5790877047e',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'PUT',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order//UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 3
+    },
+    timestamp: '2023-12-01T04:03:22.254Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /cms/order//UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order//UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '42e55ad8-ec4e-4921-8bdb-774ab13b1cec',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order//UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-12-01T04:03:42.695Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '77cd065f-d71f-4e7c-87a6-4b653b6eb4e2',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-12-01T04:03:47.627Z'
+  }
+}
+{
+  level: 'warn',
+  message: 'HTTP GET /cms/order/UpdateOrde',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/order/UpdateOrde',
+        headers: {
+          apikey: '',
+          role: '',
+          token: '',
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'd8b200b2-368a-4e2a-9546-7fb5c00a36f4',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '22'
+        },
+        method: 'GET',
+        httpVersion: '1.1',
+        originalUrl: '/cms/order/UpdateOrde',
+        query: {}
+      },
+      res: { statusCode: 404 },
+      responseTime: 1
+    },
+    timestamp: '2023-12-01T04:03:48.496Z'
+  }
+}

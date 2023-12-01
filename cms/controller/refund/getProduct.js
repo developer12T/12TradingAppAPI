@@ -4,7 +4,7 @@ const getProduct = express.Router()
 const {Product} = require('../../models/product')
 const axios = require('axios')
 
-getProduct.post('/getDetail', async (req, res) => {
+getProduct.post('/getProductDetail', async (req, res) => {
     try {
         switch (req.body.type) {
             case 'refund':
@@ -36,6 +36,7 @@ getProduct.post('/getDetail', async (req, res) => {
             case 'change':
                 break
             default:
+                res.status(404).json({status:404,message:'Server Not Found'})
                 break
         }
     } catch (error) {
@@ -44,7 +45,7 @@ getProduct.post('/getDetail', async (req, res) => {
 
 })
 
-getProduct.post('/getDetailUnit', async (req, res) => {
+getProduct.post('/getProductDetailUnit', async (req, res) => {
     try {
         switch (req.body.type) {
             case 'refund':
@@ -54,7 +55,7 @@ getProduct.post('/getDetailUnit', async (req, res) => {
 
                 for(const list of data.unitList){
                     if(list.id === req.body.unitId){
-                        priceUnit = list.pricePerSku
+                        priceUnit = list.pricePerUnitRefund
                     }
                 }
 
@@ -64,7 +65,7 @@ getProduct.post('/getDetailUnit', async (req, res) => {
                     unitId:req.body.unitId,
                     qty:req.body.qty,
                     sumPrice:priceUnit*req.body.qty,
-                    skuList:data.skuList
+                    unitList:data.unitList
                 }
                 res.status(200).json(mainData)
 

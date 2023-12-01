@@ -10,7 +10,7 @@ const {available} = require("../../services/numberSeriers")
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 
-addStore.post('/newStore', upload.single('picture'), async (req, res) => {
+addStore.post('/addStore', upload.single('picture'), async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')
     const {currentdatena, currentdateDash} = require('../../utils/utility.js')
     try {

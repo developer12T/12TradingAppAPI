@@ -10,9 +10,9 @@ const addCart = require('../controller/saleProduct/addCart')
 const getCart = require('../controller/saleProduct/getCart')
 const getProduct = require('../controller/saleProduct/getProduct')
 
-saleProduct.use('/Cart',addCart)
-saleProduct.use('/Cart',getCart)
-saleProduct.use('/Product',getProduct)
+saleProduct.use('/',addCart)
+saleProduct.use('/',getCart)
+saleProduct.use('/',getProduct)
 
 
 module.exports = saleProduct

@@ -11,7 +11,7 @@ route.use(cors())
 const addRoute = require('../controller/route/addRoute')
 const getRoute = require('../controller/route/getRoute')
 
-route.use('/addRoute',addRoute)
-route.use('/getRoute',getRoute)
+route.use('/',addRoute)
+route.use('/',getRoute)
 
 module.exports = route

@@ -10,7 +10,7 @@ store.use(cors())
 const getStore = require('../controller/store/getStore')
 const addStore = require('../controller/store/addStore')
 
-store.use('/getStore',getStore)
-store.use('/addStore',addStore)
+store.use('/',getStore)
+store.use('/',addStore)
 
 module.exports = store

@@ -7,7 +7,7 @@ app.use(express.json())
 const {currentdateDash} = require('./cms/utils/utility')
 
 const expressWinston = require('express-winston')
-const { transports,format } = require('winston')
+const {transports, format} = require('winston')
 require('winston-mongodb')
 
 const logger = require('./cms/logger/logger')
@@ -16,10 +16,10 @@ app.use(cors())
 
 app.use(expressWinston.logger({
     winstonInstance: logger,
-    statusLevels:true
+    statusLevels: true
 }))
 
-const errFormat = format.printf(({level,meta}) => {
+const errFormat = format.printf(({level, meta}) => {
     return `${currentdateDash()} ${level}:${meta.message}`
 })
 
@@ -34,11 +34,11 @@ app.use(expressWinston.errorLogger({
         new transports.File({
             level: 'error',
             filename: 'logger/logsInternalErrors.log',
-            options:{
+            options: {
                 level: 'error'
             },
-            format:format.combine(
-                format.timestamp({ format: currentdateDash() }),
+            format: format.combine(
+                format.timestamp({format: currentdateDash()}),
                 format.json(),
                 errFormat
             )
@@ -50,7 +50,7 @@ app.use(expressWinston.errorLogger({
                 level: 'error',
             },
             format: format.combine(
-                format.timestamp({ format: currentdateDash() }),
+                format.timestamp({format: currentdateDash()}),
                 format.json(),
                 format.metadata(errFormat)
             )

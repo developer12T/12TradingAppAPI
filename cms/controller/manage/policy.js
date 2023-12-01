@@ -35,16 +35,16 @@ policyManage.post('/addPolicy', async (req, res) => {
 policyManage.post('/getPolicy', async (req, res) => {
     try {
         const data = await Policy.findOne({id:req.body.id})
-        res.status(200).json(data.list )
+        res.status(200).json(data.list)
     } catch (error) {
         console.error(error)
 
         res.status(500).json({
             status: 500,
             message: error.message
-        });
+        })
     }
-});
+})
 
 
 module.exports = policyManage;
