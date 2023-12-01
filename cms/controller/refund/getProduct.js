@@ -105,7 +105,6 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                     sumPrice:priceUnit*req.body.qty,
                     unitList:dataChange.unitList
                 }
-
                 res.status(200).json(mainDataChange)
                 break
             default:
