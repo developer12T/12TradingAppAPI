@@ -2,3 +2,5 @@
 .env
 node_modules/
 logger/
+logger/logsErrors.log
+logger/logsWarning.log
