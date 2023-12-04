@@ -54,3 +54,59 @@
     timestamp: '2023-12-04T04:11:44.398Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getCartToShow',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getCartToShow',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'postman-token': 'b6546c66-9b2a-49de-a1a7-56a92c68b103',
+          host: '127.0.0.1:3838',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '52'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getCartToShow',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 5
+    },
+    timestamp: '2023-12-04T08:17:22.275Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/addProductToCart',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/addProductToCart',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'postman-token': '6bf975eb-1bef-4a0e-83d7-5ac918b8f942',
+          host: '127.0.0.1:3838',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '257'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/addProductToCart',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 47
+    },
+    timestamp: '2023-12-04T08:17:30.393Z'
+  }
+}

@@ -4,3 +4,5 @@ node_modules/
 logger/
 logger/logsErrors.log
 logger/logsWarning.log
+logger/logsErrors.log
+*.log
