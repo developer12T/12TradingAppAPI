@@ -89,7 +89,7 @@ addCart.post('/addProductToCart', async (req, res) => {
     }
 })
 
-addCart.delete('/deleteItemCart', async (req, res) => {
+addCart.post('/deleteItemCart', async (req, res) => {
     try {
         const {area, storeId, idProduct, unitId} = req.body;
         await Cart.updateOne({
