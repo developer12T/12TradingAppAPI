@@ -2,8 +2,7 @@ const express = require('express')
 
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
-const {Checkin} = require("../../models/route");
-const {CartRefund} = require("../../models/refund");
+
 const addCart = express.Router()
 
 // addCart.post('/addCart', async (req, res) => {
@@ -75,7 +74,7 @@ addCart.post('/addProductToCart', async (req, res) => {
             }
             totalPrice_bath = req.body.list.qty * req.body.list.pricePerUnitSale
             var summaryPrice = totalPrice_bath + idMirror.totalPrice
-            console.log("summaryPrice :: " + summaryPrice)
+            // console.log("summaryPrice :: " + summaryPrice)
             await Cart.updateOne({area: req.body.area, storeId: req.body.storeId}, {$set: {totalPrice: summaryPrice}})
         } else {
             req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
@@ -102,17 +101,15 @@ addCart.delete('/deleteItemCart', async (req, res) => {
                 }
             }
         })
-
         res.status(200).json({
-            status: 200, message: 'Item deleted successfully'
+            status: 200, message: 'Item Deleteded successfully'
         });
-    } catch (e) {
-        console.log(e)
+    } catch (error) {
+        console.log(error)
         res.status(500).json({
-            status: 500, message: e.message
+            status: 500, message: error.message
         })
     }
 })
-
 
 module.exports = addCart
