@@ -17,7 +17,7 @@ getStore.post('/getAll', async (req, res) => {
 
 getStore.post('/getStore', async (req, res) => {
     try {
-        const data = await Store.find({status: '1', 'approve.status': '2', zone: req.body.zone}, {
+        const data = await Store.find({status: '1', 'approve.status': '2', area: req.body.area}, {
             _id: 0,
             idCharecter: 1,
             idNumber: 1,

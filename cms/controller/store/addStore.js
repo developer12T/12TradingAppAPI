@@ -102,8 +102,20 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
 addStore.post('/addStoreFormM3', async (req, res) => {
     try {
+        const cleanData = (data) => {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const value = data[key]
+                    if (typeof value === 'string') {
+                        data[key] = value.replace(/\s/g, '')
+                    }
+                }
+            }
+            return data
+        };
         const {DATA_STORE_M3} = require('../../services/getStoreM3')
         const data = await DATA_STORE_M3(req.body.customertype)
+        const showData = []
         console.log(data)
         //     res.status(200).json({
         //     status: 201, message: 'Store added successfully', additionalData: idAvailable
@@ -112,13 +124,32 @@ addStore.post('/addStoreFormM3', async (req, res) => {
         for (const splitData of data) {
            //  const idC = splitData.customercode.substring(0, 3)
            // const idN = splitData.customercodesubstring(3)
+
+            const regex = /([A-Za-z]+)(\d+)/;
+            const match = splitData.customercode.match(regex)
+                const result = {
+                    prefix: match[1],
+                    subfix: match[2]
+                }
+            const poliAgree = {
+                status: req.body.policyConsent,
+                date: currentdateDash()
+            }
+            // console.log(idAvailable)
+            const approveData = {
+                status: "2",
+                dateSend: currentdateDash(),
+                dateAction: currentdateDash(),
+                appPerson: "system"
+            }
+
             const mainData = {
-                "idNumber":12,
-                "idNumber":12,
+                "idCharecter":result.prefix,
+                "idNumber":result.subfix,
                 "taxId": splitData.taxno,
                 "name": splitData.customername,
                 "tel": splitData.phone,
-                "route": "R01",
+                "route": "",
                 "type": splitData.customertype,
                 "addressTitle": splitData.addressid + ','+splitData.address1 + ','+splitData.address2+ ','+splitData.address3,
                 "distric": "",
@@ -131,16 +162,32 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                 "latitude": "",
                 "longtitude": "",
                 "lineId": "",
-                "policyConsent": "Agree",
+                approve: approveData,
+                status: "1",
+                policyConsent: poliAgree,
                 "imageList": [
                 ],
-                "note ": ""
+                "note ": "",
+                createdDate: currentdateDash(),
+                updatedDate: currentdateDash()
+            }
+            showData.push(mainData)
+        }
+        for (const key in showData) {
+            if (showData.hasOwnProperty(key)) {
+                const value = showData[key]
+                if (typeof value === 'string') {
+                    showData[key] = value.replace(/\s/g, '')
+                }
             }
         }
 
-        res.json(data)
-        // res.status(200).json({ message: 'Store added successfully'})
+        const cleanedShowData = showData.map(item => cleanData(item))
+        await Store.create(cleanedShowData)
+        // res.json(cleanedShowData)
+        res.status(200).json({status:201,message:'Store Added Successfully'})
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             status: 500,
             message: error.message
