@@ -26,9 +26,9 @@ ProductManage.post('/addProduct', async (req, res) => {
         }
         req.body.idIndex = idIndex
         req.body.status = 1
-        const newRoute = new Product(req.body)
-        await newRoute.save()
-        res.status(200).json(newRoute)
+        const newProduct = new Product(req.body)
+        await newProduct.save()
+        res.status(200).json({status:201,message:'Product Added Successfully'})
     } catch (e) {
         res.status(500).json({
             status:500,

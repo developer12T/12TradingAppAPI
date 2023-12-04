@@ -116,7 +116,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
         const {DATA_STORE_M3} = require('../../services/getStoreM3')
         const data = await DATA_STORE_M3(req.body.customertype)
         const showData = []
-        console.log(data)
+        // console.log(data)
         //     res.status(200).json({
         //     status: 201, message: 'Store added successfully', additionalData: idAvailable
         // })
