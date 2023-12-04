@@ -4,8 +4,8 @@ const detailSchema = mongoose.Schema({
     id: { type: String, require: true},
     name: { type: String, require: true},
     pricePerUnitSale: { type: Number, require: true},
-    qty:{type:String,require:true},
-    typeQty:{type:String,require:true},
+    qty:{type:Number,require:true},
+    unitId:{type:String,require:true},
 })
 
 const cartSchema = mongoose.Schema({

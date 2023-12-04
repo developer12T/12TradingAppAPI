@@ -29,33 +29,33 @@ const cms = require('./cms/index')
 app.use('/cms', cms)
 
 
-app.use(expressWinston.errorLogger({
-    transports: [
-        new transports.File({
-            level: 'error',
-            filename: 'logger/logsInternalErrors.log',
-            options: {
-                level: 'error'
-            },
-            format: format.combine(
-                format.timestamp({format: currentdateDash()}),
-                format.json(),
-                errFormat
-            )
-        }),
-        new transports.MongoDB({
-            db: process.env.CONNECT_STRING,
-            collection: 'logs',
-            options: {
-                level: 'error',
-            },
-            format: format.combine(
-                format.timestamp({format: currentdateDash()}),
-                format.json(),
-                format.metadata(errFormat)
-            )
-        })
-    ]
-}))
+// app.use(expressWinston.errorLogger({
+//     transports: [
+//         new transports.File({
+//             level: 'error',
+//             filename: 'logger/logsInternalErrors.log',
+//             options: {
+//                 level: 'error'
+//             },
+//             format: format.combine(
+//                 format.timestamp({format: currentdateDash()}),
+//                 format.json(),
+//                 errFormat
+//             )
+//         }),
+//         new transports.MongoDB({
+//             db: process.env.CONNECT_STRING,
+//             collection: 'logs',
+//             options: {
+//                 level: 'error',
+//             },
+//             format: format.combine(
+//                 format.timestamp({format: currentdateDash()}),
+//                 format.json(),
+//                 format.metadata(errFormat)
+//             )
+//         })
+//     ]
+// }))
 
 module.exports = app
