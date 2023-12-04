@@ -7,8 +7,35 @@ const axios = require('axios')
 getProduct.post('/getProductAll', async (req, res) => {
     try {
         const data = await Product.find({}, {_id: 0, id: 1, name: 1, unitList: 1})
-        res.status(200).json(data)
+        let listObj = []
+        const responseData = []
+        for (const main of data) {
+            for (const list of main.unitList) {
+                const dataUnit = await Unit.findOne({idUnit: list.id})
+                console.log(dataUnit)
+                const listData = {
+                    id: list.id,
+                    nameThai: dataUnit.nameThai,
+                    nameEng: dataUnit.nameEng,
+                    pricePerUnitSale: list.pricePerUnitSale,
+                    pricePerUnitRefund: list.pricePerUnitRefund,
+                    pricePerUnitChange: list.pricePerUnitChange,
+                }
+                listObj.push(listData)
+                // console.log(dataUnit)
+            }
+            const mainData = {
+                id: main.id,
+                name: main.name,
+                unitList: listObj
+            }
+            responseData.push(mainData)
+            listObj = []
+        }
+
+        res.status(200).json(responseData)
     } catch (error) {
+        console.log(error)
         res.status(500).json(error.message)
     }
 })
@@ -17,24 +44,24 @@ getProduct.post('/getProductDetail', async (req, res) => {
     try {
         const data = await Product.findOne({id: req.body.id}, {_id: 0, id: 1, name: 1, unitList: 1})
         const listObj = []
-         for(const list of data.unitList){
-             const dataUnit = await Unit.findOne({idUnit:list.id})
-             const listData = {
-                 id:list.id,
-                 nameThai:dataUnit.nameThai,
-                 nameEng:dataUnit.nameEng,
-                 pricePerUnitSale: list.pricePerUnitSale,
-                 pricePerUnitRefund:list.pricePerUnitRefund,
-                 pricePerUnitChange: list.pricePerUnitChange,
-             }
-             listObj.push(listData)
-             // console.log(dataUnit)
-         }
-         const mainData = {
-            id:data.id,
-            name:data.name,
-            unitList:listObj
-         }
+        for (const list of data.unitList) {
+            const dataUnit = await Unit.findOne({idUnit: list.id})
+            const listData = {
+                id: list.id,
+                nameThai: dataUnit.nameThai,
+                nameEng: dataUnit.nameEng,
+                pricePerUnitSale: list.pricePerUnitSale,
+                pricePerUnitRefund: list.pricePerUnitRefund,
+                pricePerUnitChange: list.pricePerUnitChange,
+            }
+            listObj.push(listData)
+            // console.log(dataUnit)
+        }
+        const mainData = {
+            id: data.id,
+            name: data.name,
+            unitList: listObj
+        }
         res.status(200).json(mainData)
     } catch (error) {
         res.status(500).json(error.message)
