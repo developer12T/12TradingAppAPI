@@ -30,6 +30,7 @@ getCart.post('/getCartToShow', async (req, res) => {
                 id: data.list[i].id,
                 name: data.list[i].name,
                 qty: data.list[i].qty,
+                unitId:data.list[i].unitId,
                 unitTypeThai:detail_product.nameThai,
                 unitTypeEng:detail_product.nameEng,
                 summaryPrice: data.list[i].pricePerUnitSale * data.list[i].qty

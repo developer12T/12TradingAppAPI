@@ -54,3 +54,264 @@
     timestamp: '2023-12-04T04:11:44.398Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '85f2e1fd-dbe4-44d9-bd7d-b7b86f3beb19',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '95'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 12
+    },
+    timestamp: '2023-12-04T08:57:29.598Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '0b966ec4-5636-4d0a-8f2a-315dae43d7fc',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '95'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-12-04T08:57:30.993Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'c96e6871-c210-4fe6-b2bd-d25877db4eb6',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '110'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 6
+    },
+    timestamp: '2023-12-04T09:41:49.930Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '9b348452-bd71-4ed5-aa61-00b9de665c04',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '110'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 5
+    },
+    timestamp: '2023-12-04T09:42:21.158Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '375f011e-8d74-48a4-80e8-15e8f66d3577',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '110'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 3
+    },
+    timestamp: '2023-12-04T09:42:22.724Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '47bd80b9-3c1d-4355-9de7-2c0c337d4ef8',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '143'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-12-04T10:06:24.256Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '4362699a-5afe-4265-b70e-771e60030447',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '143'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 22
+    },
+    timestamp: '2023-12-04T10:06:32.262Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '2026a4bc-0f62-4d0f-826d-74b460bdaf93',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '143'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 5
+    },
+    timestamp: '2023-12-04T10:06:33.444Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/saleProduct/getProduct',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/saleProduct/getProduct',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '633e554b-580f-4910-87ad-3c633608a069',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '143'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/saleProduct/getProduct',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 14
+    },
+    timestamp: '2023-12-04T10:07:03.873Z'
+  }
+}
