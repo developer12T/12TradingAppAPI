@@ -3176,3 +3176,119 @@
     timestamp: '2023-12-01T04:03:48.496Z'
   }
 }
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/addStoreFormM3',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/addStoreFormM3',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '0d0780fd-bae6-4ee5-b4b4-ab9e9dc983b4',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '1005'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/addStoreFormM3',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 689
+    },
+    timestamp: '2023-12-04T02:03:02.982Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/addStoreFormM3',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/addStoreFormM3',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '9ab5b8f1-ee8c-4a25-8cd0-217174dded01',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '1005'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/addStoreFormM3',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 854
+    },
+    timestamp: '2023-12-04T02:03:40.492Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/addStoreFormM3',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/addStoreFormM3',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': 'f328cfb9-db31-4952-aa08-91c794453775',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '1005'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/addStoreFormM3',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 772
+    },
+    timestamp: '2023-12-04T02:04:43.370Z'
+  }
+}
+{
+  level: 'error',
+  message: 'HTTP POST /cms/store/addStoreFormM3',
+  metadata: {
+    meta: {
+      req: {
+        url: '/cms/store/addStoreFormM3',
+        headers: {
+          'content-type': 'application/json',
+          'user-agent': 'PostmanRuntime/7.35.0',
+          accept: '*/*',
+          'cache-control': 'no-cache',
+          'postman-token': '030d765c-922a-4517-8157-d17be55c1c67',
+          host: '127.0.0.1:9999',
+          'accept-encoding': 'gzip, deflate, br',
+          connection: 'keep-alive',
+          'content-length': '30'
+        },
+        method: 'POST',
+        httpVersion: '1.1',
+        originalUrl: '/cms/store/addStoreFormM3',
+        query: {}
+      },
+      res: { statusCode: 500 },
+      responseTime: 20
+    },
+    timestamp: '2023-12-04T02:07:55.197Z'
+  }
+}

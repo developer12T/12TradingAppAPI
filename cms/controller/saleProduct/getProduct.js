@@ -6,7 +6,7 @@ const axios = require('axios')
 
 getProduct.post('/getProductAll', async (req, res) => {
     try {
-        const data = await Product.find({}, {_id: 0, id: 1, name: 1, skuList: 1})
+        const data = await Product.find({}, {_id: 0, id: 1, name: 1, unitList: 1})
         res.status(200).json(data)
     } catch (error) {
         res.status(500).json(error.message)

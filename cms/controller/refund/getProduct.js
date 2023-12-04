@@ -90,13 +90,11 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                 const dataChange = await Product.findOne({id: req.body.id,'unitList.id':'1'}, {_id: 0, id: 1, name: 1, unitList: 1})
                 // const sumPrice = 0
                 var priceUnit = 0
-
                 for(const list of dataChange.unitList){
                     if(list.id === req.body.unitId){
-                        priceUnit = list.pricePerUnitRefund
+                        priceUnit = list.pricePerUnitChange
                     }
                 }
-
                 const mainDataChange = {
                     id:dataChange.id,
                     name:dataChange.name,

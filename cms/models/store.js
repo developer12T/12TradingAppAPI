@@ -35,6 +35,7 @@ const moment = require('moment-timezone');
             provinceCode:{type:String,require:true},
             postCode:{type:String,require:true},
             zone:{type:String,require:true},
+            area:{type:String,require:true},
             latitude:{type:String,require:true},
             longtitude:{type:String,require:true},
             lineId:{type:String,require:true},
