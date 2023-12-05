@@ -147,7 +147,7 @@ addCart.put('/updateShipping', async (req, res) => {
         const {currentdateDash} = require("../../utils/utility")
         const shipDate = {
             address:req.body.shippingAddress,
-            dateShip:currentdateDash(),
+            dateShip: req.body.dateShip,
             note:req.body.note
         }
         await Cart.updateOne({
