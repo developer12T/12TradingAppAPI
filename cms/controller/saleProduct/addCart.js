@@ -2,6 +2,7 @@ const express = require('express')
 
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
+const {log} = require("winston");
 
 const addCart = express.Router()
 
@@ -44,25 +45,27 @@ const addCart = express.Router()
 
 addCart.post('/addProductToCart', async (req, res) => {
     try {
-        var totalPrice_bath = 0
+/*        var totalPrice_bath = 0
         const idMirror = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         let listFound = false
         if (idMirror) {
             if (idMirror.list.length > 0) {
                 for (const list of idMirror.list) {
-                    if (list.id === req.body.list.id && list.unitId === req.body.list.unitId) {
-                        await Cart.updateOne({
-                            area: req.body.area,
-                            storeId: req.body.storeId,
-                            'list.id': req.body.list.id,
-                            'list.unitId': req.body.list.unitId
-                        }, {
-                            $set: {
-                                'list.$.qty': list.qty + req.body.list.qty,
-                            }
-                        });
-                        listFound = true
-                        break
+                    if (list.id === req.body.list.id) {
+                        if(list.unitId === req.body.list.unitId){
+                            await Cart.updateOne({
+                                area: req.body.area,
+                                storeId: req.body.storeId,
+                                'list.id': req.body.list.id,
+                                'list.unitId': req.body.list.unitId
+                            }, {
+                                $set: {
+                                    'list.$.qty': list.qty + req.body.list.qty,
+                                }
+                            });
+                            listFound = true
+                            break
+                        }
                     }
                 }
             }
@@ -72,6 +75,7 @@ addCart.post('/addProductToCart', async (req, res) => {
                     area: req.body.area, storeId: req.body.storeId,
                 }, {$push: {list: req.body.list}});
             }
+
             totalPrice_bath = req.body.list.qty * req.body.list.pricePerUnitSale
             var summaryPrice = totalPrice_bath + idMirror.totalPrice
             // console.log("summaryPrice :: " + summaryPrice)
@@ -79,7 +83,48 @@ addCart.post('/addProductToCart', async (req, res) => {
         } else {
             req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
             await Cart.create(req.body)
+        }*/
+        const checkStore = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
+        if(!checkStore){
+            req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
+            await Cart.create(req.body)
+        }else{
+            const checkStoreListProduct = await Cart.findOne({'list.id':req.body.list.id})
+            if(!checkStoreListProduct){
+                console.log('ไม่มี product')
+                await Cart.updateOne({
+                    area: req.body.area, storeId: req.body.storeId,
+                }, {$push: {list: req.body.list}})
+            }else{
+                console.log('พบ product')
+                const checkStoreListProduct = await Cart.findOne({'list.unitId':req.body.list.unitId},)
+                if(!checkStoreListProduct){
+                    console.log('ไม่พบ unit id ที่เหมือนกัน')
+                    await Cart.updateOne({
+                        area: req.body.area, storeId: req.body.storeId,
+                    }, {$push: {list: req.body.list}})
+                }else{
+                    console.log('พบ unit id ที่เหมือนกัน'+checkStoreListProduct)
+                    const checkStoreListProductUnit  = await Cart.findOne(
+                        {'list.unitId': req.body.list.unitId},
+                        {'list.$': 1} // Projection to select only the matching element in the 'list' array
+                    )
+                    // console.log(checkStoreListProductUnit.list[0].qty)
+                    await Cart.updateOne({
+                        area: req.body.area,
+                        storeId: req.body.storeId,
+                        'list.id': req.body.list.id,
+                        'list.unitId': req.body.list.unitId
+                    }, {
+                        $set: {
+                            'list.$.qty': checkStoreListProductUnit.list[0].qty + req.body.list.qty,
+                        }
+                    })
+                }
+            }
         }
+
+        // res.status(200).json(checkStore)
         res.status(200).json({status: 201, message: 'Added/Update Successfully'})
     } catch (error) {
         console.log(error)
@@ -89,7 +134,7 @@ addCart.post('/addProductToCart', async (req, res) => {
     }
 })
 
-addCart.delete('/deleteItemCart', async (req, res) => {
+addCart.post('/deleteItemCart', async (req, res) => {
     try {
         const {area, storeId, idProduct, unitId} = req.body;
         await Cart.updateOne({

@@ -14,14 +14,14 @@ const logger = require('./cms/logger/logger')
 
 app.use(cors())
 
-app.use(expressWinston.logger({
-    winstonInstance: logger,
-    statusLevels: true
-}))
+// app.use(expressWinston.logger({
+//     winstonInstance: logger,
+//     statusLevels: true
+// }))
 
-const errFormat = format.printf(({level, meta}) => {
-    return `${currentdateDash()} ${level}:${meta.message}`
-})
+// const errFormat = format.printf(({level, meta}) => {
+//     return `${currentdateDash()} ${level}:${meta.message}`
+// })
 
 
 const cms = require('./cms/index')

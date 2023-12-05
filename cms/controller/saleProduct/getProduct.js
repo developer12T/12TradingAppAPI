@@ -146,7 +146,6 @@ getProduct.post('/getProduct', async (req, res) => {
                         pricePerUnitChange: list.pricePerUnitChange,
                     }))
                 }))
-
                 res.status(200).json(responseData)
     } catch (error) {
         console.log(error)
