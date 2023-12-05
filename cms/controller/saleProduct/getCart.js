@@ -33,7 +33,7 @@ getCart.post('/getCartToShow', async (req, res) => {
                 unitId:data.list[i].unitId,
                 unitTypeThai:detail_product.nameThai,
                 unitTypeEng:detail_product.nameEng,
-                summaryPrice: data.list[i].pricePerUnitSale * data.list[i].qty
+                summaryPrice:  parseFloat(data.list[i].pricePerUnitSale * data.list[i].qty).toFixed(2)
             }
             totalAmount = totalAmount + (data.list[i].pricePerUnitSale * data.list[i].qty)
             data_arr.push(list_obj)
