@@ -45,45 +45,6 @@ const addCart = express.Router()
 
 addCart.post('/addProductToCart', async (req, res) => {
     try {
-/*        var totalPrice_bath = 0
-        const idMirror = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
-        let listFound = false
-        if (idMirror) {
-            if (idMirror.list.length > 0) {
-                for (const list of idMirror.list) {
-                    if (list.id === req.body.list.id) {
-                        if(list.unitId === req.body.list.unitId){
-                            await Cart.updateOne({
-                                area: req.body.area,
-                                storeId: req.body.storeId,
-                                'list.id': req.body.list.id,
-                                'list.unitId': req.body.list.unitId
-                            }, {
-                                $set: {
-                                    'list.$.qty': list.qty + req.body.list.qty,
-                                }
-                            });
-                            listFound = true
-                            break
-                        }
-                    }
-                }
-            }
-
-            if (!listFound && idMirror.list.every(item => item.unitId !== req.body.list.unitId)) {
-                await Cart.updateOne({
-                    area: req.body.area, storeId: req.body.storeId,
-                }, {$push: {list: req.body.list}});
-            }
-
-            totalPrice_bath = req.body.list.qty * req.body.list.pricePerUnitSale
-            var summaryPrice = totalPrice_bath + idMirror.totalPrice
-            // console.log("summaryPrice :: " + summaryPrice)
-            await Cart.updateOne({area: req.body.area, storeId: req.body.storeId}, {$set: {totalPrice: summaryPrice}})
-        } else {
-            req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
-            await Cart.create(req.body)
-        }*/
         const checkStore = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         if(!checkStore){
             req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
@@ -123,7 +84,6 @@ addCart.post('/addProductToCart', async (req, res) => {
                 }
             }
         }
-
         // res.status(200).json(checkStore)
         res.status(200).json({status: 201, message: 'Added/Update Successfully'})
     } catch (error) {

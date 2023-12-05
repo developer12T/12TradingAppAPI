@@ -47,7 +47,7 @@ getCart.post('/getCartToShow', async (req, res) => {
             storeId: storeData.idCharecter + storeData.idNumber,
             name: storeData.name,
             totalQuantity: data_arr.length,
-            totalAmount: totalAmount,
+            totalAmount:  parseFloat(parseFloat(totalAmount).toFixed(2)),
             list: data_arr
         }
         res.status(200).json(mainData)
