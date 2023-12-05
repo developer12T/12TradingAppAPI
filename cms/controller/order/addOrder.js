@@ -65,7 +65,7 @@ addOrder.post('/newOrder', async (req, res) => {
         }
 
         // const fextcapi =  await axios.post(process.env.API_URL_IN_USE, requestBody)
-        const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/addRoute/visit', {
+        const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/visit', {
              case: 'sale',
              area: req.body.area,
              storeId: req.body.storeId,
@@ -92,7 +92,7 @@ addOrder.post('/newOrder', async (req, res) => {
         })
         await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
     } catch (error) {
-        console.log(error.stack)
+        console.log(error)
         res.status(500).json({
             status:500,
             message:error.message

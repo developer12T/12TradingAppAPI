@@ -48,6 +48,11 @@ addCart.post('/addProductToCart', async (req, res) => {
         const checkStore = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         if(!checkStore){
             req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
+            req.body.shipping = {
+                address:'',
+                dateShip:'',
+                note:''
+            }
             await Cart.create(req.body)
         }else{
             const checkStoreListProduct = await Cart.findOne({'list.id':req.body.list.id})
@@ -56,6 +61,7 @@ addCart.post('/addProductToCart', async (req, res) => {
                 await Cart.updateOne({
                     area: req.body.area, storeId: req.body.storeId,
                 }, {$push: {list: req.body.list}})
+
             }else{
                 console.log('พบ product')
                 const checkStoreListProduct = await Cart.findOne({'list.unitId':req.body.list.unitId},)
@@ -81,9 +87,28 @@ addCart.post('/addProductToCart', async (req, res) => {
                             'list.$.qty': checkStoreListProductUnit.list[0].qty + req.body.list.qty,
                         }
                     })
+
                 }
             }
         }
+
+        const updateTotalPrice =await Cart.findOne({area:req.body.area,storeId:req.body.storeId})
+        // console.log(updateTotalPrice.list)
+        let summaryTotalAmount = 0
+        for(const listData of updateTotalPrice.list){
+            summaryTotalAmount = summaryTotalAmount+(listData.qty*listData.pricePerUnitSale)
+        }
+        console.log(summaryTotalAmount)
+        await Cart.updateOne({
+            area: req.body.area,
+            storeId: req.body.storeId,
+            'list.id': req.body.list.id,
+            'list.unitId': req.body.list.unitId
+        }, {
+            $set: {
+                totalPrice: summaryTotalAmount,
+            }
+        })
         // res.status(200).json(checkStore)
         res.status(200).json({status: 201, message: 'Added/Update Successfully'})
     } catch (error) {
@@ -116,5 +141,32 @@ addCart.post('/deleteItemCart', async (req, res) => {
         })
     }
 })
+
+addCart.put('/updateShipping', async (req, res) => {
+    try {
+        const {currentdateDash} = require("../../utils/utility")
+        const shipDate = {
+            address:req.body.shippingAddress,
+            dateShip:currentdateDash(),
+            note:req.body.note
+        }
+        await Cart.updateOne({
+            area: req.body.area, storeId: req.body.storeId
+        }, {
+            $set: {
+                shipping: shipDate
+            }
+        })
+        res.status(200).json({
+            status: 201, message: 'Update Shipping successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500, message: error.message
+        })
+    }
+})
+
 
 module.exports = addCart

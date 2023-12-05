@@ -4,7 +4,7 @@ const ProductManage = express.Router()
 const {Product} = require('../../models/product')
 const {statusDes} = require("../../models/statusDes");
 const {log} = require("winston");
-
+const _ = require('lodash')
 ProductManage.post('/getAll', async (req, res) => {
     try{
         const data = await Product.find({}, {_id: 0, __v: 0})
@@ -27,6 +27,9 @@ ProductManage.post('/addProduct', async (req, res) => {
         }
         req.body.idIndex = idIndex
         req.body.status = 1
+
+        const sortedUnitList = _.orderBy( req.body.unitList, ['pricePerUnitSale'], ['desc'])
+        console.log(sortedUnitList)
         const newProduct = new Product(req.body)
         await newProduct.save()
         res.status(200).json({status:201,message:'Product Added Successfully'})

@@ -85,7 +85,7 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
             name: data.name,
             unitId: req.body.unitId,
             qty: req.body.qty,
-            sumPrice: priceUnit * req.body.qty,
+            sumPrice: parseFloat(priceUnit * req.body.qty).toFixed(2),
             unitList: data.unitList
         }
         res.status(200).json(mainData)

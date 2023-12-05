@@ -29,6 +29,16 @@ function currentdateFormatYearMont() {
   return date
 }
 
+async function spltitString(id) {
+  const regex = /([A-Za-z]+)(\d+)/
+  const match = id.match(regex)
+  const result = {
+    prefix: match[1],
+    subfix: match[2]
+  }
+  return result
+}
+
   
   module.exports = {
     currentdateDash,
@@ -36,5 +46,6 @@ function currentdateFormatYearMont() {
     currentdate,
     currenttime,
     currentdatena,
-    currentdateFormatYearMont
+    currentdateFormatYearMont,
+    spltitString
   };

@@ -4,6 +4,8 @@ require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
 const {Store} = require("../../models/store")
 const {Unit} = require("../../models/product");
+const {PreOrder} = require("../../models/order");
+const {User} = require("../../models/user");
 
 const getCart = express.Router()
 
@@ -49,6 +51,52 @@ getCart.post('/getCartToShow', async (req, res) => {
             totalQuantity: data_arr.length,
             totalAmount:  parseFloat(totalAmount).toFixed(2),
             list: data_arr
+        }
+        res.status(200).json(mainData)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+getCart.post('/getPreOrder', async (req, res) => {
+    try {
+        const { spltitString } = require('../../utils/utility')
+        const idSplit = await spltitString(req.body.storeId)
+        const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
+        const dataUser = await User.findOne({id:req.body.saleCode})
+        const dataStore = await Store.findOne({idCharecter:idSplit.prefix ,idNumber:idSplit.subfix})
+        const mainList = []
+        for (const listdata of data.list){
+            const unitData = await Unit.findOne({idUnit:listdata.unitId})
+            const dataList = {
+                id: listdata.id,
+                name:listdata.name,
+                qty:listdata.qty,
+                nameQty:unitData.nameThai,
+                pricePerQty:listdata.pricePerUnitSale,
+                discount:0,
+                totalAmount:parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
+            }
+            mainList.push(dataList)
+        }
+
+        const mainData = {
+            saleMan: dataUser.firstName + ' '+dataUser.surName,
+            storeId: data.storeId,
+            storeName: dataStore.name,
+            address: dataStore.addressTitle +' ' +dataStore.distric +' '+dataStore.subDistric+' '+dataStore.province,
+            taxID: dataStore.taxId,
+            tel: dataStore.tel,
+            totalAmount:data.totalPrice.toFixed(2),
+            discount: '0.00',
+            totalAmountNoVat:(data.totalPrice/1.07).toFixed (2),
+            vat:(data.totalPrice-(data.totalPrice/1.07)).toFixed(2),
+            summaryAmount:data.totalPrice.toFixed(2),
+            list:mainList
         }
         res.status(200).json(mainData)
     } catch (error) {

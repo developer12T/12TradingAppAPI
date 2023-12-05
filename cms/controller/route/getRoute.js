@@ -97,6 +97,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         }
         res.status(200).json(mainData)
     } catch (e) {
+        console.log(e)
         res.status(500).json({
             status:500,
             message:e.message
