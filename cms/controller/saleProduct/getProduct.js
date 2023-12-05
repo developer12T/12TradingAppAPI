@@ -74,19 +74,35 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
         // const sumPrice = 0
         var priceUnit = 0
 
+        // for (const list of data.unitList) {
+        //     if (list.id === req.body.unitId) {
+        //         priceUnit = list.pricePerUnitSale
+        //     }
+        // }
+        const listObj = []
         for (const list of data.unitList) {
             if (list.id === req.body.unitId) {
                 priceUnit = list.pricePerUnitSale
             }
+            const dataUnit = await Unit.findOne({idUnit: list.id})
+            const listData = {
+                id: list.id,
+                nameThai: dataUnit.nameThai,
+                nameEng: dataUnit.nameEng,
+                pricePerUnitSale: list.pricePerUnitSale,
+                pricePerUnitRefund: list.pricePerUnitRefund,
+                pricePerUnitChange: list.pricePerUnitChange,
+            }
+            listObj.push(listData)
+            // console.log(dataUnit)
         }
-
         const mainData = {
             id: data.id,
             name: data.name,
             unitId: req.body.unitId,
             qty: req.body.qty,
             sumPrice: parseFloat(priceUnit * req.body.qty).toFixed(2),
-            unitList: data.unitList
+            unitList: listObj
         }
         res.status(200).json(mainData)
     } catch (error) {
