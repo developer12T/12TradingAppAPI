@@ -7,8 +7,10 @@ require('dotenv').config()
 supervisor.use(express.json())
 supervisor.use(cors())
 
-const appNewStore = require('../controller/supervisor/newStore')
+const appNewStore = require('../controller/supervisor/order/newStore')
+const getNewStore = require('../controller/supervisor/order/getNewStore')
 
 supervisor.use('/approve',appNewStore)
+supervisor.use('/',getNewStore)
 
 module.exports = supervisor

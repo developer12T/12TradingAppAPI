@@ -82,6 +82,16 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
             createdDate: currentdateDash(),
             updatedDate: currentdateDash()
         }
+
+
+
+        const validation = await Store.findOne({latitude:latitude,longtitude:longtitude,lineId:lineId})
+        if(validation){
+
+        }else{
+
+        }
+
         // console.log(mainData)
         const newStore = new Store(mainData)
         await newStore.save()

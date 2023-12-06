@@ -16,7 +16,7 @@ const  lockData = process.env.TOKEN_KEY_ACCESS_LOCK
     // const
 
 process.env.ALGORITHYM_DECODED
-    
+
     console.log(concatenatedWord);
     const hashedPassword = await bcrypt.hash(concatenatedWord, 10)
     const passwordMatch = await bcrypt.compare(hashedPassword, lockData)

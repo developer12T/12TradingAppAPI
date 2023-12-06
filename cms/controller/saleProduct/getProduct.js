@@ -50,7 +50,7 @@ getProduct.post('/getProductDetail', async (req, res) => {
                 id: list.id,
                 nameThai: dataUnit.nameThai,
                 nameEng: dataUnit.nameEng,
-                pricePerUnitSale: list.pricePerUnitSale,
+                pricePerUnitSale: parseFloat(list.pricePerUnitSale).toFixed(2),
                 pricePerUnitRefund: list.pricePerUnitRefund,
                 pricePerUnitChange: list.pricePerUnitChange,
             }
@@ -82,7 +82,7 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                 id: list.id,
                 nameThai: dataUnit.nameThai,
                 nameEng: dataUnit.nameEng,
-                pricePerUnitSale: list.pricePerUnitSale,
+                pricePerUnitSale: parseFloat(list.pricePerUnitSale).toFixed(2),
                 pricePerUnitRefund: list.pricePerUnitRefund,
                 pricePerUnitChange: list.pricePerUnitChange,
             }
@@ -149,7 +149,7 @@ getProduct.post('/getProduct', async (req, res) => {
                         id: list.id,
                         nameThai: list.nameThai,
                         nameEng: list.nameEng,
-                        pricePerUnitSale: list.pricePerUnitSale,
+                        pricePerUnitSale: parseFloat(list.pricePerUnitSale).toFixed(2),
                         pricePerUnitRefund: list.pricePerUnitRefund,
                         pricePerUnitChange: list.pricePerUnitChange,
                     }))

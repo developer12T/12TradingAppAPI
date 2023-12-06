@@ -1,10 +1,10 @@
 const express = require('express')
-require('../../configs/connect')
+require('../../../configs/connect')
 const newStore = express.Router()
-const {Store} = require('../../models/store')
+const {Store} = require('../../../models/store')
 
 newStore.put('/newStore', async (req, res) => {
-    const {currentdateDash} = require('../../utils/utility.js')
+    const {currentdateDash} = require('../../../utils/utility.js')
     try {
         if (req.body.id !== undefined && req.body.id !== '') {
             if (req.body.appPerson !== undefined && req.body.appPerson !== '') {

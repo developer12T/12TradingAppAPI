@@ -8,6 +8,11 @@ const list = mongoose.Schema({
     discount:{type:Number},
     totalAmount:{type:Number}
 })
+const shipping = mongoose.Schema({
+    address:{type:String},
+    dateShip:{type:String},
+    note:{type:String}
+})
 
 const orderSchema = mongoose.Schema({
     idIndex:{type:Number},
@@ -19,7 +24,9 @@ const orderSchema = mongoose.Schema({
     taxID:{type:String},
     tel:{type:String},
     list:[list],
+    shipping:shipping,
     status:{type:String}
+
 })
 
 

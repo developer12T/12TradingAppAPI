@@ -116,7 +116,7 @@ addRoute.post('/visit', async (req, res) => {
                         'list.storeId': req.body.storeId
                     }, {
                         $push: {'list.$.listCheck': subData},
-                        $set: {'list.$.dateCheck': currentdateDash(), 'list.$.status': '2'}
+                        $set: {'list.$.dateCheck': currentdateDash(), 'list.$.status': '2','list.$.latitude': req.body.latitude,'list.$.longtitude': req.body.longtitude,}
                     })
                     responseMessage = 'เข้าเยี่ยมแบบขายสินค้า'
                 } else {
@@ -130,6 +130,7 @@ addRoute.post('/visit', async (req, res) => {
                         area: req.body.area,
                         'list.storeId': req.body.storeId
                     }, {$push: {'list.$.listCheck': subData}})
+
                     responseMessage = 'เข้าเยี่ยมแล้ว/เพิ่มรายการขายในเส้นทางสำเร็จ'
                 }
 
@@ -144,6 +145,7 @@ addRoute.post('/visit', async (req, res) => {
             additionalMessage: responseMessage,
         })
     } catch (e) {
+        console.log(e)
         res.status(500).json({
             status: 500,
             message: e.message

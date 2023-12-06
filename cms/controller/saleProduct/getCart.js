@@ -31,6 +31,7 @@ getCart.post('/getCartToShow', async (req, res) => {
             const list_obj = {
                 id: data.list[i].id,
                 name: data.list[i].name,
+                qtyText: data.list[i].qty+' '+ detail_product.nameThai,
                 qty: data.list[i].qty,
                 unitId:data.list[i].unitId,
                 unitTypeThai:detail_product.nameThai,
@@ -67,7 +68,7 @@ getCart.post('/getPreOrder', async (req, res) => {
         const { spltitString } = require('../../utils/utility')
         const idSplit = await spltitString(req.body.storeId)
         const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
-        const dataUser = await User.findOne({id:req.body.saleCode})
+        const dataUser = await User.findOne({saleCode:req.body.saleCode})
         const dataStore = await Store.findOne({idCharecter:idSplit.prefix ,idNumber:idSplit.subfix})
         const mainList = []
         for (const listdata of data.list){
@@ -77,6 +78,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                 name:listdata.name,
                 qty:listdata.qty,
                 nameQty:unitData.nameThai,
+                qtyText:listdata.qty + ' '+unitData.nameThai,
                 pricePerQty:parseFloat(listdata.pricePerUnitSale).toFixed(2),
                 discount:0,
                 totalAmount:parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
@@ -96,7 +98,9 @@ getCart.post('/getPreOrder', async (req, res) => {
             totalAmountNoVat:(data.totalPrice/1.07).toFixed (2),
             vat:(data.totalPrice-(data.totalPrice/1.07)).toFixed(2),
             summaryAmount:data.totalPrice.toFixed(2),
-            list:mainList
+            list:mainList,
+            shippingAddress:data.shipping.address,
+            shippingDate:data.shipping.dateShip
         }
         res.status(200).json(mainData)
     } catch (error) {

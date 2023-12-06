@@ -8,7 +8,7 @@ const {User} = require('../../models/user')
 const {NumberSeries} = require('../../models/numberSeries')
 const {Store} = require('../../models/store')
 const {History} = require('../../models/history')
-const {currentdateDash} = require('../../utils/utility')
+const {currentdateDash, spltitString} = require('../../utils/utility')
 const axios = require('axios')
 
 addOrder.post('/newOrder', async (req, res) => {
@@ -24,12 +24,14 @@ addOrder.post('/newOrder', async (req, res) => {
         const numberSeries = await NumberSeries.findOne({type: 'order'}, {'detail.available': 1, _id: 0})
         const availableNumber = numberSeries.detail.available
         const cartData = await Cart.findOne({area:req.body.area,storeId:req.body.storeId}, {'list._id': 0})
-        const userData = await User.findOne({'description.area': req.body.area}, {})
+        const userData = await User.findOne({area: req.body.area}, {})
+        const { spltitString } = require('../../utils/utility')
+        const idSplit = await spltitString(cartData.storeId)
         const storeData = await Store.findOne({
-            idCharecter: cartData.storeId.substring(0, 3),
-            idNumber: cartData.storeId.substring(3)
+            idCharecter: idSplit.prefix,
+            idNumber: idSplit.subfix
         }, {})
-
+        // console.log(cartData.shipping)
         const listProduct = []
 
         for (const data of cartData.list) {
@@ -56,7 +58,8 @@ addOrder.post('/newOrder', async (req, res) => {
             address: storeData.addressTitle + ' ' + storeData.distric + ' ' + storeData.subDistric + ' ' + storeData.province,
             taxID: storeData.taxId,
             tel: storeData.tel,
-            list: listProduct
+            list: listProduct,
+            shipping:cartData.shipping
         }
         await Order.create(mainData)
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
@@ -70,6 +73,8 @@ addOrder.post('/newOrder', async (req, res) => {
              area: req.body.area,
              storeId: req.body.storeId,
              idRoute: req.body.idRoute,
+             latitude:req.body.latitude,
+             longtitude:req.body.longtitude,
              note: 'ขายสินค้าแล้ว',
              orderId: mainData.id
              })

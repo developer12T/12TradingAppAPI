@@ -15,12 +15,11 @@ const newStore = (io) => {
 
         //find data
         const checkNewStore = async () => {
-            const data = await Store.find()
+            const data = await Store.find({'approve.status':'1'})
             io.emit('newStore', data)
         }
 
-        setInterval(checkNewStore, 5000)
+        setInterval(checkNewStore, 2000)
     })
 }
-
 module.exports = newStore
