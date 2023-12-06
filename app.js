@@ -23,10 +23,20 @@ app.use(cors())
 //     return `${currentdateDash()} ${level}:${meta.message}`
 // })
 
+// app.use('/cms', (req, res, next) => {
+//     if (req.path === '/authen/saleAuthen/login') {
+//         // console.log(req.path)
+//         next();
+//     } else {
+//         // ตรวจสอบ Token สำหรับเส้นทางอื่น ๆ ใน /cms
+//         auth(req, res, next);
+//     }
+// }, express.static('public'))
 
+const verifyToken = require('./cms/controller/authen/middleware/authen');
 const cms = require('./cms/index')
 
-app.use('/cms', cms)
+app.use('/cms',cms)
 
 
 // app.use(expressWinston.errorLogger({
