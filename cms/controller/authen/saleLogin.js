@@ -74,6 +74,7 @@ saleLogin.post('/login', async (req, res) => {
                     status: 201,
                     message: 'log in complete',
                     data: {
+                        userName:data.userName,
                         firstName:data.firstName,
                         surName:data.surName,
                         fullName:data.firstName + ' '+data.surName,

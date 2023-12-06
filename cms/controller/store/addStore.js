@@ -85,7 +85,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
 
 
-        const validation = await Store.findOne({latitude:latitude,longtitude:longtitude,lineId:lineId})
+        const validation = await Store.findOne({latitude:latitude,longtitude:longtitude})
         if(validation){
 
         }else{
