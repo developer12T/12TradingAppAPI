@@ -11,18 +11,12 @@ const verifyToken = async (req, res, next) => {
             message: 'Authorization token is missing or invalid'
         });
     }
-const  lockData = '$2b$10$X3Dl5ODg4Dk8U0S1kC6B1O9V8pGuMINV6CHfY01HuYadA3lVbi9mu'
+const  lockData = process.env.TOKEN_KEY_ACCESS_LOCK
     const token = authHeader.split(' ')[1]
     // const
-    const concatenatedWord = token.substring(10, 11) +
-        token.substring(12, 13) +
-        token.substring(33, 34) +
-        token.substring(46, 47) +
-        token.substring(53, 54) +
-        token.substring(65, 66) +
-        token.substring(69, 70) +
-        token.substring(70, 71);
 
+process.env.ALGORITHYM_DECODED
+    
     console.log(concatenatedWord);
     const hashedPassword = await bcrypt.hash(concatenatedWord, 10)
     const passwordMatch = await bcrypt.compare(hashedPassword, lockData)
