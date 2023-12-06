@@ -71,14 +71,7 @@ getProduct.post('/getProductDetail', async (req, res) => {
 getProduct.post('/getProductDetailUnit', async (req, res) => {
     try {
         const data = await Product.findOne({id: req.body.id}, {_id: 0, id: 1, name: 1, unitList: 1})
-        // const sumPrice = 0
         var priceUnit = 0
-
-        // for (const list of data.unitList) {
-        //     if (list.id === req.body.unitId) {
-        //         priceUnit = list.pricePerUnitSale
-        //     }
-        // }
         const listObj = []
         for (const list of data.unitList) {
             if (list.id === req.body.unitId) {
@@ -94,7 +87,6 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                 pricePerUnitChange: list.pricePerUnitChange,
             }
             listObj.push(listData)
-            // console.log(dataUnit)
         }
         const mainData = {
             id: data.id,

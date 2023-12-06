@@ -77,7 +77,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                 name:listdata.name,
                 qty:listdata.qty,
                 nameQty:unitData.nameThai,
-                pricePerQty:listdata.pricePerUnitSale,
+                pricePerQty:parseFloat(listdata.pricePerUnitSale).toFixed(2),
                 discount:0,
                 totalAmount:parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
             }

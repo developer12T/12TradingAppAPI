@@ -29,6 +29,7 @@ UserManage.post('/getDetail', async (req, res) => {
 
 UserManage.post('/addUser', async (req, res) => {
     try{
+        const hashedPassword = await bcrypt.hash(req.body.passWord, 10)
         const newUser = new User(req.body)
         await newUser.save()
         res.status(200).json(newUser)
