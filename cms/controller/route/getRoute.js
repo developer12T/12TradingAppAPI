@@ -14,8 +14,8 @@ getRoute.get('/getAll', async (req, res) => {
 
     } catch (e) {
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
@@ -33,7 +33,7 @@ getRoute.post('/getRouteMain', async (req, res) => {
             }
             const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
             var descript =
-                (statusCount < statusBlack && statusCount !== 0) ? 'processing':
+                (statusCount < statusBlack && statusCount !== 0) ? 'processing' :
                     statusCount === statusBlack ? 'success' :
                         statusBlack === 0 ? 'pending' :
                             'progress'
@@ -41,8 +41,8 @@ getRoute.post('/getRouteMain', async (req, res) => {
                 id: data[i].id,
                 day: 'Day ' + day,
                 route: i + 1,
-                statusNumber:statusCount+'/'+statusBlack,
-                statusText:descript
+                statusNumber: statusCount + '/' + statusBlack,
+                statusText: descript
             }
             showData.push(showData_obj)
             statusCount = 0
@@ -51,8 +51,8 @@ getRoute.post('/getRouteMain', async (req, res) => {
 
     } catch (e) {
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
@@ -71,10 +71,10 @@ getRoute.post('/getRouteDetail', async (req, res) => {
                 '_id': 0,
                 'list': {$elemMatch: {'storeId': data.list[i].storeId}}
             }).exec()
-            const statusText = await statusDes.findOne({type:'route'},{ 'list': {$elemMatch: {'id': status_store.list[0].status}}})
+            const statusText = await statusDes.findOne({type: 'route'}, {'list': {$elemMatch: {'id': status_store.list[0].status}}})
             // console.log()
             const showData_obj = {
-                idRoute:data.id,
+                idRoute: data.id,
                 id: data.list[i].storeId,
                 name: dataStore.name,
                 status: statusText.list[0].id,
@@ -89,25 +89,25 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         const status2Count = statusCounts['2'] || 0
 
         const mainData = {
-            targetGroup:showData.length,
-            progress:status0Count,
-            checkin:status1Count,
-            buy:status2Count,
-            list:showData
+            targetGroup: showData.length,
+            progress: status0Count,
+            checkin: status1Count,
+            buy: status2Count,
+            list: showData
         }
         res.status(200).json(mainData)
     } catch (e) {
         console.log(e)
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
 
 getRoute.post('/getRouteStore', async (req, res) => {
-    try{
-        const data = await Store.find({$and:[{zone: req.body.zone,'approve.status':1}]}, {
+    try {
+        const data = await Store.find({$and: [{zone: req.body.zone, 'approve.status': 1}]}, {
             _id: 0,
             idCharecter: 1,
             idNumber: 1,
@@ -120,10 +120,10 @@ getRoute.post('/getRouteStore', async (req, res) => {
             provinceCode: 1
         }).sort({idNumber: 1})
         res.status(200).json(data)
-    }catch (e) {
+    } catch (e) {
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
@@ -131,10 +131,10 @@ getRoute.post('/getRouteStore', async (req, res) => {
 getRoute.post('/getStoreDetail', async (req, res) => {
     try {
 
-            const data = await Route.findOne({id: req.body.idRoute}, {
-                '_id': 0,
-                'list': {$elemMatch: {'storeId': req.body.storeId}}
-            }).exec()
+        const data = await Route.findOne({id: req.body.idRoute}, {
+            '_id': 0,
+            'list': {$elemMatch: {'storeId': req.body.storeId}}
+        }).exec()
 
         const id = req.body.storeId;
 
@@ -149,14 +149,14 @@ getRoute.post('/getStoreDetail', async (req, res) => {
         const dataStore = await Store.findOne({
             idCharecter: idCharecter,
             idNumber: idNumber
-        },{})
+        }, {})
 
 
         const mainData = {
-            storeId:id,
-            name:dataStore.name,
-            address: dataStore.addressTitle +' '+ dataStore.distric+' '+ dataStore.subDistric+' '+dataStore.province,
-            list:data.list[0].listCheck.map(item => {
+            storeId: id,
+            name: dataStore.name,
+            address: dataStore.addressTitle + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
+            list: data.list[0].listCheck.map(item => {
                 const dateObject = new Date(item.date);
                 const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
                 return {
@@ -171,11 +171,52 @@ getRoute.post('/getStoreDetail', async (req, res) => {
         res.status(200).json(mainData)
     } catch (e) {
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
 
+
+getRoute.post('/checkDistance', async (req, res) => {
+    try {
+        const {checkDistanceLatLon, spltitString} = require('../../utils/utility')
+        const idSplit = await spltitString(req.body.storeId)
+        const dataStore = await Store.findOne({idCharecter: idSplit.prefix, idNumber: idSplit.subfix}, {
+            latitude: 1,
+            longtitude: 1,
+            _id:0
+        })
+        const distance = await checkDistanceLatLon(parseFloat(dataStore.latitude),parseFloat(dataStore.longtitude),parseFloat(req.body.latitude),parseFloat(req.body.longtitude),'K')
+        if(distance >= 1){
+            var dist = distance.toFixed(2) + ' km'
+        }else{
+            var dist = (distance*1000).toFixed(2) + ' m'
+        }
+
+        if(distance > 0.2){
+            var response = {
+                status: 202,
+                message:'Not Allowed Checkin',
+                additionalData:0,
+                distance:dist
+            }
+        }else{
+            var response = {
+                status: 201,
+                message:'Allowed Checkin',
+                additionalData:1,
+                distance:dist
+            }
+        }
+
+        res.status(200).json(response)
+    } catch (e) {
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
 
 module.exports = getRoute

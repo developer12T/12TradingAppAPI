@@ -20,7 +20,7 @@ const newStore = (io) => {
 
         //find data
         const checkNewStore = async (area) => {
-            socket
+            // console.log('area : '+area)
             // const data = await Store.find({area:area})
             // io.emit('newStore', data)
         }
