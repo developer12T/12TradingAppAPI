@@ -20,13 +20,6 @@ typeStore.post('/getAll', async(req, res) => {
 typeStore.post('/addTypeStore', async(req, res) => {
     const { currentdateDash } = require('../../utils/utility.js')
     try {
-        const id_count = await TypeStore.findOne().sort({ id: -1 }).exec()
-        if(id_count === null){
-            var idIncret = 1
-        }else{
-            var idIncret = id_count.id + 1
-        }
-        req.body.id = idIncret
         req.body.createDate = currentdateDash() 
         req.body.modifyDate = currentdateDash() 
         req.body.status = '1'
