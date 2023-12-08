@@ -155,7 +155,7 @@ getRoute.post('/getStoreDetail', async (req, res) => {
         const mainData = {
             storeId: id,
             name: dataStore.name,
-            address: dataStore.addressTitle + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
+            address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
             list: data.list[0].listCheck.map(item => {
                 const dateObject = new Date(item.date);
                 const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;

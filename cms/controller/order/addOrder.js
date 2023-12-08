@@ -52,7 +52,7 @@ addOrder.post('/newOrder', async (req, res) => {
             saleMan: userData.firstName + ' ' + userData.surName,
             storeId: storeData.idCharecter + storeData.idNumber,
             storeName: storeData.name,
-            address: storeData.addressTitle + ' ' + storeData.distric + ' ' + storeData.subDistric + ' ' + storeData.province,
+            address: storeData.address + ' ' + storeData.distric + ' ' + storeData.subDistric + ' ' + storeData.province,
             taxID: storeData.taxId,
             tel: storeData.tel,
             list: listProduct,

@@ -15,13 +15,14 @@ addStore.post('/addStore', async (req, res) => {
             tel,
             route,
             type,
-            addressTitle,
+            address,
             distric,
             subDistric,
             province,
             provinceCode,
             postCode,
             zone,
+            area,
             latitude,
             longtitude,
             lineId,
@@ -49,13 +50,14 @@ addStore.post('/addStore', async (req, res) => {
             tel,
             route,
             type,
-            addressTitle,
+            address,
             distric,
             subDistric,
             province,
             provinceCode,
             postCode,
             zone,
+            area,
             latitude,
             longtitude,
             lineId,
@@ -172,6 +174,24 @@ addStore.post('/addStore', async (req, res) => {
             }
         }
 
+        if(latLonCon === 1){
+            if(taxIdCon === 1){
+                if(nameCon === 1){
+                    if(addressCon === 1){
+
+                    }else {
+
+                    }
+                }else{
+
+                }
+            }else{
+
+            }
+        }else{
+
+        }
+
         if (storeReplace.length > 0) {
             res.status(200).json({
                 status: 201,
@@ -233,7 +253,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                 "tel": splitData.phone,
                 "route": "",
                 "type": splitData.customertype,
-                "addressTitle": splitData.addressid + ',' + splitData.address1 + ',' + splitData.address2 + ',' + splitData.address3,
+                "address": splitData.addressid + ',' + splitData.address1 + ',' + splitData.address2 + ',' + splitData.address3,
                 "distric": "",
                 "subDistric": "",
                 "province": "",

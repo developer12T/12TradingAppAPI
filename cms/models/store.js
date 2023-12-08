@@ -27,7 +27,7 @@ const mongoose = require('mongoose')
             tel:{type:String,require:true},
             route:{type:String,require: true},
             type:{type:String,require:true},
-            addressTitle:{type:String,require:true},
+            address:{type:String,require:true},
             distric:{type:String,require:true},
             subDistric:{type:String,require:true},
             province:{type:String,require:true},
