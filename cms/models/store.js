@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const moment = require('moment-timezone');
+
     const approveSchema = mongoose.Schema({
             status: { type: String, require: true}, // 0=รออนุมัติ ,1=อนุมัติ ,2=ไม่อนุมัติ
             dateSend:{ type:String,require:true},
@@ -52,7 +52,7 @@ const moment = require('moment-timezone');
 
     const typeStoreSchema = mongoose.Schema(
         {
-           id:{type:Number,require:true},
+           id:{type:String,require:true},
            name:{type:String,require:true},
            descript:{type:String,require:true},
            status:{type:String,require:true},

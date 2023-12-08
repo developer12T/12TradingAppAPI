@@ -1,29 +1,14 @@
 const express = require('express')
-const multer = require('multer')
-const fs = require('fs')
-const path = require('path')
 require('../../configs/connect')
 const addStore = express.Router()
 const {Store} = require('../../models/store')
-const {available, updateAvailable} = require("../../services/numberSeriers")
 const {currentdateDash, checkDistanceLatLon} = require("../../utils/utility");
-const axios = require('axios')
-const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
 const {statusDes} = require('../../models/statusDes')
 const _ = require('lodash')
-addStore.post('/addStore', upload.single('picture'), async (req, res) => {
+addStore.post('/addStore', async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')
-    const {currentdatena, currentdateDash, checkDistanceLatLon} = require('../../utils/utility.js')
+    const {currentdateDash, checkDistanceLatLon} = require('../../utils/utility.js')
     try {
-
-        // เพิ่มรูปภาพ
-        // const image = req.file
-        // const imageName = 'รหัสร้าน_' + currentdatena() + path.extname(image.originalname)
-        // const imagePath = path.join(__dirname, '../../public/image/store', imageName)
-        // fs.writeFileSync(imagePath, image.buffer)
-        // สิ้นสุด
-
         const {
             taxId,
             name,
@@ -90,7 +75,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
         const listLenght = []
         const dataLatLonStore = await Store.find({}, {
-           storeId:1,
+            storeId:1,
             latitude: 1,
             longtitude: 1,
             _id: 0,
@@ -104,9 +89,8 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
         for (const list of dataLatLonStore) {
             const dist = await checkDistanceLatLon(parseFloat(latitude), parseFloat(longtitude), parseFloat(list.latitude), parseFloat(list.longtitude), 'K')
             const dataSet = {
-                storeIdCh: list.idCharecter,
-                storeIdNo: list.idNumber,
-                distacne: dist
+                storeId: list.storeId,
+                distance: dist
             }
             listLenght.push(dataSet)
         }
@@ -143,8 +127,8 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
         const storeReplace = []
         for (const listData of listLenght) {
-            if (listData.distacne < 0.01) {
-                const StoreFind = await Store.findOne({storeId:listData.storeIdCh+ listData.storeIdNo})
+            if (listData.distance < 0.01) {
+                const StoreFind = await Store.findOne({storeId:listData.storeId})
                 const {list} = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
                 const matchedObject = _.find(list, {'id': StoreFind.status});
                 console.log(matchedObject)
@@ -153,7 +137,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
                     name: StoreFind.name,
                     status: matchedObject.id,
                     statusText: matchedObject.name,
-                    distacne: parseFloat(listData.distacne)
+                    distance: parseFloat(listData.distance)
                 }
                 storeReplace.push(dataStoreReplace)
                 latLonCon = 1
@@ -227,21 +211,9 @@ addStore.post('/addStoreFormM3', async (req, res) => {
         const {DATA_STORE_M3} = require('../../services/getStoreM3')
         const data = await DATA_STORE_M3(req.body.customertype)
         const showData = []
-        // console.log(data)
-        //     res.status(200).json({
-        //     status: 201, message: 'Store added successfully', additionalData: idAvailable
-        // })
+
 
         for (const splitData of data) {
-            //  const idC = splitData.customercode.substring(0, 3)
-            // const idN = splitData.customercodesubstring(3)
-
-            const regex = /([A-Za-z]+)(\d+)/;
-            const match = splitData.customercode.match(regex)
-            const result = {
-                prefix: match[1],
-                subfix: match[2]
-            }
             const poliAgree = {
                 status: req.body.policyConsent,
                 date: currentdateDash()
@@ -255,8 +227,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
             }
 
             const mainData = {
-                "idCharecter": result.prefix,
-                "idNumber": result.subfix,
+                "storeId": splitData.storeId,
                 "taxId": splitData.taxno,
                 "name": splitData.customername,
                 "tel": splitData.phone,
