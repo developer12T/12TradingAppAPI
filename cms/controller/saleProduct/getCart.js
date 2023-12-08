@@ -43,11 +43,11 @@ getCart.post('/getCartToShow', async (req, res) => {
         }
 
         const storeData = await Store.findOne({
-            idCharecter: req.body.storeId.substring(0, 2), idNumber: req.body.storeId.substring(2)
+            storeId: req.body.storeId
         }, {})
         const mainData = {
             idCart: data.id,
-            storeId: storeData.idCharecter + storeData.idNumber,
+            storeId: storeData.storeId,
             name: storeData.name,
             totalQuantity: data_arr.length,
             totalAmount:  parseFloat(totalAmount).toFixed(2),
@@ -65,11 +65,9 @@ getCart.post('/getCartToShow', async (req, res) => {
 
 getCart.post('/getPreOrder', async (req, res) => {
     try {
-        const { spltitString } = require('../../utils/utility')
-        const idSplit = await spltitString(req.body.storeId)
         const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
         const dataUser = await User.findOne({saleCode:req.body.saleCode})
-        const dataStore = await Store.findOne({idCharecter:idSplit.prefix ,idNumber:idSplit.subfix})
+        const dataStore = await Store.findOne({storeId:req.body.storeId})
         const mainList = []
         for (const listdata of data.list){
             const unitData = await Unit.findOne({idUnit:listdata.unitId})

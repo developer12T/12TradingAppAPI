@@ -15,8 +15,7 @@ getRefundProduct.post('/getPreRefund', async (req, res) => {
         const data = await CartRefund.findOne({area: req.body.area, storeId: req.body.storeId, type: 'refund'})
         const data2 = await CartRefund.findOne({area: req.body.area, storeId: req.body.storeId, type: 'change'})
         const dataStore = await Store.findOne({
-            idCharecter: req.body.storeId.substring(0, 3),
-            idNumber: req.body.storeId.substring(3)
+           storeId:req.body.storeId
         })
 
         const totalReturn = _.sumBy(data.list, 'sumPrice')

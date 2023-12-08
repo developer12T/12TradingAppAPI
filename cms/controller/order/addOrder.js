@@ -25,11 +25,8 @@ addOrder.post('/newOrder', async (req, res) => {
         const availableNumber = numberSeries.detail.available
         const cartData = await Cart.findOne({area:req.body.area,storeId:req.body.storeId}, {'list._id': 0})
         const userData = await User.findOne({area: req.body.area}, {})
-        const { spltitString } = require('../../utils/utility')
-        const idSplit = await spltitString(cartData.storeId)
         const storeData = await Store.findOne({
-            idCharecter: idSplit.prefix,
-            idNumber: idSplit.subfix
+            storeId: req.body.storeId
         }, {})
         // console.log(cartData.shipping)
         const listProduct = []
@@ -63,11 +60,8 @@ addOrder.post('/newOrder', async (req, res) => {
         }
         await Order.create(mainData)
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
-        const requestBody = {
 
-        }
 
-        // const fextcapi =  await axios.post(process.env.API_URL_IN_USE, requestBody)
         const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/visit', {
              case: 'sale',
              area: req.body.area,

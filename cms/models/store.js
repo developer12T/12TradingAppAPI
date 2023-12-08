@@ -21,8 +21,7 @@ const moment = require('moment-timezone');
 
     const storeSchema = mongoose.Schema(
         {
-            idCharecter: { type: String, require: true },
-            idNumber: { type: Number, require: true },
+            storeId: { type: String, require: true },
             name:{type:String, require:true},
             taxId:{type:String,require:true},
             tel:{type:String,require:true},

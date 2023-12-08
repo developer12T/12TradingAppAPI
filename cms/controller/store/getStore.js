@@ -31,9 +31,8 @@ getStore.post('/getStore', async (req, res) => {
         const mainData = []
         for (const list of data) {
             const newData = {
-                idCharecter: list.idCharecter,
-                idNumber: list.idNumber,
-                idStore: list.idCharecter + list.idNumber,
+                storeId: list.storeId,
+                idStore: list.storeId,
                 name: list.name,
                 route: list.route,
                 addressTitle: list.addressTitle,
@@ -63,8 +62,7 @@ getStore.post('/getStoreNew', async (req, res) => {
         // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
         const data = await Store.find({zone: req.body.zone}, {
             _id: 0,
-            idCharecter: 1,
-            idNumber: 1,
+            storeId: 1,
             name: 1,
             route: 1,
             'approve.status': 1
@@ -85,9 +83,8 @@ getStore.post('/getStoreNew', async (req, res) => {
         const mainData = []
         for (const list of data) {
             const newData = {
-                idCharecter: list.idCharecter,
-                idNumber: list.idNumber,
-                idStore: list.idCharecter + list.idNumber,
+                storeId: list.storeId,
+                idStore: list.storeId,
                 name: list.name,
                 route: list.route,
                 approved: list.approve.status
@@ -106,7 +103,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 getStore.post('/getDetail', async (req, res) => {
     try {
         if (req.body.idCharecter !== '' && req.body.idNumber !== undefined) {
-            const data = await Store.findOne({idCharecter: req.body.idCharecter, idNumber: req.body.idNumber},
+            const data = await Store.findOne({storeId: req.body.storeId},
                 {
                     _id: 0,
                     'approve._id': 0,
@@ -129,8 +126,7 @@ getStore.post('/getDetail', async (req, res) => {
             }
 
             const newData = {
-                idCharecter: data.idCharecter,
-                idNumber: data.idNumber,
+                storeId: data.storeId,
                 name: data.name,
                 taxId: data.taxId,
                 tel: data.tel,

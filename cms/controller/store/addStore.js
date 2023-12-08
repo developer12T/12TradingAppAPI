@@ -58,8 +58,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
             appPerson: ""
         }
         const mainData = {
-            idCharecter: numberSeries.zone,
-            idNumber: idAvailable,
+            storeId: numberSeries.zone+idAvailable,
             taxId,
             name,
             tel,
@@ -91,8 +90,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
         const listLenght = []
         const dataLatLonStore = await Store.find({}, {
-            idCharecter: 1,
-            idNumber: 1,
+           storeId:1,
             latitude: 1,
             longtitude: 1,
             _id: 0,
@@ -146,12 +144,12 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
         const storeReplace = []
         for (const listData of listLenght) {
             if (listData.distacne < 0.01) {
-                const StoreFind = await Store.findOne({idCharecter: listData.storeIdCh, idNumber: listData.storeIdNo})
+                const StoreFind = await Store.findOne({storeId:listData.storeIdCh+ listData.storeIdNo})
                 const {list} = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
                 const matchedObject = _.find(list, {'id': StoreFind.status});
                 console.log(matchedObject)
                 const dataStoreReplace = {
-                    id: StoreFind.idCharecter + StoreFind.idNumber,
+                    id: StoreFind.storeId,
                     name: StoreFind.name,
                     status: matchedObject.id,
                     statusText: matchedObject.name,
@@ -161,6 +159,7 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
                 latLonCon = 1
             }
         }
+
         for (const listStruc of dataLatLonStore) {
             if (!listStruc.taxId) {
                 taxIdCon = 0
