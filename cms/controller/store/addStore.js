@@ -84,13 +84,6 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
             updatedDate: currentdateDash()
         }
 
-        // const conditionStruc = {
-        //     latLon:1,
-        //     taxId:1,
-        //     name:1,
-        //     address:1
-        // }
-
         var latLonCon = 0
         var taxIdCon = 0
         var nameCon = 0
@@ -186,24 +179,21 @@ addStore.post('/addStore', upload.single('picture'), async (req, res) => {
 
             const similarityPercentage = compareStrings(text1, text2);
             console.log(`Similarity Percentage: ${similarityPercentage}%`);
-            if (similarityPercentage > 50){
+            if (similarityPercentage > 50) {
                 nameCon = 1
             }
 
-            const similarityPercentageAddress = compareStrings(listStruc.addressTitle+listStruc.distric+listStruc.subDistric+listStruc.province, addressTitle+distric+subDistric+province);
-            if(similarityPercentageAddress){
+            const similarityPercentageAddress = compareStrings(listStruc.addressTitle + listStruc.distric + listStruc.subDistric + listStruc.province, addressTitle + distric + subDistric + province);
+            if (similarityPercentageAddress > 90) {
                 addressCon = 1
             }
-
         }
 
-        // res.status(200).json({
-        //             status: 201, message: 'Store Replace', additionalData:
-        //         })
-        // console.log(storeReplace)
         if (storeReplace.length > 0) {
             res.status(200).json({
-                status: 201, message: 'Store Replace', additionalData: {latLonCon,taxIdCon,nameCon,addressCon,storeReplace}
+                status: 201,
+                message: 'Store Replace',
+                additionalData: {latLonCon, taxIdCon, nameCon, addressCon, storeReplace}
             })
         } else {
             const newStore = new Store(mainData)

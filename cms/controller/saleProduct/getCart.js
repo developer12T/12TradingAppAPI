@@ -43,7 +43,7 @@ getCart.post('/getCartToShow', async (req, res) => {
         }
 
         const storeData = await Store.findOne({
-            idCharecter: req.body.storeId.substring(0, 3), idNumber: req.body.storeId.substring(3)
+            idCharecter: req.body.storeId.substring(0, 2), idNumber: req.body.storeId.substring(2)
         }, {})
         const mainData = {
             idCart: data.id,

@@ -65,7 +65,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
             // console.log(data.list[i])
             const prefix = data.list[i].storeId.substring(0, 3)
             const numberPart = data.list[i].storeId.substring(3)
-            const dataStore = await Store.findOne({idCharecter: prefix, idNumber: numberPart}, {name: 1, _id: 0})
+            const dataStore = await Store.findOne({idCharecter: 'VE', idNumber: '22800229'}, {name: 1, _id: 0})
             // console.log(prefix)
             const status_store = await Route.findOne({id: req.body.id}, {
                 '_id': 0,
