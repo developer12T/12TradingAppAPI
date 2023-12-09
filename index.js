@@ -13,16 +13,16 @@ const newStore = require('./dataRealtime/cms/newStore')
 
 const server = http.createServer(app)
 
-const io = require("socket.io")(server, {
+const io = require('socket.io')(server, {
     cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST","PUT"]
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST','PUT']
     }
 })
 
 app.get('/testApi', (req, res) => {
   res.sendFile(__dirname + '/index.html')
-});
+})
 
 
 newStore(io)
@@ -30,7 +30,6 @@ connectDB().then(() => {
     server.listen(PORT, () => {
       console.log(`server start on port ${PORT}`)
     })
-  }) 
-  .catch((error) => {
+}).catch((error) => {
     console.error('Error connecting to the database:', error)
-  })
+})
