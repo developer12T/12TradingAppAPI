@@ -19,7 +19,7 @@ addRoute.post('/addRouteStore', async (req, res) => {
                 id: req.body.idRoute,
                 'list.storeId': storeList
             })
-            // console.log('dataStore ::' + dataStore)
+            // console.log('dataStore ::' + storeList)
             if (dataStore === null) {
                 const newData = {
                     storeId: storeList,
@@ -30,7 +30,6 @@ addRoute.post('/addRouteStore', async (req, res) => {
                     dateCheck: '****-**-**T**:**',
                     listCheck: []
                 }
-
                 await Route.updateOne({
                     id: req.body.idRoute,
                     area: req.body.area,

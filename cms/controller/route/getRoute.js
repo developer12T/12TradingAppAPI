@@ -63,9 +63,9 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         const showData = []
         for (let i = 0; i < data.list.length; i++) {
             // console.log(data.list[i])
-            const prefix = data.list[i].storeId.substring(0, 3)
-            const numberPart = data.list[i].storeId.substring(3)
-            const dataStore = await Store.findOne({idCharecter: 'VE', idNumber: '22800229'}, {name: 1, _id: 0})
+            const prefix = data.list[i].storeId.substring(0, 2)
+            const numberPart = data.list[i].storeId.substring(2)
+            const dataStore = await Store.findOne({storeId: data.list[i].storeId}, {name: 1, _id: 0})
             // console.log(prefix)
             const status_store = await Route.findOne({id: req.body.id}, {
                 '_id': 0,
@@ -107,10 +107,9 @@ getRoute.post('/getRouteDetail', async (req, res) => {
 
 getRoute.post('/getRouteStore', async (req, res) => {
     try {
-        const data = await Store.find({$and: [{zone: req.body.zone, 'approve.status': 1}]}, {
+        const data = await Store.find({$and: [{area: req.body.area, 'approve.status': 1}]}, {
             _id: 0,
-            idCharecter: 1,
-            idNumber: 1,
+            storeId: 1,
             name: 1,
             route: 1,
             addressTitle: 1,
@@ -118,7 +117,7 @@ getRoute.post('/getRouteStore', async (req, res) => {
             subDistric: 1,
             province: 1,
             provinceCode: 1
-        }).sort({idNumber: 1})
+        }).sort({storeId: 1})
         res.status(200).json(data)
     } catch (e) {
         res.status(500).json({
@@ -139,16 +138,15 @@ getRoute.post('/getStoreDetail', async (req, res) => {
         const id = req.body.storeId;
 
 
-        let idCharecterEnd = 0;
-        while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
-            idCharecterEnd++;
-        }
-        const idCharecter = id.substring(0, idCharecterEnd);
-        const idNumber = parseInt(id.substring(idCharecterEnd));
+        // let idCharecterEnd = 0;
+        // while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
+        //     idCharecterEnd++;
+        // }
+        // const idCharecter = id.substring(0, idCharecterEnd);
+        // const idNumber = parseInt(id.substring(idCharecterEnd));
 
         const dataStore = await Store.findOne({
-            idCharecter: idCharecter,
-            idNumber: idNumber
+            storeId: id
         }, {})
 
 

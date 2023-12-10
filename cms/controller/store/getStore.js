@@ -21,8 +21,9 @@ getStore.post('/getStore', async (req, res) => {
     try {
         const data = await Store.find({status: '1', 'approve.status': '2', area: req.body.area}, {
             _id: 0,
-            idCharecter: 1,
-            idNumber: 1,
+            // idCharecter: 1,
+            // idNumber: 1,
+            storeId: 1,
             name: 1,
             route: 1,
             addressTitle: 1,
@@ -34,7 +35,6 @@ getStore.post('/getStore', async (req, res) => {
         for (const list of data) {
             const newData = {
                 storeId: list.storeId,
-                idStore: list.storeId,
                 name: list.name,
                 route: list.route,
                 addressTitle: list.addressTitle,
