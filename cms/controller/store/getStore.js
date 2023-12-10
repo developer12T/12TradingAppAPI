@@ -62,7 +62,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 
         // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
         // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-        const data = await Store.find({zone: req.body.zone}, {
+        const data = await Store.find({area: req.body.area}, {
             _id: 0,
             storeId: 1,
             name: 1,
@@ -104,7 +104,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 
 getStore.post('/getDetail', async (req, res) => {
     try {
-        if (req.body.idCharecter !== '' && req.body.idNumber !== undefined) {
+        if (req.body.storeId !== '') {
             const data = await Store.findOne({storeId: req.body.storeId},
                 {
                     _id: 0,
