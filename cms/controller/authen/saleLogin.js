@@ -87,6 +87,8 @@ saleLogin.post('/login', async (req, res) => {
                         surName: data.surName,
                         fullName: data.firstName + ' ' + data.surName,
                         role: data.role,
+                        salecode: data.saleCode,
+                        salepayer: data.salePlayer,
                         area: data.area,
                         token: token
                     }
