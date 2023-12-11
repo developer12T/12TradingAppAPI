@@ -5,6 +5,7 @@ const {Product} = require('../../models/product')
 const {statusDes} = require("../../models/statusDes");
 const {log} = require("winston");
 const _ = require('lodash')
+const axios = require("axios");
 ProductManage.post('/getAll', async (req, res) => {
     try{
         const data = await Product.find({}, {_id: 0, __v: 0})
@@ -34,6 +35,21 @@ ProductManage.post('/addProduct', async (req, res) => {
         await newProduct.save()
         res.status(200).json({status:201,message:'Product Added Successfully'})
     } catch (e) {
+        console.log(e)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
+    }
+})
+
+ProductManage.post('/addProductFromM3', async (req, res) => {
+    try{
+        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_product.php')
+        // const data = await Product.find({}, {_id: 0, __v: 0})
+        res.status(200).json(response.data)
+
+    }catch (e) {
         console.log(e)
         res.status(500).json({
             status:500,

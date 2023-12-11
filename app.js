@@ -21,7 +21,17 @@ app.use(cors())
 
 const verifyToken = require('./cms/controller/authen/middleware/authen');
 const cms = require('./cms/index')
+const {ErrorLog} = require("./cms/models/errorLog");
+const {currentdateDash} = require("./cms/utils/utility");
+
+// app.use('/cms', async (req , res ,next)=>{
+//     // console.log(res)
+//     await ErrorLog.create({status:500,pathApi:req.originalUrl,dataBody:req.body,dateCreate:currentdateDash(),message:req.method})
+//     next();
+// },express.static('public'))
 
 app.use('/cms',cms)
+
+
 
 module.exports = app
