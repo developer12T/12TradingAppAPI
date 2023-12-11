@@ -11,9 +11,8 @@ const fs = require('fs')
 const multer = require('multer')
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
-const {Unit} = require("../../models/product");
-const crypto = require('crypto')
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt")
+const {updateAvailable} = require("../../services/numberSeriers");
 addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
     try{
         const { currentdatena} = require('../../utils/utility')
@@ -31,7 +30,6 @@ addStore.post('/addStore',  async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')
     const {currentdateDash, checkDistanceLatLon} = require('../../utils/utility.js')
     try {
-
         const {
             taxId,
             name,
@@ -106,7 +104,7 @@ addStore.post('/addStore',  async (req, res) => {
             _id: 0,
             taxId: 1,
             name: 1,
-            addressTitle: 1,
+            address: 1,
             distric: 1,
             subDistric: 1,
             province: 1,
@@ -154,7 +152,7 @@ addStore.post('/addStore',  async (req, res) => {
         for (const listData of listLenght) {
             if (listData.distance < 0.01) {
                 const StoreFind = await Store.findOne({storeId:listData.storeId})
-                const {list} = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
+                const { list } = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
                 const matchedObject = _.find(list, {'id': StoreFind.status});
                 console.log(matchedObject)
                 const dataStoreReplace = {
@@ -169,6 +167,8 @@ addStore.post('/addStore',  async (req, res) => {
             }
         }
 
+        const StoreTaxReplace = []
+
         for (const listStruc of dataLatLonStore) {
             if (!listStruc.taxId) {
                 taxIdCon = 0
@@ -178,6 +178,11 @@ addStore.post('/addStore',  async (req, res) => {
                     taxIdCon = 0
                 } else {
                     taxIdCon = 1
+                    var StoreTaxReplaceObj = {
+                        storeId:listStruc.storeId,
+                        storeName:listStruc.name
+                    }
+                    StoreTaxReplace.push(StoreTaxReplaceObj)
                 }
             }
 
@@ -191,7 +196,7 @@ addStore.post('/addStore',  async (req, res) => {
                 nameCon = 1
             }
 
-            const similarityPercentageAddress = compareStrings(listStruc.addressTitle + listStruc.distric + listStruc.subDistric + listStruc.province, addressTitle + distric + subDistric + province);
+            const similarityPercentageAddress = compareStrings(listStruc.address + listStruc.distric + listStruc.subDistric + listStruc.province, address+ distric + subDistric + province);
             if (similarityPercentageAddress > 90) {
                 addressCon = 1
             }
@@ -201,27 +206,25 @@ addStore.post('/addStore',  async (req, res) => {
             if(taxIdCon === 1){
                 if(nameCon === 1){
                     if(addressCon === 1){
-
+                        res.status(200).json({
+                            status: 201, message: 'Store Replace', additionalData: storeReplace
+                        })
                     }else {
-
+                        res.status(200).json({
+                            status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
+                        })
                     }
                 }else{
-
+                    res.status(200).json({
+                        status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
+                    })
                 }
             }else{
-
+                res.status(200).json({
+                    status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
+                })
             }
         }else{
-
-        }
-
-        if (storeReplace.length > 0) {
-            res.status(200).json({
-                status: 201,
-                message: 'Store Replace',
-                additionalData: {latLonCon, taxIdCon, nameCon, addressCon, storeReplace}
-            })
-        } else {
             const newStore = new Store(mainData)
             await newStore.save()
             await updateAvailable(numberSeries.type, numberSeries.zone, idAvailable + 1)
@@ -229,6 +232,16 @@ addStore.post('/addStore',  async (req, res) => {
                 status: 201, message: 'Store added successfully', additionalData: idAvailable
             })
         }
+
+        // if (storeReplace.length > 0) {
+        //     res.status(200).json({
+        //         status: 201,
+        //         message: 'Store Replace',
+        //         additionalData: {latLonCon, taxIdCon, nameCon, addressCon, storeReplace}
+        //     })
+        // } else {
+        //
+        // }
     } catch (error) {
         console.log(error)
         res.status(500).json({
