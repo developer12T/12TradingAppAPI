@@ -4,7 +4,8 @@ require('../../configs/connect')
 const addRoute = express.Router()
 const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
-const {currentdateDash} = require("../../utils/utility");
+const {currentdateDash, currentdateFormatYearMont} = require("../../utils/utility");
+const axios = require("axios");
 
 addRoute.post('/addRouteStore', async (req, res) => {
     try {
@@ -53,6 +54,55 @@ addRoute.post('/addRouteStore', async (req, res) => {
             message: 'Add Store to Route Successfully',
             additionalMessage
         })
+    } catch (e) {
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
+
+addRoute.post('/addRouteStoreFromM3', async (req, res) => {
+    try {
+        const dataFetch = await axios.post('http://58.181.206.159:9814/cms_api/cms_route.php')
+        const {currentdateFormatYearMont} = require('../../utils/utility')
+        const idRu = await Route.findOne({round: currentdateFormatYearMont()},).sort({id: -1})
+        if (!idRu) {
+            var idRoute = currentdateFormatYearMont() + 'R1'
+        } else {
+            var prefix = idRu.id.slice(0, 7)
+            var subfix = parseInt(idRu.id.slice(7)) + 1
+
+            var idRoute = prefix + subfix
+        }
+        const listStore = []
+
+        for (const storeList of dataFetch.data) {
+            for(const listSub of storeList.list){
+
+                // const dataStore = await Store.findOne({idCharecter:list.slice(3),idNumber:parseInt(list.slice(0,3))})
+                const newData = {
+                    storeId: listSub,
+                    latitude: '',
+                    longtitude: '',
+                    status: 0,
+                    note: '',
+                    dateCheck: '****-**-**T**:**',
+                    listCheck: []
+                }
+                listStore.push(newData)
+            }
+            const mainData = {
+                id: storeList.idRoute,
+                area: storeList.area,
+                round: currentdateFormatYearMont(),
+                list: listStore
+            }
+            await Route.create(mainData)
+            listStore.length = 0
+        }
+
+        res.status(200).json({status: 201, message: 'Add Route Successfully'})
     } catch (e) {
         res.status(500).json({
             status: 500,

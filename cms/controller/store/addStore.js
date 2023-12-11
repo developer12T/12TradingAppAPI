@@ -152,9 +152,9 @@ addStore.post('/addStore',  async (req, res) => {
         for (const listData of listLenght) {
             if (listData.distance < 0.01) {
                 const StoreFind = await Store.findOne({storeId:listData.storeId})
-                const { list } = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
-                const matchedObject = _.find(list, {'id': StoreFind.status});
-                console.log(matchedObject)
+                const  list  = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
+                const matchedObject = _.find(list.list, {'id': StoreFind.status});
+                console.log(list)
                 const dataStoreReplace = {
                     id: StoreFind.storeId,
                     name: StoreFind.name,
