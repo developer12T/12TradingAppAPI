@@ -5,10 +5,33 @@ const {Store} = require('../../models/store')
 const {currentdateDash, checkDistanceLatLon} = require("../../utils/utility");
 const {statusDes} = require('../../models/statusDes')
 const _ = require('lodash')
-addStore.post('/addStore', async (req, res) => {
+const axios = require("axios");
+const path = require('path')
+const fs = require('fs')
+const multer = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({storage: storage})
+const {Unit} = require("../../models/product");
+const crypto = require('crypto')
+const bcrypt = require("bcrypt");
+addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
+    try{
+        const { currentdatena} = require('../../utils/utility')
+        const image = req.file
+        const hashedPassword = await bcrypt.hash(image.originalname, 10)
+        const imageName = hashedPassword+'-DATE'+currentdatena() + path.extname(image.originalname)
+        const imagePath = path.join(__dirname, '../../public/image/store', imageName)
+        await fs.writeFileSync(imagePath, image.buffer)
+        res.status(200).json({status:201,message:'Added Image Successfully',additionalData:{ImageName:imageName,path:imagePath}})
+    }catch (error){
+        res.status(500).json({status:501,message:error.message})
+    }
+})
+addStore.post('/addStore',  async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')
     const {currentdateDash, checkDistanceLatLon} = require('../../utils/utility.js')
     try {
+
         const {
             taxId,
             name,
@@ -217,76 +240,59 @@ addStore.post('/addStore', async (req, res) => {
 
 addStore.post('/addStoreFormM3', async (req, res) => {
     try {
-        const cleanData = (data) => {
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const value = data[key]
-                    if (typeof value === 'string') {
-                        data[key] = value.replace(/\s/g, '')
-                    }
-                }
-            }
-            return data
-        };
-        const {DATA_STORE_M3} = require('../../services/getStoreM3')
-        const data = await DATA_STORE_M3(req.body.customertype)
-        const showData = []
-
-
-        for (const splitData of data) {
-            const poliAgree = {
-                status: req.body.policyConsent,
-                date: currentdateDash()
-            }
-            // console.log(idAvailable)
+        const dataArray = []
+        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer.php')
+        for(const splitData of response.data){
             const approveData = {
-                status: "2",
-                dateSend: currentdateDash(),
-                dateAction: currentdateDash(),
-                appPerson: "system"
-            }
-
+                        status: "2",
+                        dateSend: currentdateDash(),
+                        dateAction: currentdateDash(),
+                        appPerson: "system"
+                    }
+            const poliAgree = {
+                        status: 'Agree',
+                        date: currentdateDash()
+                    }
             const mainData = {
-                "storeId": splitData.storeId,
-                "taxId": splitData.taxno,
-                "name": splitData.customername,
-                "tel": splitData.phone,
-                "route": "",
-                "type": splitData.customertype,
-                "address": splitData.addressid + ',' + splitData.address1 + ',' + splitData.address2 + ',' + splitData.address3,
-                "distric": "",
-                "subDistric": "",
-                "province": "",
-                "provinceCode": "",
-                "postCode ": "",
-                "zone": splitData.zone,
-                "area": splitData.area,
-                "latitude": "",
-                "longtitude": "",
-                "lineId": "",
-                approve: approveData,
-                status: splitData.status,
-                policyConsent: poliAgree,
-                "imageList": [],
-                "note ": "",
-                createdDate: currentdateDash(),
-                updatedDate: currentdateDash()
-            }
-            showData.push(mainData)
+                        "storeId": splitData.storeId,
+                        "taxId": splitData.taxId,
+                        "name": splitData.name,
+                        "tel": splitData.tel,
+                        "route": splitData.route,
+                        "type": splitData.customertype,
+                        "address": splitData.address + ',' + splitData.subDistrict + ',' + splitData.district + ',' + splitData.province,
+                        "distric": splitData.district,
+                        "subDistric": splitData.subDistrict,
+                        "province": splitData.province,
+                        "provinceCode": splitData.provinceCode,
+                        "postCode ": "",
+                        "zone": splitData.zone,
+                        "area": splitData.area,
+                        "latitude": splitData.latitude,
+                        "longtitude": splitData.longtitude,
+                        "lineId": splitData.lineId,
+                        approve: approveData,
+                        status: '20',
+                        policyConsent: poliAgree,
+                        "imageList": [],
+                        "note ": "",
+                        createdDate: currentdateDash(),
+                        updatedDate: currentdateDash()
+                    }
+                    const StoreIf = await Store.findOne({storeId:splitData.storeId})
+                    if(!StoreIf){
+                        await Store.create(mainData)
+                    }else{
+                        const idStoreReplace = {
+                            idStore: splitData.storeId,
+                            name:splitData.name
+                        }
+                        dataArray.push(idStoreReplace)
+                    }
         }
-        for (const key in showData) {
-            if (showData.hasOwnProperty(key)) {
-                const value = showData[key]
-                if (typeof value === 'string') {
-                    showData[key] = value.replace(/\s/g, '')
-                }
-            }
-        }
+        res.status(200).json({status:201,message:'Store Added Succesfully',additionalData:dataArray})
 
-        const cleanedShowData = showData.map(item => cleanData(item))
-        await Store.create(cleanedShowData)
-        // res.json(data)
-        res.status(200).json({status: 201, message: 'Store Added Successfully'})
+        // res.status(200).json({status: 201, message: 'Store Added Successfully'})
     } catch (error) {
         console.log(error)
         res.status(500).json({

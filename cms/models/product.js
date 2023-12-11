@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const unitSchema = mongoose.Schema({
-    idUnit:{type:Number},
+    idUnit:{type:String},
     nameThai:{type:String},
     nameEng:{type:String},
     createDate:{type:String},
@@ -11,9 +11,9 @@ const unitSchema = mongoose.Schema({
 const unitList = mongoose.Schema({
     id: { type: String},
     name:{type:String},
-    pricePerUnitSale:{type:Number},
-    pricePerUnitRefund:{type:Number},
-    pricePerUnitChange:{type:Number}
+    pricePerUnitSale:{type:Number,toFixed: 2, default: 0.00},
+    pricePerUnitRefund:{type:Number,toFixed: 2, default: 0.00},
+    pricePerUnitChange:{type:Number,toFixed: 2, default: 0.00}
 })
 
 const productSchema = mongoose.Schema({
@@ -24,6 +24,8 @@ const productSchema = mongoose.Schema({
     brand:{type:String},
     size:{type:String},
     flavour:{type:String},
+    statusSale:{type:String},
+    statusWithdraw:{type:String},
     unitList:[unitList],
     status:{type:String}
 })

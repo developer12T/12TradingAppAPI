@@ -1,7 +1,8 @@
 const express = require('express')
 require('../../configs/connect')
-const {Unit} = require("../../models/product");
+const {Unit, Product} = require("../../models/product");
 const {currentdateDash} = require("../../utils/utility");
+const axios = require("axios");
 const unitManage = express.Router()
 
 
@@ -42,6 +43,24 @@ unitManage.post('/addUnit', async(req, res) => {
         req.body.updateDate = '****-**-**T**:**'
         await Unit.create(req.body)
         res.status(200).json({status:201,message:'Add New Unit Successfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status:500,
+            message:error.message
+        })
+    }
+})
+
+unitManage.post('/addUnitFromM3', async(req, res) => {
+    try {
+        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_unit.php')
+        for(let i = 0 ;i <  response.data.length ;i++){
+            response.data[i].createDate = currentdateDash()
+            response.data[i].updateDate = '****-**-**T**:**'
+            await Unit.create(response.data[i])
+        }
+        res.status(200).json(response.data)
     } catch (error) {
         console.log(error)
         res.status(500).json({
