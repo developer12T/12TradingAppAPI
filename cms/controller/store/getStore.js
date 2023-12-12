@@ -116,17 +116,17 @@ getStore.post('/getDetail', async (req, res) => {
                     createdAt: 0,
                     updatedAt: 0,
                     __v: 0
-                }).sort({idNumber: -1}).exec()
+                })
             const type = await TypeStore.findOne({id: data.type}, {})
-            if (data.approve.status === '1') {
-                data.approve.status = 'รออนุมัติ'
-                console.log(data.approve.status)
-            } else if (data.approve.status === '0') {
-                data.approve.status = 'ไม่อนุมัติ'
-                console.log(data.approve.status)
-            } else if (data.approve.status === '2') {
-                data.approve.status = 'อนุมัติแล้ว'
-                console.log(data.approve.status)
+            if (data.status === '1') {
+                data.status = 'รออนุมัติ'
+                console.log(data.status)
+            } else if (data.status === '0') {
+                data.status = 'ไม่อนุมัติ'
+                console.log(data.status)
+            } else if (data.status === '2') {
+                data.status = 'อนุมัติแล้ว'
+                console.log(data.status)
             }
 
             const newData = {
@@ -136,7 +136,7 @@ getStore.post('/getDetail', async (req, res) => {
                 tel: data.tel,
                 route: data.route,
                 type: type.name,
-                addressTitle: data.addressTitle,
+                address: data.address,
                 distric: data.distric,
                 subDistric: data.subDistric,
                 province: data.province,
@@ -146,7 +146,6 @@ getStore.post('/getDetail', async (req, res) => {
                 longtitude: data.longtitude,
                 lineId: data.lineId,
                 approve: {
-                    status: data.approve.status,
                     dateSend: data.approve.dateSend,
                     dateAction: data.approve.dateAction
                 },

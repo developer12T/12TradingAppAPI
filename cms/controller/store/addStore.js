@@ -257,7 +257,6 @@ addStore.post('/addStoreFormM3', async (req, res) => {
         const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer.php')
         for(const splitData of response.data){
             const approveData = {
-                        status: "2",
                         dateSend: currentdateDash(),
                         dateAction: currentdateDash(),
                         appPerson: "system"
@@ -272,7 +271,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                         "name": splitData.name,
                         "tel": splitData.tel,
                         "route": splitData.route,
-                        "type": splitData.customertype,
+                        "type": splitData.type,
                         "address": splitData.address + ',' + splitData.subDistrict + ',' + splitData.district + ',' + splitData.province,
                         "distric": splitData.district,
                         "subDistric": splitData.subDistrict,
