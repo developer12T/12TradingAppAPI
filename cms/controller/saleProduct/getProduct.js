@@ -6,31 +6,14 @@ const axios = require('axios')
 const _ = require('lodash')
 getProduct.post('/getProductAll', async (req, res) => {
     try {
-        const data = await Product.find({}, {_id: 0, id: 1, name: 1, unitList: 1})
-        let listObj = []
+        const data = await Product.find({}, {_id: 0, id: 1, name: 1})
         const responseData = []
         for (const main of data) {
-            for (const list of main.unitList) {
-                const dataUnit = await Unit.findOne({idUnit: list.id})
-                console.log(dataUnit)
-                const listData = {
-                    id: list.id,
-                    nameThai: dataUnit.nameThai,
-                    nameEng: dataUnit.nameEng,
-                    pricePerUnitSale: list.pricePerUnitSale,
-                    pricePerUnitRefund: list.pricePerUnitRefund,
-                    pricePerUnitChange: list.pricePerUnitChange,
-                }
-                listObj.push(listData)
-                // console.log(dataUnit)
-            }
             const mainData = {
                 id: main.id,
                 name: main.name,
-                unitList: listObj
             }
             responseData.push(mainData)
-            listObj = []
         }
 
         res.status(200).json(responseData)
