@@ -118,15 +118,15 @@ getStore.post('/getDetail', async (req, res) => {
                     __v: 0
                 })
             const type = await TypeStore.findOne({id: data.type}, {})
-            if (data.status === '1') {
+            if (data.status === '19') {
                 data.status = 'รออนุมัติ'
-                console.log(data.status)
-            } else if (data.status === '0') {
+
+            } else if (data.status === '99') {
                 data.status = 'ไม่อนุมัติ'
-                console.log(data.status)
-            } else if (data.status === '2') {
+
+            } else if (data.status === '20') {
                 data.status = 'อนุมัติแล้ว'
-                console.log(data.status)
+
             }
 
             const newData = {
@@ -142,6 +142,7 @@ getStore.post('/getDetail', async (req, res) => {
                 province: data.province,
                 provinceCode: data.provinceCode,
                 zone: data.zone,
+                area:data.area,
                 latitude: data.latitude,
                 longtitude: data.longtitude,
                 lineId: data.lineId,
@@ -153,12 +154,12 @@ getStore.post('/getDetail', async (req, res) => {
                 createdDate: data.createdDate,
                 updatedDate: data.updatedDate
             }
-            res.status(200).json({newData})
+            res.status(200).json(newData)
         } else {
             res.status(501).json({status: 501, message: 'require body!'})
         }
     } catch (error) {
-        await ErrorLog.create({status:res.statusText,pathApi:req.path,dateCreate:currentdateDash(),message:error.stack})
+        // await ErrorLog.create({status:res.statusText,pathApi:req.path,dateCreate:currentdateDash(),message:error.stack})
         res.status(500).json({
             status: 500,
             message: error.message

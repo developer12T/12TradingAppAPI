@@ -201,7 +201,6 @@ addStore.post('/addStore',  async (req, res) => {
                 addressCon = 1
             }
         }
-
         if(latLonCon === 1){
             if(taxIdCon === 1){
                 if(nameCon === 1){
