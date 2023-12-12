@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
     const approveSchema = mongoose.Schema({
-            status: { type: String, require: true}, // 0=รออนุมัติ ,1=อนุมัติ ,2=ไม่อนุมัติ
             dateSend:{ type:String,require:true},
             dateAction :{ type: String, require: true},
             appPerson:{ type: String, require: true}

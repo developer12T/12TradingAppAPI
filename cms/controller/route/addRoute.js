@@ -9,7 +9,6 @@ const axios = require("axios");
 
 addRoute.post('/addRouteStore', async (req, res) => {
     try {
-        const {currentdateFormatYearMont} = require('../../utils/utility')
 
         const additionalMessage = []
 

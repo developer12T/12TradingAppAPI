@@ -19,25 +19,27 @@ getStore.post('/getAll', async (req, res) => {
 
 getStore.post('/getStore', async (req, res) => {
     try {
-        const data = await Store.find({status: '1', 'approve.status': '2', area: req.body.area}, {
+        const data = await Store.find({ $or: [
+                { status: '20' },
+                { status: '90' },
+                { status: '99' }
+            ], area: req.body.area}, {
             _id: 0,
-            // idCharecter: 1,
-            // idNumber: 1,
             storeId: 1,
             name: 1,
             route: 1,
-            addressTitle: 1,
+            address: 1,
             distric: 1,
             subDistric: 1,
             province: 1
-        }).sort({idNumber: 1}).exec()
+        }).sort({idNumber: 1,route:1}).exec()
         const mainData = []
         for (const list of data) {
             const newData = {
                 storeId: list.storeId,
                 name: list.name,
                 route: list.route,
-                addressTitle: list.addressTitle,
+                address: list.address,
                 distric: list.distric,
                 subDistric: list.subDistric,
                 province: list.province
@@ -62,24 +64,24 @@ getStore.post('/getStoreNew', async (req, res) => {
 
         // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
         // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-        const data = await Store.find({area: req.body.area}, {
+        const data = await Store.find({area: req.body.area,status:'19'}, {
             _id: 0,
             storeId: 1,
             name: 1,
             route: 1,
-            'approve.status': 1
-        }).sort({idNumber: -1}).exec()
+            status:1
+        }).sort({idNumber: 1,route:1}).exec()
 
         data.forEach(item => {
-            if (item.approve.status === '1') {
-                item.approve.status = 'รออนุมัติ'
-                console.log(item.approve.status)
-            } else if (item.approve.status === '0') {
-                item.approve.status = 'ไม่อนุมัติ'
-                console.log(item.approve.status)
-            } else if (item.approve.status === '2') {
-                item.approve.status = 'อนุมัติแล้ว'
-                console.log(item.approve.status)
+            if (item.status === '19') {
+                item.status = 'รออนุมัติ'
+                console.log(item.status)
+            } else if (item.status === '99') {
+                item.status = 'ไม่อนุมัติ'
+                console.log(item.status)
+            } else if (item.status === '20') {
+                item.status = 'อนุมัติแล้ว'
+                console.log(item.status)
             }
         })
         const mainData = []
@@ -89,7 +91,7 @@ getStore.post('/getStoreNew', async (req, res) => {
                 idStore: list.storeId,
                 name: list.name,
                 route: list.route,
-                approved: list.approve.status
+                approved: list.status
             }
             mainData.push(newData)
 
@@ -98,7 +100,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json(error.message)
+        res.status(500).json({status:501,message:error.message})
     }
 })
 

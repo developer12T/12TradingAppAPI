@@ -25,7 +25,7 @@ getRoute.post('/getRouteMain', async (req, res) => {
         const showData = []
         let statusCount = 0
         let statusBlack = 0
-        const data = await Route.find({}, {_id: 0}).exec()
+        const data = await Route.find({area:req.body.area}, {_id: 0}).exec()
         for (let i = 0; i < data.length; i++) {
             for (let j = 0; j < data[i].list.length; j++) {
                 statusCount += (data[i].list[j].status === '1') ? 1 : 0;
@@ -107,12 +107,12 @@ getRoute.post('/getRouteDetail', async (req, res) => {
 
 getRoute.post('/getRouteStore', async (req, res) => {
     try {
-        const data = await Store.find({$and: [{area: req.body.area, 'approve.status': 1}]}, {
+        const data = await Store.find({$and: [{area: req.body.area, status: '20'}]}, {
             _id: 0,
             storeId: 1,
             name: 1,
             route: 1,
-            addressTitle: 1,
+            address: 1,
             distric: 1,
             subDistric: 1,
             province: 1,
