@@ -116,17 +116,17 @@ getStore.post('/getDetail', async (req, res) => {
                     createdAt: 0,
                     updatedAt: 0,
                     __v: 0
-                }).sort({idNumber: -1}).exec()
+                })
             const type = await TypeStore.findOne({id: data.type}, {})
-            if (data.approve.status === '1') {
-                data.approve.status = 'รออนุมัติ'
-                console.log(data.approve.status)
-            } else if (data.approve.status === '0') {
-                data.approve.status = 'ไม่อนุมัติ'
-                console.log(data.approve.status)
-            } else if (data.approve.status === '2') {
-                data.approve.status = 'อนุมัติแล้ว'
-                console.log(data.approve.status)
+            if (data.status === '19') {
+                data.status = 'รออนุมัติ'
+
+            } else if (data.status === '99') {
+                data.status = 'ไม่อนุมัติ'
+
+            } else if (data.status === '20') {
+                data.status = 'อนุมัติแล้ว'
+
             }
 
             const newData = {
@@ -136,17 +136,17 @@ getStore.post('/getDetail', async (req, res) => {
                 tel: data.tel,
                 route: data.route,
                 type: type.name,
-                addressTitle: data.addressTitle,
+                address: data.address,
                 distric: data.distric,
                 subDistric: data.subDistric,
                 province: data.province,
                 provinceCode: data.provinceCode,
                 zone: data.zone,
+                area:data.area,
                 latitude: data.latitude,
                 longtitude: data.longtitude,
                 lineId: data.lineId,
                 approve: {
-                    status: data.approve.status,
                     dateSend: data.approve.dateSend,
                     dateAction: data.approve.dateAction
                 },
@@ -154,12 +154,11 @@ getStore.post('/getDetail', async (req, res) => {
                 createdDate: data.createdDate,
                 updatedDate: data.updatedDate
             }
-            res.status(200).json({newData})
+            res.status(200).json(newData)
         } else {
             res.status(501).json({status: 501, message: 'require body!'})
         }
     } catch (error) {
-        await ErrorLog.create({status:res.statusText,pathApi:req.path,dateCreate:currentdateDash(),message:error.stack})
         res.status(500).json({
             status: 500,
             message: error.message

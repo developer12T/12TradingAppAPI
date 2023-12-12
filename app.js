@@ -30,8 +30,29 @@ const {currentdateDash} = require("./cms/utils/utility");
 //     next();
 // },express.static('public'))
 
+// app.use('/cms', async (req, res, next) => {
+//     const originalSend = res.send
+//     res.send = function (body) {
+//         const logData = {
+//             status: res.statusCode,
+//             pathApi: req.originalUrl,
+//             dataBody: req.body,
+//             dateCreate: currentdateDash(),
+//             message: res.statusMessage,
+//             method: req.method
+//         }
+//         ErrorLog.create(logData)
+//             .then(() => {
+//                 originalSend.call(res, body)
+//             })
+//             .catch(error => {
+//                 console.error('Error logging:', error)
+//                 originalSend.call(res, body)
+//             })
+//     }
+//     next()
+// }, express.static('public'))
+
 app.use('/cms',cms)
-
-
 
 module.exports = app

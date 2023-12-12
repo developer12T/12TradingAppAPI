@@ -201,7 +201,6 @@ addStore.post('/addStore',  async (req, res) => {
                 addressCon = 1
             }
         }
-
         if(latLonCon === 1){
             if(taxIdCon === 1){
                 if(nameCon === 1){
@@ -257,7 +256,6 @@ addStore.post('/addStoreFormM3', async (req, res) => {
         const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer.php')
         for(const splitData of response.data){
             const approveData = {
-                        status: "2",
                         dateSend: currentdateDash(),
                         dateAction: currentdateDash(),
                         appPerson: "system"
@@ -272,7 +270,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                         "name": splitData.name,
                         "tel": splitData.tel,
                         "route": splitData.route,
-                        "type": splitData.customertype,
+                        "type": splitData.type,
                         "address": splitData.address + ',' + splitData.subDistrict + ',' + splitData.district + ',' + splitData.province,
                         "distric": splitData.district,
                         "subDistric": splitData.subDistrict,
@@ -315,5 +313,16 @@ addStore.post('/addStoreFormM3', async (req, res) => {
     }
 })
 
+addStore.put('/updateStore', async (req, res) => {
+    try {
+        res.status(200).json({status:201,message:'Store Added Succesfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
 
 module.exports = addStore
