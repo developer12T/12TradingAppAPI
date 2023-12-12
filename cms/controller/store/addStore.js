@@ -313,5 +313,16 @@ addStore.post('/addStoreFormM3', async (req, res) => {
     }
 })
 
+addStore.put('/updateStore', async (req, res) => {
+    try {
+        res.status(200).json({status:201,message:'Store Added Succesfully'})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
 
 module.exports = addStore

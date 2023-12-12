@@ -159,7 +159,6 @@ getStore.post('/getDetail', async (req, res) => {
             res.status(501).json({status: 501, message: 'require body!'})
         }
     } catch (error) {
-        // await ErrorLog.create({status:res.statusText,pathApi:req.path,dateCreate:currentdateDash(),message:error.stack})
         res.status(500).json({
             status: 500,
             message: error.message

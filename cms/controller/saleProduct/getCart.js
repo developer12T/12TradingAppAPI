@@ -24,6 +24,7 @@ getCart.post('/getCartToShow', async (req, res) => {
     try {
         var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
+        console.log(data)
         const data_arr = []
         for (let i = 0; i < data.list.length; i++) {
 
