@@ -14,6 +14,7 @@ const unitList = mongoose.Schema({
     pricePerUnitSale:{type:Number,toFixed: 2, default: 0.00},
     pricePerUnitRefund:{type:Number,toFixed: 2, default: 0.00},
     pricePerUnitChange:{type:Number,toFixed: 2, default: 0.00}
+    //add unit factUnit
 })
 
 const productSchema = mongoose.Schema({
@@ -29,7 +30,6 @@ const productSchema = mongoose.Schema({
     unitList:[unitList],
     status:{type:String}
 })
-
 
 const Product = mongoose.model('Product',productSchema)
 const Unit = mongoose.model('Unit',unitSchema)

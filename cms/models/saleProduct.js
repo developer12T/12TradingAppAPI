@@ -23,6 +23,5 @@ const cartSchema = mongoose.Schema({
     shipping:shipping
 })
 
-
 const Cart = mongoose.model('Cart',cartSchema)
 module.exports = { Cart }

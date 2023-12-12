@@ -15,7 +15,6 @@ getProduct.post('/getProductAll', async (req, res) => {
             }
             responseData.push(mainData)
         }
-
         res.status(200).json(responseData)
     } catch (error) {
         console.log(error)

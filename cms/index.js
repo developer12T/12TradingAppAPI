@@ -9,6 +9,7 @@ const saleProduct = require('./routes/saleProduct')
 const authen = require('./routes/authen')
 const order = require('./routes/order')
 const refund = require('./routes/refund')
+const promotion = require('./routes/promotion')
 
 cms.use('/store',store)
 cms.use('/route',route)
@@ -18,5 +19,6 @@ cms.use('/saleProduct',saleProduct)
 cms.use('/authen',authen)
 cms.use('/order',order)
 cms.use('/refund',refund)
+cms.use('/promotion',promotion)
 
 module.exports = cms
