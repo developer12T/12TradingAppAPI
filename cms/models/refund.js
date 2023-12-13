@@ -45,9 +45,9 @@ const listRefundCart = mongoose.Schema({
     id: String,
     name: String,
     unitId: String,
-    priceUnit: Number,
+    priceUnit: {type:Number,toFixed: 2},
     qty: Number,
-    sumPrice:Number,
+    sumPrice:{type:Number,toFixed: 2},
     productCondition:String,
 })
 
