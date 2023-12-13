@@ -43,5 +43,23 @@ const promotionSchema = new Schema({
     discount: [discount]
 })
 
+const proTypeSchema = new Schema({
+    name: {type: String},
+    description: {type: String},
+    createDate:String,
+    updateDate:String
+})
+
+const couponSchema = new Schema({
+    name: {type: String},
+    code:String,
+    description: {type: String},
+    createDate:String,
+    updateDate:String
+})
+
+
 const Promotion = mongoose.model('Promotion', promotionSchema)
-module.exports = {Promotion}
+const ProType = mongoose.model('ProType', proTypeSchema)
+const Coupon = mongoose.model('Coupon', couponSchema)
+module.exports = { Promotion,ProType,Coupon }

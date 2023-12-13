@@ -15,6 +15,8 @@ const ProductManage = require('../controller/manage/product')
 const UnitManage = require('../controller/manage/unit')
 const statusDesManage = require('../controller/manage/statusDes')
 const policyManage = require('../controller/manage/policy')
+const ProTypeManage = require('../controller/manage/proType')
+const CouponManage = require('../controller/manage/coupon')
 
 manage.use('/TypeStore',TypeStore)
 manage.use('/NumberSeries',numberSeries)
@@ -24,5 +26,7 @@ manage.use('/Product',ProductManage)
 manage.use('/Unit',UnitManage)
 manage.use('/StatusDes',statusDesManage)
 manage.use('/Policy',policyManage)
+manage.use('/ProType',ProTypeManage)
+manage.use('/Coupon',CouponManage)
 
 module.exports = manage

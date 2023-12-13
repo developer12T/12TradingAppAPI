@@ -4,7 +4,7 @@ const {Promotion} = require("../../models/promotion");
 const addPromotion = express.Router()
 addPromotion.post('/addPromotion', async (req, res) => {
     try {
-        const data = await Promotion.find()
+        const data = await Promotion.create(req.body)
 
         res.status(200).json({
             status: 201,
@@ -19,6 +19,5 @@ addPromotion.post('/addPromotion', async (req, res) => {
         })
     }
 })
-
 
 module.exports = addPromotion
