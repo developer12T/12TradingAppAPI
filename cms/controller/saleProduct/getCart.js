@@ -3,7 +3,7 @@ const express = require('express')
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
 const {Store} = require("../../models/store")
-const {Unit} = require("../../models/product");
+const {Unit, Product} = require("../../models/product");
 const {PreOrder} = require("../../models/order");
 const {User} = require("../../models/user");
 
@@ -24,7 +24,7 @@ getCart.post('/getCartToShow', async (req, res) => {
     try {
         var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
-        console.log(data)
+        // console.log(data)
         const data_arr = []
         for (let i = 0; i < data.list.length; i++) {
             
@@ -102,6 +102,36 @@ getCart.post('/getPreOrder', async (req, res) => {
             shippingDate:data.shipping.dateShip
         }
         res.status(200).json(mainData)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+getCart.post('/getSummaryCart', async (req, res) => {
+    try {
+        const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
+        const dataStore = await Store.findOne({area: req.body.area,storeId:req.body.storeId},{__v:0,_id:0})
+        const listDetail = []
+        for(const list of data.list){
+            const dataProduct = await Product.findOne({id:list.id})
+            const product_obj = {
+                id:list.id,
+                group:dataProduct.group,
+                brand:dataProduct.brand,
+                size:dataProduct.size,
+                flavour:dataProduct.flavour
+            }
+            listDetail.push(product_obj)
+            console.log(dataProduct)
+        }
+        // const summaryData = {
+        //     group:
+        // }
+        res.status(200).json({typeStore:dataStore.type,data:listDetail})
     } catch (error) {
         console.log(error)
         res.status(500).json({

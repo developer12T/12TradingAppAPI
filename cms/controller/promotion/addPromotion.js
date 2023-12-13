@@ -5,11 +5,9 @@ const addPromotion = express.Router()
 addPromotion.post('/addPromotion', async (req, res) => {
     try {
         const data = await Promotion.create(req.body)
-
         res.status(200).json({
             status: 201,
-            message: 'addPromotion',
-            additionalData:data
+            message: 'AddPromotion Successfully'
         })
     } catch (e) {
         console.log(e)
