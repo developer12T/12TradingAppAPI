@@ -89,24 +89,24 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
 
 getProduct.get('/getDataOption', async (req, res) => {
     try {
-        const data = await Product.find({}, {_id: 0, brand: 1, size: 1, flavour: 1, type: 1})
-        const type = []
+        const data = await Product.find({}, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
+        const group = []
         const brand = []
         const size = []
         const flavour = []
         for (const subData of data) {
-            type.push(subData.type)
+            group.push(subData.group)
             brand.push(subData.brand)
             size.push(subData.size)
             flavour.push(subData.flavour)
         }
-        const op1 = _.uniq(type)
+        const op1 = _.uniq(group)
         const op2 = _.uniq(brand)
         const op3 = _.uniq(size)
         const op4 = _.uniq(flavour)
 
         const mainData = {
-            type: op1,
+            group: op1,
             brand: op2,
             size: op3,
             flavour: op4
