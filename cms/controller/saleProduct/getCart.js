@@ -126,11 +126,13 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 flavour:dataProduct.flavour
             }
             listDetail.push(product_obj)
-            console.log(dataProduct)
+            // console.log(dataProduct)
         }
+
         // const summaryData = {
         //     group:
         // }
+        
         res.status(200).json({typeStore:dataStore.type,data:listDetail})
     } catch (error) {
         console.log(error)
