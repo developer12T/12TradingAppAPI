@@ -36,15 +36,24 @@ addCart.post('/addProductToCart', async (req, res) => {
                 }else{
                     console.log('พบ unit id ที่เหมือนกัน'+checkStoreListProduct)
                     const checkStoreListProductUnit  = await Cart.findOne(
-                        {'list.unitId': req.body.list.unitId},
+                        {list:{
+                                $elemMatch:{
+                                    id:req.body.list.id,
+                                    unitId:req.body.list.unitId
+                                }
+                            } },
                         {'list.$': 1} // Projection to select only the matching element in the 'list' array
                     )
                     // console.log(checkStoreListProductUnit.list[0].qty)
                     await Cart.updateOne({
                         area: req.body.area,
                         storeId: req.body.storeId,
-                        'list.id': req.body.list.id,
-                        'list.unitId': req.body.list.unitId
+                        list:{
+                            $elemMatch:{
+                                id:req.body.list.id,
+                                unitId:req.body.list.unitId
+                            }
+                        }
                     }, {
                         $set: {
                             'list.$.qty': checkStoreListProductUnit.list[0].qty + req.body.list.qty,
