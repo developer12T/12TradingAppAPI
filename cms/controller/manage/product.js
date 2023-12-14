@@ -1,20 +1,20 @@
 const express = require('express')
 require('../../configs/connect')
 const ProductManage = express.Router()
-const {Product} = require('../../models/product')
+const {Product, Unit} = require('../../models/product')
 const {statusDes} = require("../../models/statusDes");
 const {log} = require("winston");
 const _ = require('lodash')
 const axios = require("axios");
 const {Store} = require("../../models/store");
 ProductManage.post('/getAll', async (req, res) => {
-    try{
+    try {
         const data = await Product.find({}, {_id: 0, __v: 0})
         res.status(200).json(data)
-    }catch (e) {
+    } catch (e) {
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
@@ -30,25 +30,26 @@ ProductManage.post('/addProduct', async (req, res) => {
         req.body.idIndex = idIndex
         req.body.status = 1
 
-        const sortedUnitList = _.orderBy( req.body.unitList, ['pricePerUnitSale'], ['desc'])
+        const sortedUnitList = _.orderBy(req.body.unitList, ['pricePerUnitSale'], ['desc'])
         console.log(sortedUnitList)
         const newProduct = new Product(req.body)
         await newProduct.save()
-        res.status(200).json({status:201,message:'Product Added Successfully'})
+        res.status(200).json({status: 201, message: 'Product Added Successfully'})
     } catch (e) {
         console.log(e)
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
 
 ProductManage.post('/addProductFromM3', async (req, res) => {
-    try{
+    try {
         const dataArray = []
+        const listTypeUnitConvert = []
         const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_product.php')
-        for(let i = 0 ;i <  response.data.length ;i++){
+        for (let i = 0; i < response.data.length; i++) {
             const idInsert = await Product.findOne({}, {_id: 0, idIndex: 1}).sort({idIndex: -1})
             if (idInsert === null) {
                 var idIndex = 1
@@ -57,39 +58,71 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
             }
             response.data[i].idIndex = idIndex
             response.data[i].status = 1
-            const StoreIf = await Product.findOne({id:response.data[i].id})
-            if(!StoreIf){
+            const StoreIf = await Product.findOne({id: response.data[i].id})
+            if (!StoreIf) {
+                if (response.data[i].type === 'พรีเมียม') {
+                    for(const listUnit of response.data[i].unitList){
+                        const dataUnitList = await Unit.findOne({idUnit:listUnit.id})
+                        const convertFact_obj = {
+                            unitId: listUnit.id,
+                            unitName: dataUnitList.nameEng,
+                            factor: 1,
+                            description:` 1 ${dataUnitList.nameEng} = 1 `
+                        }
+                        listTypeUnitConvert.push(convertFact_obj)
+                    }
+                    response.data[i].convertFact = listTypeUnitConvert
+                } else {
+                    const responseData = await axios.post('http://192.168.2.97:8383/M3API/ItemManage/Item/getItemConvertItemcode', {
+                        itcode: response.data[i].id
+                    })
+                    for (const listResUnit of responseData.data[0].type) {
+                        const getUnitId = await Unit.findOne({nameEng: listResUnit.unit})
+                        const convertFact_obj = {
+                            unitId: getUnitId.idUnit,
+                            unitName: getUnitId.nameEng,
+                            factor: listResUnit.factor,
+                            description:` 1 ${getUnitId.nameEng} = ${listResUnit.factor}`
+                        }
+                        listTypeUnitConvert.push(convertFact_obj)
+                    }
+
+                    response.data[i].convertFact = listTypeUnitConvert
+                }
+                // console.log(listTypeUnitConvert)
+
+                // console.log(response.data[i].unitList)
                 await Product.create(response.data[i])
-            }else{
+                listTypeUnitConvert.length = 0
+            } else {
                 const idProductReplace = {
                     idStore: response.data[i].storeId,
-                    name:response.data[i].name
+                    name: response.data[i].name
                 }
                 dataArray.push(idProductReplace)
             }
-
         }
         // const data = await Product.find({}, {_id: 0, __v: 0})
-        res.status(200).json({status:201,message:'Product Added Succesfully',additionalData:dataArray})
+        res.status(200).json({status: 201, message: 'Product Added Succesfully', additionalData: dataArray})
 
-    }catch (e) {
+    } catch (e) {
         console.log(e)
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
 
 ProductManage.put('/updateProduct', async (req, res) => {
-    try{
+    try {
         const data = await Product.updateOne({id: req.body.id}, {$set: req.body})
-        res.status(200).json({status:201,message:'update '+data.modifiedCount+' row complete'})
-    }catch (error){
+        res.status(200).json({status: 201, message: 'update ' + data.modifiedCount + ' row complete'})
+    } catch (error) {
         console.log(error)
         res.status(500).json({
-            status:500,
-            message:error.message
+            status: 500,
+            message: error.message
         })
     }
 })

@@ -27,17 +27,17 @@ getCart.post('/getCartToShow', async (req, res) => {
         // console.log(data)
         const data_arr = []
         for (let i = 0; i < data.list.length; i++) {
-            
-            const detail_product = await Unit.findOne({idUnit:data.list[i].unitId})
+
+            const detail_product = await Unit.findOne({idUnit: data.list[i].unitId})
             const list_obj = {
                 id: data.list[i].id,
                 name: data.list[i].name,
-                qtyText: data.list[i].qty+' '+ detail_product.nameThai,
+                qtyText: data.list[i].qty + ' ' + detail_product.nameThai,
                 qty: data.list[i].qty,
-                unitId:data.list[i].unitId,
-                unitTypeThai:detail_product.nameThai,
-                unitTypeEng:detail_product.nameEng,
-                summaryPrice:  parseFloat(data.list[i].pricePerUnitSale * data.list[i].qty).toFixed(2)
+                unitId: data.list[i].unitId,
+                unitTypeThai: detail_product.nameThai,
+                unitTypeEng: detail_product.nameEng,
+                summaryPrice: parseFloat(data.list[i].pricePerUnitSale * data.list[i].qty).toFixed(2)
             }
             totalAmount = totalAmount + (data.list[i].pricePerUnitSale * data.list[i].qty)
             data_arr.push(list_obj)
@@ -51,7 +51,7 @@ getCart.post('/getCartToShow', async (req, res) => {
             storeId: storeData.storeId,
             name: storeData.name,
             totalQuantity: data_arr.length,
-            totalAmount:  parseFloat(totalAmount).toFixed(2),
+            totalAmount: parseFloat(totalAmount).toFixed(2),
             list: data_arr
         }
         res.status(200).json(mainData)
@@ -66,40 +66,44 @@ getCart.post('/getCartToShow', async (req, res) => {
 
 getCart.post('/getPreOrder', async (req, res) => {
     try {
-        const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
-        const dataUser = await User.findOne({saleCode:req.body.saleCode})
-        const dataStore = await Store.findOne({storeId:req.body.storeId})
+        const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId}, {
+            'list._id': 0,
+            __v: 0,
+            _id: 0
+        })
+        const dataUser = await User.findOne({saleCode: req.body.saleCode})
+        const dataStore = await Store.findOne({storeId: req.body.storeId})
         const mainList = []
-        for (const listdata of data.list){
-            const unitData = await Unit.findOne({idUnit:listdata.unitId})
+        for (const listdata of data.list) {
+            const unitData = await Unit.findOne({idUnit: listdata.unitId})
             const dataList = {
                 id: listdata.id,
-                name:listdata.name,
-                qty:listdata.qty,
-                nameQty:unitData.nameThai,
-                qtyText:listdata.qty + ' '+unitData.nameThai,
-                pricePerQty:parseFloat(listdata.pricePerUnitSale).toFixed(2),
-                discount:0,
-                totalAmount:parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
+                name: listdata.name,
+                qty: listdata.qty,
+                nameQty: unitData.nameThai,
+                qtyText: listdata.qty + ' ' + unitData.nameThai,
+                pricePerQty: parseFloat(listdata.pricePerUnitSale).toFixed(2),
+                discount: 0,
+                totalAmount: parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
             }
             mainList.push(dataList)
         }
 
         const mainData = {
-            saleMan: dataUser.firstName + ' '+dataUser.surName,
+            saleMan: dataUser.firstName + ' ' + dataUser.surName,
             storeId: data.storeId,
             storeName: dataStore.name,
-            address: dataStore.address +' ' +dataStore.distric +' '+dataStore.subDistric+' '+dataStore.province,
+            address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
             taxID: dataStore.taxId,
             tel: dataStore.tel,
-            totalAmount:data.totalPrice.toFixed(2),
+            totalAmount: data.totalPrice.toFixed(2),
             discount: '0.00',
-            totalAmountNoVat:(data.totalPrice/1.07).toFixed (2),
-            vat:(data.totalPrice-(data.totalPrice/1.07)).toFixed(2),
-            summaryAmount:data.totalPrice.toFixed(2),
-            list:mainList,
-            shippingAddress:data.shipping.address,
-            shippingDate:data.shipping.dateShip
+            totalAmountNoVat: (data.totalPrice / 1.07).toFixed(2),
+            vat: (data.totalPrice - (data.totalPrice / 1.07)).toFixed(2),
+            summaryAmount: data.totalPrice.toFixed(2),
+            list: mainList,
+            shippingAddress: data.shipping.address,
+            shippingDate: data.shipping.dateShip
         }
         res.status(200).json(mainData)
     } catch (error) {
@@ -113,27 +117,44 @@ getCart.post('/getPreOrder', async (req, res) => {
 
 getCart.post('/getSummaryCart', async (req, res) => {
     try {
-        const data = await Cart.findOne({area: req.body.area,storeId:req.body.storeId},{'list._id':0,__v:0,_id:0})
-        const dataStore = await Store.findOne({area: req.body.area,storeId:req.body.storeId},{__v:0,_id:0})
+        const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId}, {
+            'list._id': 0,
+            __v: 0,
+            _id: 0
+        })
+        const dataStore = await Store.findOne({area: req.body.area, storeId: req.body.storeId}, {__v: 0, _id: 0})
         const listDetail = []
-        for(const list of data.list){
-            const dataProduct = await Product.findOne({id:list.id})
+        const listProduct = []
+        for (const list of data.list) {
+            const dataProduct = await Product.findOne({id: list.id})
             const product_obj = {
-                id:list.id,
-                group:dataProduct.group,
-                brand:dataProduct.brand,
-                size:dataProduct.size,
-                flavour:dataProduct.flavour
+                id: list.id,
+                group: dataProduct.group,
+                brand: dataProduct.brand,
+                size: dataProduct.size,
+                flavour: dataProduct.flavour
             }
+
+            const unitDetail = await Unit.findOne({idUnit:list.unitId})
+                for(const converting of dataProduct.convertFact){
+
+                }
+            listProduct.push({id: list.id, qtyPurc:list.qty,qtyUnitId:list.unitId,qtyUnitName:unitDetail.nameEng,qtyconvert:1})
             listDetail.push(product_obj)
             // console.log(dataProduct)
         }
 
-        // const summaryData = {
-        //     group:
+        // for(const intregate of listDetail.data){
+        //     const mainData2 = {
+        //         listProduct:listProduct
+        //     }
         // }
-        
-        res.status(200).json({typeStore:dataStore.type,data:listDetail})
+
+        const summaryData = {
+            listProduct: listProduct
+        }
+
+        res.status(200).json({typeStore: dataStore.type, data: listDetail, summaryData})
     } catch (error) {
         console.log(error)
         res.status(500).json({

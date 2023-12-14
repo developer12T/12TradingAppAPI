@@ -62,8 +62,16 @@ function checkDistanceLatLon(lat1, lon1, lat2, lon2, unit) {
   }
 }
 
-  
-  module.exports = {
+// async function converting(idProduct,qty,unitIdBuy) {
+//     const dataUnit
+//     return dist;
+// }
+
+
+
+
+module.exports = {
+    // converting,
     currentdateDash,
     currentdateSlash,
     currentdate,

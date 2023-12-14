@@ -4,8 +4,9 @@ require('../../configs/connect')
 const {Refund, CartRefund} = require('../../models/refund')
 const {NumberSeries} = require("../../models/numberSeries");
 const {available, updateAvailable} = require("../../services/numberSeriers");
-const { currentdateDash } = require("../../utils/utility");
+const {currentdateDash} = require("../../utils/utility");
 const {Product} = require("../../models/product");
+const {Cart} = require("../../models/saleProduct");
 const refundProduct = express.Router()
 
 refundProduct.post('/newRefund', async (req, res) => {
@@ -124,82 +125,146 @@ refundProduct.post('/newRefund', async (req, res) => {
 refundProduct.post('/addCartRefund', async (req, res) => {
         try {
             if (req.body.type === 'change') {
-                const idMirror = await CartRefund.findOne({ area: req.body.area, storeId: req.body.storeId,type:req.body.type });
-                let listFound = false;
+                const checkStoreListProduct = await CartRefund.findOne({
+                    area: req.body.area,
+                    storeId: req.body.storeId,
+                    type: req.body.type,
+                    'list.id': req.body.list[0].id
+                })
+                if (!checkStoreListProduct) {
+                    console.log('ไม่มี product')
+                    await CartRefund.updateOne({
+                        area: req.body.area,
+                        storeId: req.body.storeId,
+                        type: req.body.type,
+                    }, {$push: {list: req.body.list}});
 
-                if (idMirror) {
-                    if (idMirror.list.length > 0) {
-                        for (const list of idMirror.list) {
-                            if (list.id === req.body.list[0].id && list.unitId === req.body.list[0].unitId) {
-                                await CartRefund.updateOne({
-                                    area: req.body.area,
-                                    storeId: req.body.storeId,
-                                    type:req.body.type,
-                                    'list.id': req.body.list[0].id,
-                                    'list.unitId': req.body.list[0].unitId
-                                }, {
-                                    $set: {
-                                        'list.$.qty': list.qty + req.body.list[0].qty,
-                                        'list.$.sumPrice': list.sumPrice + req.body.list[0].sumPrice
-                                    }
-                                });
-                                listFound = true;
-                                break;
+                } else {
+                    console.log('พบ product')
+                    const checkStoreListProduct = await CartRefund.findOne({
+                        area: req.body.area,
+                        storeId: req.body.storeId,
+                        type: req.body.type,
+                        list:{
+                            $elemMatch:{
+                                id:req.body.list[0].id,
+                                unitId:req.body.list[0].unitId
                             }
                         }
-                    }
-
-                    if (!listFound && idMirror.list.every(item => item.unitId !== req.body.list[0].unitId)) {
+                    },)
+                    if (!checkStoreListProduct) {
+                        console.log('ไม่พบ unit id ที่เหมือนกัน')
                         await CartRefund.updateOne({
                             area: req.body.area,
                             storeId: req.body.storeId,
-                            type:req.body.type,
-                        }, { $push: { list: req.body.list } });
+                            type: req.body.type,
+                        }, {$push: {list: req.body.list}});
+                    } else {
+                        console.log('พบ unit id ที่เหมือนกัน')
+                        // console.log('พบ unit id ที่เหมือนกัน' + checkStoreListProduct)
+                        const checkStoreListProductUnit = await CartRefund.findOne(
+                            {
+                                list:{
+                                    $elemMatch:{
+                                        id:req.body.list[0].id,
+                                        unitId:req.body.list[0].unitId
+                                    }
+                                }},
+                            {'list.$': 1} // Projection to select only the matching element in the 'list' array
+                        )
+
+                        // console.log(checkStoreListProductUnit.list[0].qty)
+                        await CartRefund.updateOne({
+                            area: req.body.area,
+                            storeId: req.body.storeId,
+                            type: req.body.type,
+                            list:{
+                                $elemMatch:{
+                                    id:req.body.list[0].id,
+                                    unitId:req.body.list[0].unitId
+                                }
+                            }
+                        }, {
+                            $set: {
+                                'list.$.qty': checkStoreListProductUnit.list[0].qty + req.body.list[0].qty,
+                                'list.$.sumPrice': checkStoreListProductUnit.list[0].sumPrice + req.body.list[0].sumPrice
+                            }
+                        });
                     }
-                } else {
-                    req.body.productCondition = '1'
-                    await CartRefund.create(req.body)
                 }
 
                 res.status(201).json({status: 201, message: 'AddProduct to cartRefund Successfully'})
             } else if (req.body.type === 'refund') {
+                const checkStoreListProduct = await CartRefund.findOne({
+                    area: req.body.area,
+                    storeId: req.body.storeId,
+                    type: req.body.type,
+                    'list.id': req.body.list[0].id
+                })
+                if (!checkStoreListProduct) {
+                    console.log('ไม่มี product')
+                    await CartRefund.updateOne({
+                        area: req.body.area,
+                        storeId: req.body.storeId,
+                        type: req.body.type,
+                    }, {$push: {list: req.body.list}});
 
-                const idMirror = await CartRefund.findOne({ area: req.body.area, storeId: req.body.storeId,type:req.body.type });
-                let listFound = false;
-
-                if (idMirror) {
-                    if (idMirror.list.length > 0) {
-                        for (const list of idMirror.list) {
-                            if (list.id === req.body.list[0].id && list.unitId === req.body.list[0].unitId) {
-                                await CartRefund.updateOne({
-                                    area: req.body.area,
-                                    storeId: req.body.storeId,
-                                    type:req.body.type,
-                                    'list.id': req.body.list[0].id,
-                                    'list.unitId': req.body.list[0].unitId
-                                }, {
-                                    $set: {
-                                        'list.$.qty': list.qty + req.body.list[0].qty,
-                                        'list.$.sumPrice': list.sumPrice + req.body.list[0].sumPrice
-                                    }
-                                });
-                                listFound = true;
-                                break;
+                } else {
+                    console.log('พบ product')
+                    const checkStoreListProduct = await CartRefund.findOne({
+                        area: req.body.area,
+                        storeId: req.body.storeId,
+                        type: req.body.type,
+                        list:{
+                            $elemMatch:{
+                                id:req.body.list[0].id,
+                                unitId:req.body.list[0].unitId
                             }
                         }
-                    }
-
-                    if (!listFound && idMirror.list.every(item => item.unitId !== req.body.list[0].unitId)) {
+                    },)
+                    if (!checkStoreListProduct) {
+                        console.log('ไม่พบ unit id ที่เหมือนกัน')
                         await CartRefund.updateOne({
                             area: req.body.area,
                             storeId: req.body.storeId,
-                            type:req.body.type,
-                        }, { $push: { list: req.body.list } });
+                            type: req.body.type,
+                        }, {$push: {list: req.body.list}});
+                    } else {
+                        console.log('พบ unit id ที่เหมือนกัน')
+                        // console.log('พบ unit id ที่เหมือนกัน' + checkStoreListProduct)
+                        const checkStoreListProductUnit = await CartRefund.findOne(
+                            {
+                                list:{
+                                    $elemMatch:{
+                                        id:req.body.list[0].id,
+                                        unitId:req.body.list[0].unitId
+                                    }
+                                }},
+                            {'list.$': 1} // Projection to select only the matching element in the 'list' array
+                        )
+
+                        // console.log(checkStoreListProductUnit.list[0].qty)
+                        await CartRefund.updateOne({
+                            area: req.body.area,
+                            storeId: req.body.storeId,
+                            type: req.body.type,
+                            list:{
+                                $elemMatch:{
+                                    id:req.body.list[0].id,
+                                    unitId:req.body.list[0].unitId
+                                }
+                            }
+                        }, {
+                            $set: {
+                                'list.$.qty': checkStoreListProductUnit.list[0].qty + req.body.list[0].qty,
+                                'list.$.sumPrice': checkStoreListProductUnit.list[0].sumPrice + req.body.list[0].sumPrice
+                            }
+                        });
                     }
-                } else {
-                    await CartRefund.create(req.body)
                 }
+
                 res.status(201).json({status: 201, message: 'AddProduct to cartRefund Successfully'})
+
             } else {
                 res.status(500).json({
                     status: 501,
@@ -220,7 +285,7 @@ refundProduct.post('/addCartRefund', async (req, res) => {
 refundProduct.delete('/deleteItemCart', async (req, res) => {
         try {
 
-                res.status(201).json({status: 201, message: 'Delete One Item cartRefund Successfully'})
+            res.status(201).json({status: 201, message: 'Delete One Item cartRefund Successfully'})
         } catch (e) {
             console.log(e)
             res.status(500).json({
@@ -230,7 +295,6 @@ refundProduct.delete('/deleteItemCart', async (req, res) => {
         }
     }
 )
-
 
 
 module.exports = refundProduct
