@@ -86,11 +86,9 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
                         }
                         listTypeUnitConvert.push(convertFact_obj)
                     }
-
                     response.data[i].convertFact = listTypeUnitConvert
                 }
                 // console.log(listTypeUnitConvert)
-
                 // console.log(response.data[i].unitList)
                 await Product.create(response.data[i])
                 listTypeUnitConvert.length = 0

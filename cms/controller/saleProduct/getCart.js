@@ -6,7 +6,7 @@ const {Store} = require("../../models/store")
 const {Unit, Product} = require("../../models/product");
 const {PreOrder} = require("../../models/order");
 const {User} = require("../../models/user");
-
+const _ = require('lodash')
 const getCart = express.Router()
 
 getCart.post('/getCart', async (req, res) => {
@@ -123,38 +123,121 @@ getCart.post('/getSummaryCart', async (req, res) => {
             _id: 0
         })
         const dataStore = await Store.findOne({area: req.body.area, storeId: req.body.storeId}, {__v: 0, _id: 0})
-        const listDetail = []
         const listProduct = []
+        const listProductGroup = []
         for (const list of data.list) {
             const dataProduct = await Product.findOne({id: list.id})
-            const product_obj = {
+            const factoryCal = await Product.findOne({
                 id: list.id,
-                group: dataProduct.group,
-                brand: dataProduct.brand,
-                size: dataProduct.size,
-                flavour: dataProduct.flavour
+                convertFact: {$elemMatch: {unitId: list.unitId}}
+            }, {'convertFact.$': 1})
+
+            const unitDetail = await Unit.findOne({idUnit: list.unitId})
+
+            console.log(factoryCal)
+            if(unitDetail.nameThai === 'แผง'){
+                listProductGroup.push({
+                    id: list.id,
+                    group: dataProduct.group,
+                    brand: dataProduct.brand,
+                    size: dataProduct.size,
+                    flavour: dataProduct.flavour,
+                    typeUnit:'แผง',
+                    qty: list.qty,
+                    unitQty: unitDetail.nameEng,
+                    qtyConvert: factoryCal.convertFact[0].factor * list.qty
+                })
+            }else {
+                listProductGroup.push({
+                    id: list.id,
+                    group: dataProduct.group,
+                    brand: dataProduct.brand,
+                    size: dataProduct.size,
+                    flavour: dataProduct.flavour,
+                    typeUnit:'ไม่แผง',
+                    qty: list.qty,
+                    unitQty: unitDetail.nameEng,
+                    qtyConvert: factoryCal.convertFact[0].factor * list.qty
+                })
             }
 
-            const unitDetail = await Unit.findOne({idUnit:list.unitId})
-                for(const converting of dataProduct.convertFact){
+            listProduct.push({
+                id: list.id,
+                qtyPurc: list.qty,
+                qtyUnitId: list.unitId,
+                qtyUnitName: unitDetail.nameEng,
+                qtyconvert: factoryCal.convertFact[0].factor * list.qty
+            })
 
+        }
+
+        // const summaryGroup = _(listProductGroup)
+        //     .groupBy('group')
+        //     .map((group, key) => ({
+        //         group: key,
+        //         // size:group,
+        //         sumQtyPcs: _.sumBy(group, 'qtyConvert')
+        //     }))
+        //     .value()
+
+        // const summarySize = _(listProductGroup)
+        //     .groupBy('size')
+        //     .map((group, key) => ({
+        //         group: key,
+        //         sumQtyPcs: _.sumBy(group, 'qtyConvert')
+        //     }))
+        //     .value()
+
+        const groupData_arr = []
+        for (const listMainData of listProductGroup) {
+            const groupData_obj = {
+                group: listMainData.group,
+                size: listMainData.size,
+                flavour: listMainData.flavour,
+                typeUnit: listMainData.typeUnit,
+                qty: listMainData.qty
+            }
+            groupData_arr.push(groupData_obj)
+        }
+
+        const groupedData = groupData_arr.reduce((acc, curr) => {
+            const {group, size, flavour,typeUnit} = curr;
+            const key = `${group}/${size}`
+            if (!acc[key]) {
+                acc[key] = {
+                    group,
+                    size,
+                    flavour,
+                    typeUnit,
+                    qty: 0,
                 }
-            listProduct.push({id: list.id, qtyPurc:list.qty,qtyUnitId:list.unitId,qtyUnitName:unitDetail.nameEng,qtyconvert:1})
-            listDetail.push(product_obj)
-            // console.log(dataProduct)
+            }
+            acc[key].qty += curr.qty
+
+            return acc
+        }, {})
+
+        const outputDataGroupSize = Object.keys(groupedData).sort().map((key) => {
+            return groupedData[key]
+        })
+
+        for (const listProGroup of outputDataGroupSize) {
+            // const dataConvertion = await Product.find({
+            //     group: listProGroup.group,
+            //     size: listProGroup.size,
+            //     flavour: listProGroup.flavour
+            // }, {})
+            // console.log(dataConvertion[0].convertFact)
         }
 
-        // for(const intregate of listDetail.data){
-        //     const mainData2 = {
-        //         listProduct:listProduct
-        //     }
-        // }
-
-        const summaryData = {
-            listProduct: listProduct
+        const summaryMainData = {
+            listProduct: listProduct,
+            // listProductGroup: listProductGroup,
+            listProductGroup: outputDataGroupSize,
+            // listProductSize:summarySize
         }
 
-        res.status(200).json({typeStore: dataStore.type, data: listDetail, summaryData})
+        res.status(200).json({typeStore: dataStore.type, list: summaryMainData,})
     } catch (error) {
         console.log(error)
         res.status(500).json({

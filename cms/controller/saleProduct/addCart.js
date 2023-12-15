@@ -9,49 +9,51 @@ const addCart = express.Router()
 addCart.post('/addProductToCart', async (req, res) => {
     try {
         const checkStore = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
-        if(!checkStore){
+        if (!checkStore) {
             req.body.totalPrice = req.body.list.pricePerUnitSale * req.body.list.qty
             req.body.shipping = {
-                address:'',
-                dateShip:'',
-                note:''
+                address: '',
+                dateShip: '',
+                note: ''
             }
             await Cart.create(req.body)
-        }else{
-            const checkStoreListProduct = await Cart.findOne({'list.id':req.body.list.id})
-            if(!checkStoreListProduct){
+        } else {
+            const checkStoreListProduct = await Cart.findOne({'list.id': req.body.list.id})
+            if (!checkStoreListProduct) {
                 console.log('ไม่มี product')
                 await Cart.updateOne({
                     area: req.body.area, storeId: req.body.storeId,
                 }, {$push: {list: req.body.list}})
 
-            }else{
+            } else {
                 console.log('พบ product')
-                const checkStoreListProduct = await Cart.findOne({'list.unitId':req.body.list.unitId},)
-                if(!checkStoreListProduct){
+                const checkStoreListProduct = await Cart.findOne({'list.unitId': req.body.list.unitId},)
+                if (!checkStoreListProduct) {
                     console.log('ไม่พบ unit id ที่เหมือนกัน')
                     await Cart.updateOne({
                         area: req.body.area, storeId: req.body.storeId,
                     }, {$push: {list: req.body.list}})
-                }else{
-                    console.log('พบ unit id ที่เหมือนกัน'+checkStoreListProduct)
-                    const checkStoreListProductUnit  = await Cart.findOne(
-                        {list:{
-                                $elemMatch:{
-                                    id:req.body.list.id,
-                                    unitId:req.body.list.unitId
+                } else {
+                    console.log('พบ unit id ที่เหมือนกัน' + checkStoreListProduct)
+                    const checkStoreListProductUnit = await Cart.findOne(
+                        {
+                            list: {
+                                $elemMatch: {
+                                    id: req.body.list.id,
+                                    unitId: req.body.list.unitId
                                 }
-                            } },
+                            }
+                        },
                         {'list.$': 1} // Projection to select only the matching element in the 'list' array
                     )
                     // console.log(checkStoreListProductUnit.list[0].qty)
                     await Cart.updateOne({
                         area: req.body.area,
                         storeId: req.body.storeId,
-                        list:{
-                            $elemMatch:{
-                                id:req.body.list.id,
-                                unitId:req.body.list.unitId
+                        list: {
+                            $elemMatch: {
+                                id: req.body.list.id,
+                                unitId: req.body.list.unitId
                             }
                         }
                     }, {
@@ -64,11 +66,11 @@ addCart.post('/addProductToCart', async (req, res) => {
             }
         }
 
-        const updateTotalPrice =await Cart.findOne({area:req.body.area,storeId:req.body.storeId})
+        const updateTotalPrice = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         // console.log(updateTotalPrice.list)
         let summaryTotalAmount = 0
-        for(const listData of updateTotalPrice.list){
-            summaryTotalAmount = summaryTotalAmount+(listData.qty*listData.pricePerUnitSale)
+        for (const listData of updateTotalPrice.list) {
+            summaryTotalAmount = summaryTotalAmount + (listData.qty * listData.pricePerUnitSale)
         }
         console.log(summaryTotalAmount)
         await Cart.updateOne({
@@ -118,9 +120,9 @@ addCart.put('/updateShipping', async (req, res) => {
     try {
         const {currentdateDash} = require("../../utils/utility")
         const shipDate = {
-            address:req.body.shippingAddress,
+            address: req.body.shippingAddress,
             dateShip: req.body.dateShip,
-            note:req.body.note
+            note: req.body.note
         }
         await Cart.updateOne({
             area: req.body.area, storeId: req.body.storeId
