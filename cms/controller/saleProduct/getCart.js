@@ -126,6 +126,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
         const listProduct = []
         const listProductGroup = []
         for (const list of data.list) {
+            console.log(list)
             const dataProduct = await Product.findOne({id: list.id})
             const factoryCal = await Product.findOne({
                 id: list.id,
