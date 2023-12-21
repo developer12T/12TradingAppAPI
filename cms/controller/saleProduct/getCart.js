@@ -126,7 +126,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
         const listProduct = []
         const listProductGroup = []
         for (const list of data.list) {
-            console.log(list)
+            // console.log(list)
             const dataProduct = await Product.findOne({id: list.id})
             const factoryCal = await Product.findOne({
                 id: list.id,
@@ -135,7 +135,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
 
             const unitDetail = await Unit.findOne({idUnit: list.unitId})
 
-            console.log(factoryCal)
+            // console.log(factoryCal)
             if(unitDetail.nameThai === 'แผง'){
                 listProductGroup.push({
                     id: list.id,
@@ -196,14 +196,15 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 size: listMainData.size,
                 flavour: listMainData.flavour,
                 typeUnit: listMainData.typeUnit,
-                qty: listMainData.qty
+                qty: listMainData.qtyConvert
+
             }
             groupData_arr.push(groupData_obj)
         }
 
         const groupedData = groupData_arr.reduce((acc, curr) => {
-            const {group, size, flavour,typeUnit} = curr;
-            const key = `${group}/${size}`
+            const {group, size, flavour,typeUnit} = curr
+            const key = `${group}/${size}/${typeUnit}`
             if (!acc[key]) {
                 acc[key] = {
                     group,
@@ -222,19 +223,59 @@ getCart.post('/getSummaryCart', async (req, res) => {
             return groupedData[key]
         })
 
+        const listProductGroupUnit = []
+        const listProductGroupUnitListQty = []
         for (const listProGroup of outputDataGroupSize) {
-            // const dataConvertion = await Product.find({
-            //     group: listProGroup.group,
-            //     size: listProGroup.size,
-            //     flavour: listProGroup.flavour
-            // }, {})
-            // console.log(dataConvertion[0].convertFact)
+            //  loop
+            if(listProGroup.typeUnit === 'แผง'){
+                const dataConvertion = await Product.findOne({
+                    group: listProGroup.group,
+                    size: listProGroup.size,
+                    flavour: listProGroup.flavour,
+                    unitList:{$elemMatch: {id: '3'}}
+                }, { convertFact:1 })
+
+                for(listDataConvertion of dataConvertion.convertFact){
+                    const dataList = {
+                        name:listDataConvertion.unitName,
+                        qty:listProGroup.qty/listDataConvertion.factor
+                    }
+                    listProductGroupUnitListQty.push(dataList)
+                    console.log(listProductGroupUnitListQty)
+                      // console.log(listProGroup.qty/listDataConvertion.factor)
+                }
+                listProGroup.detail = listProductGroupUnitListQty
+                listProductGroupUnit.push(listProGroup)
+                listProductGroupUnitListQty.length = 0
+
+            }else{
+
+                const dataConvertion2 = await Product.findOne({
+                    group: listProGroup.group,
+                    size: listProGroup.size,
+                    flavour: listProGroup.flavour,
+                    "unitList.id": {
+                        $nin: ['3']
+                    }
+                }, { convertFact:1 })
+                for(listDataConvertion2 of dataConvertion2.convertFact){
+                    const dataList = {
+                        name:listDataConvertion2.unitName,
+                        qty:listProGroup.qty/listDataConvertion2.factor
+                    }
+                    listProductGroupUnitListQty.push(dataList)
+                }
+                listProGroup.detail = listProductGroupUnitListQty
+                listProductGroupUnit.push(listProGroup)
+                 listProductGroupUnitListQty.length = 0
+            }
+            //  loop
         }
 
         const summaryMainData = {
             listProduct: listProduct,
             // listProductGroup: listProductGroup,
-            listProductGroup: outputDataGroupSize,
+            listProductGroup: listProductGroupUnit,
             // listProductSize:summarySize
         }
 

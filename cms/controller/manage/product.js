@@ -58,6 +58,11 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
             }
             response.data[i].idIndex = idIndex
             response.data[i].status = 1
+
+            // if (response.data[i].name.includes('ชนิดแผง')) {
+            //    response.data[i].size = response.data[i].size + 'ชนิดแผง'
+            // }else{}
+
             const StoreIf = await Product.findOne({id: response.data[i].id})
             if (!StoreIf) {
                 if (response.data[i].type === 'พรีเมียม') {
@@ -74,10 +79,21 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
                     response.data[i].convertFact = listTypeUnitConvert
                 } else {
                     const responseData = await axios.post('http://192.168.2.97:8383/M3API/ItemManage/Item/getItemConvertItemcode', {
-                        itcode: response.data[i].id
+                        itcode : response.data[i].id
                     })
                     for (const listResUnit of responseData.data[0].type) {
-                        const getUnitId = await Unit.findOne({nameEng: listResUnit.unit})
+
+                        if(response.data[i].name.includes('ชนิดแผง')){
+                            console.log(response.data[i].name)
+                            if(listResUnit.unit === 'BAG'){
+                                var getUnitId = await Unit.findOne({nameEng: listResUnit.unit,nameThai:'แผง'})
+                            }else{
+                                var getUnitId = await Unit.findOne({nameEng: listResUnit.unit})
+                            }
+                        }else{
+                            var getUnitId = await Unit.findOne({nameEng: listResUnit.unit})
+                        }
+
                         const convertFact_obj = {
                             unitId: getUnitId.idUnit,
                             unitName: getUnitId.nameEng,
