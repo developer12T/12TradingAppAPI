@@ -33,7 +33,9 @@ comparePromotion.post('/compare', async (req, res) => {
                                         nameQty:'BAG'
                                     },
                                     TotalReward:{
-                                        productId:'100101010202'
+                                        productId:'100101010202',
+                                        qty:1,
+                                        unitQty:'PCS'
                                     }
                                 }
                                     PromotionProductMatch.push(data_obj)
@@ -53,9 +55,9 @@ comparePromotion.post('/compare', async (req, res) => {
                     for(const listGroupPromotion of dataPromotionGroup){
                         for (const itemBuyList of listGroupPromotion.itembuy){
                             const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
-                            // const unitDetailSummary = await Unit.findOne({idUnit:listGroup})
                             console.log(unitDetail.nameEng)
-                            // console.log(unitDetailSummary.nameEng)
+                                
+                            // module compare unit
                             if(listGroup.qty >= itemBuyList.productQty){
                                 const data_obj = {
                                     group:listGroup.group,
@@ -66,16 +68,22 @@ comparePromotion.post('/compare', async (req, res) => {
                                         nameQty:'BAG'
                                     },
                                     TotalReward:{
-                                        productId:'100101010202'
+                                        productId:'100101010202',
+                                        qty:1,
+                                        unitQty:'PCS'
                                     }
                                 }
                                 PromotionGroupMatch.push(data_obj)
                             }else{}
+                            // module compare unit
+
                         }
                     }
                 }else{}
-                // console.log(dataPromotionGroup)
             }
+            //3. converting unit prepare compare
+
+
         res.status(200).json({ProductList:PromotionProductMatch,ProductGroup:PromotionGroupMatch})
     } catch (error) {
         console.log(error)
