@@ -2,6 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const {Promotion, ProType} = require("../../models/promotion");
 const {Store, TypeStore} = require("../../models/store");
+const { Product } = require('../../models/product')
 const _ = require("lodash");
 const optionData = express.Router()
 optionData.post('/getProType', async (req, res) => {
@@ -92,7 +93,35 @@ optionData.post('/getExceptPro', async (req, res) => {
     }
 })
 
+optionData.post('/getGroupProduct', async (req, res) => {
+    try {
+        const data = await Product.find({},{group:1,_id:0})
+        const dataFlavour = await Product.find({},{flavour:1,_id:0})
+        const dataSize = await Product.find({},{size:1,_id:0}).sort({size:1})
 
+        const mapDataArray = []
+        const mapDataArrayDataFlavour = []
+        const mapDataArrayDataSize = []
 
+        for(const listGroup of data){
+            mapDataArray.push(listGroup.group)
+        }
 
+        for(const listGroup of dataFlavour){
+            mapDataArrayDataFlavour.push(listGroup.flavour)
+        }
+
+        for(const listGroup of dataSize){
+            mapDataArrayDataSize.push(listGroup.size)
+        }
+
+        res.status(200).json({group:_.uniq(mapDataArray),flavour:_.uniq(mapDataArrayDataFlavour),size:_.uniq(mapDataArrayDataSize)})
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
 module.exports = optionData

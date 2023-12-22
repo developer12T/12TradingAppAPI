@@ -31,7 +31,7 @@ ProductManage.post('/addProduct', async (req, res) => {
         req.body.status = 1
 
         const sortedUnitList = _.orderBy(req.body.unitList, ['pricePerUnitSale'], ['desc'])
-        console.log(sortedUnitList)
+        // console.log(sortedUnitList)
         const newProduct = new Product(req.body)
         await newProduct.save()
         res.status(200).json({status: 201, message: 'Product Added Successfully'})
@@ -59,10 +59,6 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
             response.data[i].idIndex = idIndex
             response.data[i].status = 1
 
-            // if (response.data[i].name.includes('ชนิดแผง')) {
-            //    response.data[i].size = response.data[i].size + 'ชนิดแผง'
-            // }else{}
-
             const StoreIf = await Product.findOne({id: response.data[i].id})
             if (!StoreIf) {
                 if (response.data[i].type === 'พรีเมียม') {
@@ -84,7 +80,7 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
                     for (const listResUnit of responseData.data[0].type) {
 
                         if(response.data[i].name.includes('ชนิดแผง')){
-                            console.log(response.data[i].name)
+                            // console.log(response.data[i].name)
                             if(listResUnit.unit === 'BAG'){
                                 var getUnitId = await Unit.findOne({nameEng: listResUnit.unit,nameThai:'แผง'})
                             }else{
@@ -116,7 +112,34 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
                 dataArray.push(idProductReplace)
             }
         }
-        // const data = await Product.find({}, {_id: 0, __v: 0})
+
+        var idUnitList = []
+        var idConvList = []
+        const UnitComConv = await Product.find()
+        for(const ListUnitComConv of UnitComConv ){
+            for(const unitList of ListUnitComConv.unitList){
+                idUnitList.push(unitList.id)
+            }
+            for(const convList of ListUnitComConv.convertFact){
+                idConvList.push(convList.unitId)
+            }
+             const dataToPushConv = _.difference(idUnitList,idConvList)
+             console.log(dataToPushConv[0])
+            if(dataToPushConv.length !== 0){
+                const dataUnitConv = await Unit.findOne({idUnit:dataToPushConv[0]})
+                const dataPush = {
+                    unitId:dataToPushConv[0],
+                    unitName:dataUnitConv.nameEng,
+                    factor:1,
+                    description:`1 ${dataUnitConv.nameEng} = 1`
+                }
+                await Product.updateOne({id:ListUnitComConv.id},{$push:{convertFact:dataPush}})
+            }else{
+
+            }
+            idUnitList = []
+            idConvList = []
+        }
         res.status(200).json({status: 201, message: 'Product Added Succesfully', additionalData: dataArray})
 
     } catch (e) {

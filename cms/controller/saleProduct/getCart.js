@@ -172,23 +172,6 @@ getCart.post('/getSummaryCart', async (req, res) => {
 
         }
 
-        // const summaryGroup = _(listProductGroup)
-        //     .groupBy('group')
-        //     .map((group, key) => ({
-        //         group: key,
-        //         // size:group,
-        //         sumQtyPcs: _.sumBy(group, 'qtyConvert')
-        //     }))
-        //     .value()
-
-        // const summarySize = _(listProductGroup)
-        //     .groupBy('size')
-        //     .map((group, key) => ({
-        //         group: key,
-        //         sumQtyPcs: _.sumBy(group, 'qtyConvert')
-        //     }))
-        //     .value()
-
         const groupData_arr = []
         for (const listMainData of listProductGroup) {
             const groupData_obj = {
@@ -224,7 +207,8 @@ getCart.post('/getSummaryCart', async (req, res) => {
         })
 
         const listProductGroupUnit = []
-        const listProductGroupUnitListQty = []
+        var listProductGroupUnitListQty = []
+
         for (const listProGroup of outputDataGroupSize) {
             //  loop
             if(listProGroup.typeUnit === 'แผง'){
@@ -238,18 +222,14 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 for(listDataConvertion of dataConvertion.convertFact){
                     const dataList = {
                         name:listDataConvertion.unitName,
-                        qty:listProGroup.qty/listDataConvertion.factor
+                        qty:parseInt((listProGroup.qty/listDataConvertion.factor).toFixed(0))
                     }
                     listProductGroupUnitListQty.push(dataList)
-                    console.log(listProductGroupUnitListQty)
-                      // console.log(listProGroup.qty/listDataConvertion.factor)
                 }
                 listProGroup.detail = listProductGroupUnitListQty
-                listProductGroupUnit.push(listProGroup)
-                listProductGroupUnitListQty.length = 0
-
+                listProductGroupUnitListQty = []
+                // listProductGroupUnit.push(listProGroup)
             }else{
-
                 const dataConvertion2 = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
@@ -259,16 +239,16 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     }
                 }, { convertFact:1 })
                 for(listDataConvertion2 of dataConvertion2.convertFact){
-                    const dataList = {
+                    const dataList2 = {
                         name:listDataConvertion2.unitName,
-                        qty:listProGroup.qty/listDataConvertion2.factor
+                        qty:parseInt((listProGroup.qty/listDataConvertion2.factor).toFixed(0))
                     }
-                    listProductGroupUnitListQty.push(dataList)
+                    listProductGroupUnitListQty.push(dataList2)
                 }
                 listProGroup.detail = listProductGroupUnitListQty
-                listProductGroupUnit.push(listProGroup)
-                 listProductGroupUnitListQty.length = 0
+                listProductGroupUnitListQty = []
             }
+            listProductGroupUnit.push(listProGroup)
             //  loop
         }
 
