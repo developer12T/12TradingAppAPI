@@ -24,7 +24,7 @@ const itemFree = new Schema({
     productBrand: {type: String},
     productSize: {type: String},
     productUnit: {type: String},
-    productQty: {type: String}
+    productQty: {type: Number}
 })
 
 const promotionSchema = new Schema({
