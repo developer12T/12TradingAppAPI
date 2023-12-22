@@ -226,7 +226,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     }
                     listProductGroupUnitListQty.push(dataList)
                 }
-                listProGroup.detail = listProductGroupUnitListQty
+                listProGroup.converterUnit = listProductGroupUnitListQty
                 listProductGroupUnitListQty = []
                 // listProductGroupUnit.push(listProGroup)
             }else{
@@ -245,15 +245,34 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     }
                     listProductGroupUnitListQty.push(dataList2)
                 }
-                listProGroup.detail = listProductGroupUnitListQty
+                listProGroup.converterUnit = listProductGroupUnitListQty
                 listProductGroupUnitListQty = []
             }
             listProductGroupUnit.push(listProGroup)
             //  loop
         }
 
+        //convert product type
+        var dataUnitListProductConvert = []
+        const productList = []
+        for(const listCon of listProduct){
+            const dataConvertion = await Product.findOne({id:listCon.id},{convertFact:1,_id:0})
+            // console.log(dataConvertion)
+            for(const convFactList of dataConvertion.convertFact){
+                const detail = {
+                    name:convFactList.unitName,
+                    qty:parseInt((listCon.qtyconvert/convFactList.factor).toFixed(0))
+                }
+                dataUnitListProductConvert.push(detail)
+            }
+            listCon.converterUnit = dataUnitListProductConvert
+            productList.push(listCon)
+            dataUnitListProductConvert  = []
+
+        }
+
         const summaryMainData = {
-            listProduct: listProduct,
+            listProduct: productList,
             // listProductGroup: listProductGroup,
             listProductGroup: listProductGroupUnit,
             // listProductSize:summarySize
