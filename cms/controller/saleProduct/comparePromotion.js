@@ -27,7 +27,14 @@ comparePromotion.post('/compare', async (req, res) => {
                                 const data_obj = {
                                     // type:'Product List',
                                     productId:listGroup.id,
-                                    proId:listDataPromotion.proId
+                                    proId:listDataPromotion.proId,
+                                    TotalPurchasedQuantity:{
+                                        qty:2,
+                                        nameQty:'BAG'
+                                    },
+                                    TotalReward:{
+                                        productId:'100101010202'
+                                    }
                                 }
                                     PromotionProductMatch.push(data_obj)
                                     // console.log(listGroup.id+' อยู่ใน โปรโมชั่น')
@@ -53,7 +60,14 @@ comparePromotion.post('/compare', async (req, res) => {
                                 const data_obj = {
                                     group:listGroup.group,
                                     size:listGroup.size,
-                                    proId:listGroupPromotion.proId
+                                    proId:listGroupPromotion.proId,
+                                    TotalPurchasedQuantity:{
+                                        qty:2,
+                                        nameQty:'BAG'
+                                    },
+                                    TotalReward:{
+                                        productId:'100101010202'
+                                    }
                                 }
                                 PromotionGroupMatch.push(data_obj)
                             }else{}
