@@ -3,9 +3,10 @@ const mongoose = require('mongoose')
 const ErrorLogSchema = mongoose.Schema(
     {
         status:String,
+        method:String,
         pathApi:{type:String,require:true},
         dataBody:Object,
-        message:{type:String,require:true},
+        message:String,
         dateCreate:String
     })
 

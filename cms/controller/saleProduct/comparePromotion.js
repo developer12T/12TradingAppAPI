@@ -65,7 +65,8 @@ comparePromotion.post('/compare', async (req, res) => {
                             const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
                             console.log(unitDetail.nameEng)
 
-                            // module compare unit                            if(listGroup.qty >= itemBuyList.productQty){
+                            // module compare unit
+                                if(listGroup.qty >= itemBuyList.productQty){
                                 const data_obj = {
                                     group:listGroup.group,
                                     size:listGroup.size,
@@ -83,13 +84,17 @@ comparePromotion.post('/compare', async (req, res) => {
                                 PromotionGroupMatch.push(data_obj)
                             }else{}
                             // module compare unit
-
                         }
                     }
                 }else{}
             }
             //3. converting unit prepare compare
-
+        /*
+        *
+        *
+        *
+        */
+        // res.status(200).json(req.originalUrl)
         res.status(200).json({ListProduct:PromotionProductMatch,ProductGroup:PromotionGroupMatch})
     } catch (error) {
         console.log(error)

@@ -1,10 +1,3 @@
-/*
- * Copyright (c) 2566. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
 
 const express = require('express')
 const jwt = require('jsonwebtoken')
@@ -13,6 +6,7 @@ require('../../configs/connect')
 const saleLogin = express.Router()
 const {Route, Checkin} = require('../../models/route')
 const {User} = require("../../models/user");
+const {createLog} = require("../../services/errorLog");
 //
 // saleLogin.post('/login', async (req, res) => {
 //     try {
@@ -78,6 +72,7 @@ saleLogin.post('/login', async (req, res) => {
                     {expiresIn: '12h'}
                 );
 
+                await createLog('200',req.method,req.originalUrl,res.body,'log in complete')
                 res.status(200).json({
                     status: 201,
                     message: 'log in complete',
@@ -94,14 +89,17 @@ saleLogin.post('/login', async (req, res) => {
                     }
                 });
             } else {
+                await createLog('507',res.method,req.originalUrl,res.body,'Validation failed')
                 res.status(507).json({
                     status: 507,
                     message: 'Validation failed'
                 })
+
             }
         }
     } catch (error) {
         console.log(error);
+        await createLog('500',res.method,req.originalUrl,res.body,error.stack)
         res.status(500).json({
             status: 500,
             message: error.message

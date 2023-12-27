@@ -20,8 +20,12 @@ const io = require('socket.io')(server, {
     }
 })
 
-app.get('/testApi', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/logmonitor/index.html')
+})
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(__dirname + '/logmonitor/dashboard.html')
 })
 
 

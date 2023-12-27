@@ -4,9 +4,6 @@ const app = express()
 const cors = require('cors')
 app.use(express.json())
 
-
-require('winston-mongodb')
-
 app.use(cors())
 
 // app.use('/cms', (req, res, next) => {
@@ -26,27 +23,35 @@ const {currentdateDash} = require("./cms/utils/utility");
 
 // app.use('/cms', async (req , res ,next)=>{
 //     // console.log(res)
-//     await ErrorLog.create({status:500,pathApi:req.originalUrl,dataBody:req.body,dateCreate:currentdateDash(),message:req.method})
-//     next();
+//     // await ErrorLog.create({status:500,pathApi:req.originalUrl,dataBody:req.body,dateCreate:currentdateDash(),message:req.method})
+//     // await ErrorLog.create({
+//     //     status: res.statusCode,
+//     //     pathApi: req.originalUrl,
+//     //     dataBody: req.body,
+//     //     dateCreate: currentdateDash(),
+//     //     message: req.message
+//     // })
+//      next()
 // },express.static('public'))
 
 // app.use('/cms', async (req, res, next) => {
+//     console.log(res)
 //     const originalSend = res.send
 //     res.send = function (body) {
 //         const logData = {
 //             status: res.statusCode,
+//             method:  req.method,
 //             pathApi: req.originalUrl,
 //             dataBody: req.body,
-//             dateCreate: currentdateDash(),
-//             message: res.statusMessage,
-//             method: req.method
+//             message:res.message,
+//             dateCreate: currentdateDash()
 //         }
 //         ErrorLog.create(logData)
 //             .then(() => {
 //                 originalSend.call(res, body)
 //             })
 //             .catch(error => {
-//                 console.error('Error logging:', error)
+//                 // console.error('Error logging:', error)
 //                 originalSend.call(res, body)
 //             })
 //     }
