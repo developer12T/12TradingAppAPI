@@ -12,8 +12,8 @@ comparePromotion.post('/compare', async (req, res) => {
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
         const dataSummary = await axios.post(process.env.API_URL_IN_USE+'/cms/saleProduct/getSummaryCart',{area:req.body.area,storeId:req.body.storeId})
-        //1.เช็ค ว่า productId ใน summarryCart มี ใน Promotion ไหม ต้องเช็คอีกที่ว่า สินค้าอันไหนบ้างที่เข้าโปร
 
+        //1.เช็ค ว่า productId ใน summarryCart มี ใน Promotion ไหม ต้องเช็คอีกที่ว่า สินค้าอันไหนบ้างที่เข้าโปร
             for(const listGroup of dataSummary.data.list.listProduct){
                 const dataPromotion = await Promotion.find({itembuy:{$elemMatch:{productId:listGroup.id}}})
                 if(!dataPromotion || dataPromotion.length === 0){
@@ -22,12 +22,13 @@ comparePromotion.post('/compare', async (req, res) => {
                     for(const listDataPromotion of dataPromotion){
                         // console.log(listDataPromotion)
                         for (const itemList of listDataPromotion.itembuy){
-                             // console.log(itemList.productId) console.log(itemList.productQty)
+                            // console.log(itemList.productId) console.log(itemList.productQty)
 
                             /*
                                 x / y <= 1 ซื้อเกินโปรโมชั่นแล้ว
                                 x / y >= 1 ซื้อยังไม่ถึงโปรโมชั่น
                             */
+
                             // module compare
                             if(listGroup.qtyPurc >= itemList.productQty){
                                 const data_obj = {
@@ -47,7 +48,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     PromotionProductMatch.push(data_obj)
                                     // console.log(listGroup.id+' อยู่ใน โปรโมชั่น')
                             }else {
-                                // console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
+                                 console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
                             }
 
                             // module compare
@@ -63,7 +64,7 @@ comparePromotion.post('/compare', async (req, res) => {
                     for(const listGroupPromotion of dataPromotionGroup){
                         for (const itemBuyList of listGroupPromotion.itembuy){
                             const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
-                            console.log(unitDetail.nameEng)
+                            // console.log(unitDetail.nameEng)
 
                             // module compare unit
                                 if(listGroup.qty >= itemBuyList.productQty){
@@ -76,7 +77,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         nameQty:'BAG'
                                     },
                                     TotalReward:{
-                                        productId:'10011101011',
+                                        productId:listGroup.id,
                                         qty:1,
                                         unitQty:'PCS'
                                     }
@@ -88,14 +89,13 @@ comparePromotion.post('/compare', async (req, res) => {
                     }
                 }else{}
             }
-            //3. converting unit prepare compare
+            // 3. converting unit prepare compare
         /*
-        *
-        *
-        *
         */
+
         // res.status(200).json(req.originalUrl)
         res.status(200).json({ListProduct:PromotionProductMatch,ProductGroup:PromotionGroupMatch})
+
     } catch (error) {
         console.log(error)
         res.status(500).json({
