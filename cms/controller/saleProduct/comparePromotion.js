@@ -2,9 +2,9 @@ const express = require('express')
 
 require('../../configs/connect')
 const _ = require('lodash')
-const axios = require("axios");
-const {Promotion} = require("../../models/promotion");
-const {Unit} = require("../../models/product");
+const axios = require("axios")
+const {Promotion} = require("../../models/promotion")
+const {Unit} = require("../../models/product")
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -34,13 +34,15 @@ comparePromotion.post('/compare', async (req, res) => {
                                 if( listGroup.qtyPurc >= itemList.productQty ){
                                     console.log('เกินโปรโมชั่นแล้ว')
                                     const dataUnitName = await Unit.findOne({idUnit:listGroup.qtyUnitId})
+
                                     const rewardData = await Promotion.findOne({proId:listDataPromotion.proId})
                                     var ttReward = []
                                     for(const listRewardData of rewardData.itemfree){
+                                        const dataUnitName1 = await Unit.findOne({idUnit:listRewardData.productUnit})
                                         ttReward.push({
                                             productId:listRewardData.productId,
                                             qty:(listGroup.qtyPurc/(itemList.productQty/listRewardData.productQty)),
-                                            unitQty:listRewardData.productUnit
+                                            unitQty:dataUnitName1.nameEng
                                         })
                                     }
                                     const data_obj = {
