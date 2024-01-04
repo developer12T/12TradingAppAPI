@@ -7,9 +7,9 @@ const { CONNECT_STRING } = process.env;
 const connectDB = async () => {
     try {
         let progress = 0;
-        const totalSteps = 10; // จำนวนขั้นตอนทั้งหมดที่คาดว่าจะใช้
+        const totalSteps = 10;
 
-         await mongoose.connect(CONNECT_STRING, {
+        await mongoose.connect(CONNECT_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -23,9 +23,11 @@ const connectDB = async () => {
 
             if (progress === totalSteps) {
                 clearInterval(interval);
-                console.log('\n\x1b[35mConnected to MongoDB Success\x1b[0m');
+                process.stdout.clearLine();
+                process.stdout.cursorTo(0);
+                console.log('\x1b[35mConnected to MongoDB Success\x1b[0m')
             }
-        }, 70); // ปรับความถี่ของการอัพเดทตามต้องการ
+        }, 150)
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         throw error;

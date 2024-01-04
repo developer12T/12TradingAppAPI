@@ -65,6 +65,7 @@ comparePromotion.post('/compare', async (req, res) => {
                         } else {
                             // ต้อง convert หน่วยก่อนค่อยเอามาเปรียบเทียบ
                             const listGroupData = listGroup.qtyPurc
+                            console.log(listGroupData)
                         }
                     }
                 }
