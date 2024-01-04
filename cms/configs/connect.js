@@ -25,7 +25,7 @@ const connectDB = async () => {
                 clearInterval(interval);
                 console.log('\n\x1b[35mConnected to MongoDB Success\x1b[0m');
             }
-        }, 200); // ปรับความถี่ของการอัพเดทตามต้องการ
+        }, 100); // ปรับความถี่ของการอัพเดทตามต้องการ
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         throw error;
