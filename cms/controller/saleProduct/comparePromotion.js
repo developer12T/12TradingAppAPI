@@ -90,38 +90,38 @@ comparePromotion.post('/compare', async (req, res) => {
             }
 
         //2.เช็ค ว่า ใน group ของ summaryCart มี ใน Promotion ไหม
-        //     for(const listGroup of dataSummary.data.list.listProductGroup){
-        //         const dataPromotionGroup = await Promotion.find({itembuy:{$elemMatch:{productGroup:listGroup.group,productSize:listGroup.size}}})
-        //         if(dataPromotionGroup.length > 0){
-        //             for(const listGroupPromotion of dataPromotionGroup){
-        //                 for (const itemBuyList of listGroupPromotion.itembuy){
-        //                     const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
-        //                     // console.log(unitDetail.nameEng)
-        //
-        //                     // module compare unit
-        //                         if(listGroup.qty >= itemBuyList.productQty){
-        //                         const data_obj = {
-        //                             group:listGroup.group,
-        //                             size:listGroup.size,
-        //                             proId:listGroupPromotion.proId,
-        //                             TotalPurchasedQuantity:{
-        //                                 productId:'10011101011',
-        //                                 qty:2,
-        //                                 nameQty:'BAG'
-        //                             },
-        //                             TotalReward:{
-        //                                 productId:listGroup.id,
-        //                                 qty:1,
-        //                                 unitQty:'PCS'
-        //                             }
-        //                         }
-        //                         PromotionGroupMatch.push(data_obj)
-        //                     }else{}
-        //                     // module compare unit
-        //                 }
-        //             }
-        //         }else{}
-        //     }
+            for(const listGroup of dataSummary.data.list.listProductGroup){
+                const dataPromotionGroup = await Promotion.find({itembuy:{$elemMatch:{productGroup:listGroup.group,productSize:listGroup.size}}})
+                if(dataPromotionGroup.length > 0){
+                    for(const listGroupPromotion of dataPromotionGroup){
+                        for (const itemBuyList of listGroupPromotion.itembuy){
+                            const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
+                            // console.log(unitDetail.nameEng)
+
+                            // module compare unit
+                                if(listGroup.qty >= itemBuyList.productQty){
+                                const data_obj = {
+                                    group:listGroup.group,
+                                    size:listGroup.size,
+                                    proId:listGroupPromotion.proId,
+                                    TotalPurchasedQuantity:{
+                                        productId:'10011101011',
+                                        qty:2,
+                                        nameQty:'BAG'
+                                    },
+                                    TotalReward:{
+                                        productId:listGroup.id,
+                                        qty:1,
+                                        unitQty:'PCS'
+                                    }
+                                }
+                                PromotionGroupMatch.push(data_obj)
+                            }else{}
+                            // module compare unit
+                        }
+                    }
+                }else{}
+            }
 
             // 3. converting unit prepare compare
         /*
