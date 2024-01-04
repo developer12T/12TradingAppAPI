@@ -32,7 +32,7 @@ app.get('/dashboard', (req, res) => {
 newStore(io)
 connectDB().then(() => {
     server.listen(PORT, () => {
-      console.log(`server start on port ${PORT}`)
+      console.log(`\x1b[33mserver\x1b[0m \x1b[31mstart \x1b[35mon\x1b[0m \x1b[36mport\x1b[0m \x1b[34m${PORT}\x1b[0m`)
     })
 }).catch((error) => {
     console.error('Error connecting to the database:', error)

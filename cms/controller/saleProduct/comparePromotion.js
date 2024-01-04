@@ -17,11 +17,12 @@ comparePromotion.post('/compare', async (req, res) => {
             for(const listGroup of dataSummary.data.list.listProduct){
                 const dataPromotion = await Promotion.find({itembuy:{$elemMatch:{productId:listGroup.id}}})
                 if(!dataPromotion || dataPromotion.length === 0){
-                    // console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
+                     // console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
                 }else{
                     for(const listDataPromotion of dataPromotion){
-                        // console.log(listDataPromotion)
+                        console.log(listDataPromotion.proId)
                         for (const itemList of listDataPromotion.itembuy){
+                            // console.log(itemList)
                             // console.log(itemList.productId) console.log(itemList.productQty)
 
                             /*
@@ -30,27 +31,28 @@ comparePromotion.post('/compare', async (req, res) => {
                             */
 
                             // module compare
-                            if(listGroup.qtyPurc >= itemList.productQty){
-                                const data_obj = {
-                                    // type:'Product List',
-                                    productId:listGroup.id,
-                                    proId:listDataPromotion.proId,
-                                    TotalPurchasedQuantity:{
-                                        qty:2,
-                                        nameQty:'BAG'
-                                    },
-                                    TotalReward:{
-                                        productId:'10011101011',
-                                        qty:1,
-                                        unitQty:'PCS'
-                                    }
-                                }
-                                    PromotionProductMatch.push(data_obj)
-                                    // console.log(listGroup.id+' อยู่ใน โปรโมชั่น')
-                            }else {
-                                 console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
-                            }
-
+                            // console.log(listGroup)
+                            // if(listGroup.qtyPurc >= itemList.productQty){
+                            //     const data_obj = {
+                            //         // type:'Product List',
+                            //         productId:listGroup.id,
+                            //         proId:listDataPromotion.proId,
+                            //         TotalPurchasedQuantity:{
+                            //             productId:'10011101011',
+                            //             qty:2,
+                            //             nameQty:'BAG'
+                            //         },
+                            //         TotalReward:{
+                            //             productId:'10011101011',
+                            //             qty:1,
+                            //             unitQty:'PCS'
+                            //         }
+                            //     }
+                            //         PromotionProductMatch.push(data_obj)
+                            //         // console.log(listGroup.id+' อยู่ใน โปรโมชั่น')
+                            // }else {
+                            //      console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
+                            // }
                             // module compare
                         }
                     }
@@ -58,37 +60,39 @@ comparePromotion.post('/compare', async (req, res) => {
             }
 
         //2.เช็ค ว่า ใน group ของ summaryCart มี ใน Promotion ไหม
-            for(const listGroup of dataSummary.data.list.listProductGroup){
-                const dataPromotionGroup = await Promotion.find({itembuy:{$elemMatch:{productGroup:listGroup.group,productSize:listGroup.size}}})
-                if(dataPromotionGroup.length > 0){
-                    for(const listGroupPromotion of dataPromotionGroup){
-                        for (const itemBuyList of listGroupPromotion.itembuy){
-                            const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
-                            // console.log(unitDetail.nameEng)
+        //     for(const listGroup of dataSummary.data.list.listProductGroup){
+        //         const dataPromotionGroup = await Promotion.find({itembuy:{$elemMatch:{productGroup:listGroup.group,productSize:listGroup.size}}})
+        //         if(dataPromotionGroup.length > 0){
+        //             for(const listGroupPromotion of dataPromotionGroup){
+        //                 for (const itemBuyList of listGroupPromotion.itembuy){
+        //                     const unitDetail = await Unit.findOne({idUnit:itemBuyList.productUnit})
+        //                     // console.log(unitDetail.nameEng)
+        //
+        //                     // module compare unit
+        //                         if(listGroup.qty >= itemBuyList.productQty){
+        //                         const data_obj = {
+        //                             group:listGroup.group,
+        //                             size:listGroup.size,
+        //                             proId:listGroupPromotion.proId,
+        //                             TotalPurchasedQuantity:{
+        //                                 productId:'10011101011',
+        //                                 qty:2,
+        //                                 nameQty:'BAG'
+        //                             },
+        //                             TotalReward:{
+        //                                 productId:listGroup.id,
+        //                                 qty:1,
+        //                                 unitQty:'PCS'
+        //                             }
+        //                         }
+        //                         PromotionGroupMatch.push(data_obj)
+        //                     }else{}
+        //                     // module compare unit
+        //                 }
+        //             }
+        //         }else{}
+        //     }
 
-                            // module compare unit
-                                if(listGroup.qty >= itemBuyList.productQty){
-                                const data_obj = {
-                                    group:listGroup.group,
-                                    size:listGroup.size,
-                                    proId:listGroupPromotion.proId,
-                                    TotalPurchasedQuantity:{
-                                        qty:2,
-                                        nameQty:'BAG'
-                                    },
-                                    TotalReward:{
-                                        productId:listGroup.id,
-                                        qty:1,
-                                        unitQty:'PCS'
-                                    }
-                                }
-                                PromotionGroupMatch.push(data_obj)
-                            }else{}
-                            // module compare unit
-                        }
-                    }
-                }else{}
-            }
             // 3. converting unit prepare compare
         /*
         */
