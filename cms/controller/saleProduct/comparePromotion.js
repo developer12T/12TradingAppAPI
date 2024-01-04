@@ -3,7 +3,7 @@ const express = require('express')
 require('../../configs/connect')
 const axios = require("axios")
 const {Promotion} = require("../../models/promotion")
-const {Unit} = require("../../models/product")
+const {Unit, Product} = require("../../models/product")
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -36,7 +36,7 @@ comparePromotion.post('/compare', async (req, res) => {
                             // console.log(listGroup)
                             // ตรงนี้ต้อง convert unit ถ้า unit ไม่ตรง เพื่อให้เช็คว่าซื้อครบตาม unit ไหม
                             if (listGroup.qtyPurc >= itemList.productQty) {
-                                console.log('เกินโปรโมชั่นแล้ว')
+                                console.log('Reward Promotion')
                                 const dataUnitName = await Unit.findOne({idUnit: listGroup.qtyUnitId})
 
                                 const rewardData = await Promotion.findOne({proId: listDataPromotion.proId})
@@ -64,8 +64,26 @@ comparePromotion.post('/compare', async (req, res) => {
                             }
                         } else {
                             // ต้อง convert หน่วยก่อนค่อยเอามาเปรียบเทียบ
-                            const listGroupData = listGroup.qtyPurc
-                            console.log(listGroupData)
+                            // 1. แปลงเป็นหน่วยย่อยที่สุด
+                            // 2. เอาไปหารตัว convert.product
+                            // 3. แล้วค่อยเช็คว่าได้เท่าโปรโมชั่นไหม
+
+                            const convertChange = await Product.findOne({
+                                id: listGroup.id,
+                                convertFact: {$elemMatch: {unitId: listGroup.qtyUnitId}}
+                            }, {'convertFact.$': 1})
+
+                            // console.log(listGroup.qtyPurc*convertChange.convertFact[0].factor)
+                            const convertChangePro = await Product.findOne({
+                                id: listGroup.id,
+                                convertFact: {$elemMatch: {unitId: itemList.productUnit}}
+                            }, {'convertFact.$': 1})
+
+                            console.log((listGroup.qtyPurc * convertChange.convertFact[0].factor)/convertChangePro.convertFact[0].factor)
+                            // สร้างเงื่อนไขเปรียบเทียบ จำนวนการซื้อ
+                            if((listGroup.qtyPurc * convertChange.convertFact[0].factor)/convertChangePro.convertFact[0].factor >= itemList.productQty){
+                                console.log('ได้โปรโมชั่น')
+                            }
                         }
                     }
                 }
@@ -114,7 +132,7 @@ comparePromotion.post('/compare', async (req, res) => {
         //     } else {
         //     }
         // }
-        
+
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
 
     } catch (error) {
