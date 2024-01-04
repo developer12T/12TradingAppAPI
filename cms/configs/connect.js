@@ -19,7 +19,7 @@ const connectDB = async () => {
             const percentage = (progress / totalSteps) * 100;
             process.stdout.clearLine();
             process.stdout.cursorTo(0);
-            process.stdout.write(`\x1b[35mConnecting to MongoDB... ${percentage.toFixed(2)}%\x1b[0m`);
+            process.stdout.write(`\x1b[35mConnecting Database... ${percentage.toFixed(2)}%\x1b[0m`);
 
             if (progress === totalSteps) {
                 clearInterval(interval);
