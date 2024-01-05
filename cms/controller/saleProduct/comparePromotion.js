@@ -136,8 +136,8 @@ comparePromotion.post('/compare', async (req, res) => {
                                     qtyUnit:dataUnitName1.nameEng,
                                     TotalReward: dataRewardItem
                                 }
-
                                 PromotionGroupMatch.push(data_obj)
+
                             }
                         }
                     }
