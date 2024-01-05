@@ -273,9 +273,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
 
         const summaryMainData = {
             listProduct: productList,
-            // listProductGroup: listProductGroup,
             listProductGroup: listProductGroupUnit,
-            // listProductSize:summarySize
         }
 
         res.status(200).json({typeStore: dataStore.type, list: summaryMainData,})

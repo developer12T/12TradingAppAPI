@@ -4,6 +4,7 @@ require('../../configs/connect')
 const axios = require("axios")
 const {Promotion} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
+const _ = require("lodash");
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -36,7 +37,7 @@ comparePromotion.post('/compare', async (req, res) => {
                             // console.log(listGroup)
                             // ตรงนี้ต้อง convert unit ถ้า unit ไม่ตรง เพื่อให้เช็คว่าซื้อครบตาม unit ไหม
                             if (listGroup.qtyPurc >= itemList.productQty) {
-                                console.log('Reward Promotion')
+                                // console.log('Reward Promotion')
                                 const dataUnitName = await Unit.findOne({idUnit: listGroup.qtyUnitId})
 
                                 const rewardData = await Promotion.findOne({proId: listDataPromotion.proId})
@@ -79,9 +80,9 @@ comparePromotion.post('/compare', async (req, res) => {
                                 convertFact: {$elemMatch: {unitId: itemList.productUnit}}
                             }, {'convertFact.$': 1})
 
-                            console.log((listGroup.qtyPurc * convertChange.convertFact[0].factor)/convertChangePro.convertFact[0].factor)
+                            console.log((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor)
                             // สร้างเงื่อนไขเปรียบเทียบ จำนวนการซื้อ
-                            if((listGroup.qtyPurc * convertChange.convertFact[0].factor)/convertChangePro.convertFact[0].factor >= itemList.productQty){
+                            if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
                                 console.log('ได้โปรโมชั่น')
                             }
                         }
@@ -91,50 +92,60 @@ comparePromotion.post('/compare', async (req, res) => {
         }
 
         //2.เช็ค ว่า ใน group ของ summaryCart มี ใน Promotion ไหม
-        // for (const listGroup of dataSummary.data.list.listProductGroup) {
-        //     const dataPromotionGroup = await Promotion.find({
-        //         itembuy: {
-        //             $elemMatch: {
-        //                 productGroup: listGroup.group,
-        //                 productSize: listGroup.size
-        //             }
-        //         }
-        //     })
-        //     if (dataPromotionGroup.length > 0) {
-        //         for (const listGroupPromotion of dataPromotionGroup) {
-        //             for (const itemBuyList of listGroupPromotion.itembuy) {
-        //                 const unitDetail = await Unit.findOne({idUnit: itemBuyList.productUnit})
-        //                 // console.log(unitDetail.nameEng)
-        //
-        //                 // module compare unit
-        //                 if (listGroup.qty >= itemBuyList.productQty) {
-        //                     const data_obj = {
-        //                         group: listGroup.group,
-        //                         size: listGroup.size,
-        //                         proId: listGroupPromotion.proId,
-        //                         TotalPurchasedQuantity: {
-        //                             productId: '10011101011',
-        //                             qty: 2,
-        //                             nameQty: 'BAG'
-        //                         },
-        //                         TotalReward: {
-        //                             productId: listGroup.id,
-        //                             qty: 1,
-        //                             unitQty: 'PCS'
-        //                         }
-        //                     }
-        //                     PromotionGroupMatch.push(data_obj)
-        //                 } else {
-        //                 }
-        //                 // module compare unit
-        //             }
-        //         }
-        //     } else {
-        //     }
-        // }
+        for (const listGroup of dataSummary.data.list.listProductGroup) {
+            const dataPromotionGroup = await Promotion.find({
+                itembuy: {
+                    $elemMatch: {
+                        productGroup: listGroup.group,
+                        productSize: listGroup.size
+                    }
+                }
+            })
+            if (dataPromotionGroup.length > 0) {
+                for (const listGroupPromotion of dataPromotionGroup) {
+                    for (const itemBuyList of listGroupPromotion.itembuy) {
+                        const unitDetail = await Unit.findOne({idUnit: itemBuyList.productUnit})
+
+                        const filterData = _.filter(listGroup.converterUnit, {'name': unitDetail.nameEng})
+                        // console.log(filterData)
+
+                        if (filterData[0].qty >= itemBuyList.productQty) {
+                            var ttRewardGroup = []
+                            const rewardDataGroup = await Promotion.findOne({proId: listGroupPromotion.proId})
+                            for (const listRewardData of rewardDataGroup.itemfree) {
+                                const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
+                                // const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
+
+                                const dataRewardItem = await Product.find({
+                                    group: listRewardData.productGroup,
+                                    size: listRewardData.productSize,
+                                    "convertFact.unitId": {$ne: '3'}
+                                },{id:1,_id:0,name:1})
+
+                                ttRewardGroup.push({
+                                    productId: listRewardData.productGroup,
+                                    qty: (listGroup.qtyPurc / (itemBuyList.productQty / listRewardData.productQty)),
+                                    unitQty: dataUnitName1.nameEng
+                                })
+
+                                const data_obj = {
+                                    group: listGroup.group,
+                                    size: listGroup.size,
+                                    proId: listGroupPromotion.proId,
+                                    qtyReward:parseInt(filterData[0].qty/(itemBuyList.productQty/listRewardData.productQty)),
+                                    qtyUnit:dataUnitName1.nameEng,
+                                    TotalReward: dataRewardItem
+                                }
+
+                                PromotionGroupMatch.push(data_obj)
+                            }
+                        }
+                    }
+                }
+            } else {}
+        }
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
-
     } catch (error) {
         console.log(error)
         res.status(500).json({
