@@ -12,12 +12,13 @@ comparePromotion.post('/compare', async (req, res) => {
         const { calPromotion } = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
+
         const dataSummary = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/getSummaryCart', {
             area: req.body.area,
             storeId: req.body.storeId
         })
 
-        //1.เช็ค ว่า productId ใน summarryCart มี ใน Promotion ไหม ต้องเช็คอีกที่ว่า สินค้าอันไหนบ้างที่เข้าโปร
+        // 1.เช็ค ว่า productId ใน summarryCart มี ใน Promotion ไหม ต้องเช็คอีกที่ว่า สินค้าอันไหนบ้างที่เข้าโปร
         for (const listGroup of dataSummary.data.list.listProduct) {
             const dataPromotion = await Promotion.find({itembuy: {$elemMatch: {productId: listGroup.id}}})
             if (!dataPromotion || dataPromotion.length === 0) {
@@ -25,6 +26,7 @@ comparePromotion.post('/compare', async (req, res) => {
             } else {
                 for (const listDataPromotion of dataPromotion) {
                     for (const itemList of listDataPromotion.itembuy) {
+
                         /*
                             x(ซื้อ) / y(เงื่อนไขโปร) >= 1 ซื้อเกินโปรโมชั่นแล้ว
                             x(ซื้อ) / y(เงื่อนไขโปร) <= 1 ซื้อยังไม่ถึงโปรโมชั่น
@@ -43,7 +45,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
                                     ttReward.push({
                                         productId: listRewardData.productId,
-                                        qty:  calPromotion(listGroup.qtyPurc,itemList.productQty,listRewardData.productQty),
+                                        qty: await calPromotion(listGroup.qtyPurc,itemList.productQty,listRewardData.productQty),
                                         unitQty: dataUnitName1.nameEng
                                     })
                                 }

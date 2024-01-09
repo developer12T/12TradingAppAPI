@@ -18,7 +18,7 @@ getPromotion.post('/getPromotion', async (req, res) => {
 
 getPromotion.post('/getChangeReward', async (req, res) => {
     try {
-        const  { calPromotion } = require('../../utils/utility')
+        const {calPromotion} = require('../../utils/utility')
         const data = await Promotion.findOne({proId: req.body.proId}, {itemfree: 1, proId: 1, _id: 0})
         var dataItem = []
         for (const list of data.itemfree) {
@@ -28,24 +28,26 @@ getPromotion.post('/getChangeReward', async (req, res) => {
                     group: list.productGroup,
                     size: list.productSize,
                     // "convertFact.unitId": {$ne: '3'}
-                }, {id: 1, _id: 0, name: 1})
+                }, {_id: 0, id: 1, name: 1})
 
-                for (const sublist of dataRewardItem) {
-                    dataItem.push(sublist)
-                }
+                dataItem.push(...dataRewardItem)
 
             } else {
                 console.log(`เป็นแถมระบุ item :: ${list.productId}`)
                 const dataRewardItem = await Product.findOne({id: list.productId}, {_id: 0, id: 1, name: 1})
-                // const qtyReceipt = await Promotion.findOne({proId:req.body.proId})
-                console.log(list)
-                var a = 3
-                var b = 2
+                const dataPromotion = await Promotion.findOne({proId: req.body.proId}, {
+                    _id: 0,
+                    itembuy: 1,
+                    itemfree: 1
+                })
+                console.log(`test ${dataPromotion.itemfree}`)
+                // แทนค่าจากฐานข้อมูล
+                let a = 3
+                let b = 2
                 const subData = {
                     id: dataRewardItem.id,
                     name: dataRewardItem.name,
-                    qty: calPromotion(req.body.qty,a,b)
-                    // จำนวนที่ซื้อ(3(จำนวนซื้อ)/2(จำนวนแถม))
+                    qty: await calPromotion(req.body.qty, a, b)
                 }
                 dataItem.push(subData)
             }

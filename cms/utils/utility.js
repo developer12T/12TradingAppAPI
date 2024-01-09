@@ -62,7 +62,7 @@ function checkDistanceLatLon(lat1, lon1, lat2, lon2, unit) {
   }
 }
 
-function calPromotion(totalPurchase,buy,free){
+async function calPromotion(totalPurchase,buy,free){
   const setsOfThree = Math.floor(totalPurchase / buy)
   return setsOfThree * free
 }
