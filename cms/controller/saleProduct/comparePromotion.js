@@ -120,7 +120,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     group: listRewardData.productGroup,
                                     size: listRewardData.productSize,
                                     "convertFact.unitId": {$ne: '3'}
-                                },{id:1,_id:0,name:1})
+                                }, {id: 1, _id: 0, name: 1})
 
                                 ttRewardGroup.push({
                                     productId: listRewardData.productGroup,
@@ -132,9 +132,9 @@ comparePromotion.post('/compare', async (req, res) => {
                                     group: listGroup.group,
                                     size: listGroup.size,
                                     proId: listGroupPromotion.proId,
-                                    qtyReward:parseInt(filterData[0].qty/(itemBuyList.productQty/listRewardData.productQty)),
-                                    qtyUnit:dataUnitName1.nameEng,
-                                    TotalReward: dataRewardItem
+                                    qtyReward: parseInt(filterData[0].qty / (itemBuyList.productQty / listRewardData.productQty)),
+                                    qtyUnit: dataUnitName1.nameEng,
+                                    listProductReward: dataRewardItem
                                 }
                                 PromotionGroupMatch.push(data_obj)
 
@@ -142,7 +142,8 @@ comparePromotion.post('/compare', async (req, res) => {
                         }
                     }
                 }
-            } else {}
+            } else {
+            }
         }
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
