@@ -34,7 +34,7 @@ getPromotion.post('/getChangeReward', async (req, res) => {
                 }
 
             } else {
-                console.log('เป็นแถมระบุ item ::' + list.productId)
+                console.log('เป็นแถมระบุ item :: ' + list.productId)
                 const dataRewardItem = await Product.findOne({id: list.productId}, {_id: 0,id: 1,name: 1})
                 // const qtyReceipt = await Promotion.findOne({proId:req.body.proId})
                 console.log(list)

@@ -4,7 +4,7 @@ require('../../configs/connect')
 const axios = require("axios")
 const {Promotion} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
-const _ = require("lodash");
+const _ = require("lodash")
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -23,11 +23,7 @@ comparePromotion.post('/compare', async (req, res) => {
                 // console.log('ไม่มีสินค้าไหนอยุ่ในเงื่อนไขของ promotion')
             } else {
                 for (const listDataPromotion of dataPromotion) {
-                    // console.log(listDataPromotion.proId)
                     for (const itemList of listDataPromotion.itembuy) {
-                        // console.log(listGroup)
-                        // console.log(itemList)
-
                         /*
                             x(ซื้อ) / y(เงื่อนไขโปร) >= 1 ซื้อเกินโปรโมชั่นแล้ว
                             x(ซื้อ) / y(เงื่อนไขโปร) <= 1 ซื้อยังไม่ถึงโปรโมชั่น
