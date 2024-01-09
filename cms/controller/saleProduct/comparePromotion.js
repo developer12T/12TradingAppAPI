@@ -9,6 +9,7 @@ const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
     try {
+        const { calPromotion } = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
         const dataSummary = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/getSummaryCart', {
@@ -42,7 +43,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
                                     ttReward.push({
                                         productId: listRewardData.productId,
-                                        qty: (listGroup.qtyPurc / (itemList.productQty / listRewardData.productQty)),
+                                        qty:  calPromotion(listGroup.qtyPurc,itemList.productQty,listRewardData.productQty),
                                         unitQty: dataUnitName1.nameEng
                                     })
                                 }

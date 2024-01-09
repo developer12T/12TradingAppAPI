@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "jest --watchAll --coverage",
     "app-mb": "nodemon index.js",
     "api": "nodemon index.js"
   },
@@ -30,6 +31,7 @@
     "winston-mongodb": "^5.1.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.0.1"
   }
 }

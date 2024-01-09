@@ -18,7 +18,8 @@ getPromotion.post('/getPromotion', async (req, res) => {
 
 getPromotion.post('/getChangeReward', async (req, res) => {
     try {
-        const data = await Promotion.findOne({proId: req.body.proId},{itemfree: 1, proId: 1, _id: 0})
+        const  { calPromotion } = require('../../utils/utility')
+        const data = await Promotion.findOne({proId: req.body.proId}, {itemfree: 1, proId: 1, _id: 0})
         var dataItem = []
         for (const list of data.itemfree) {
             if (!list.productId) {
@@ -34,16 +35,16 @@ getPromotion.post('/getChangeReward', async (req, res) => {
                 }
 
             } else {
-                console.log('เป็นแถมระบุ item :: ' + list.productId)
-                const dataRewardItem = await Product.findOne({id: list.productId}, {_id: 0,id: 1,name: 1})
+                console.log(`เป็นแถมระบุ item :: ${list.productId}`)
+                const dataRewardItem = await Product.findOne({id: list.productId}, {_id: 0, id: 1, name: 1})
                 // const qtyReceipt = await Promotion.findOne({proId:req.body.proId})
                 console.log(list)
                 var a = 3
                 var b = 2
                 const subData = {
-                    id:dataRewardItem.id,
-                    name:dataRewardItem.name,
-                    qty:(req.body.qty/(a/b))
+                    id: dataRewardItem.id,
+                    name: dataRewardItem.name,
+                    qty: calPromotion(req.body.qty,a,b)
                     // จำนวนที่ซื้อ(3(จำนวนซื้อ)/2(จำนวนแถม))
                 }
                 dataItem.push(subData)
