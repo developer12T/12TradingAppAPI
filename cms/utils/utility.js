@@ -67,6 +67,7 @@ async function calPromotion(totalPurchase,buy,free){
   return setsOfThree * free
 }
 
+
 // async function converting(idProduct,qty,unitIdBuy) {
 //     const dataUnit
 //     return dist;

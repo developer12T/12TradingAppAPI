@@ -2,9 +2,10 @@ const express = require('express')
 
 require('../../configs/connect')
 const axios = require("axios")
-const {Promotion} = require("../../models/promotion")
+const {Promotion, RewardReceipt} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
 const _ = require("lodash")
+const {calPromotion, currentdateDash} = require("../../utils/utility");
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -43,8 +44,10 @@ comparePromotion.post('/compare', async (req, res) => {
                                 var ttReward = []
                                 for (const listRewardData of rewardData.itemfree) {
                                     const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
+                                    const productDetail = await Product.findOne({id:listRewardData.productId})
                                     ttReward.push({
                                         productId: listRewardData.productId,
+                                        productName: productDetail.name,
                                         qty: await calPromotion(listGroup.qtyPurc,itemList.productQty,listRewardData.productQty),
                                         unitQty: dataUnitName1.nameEng
                                     })
@@ -80,6 +83,7 @@ comparePromotion.post('/compare', async (req, res) => {
                             }, {'convertFact.$': 1})
 
                             console.log((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor)
+
                             // สร้างเงื่อนไขเปรียบเทียบ จำนวนการซื้อ
                             if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
                                 console.log('ได้โปรโมชั่น')
@@ -123,7 +127,7 @@ comparePromotion.post('/compare', async (req, res) => {
 
                                 ttRewardGroup.push({
                                     productId: listRewardData.productGroup,
-                                    qty: (listGroup.qtyPurc / (itemBuyList.productQty / listRewardData.productQty)),
+                                    qty: await calPromotion(listGroup.qtyPurc, itemBuyList.productQty , listRewardData.productQty),
                                     unitQty: dataUnitName1.nameEng
                                 })
 
@@ -131,7 +135,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     group: listGroup.group,
                                     size: listGroup.size,
                                     proId: listGroupPromotion.proId,
-                                    qtyReward: parseInt(filterData[0].qty / (itemBuyList.productQty / listRewardData.productQty)),
+                                    qtyReward: await calPromotion(filterData[0].qty , itemBuyList.productQty , listRewardData.productQty),
                                     qtyUnit: dataUnitName1.nameEng,
                                     listProductReward: dataRewardItem
                                 }
@@ -144,6 +148,17 @@ comparePromotion.post('/compare', async (req, res) => {
             } else {
             }
         }
+
+            
+        // await RewardReceipt.create({
+        //     area:req.body.area,
+        //     storeId:req.body.storeId,
+        //     proId: ,
+        //     listFreeItem: ,
+        //     listFreeGroup: ,
+        //     createDate:currentdateDash(),
+        //     updateDate: '****/**/**T**:**'
+        // })
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
     } catch (error) {

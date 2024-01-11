@@ -26,4 +26,4 @@ async function updateAvailable(type,zone,number){
 module.exports = {
     available,
     updateAvailable
-};
+}

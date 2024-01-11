@@ -1,0 +1,23 @@
+ref : getPromotion =>/getChangeReward
+    // console.log(`test ${dataPromotion.itemfree[0].productQty}`)
+    // ค่าที่ต้องเอามาจาก database
+    //     for(let list of dataPromotion.itemfree){
+    //         // console.log(list.productQty)
+    //         // console.log(list.productUnit)
+    //         for(let list2 of dataPromotion.itembuy){
+    //           const unitName =  await takeNameEng(list.productUnit)
+    //           const unitName2 =  await takeNameEng(list2.productUnit)
+    //             console.log('itemfree :: '+list.productQty + ' '+unitName +`(${list.productUnit})`)
+    //             console.log('itembuy :: '+list2.productQty + ' '+unitName2 +`(${list2.productUnit})`)
+    //             console.log('*------------------------*')
+    //
+    //             if(req.body.unitQty === list2.productUnit){
+    //                 console.log('หน่วยตรง')
+    //
+    //             }else{
+    //                 console.log('หน่วยไม่ตรง')
+    //             }
+    //
+    //         }
+    //     }
+    // ค่าที่ต้องเอามาจาก database
