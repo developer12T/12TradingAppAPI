@@ -73,6 +73,7 @@ const listProductFreeGroup = new Schema({
 const listFreeGroup = new Schema({
     group: String,
     size: String,
+    proId:String,
     qtyReward: Number,
     qtyUnit: String,
     listProduct: [listProductFreeGroup]

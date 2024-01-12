@@ -1,6 +1,6 @@
 const express = require('express')
 require('../../configs/connect')
-const {Promotion} = require("../../models/promotion")
+const {Promotion, RewardReceipt} = require("../../models/promotion")
 const {Product} = require("../../models/product")
 const {calPromotion} = require("../../utils/utility")
 const getPromotion = express.Router()
@@ -91,60 +91,78 @@ getPromotion.post('/getChangeReward', async (req, res) => {
 
 getPromotion.post('/getChangeRewardTest', async (req, res) => {
     try {
-        const {proId, qty, unitQty} = req.body
-        const dataPromotion = await Promotion.findOne({proId}, {_id: 0, itemfree: 1})
-        const { convertUnit } = require('../../services/convertUnit')
-        const groupArr = []
-        const sizeArr = []
-        const itemArr = []
-        const qtyRewardArr = []
 
-        for (const list of dataPromotion.itemfree) {
-            const productData = await Product.findOne({id:list.productId})
-            console.log(list.productId)
-            console.log(list.productQty)
-            console.log(list.productUnit)
-            console.log(list.productGroup)
-            console.log(await convertUnit(list.productId,list.productUnit))
+        const data = await RewardReceipt.findOne({area: req.body.area, storeId: req.body.storeId})
 
-            if(!list.productGroup){
-                console.log('ไม่มีgroup')
-            }else{
-                groupArr.push(list.productGroup)
-            }
+        // console.log(data.area + ' : ' + data.storeId)
+        // console.log(data.listFreeItem)
 
-            if(!list.productSize){
-                console.log('ไม่มีกลุ่มของขนาด')
-            }else{
-                sizeArr.push(list.productSize)
-            }
-
-            if(!list.productId){
-                console.log('ไม่มีสินค้ารายไอเท็ม')
-            }else{
-                const mainData = {
-                    id:list.productId,
-                    name:productData.name,
-                    qty:10,
-                    unit:'2'
-                }
-                itemArr.push(mainData)
-            }
-
-            const RewardQty = {
-                qty: 2,
-                unit: 'PCS'
-            }
-            qtyRewardArr.push(RewardQty)
-            console.log('*-----------------------------------------------------------------*')
+        for(const list of data.listFreeItem){
+            console.log(list)
+            console.log('*------------------------------------*')
         }
 
-        res.status(200).json({
-            group: groupArr,
-            size: sizeArr,
-            itemFree: itemArr,
-            qtyReward:qtyRewardArr
-        })
+        for(const list of data.listFreeGroup){
+            console.log(list)
+            console.log('//******************************************//')
+        }
+
+        // const {proId, qty, unitQty} = req.body
+        // const dataPromotion = await Promotion.findOne({proId}, {_id: 0, itemfree: 1})
+        // const { convertUnit } = require('../../services/convertUnit')
+        // const groupArr = []
+        // const sizeArr = []
+        // const itemArr = []
+        // const qtyRewardArr = []
+        //
+        // for (const list of dataPromotion.itemfree) {
+        //     const productData = await Product.findOne({id:list.productId})
+        //     console.log(list.productId)
+        //     console.log(list.productQty)
+        //     console.log(list.productUnit)
+        //     console.log(list.productGroup)
+        //     console.log(await convertUnit(list.productId,list.productUnit))
+        //
+        //     if(!list.productGroup){
+        //         console.log('ไม่มีgroup')
+        //     }else{
+        //         groupArr.push(list.productGroup)
+        //     }
+        //
+        //     if(!list.productSize){
+        //         console.log('ไม่มีกลุ่มของขนาด')
+        //     }else{
+        //         sizeArr.push(list.productSize)
+        //     }
+        //
+        //     if(!list.productId){
+        //         console.log('ไม่มีสินค้ารายไอเท็ม')
+        //     }else{
+        //         const mainData = {
+        //             id:list.productId,
+        //             name:productData.name,
+        //             qty:10,
+        //             unit:'2'
+        //         }
+        //         itemArr.push(mainData)
+        //     }
+        //
+        //     const RewardQty = {
+        //         qty: 2,
+        //         unit: 'PCS'
+        //     }
+        //     qtyRewardArr.push(RewardQty)
+        //     console.log('*-----------------------------------------------------------------*')
+        // }
+
+        res.status(200).json(data)
+
+        // res.status(200).json({
+        //     group: groupArr,
+        //     size: sizeArr,
+        //     itemFree: itemArr,
+        //     qtyReward:qtyRewardArr
+        // })
     } catch (e) {
         console.log(e)
         res.status(500).json({

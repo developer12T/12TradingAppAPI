@@ -10,7 +10,7 @@ const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
     try {
-        const { calPromotion } = require('../../utils/utility')
+        const {calPromotion} = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
 
@@ -44,11 +44,11 @@ comparePromotion.post('/compare', async (req, res) => {
                                 var ttReward = []
                                 for (const listRewardData of rewardData.itemfree) {
                                     const dataUnitName1 = await Unit.findOne({idUnit: listRewardData.productUnit})
-                                    const productDetail = await Product.findOne({id:listRewardData.productId})
+                                    const productDetail = await Product.findOne({id: listRewardData.productId})
                                     ttReward.push({
                                         productId: listRewardData.productId,
                                         productName: productDetail.name,
-                                        qty: await calPromotion(listGroup.qtyPurc,itemList.productQty,listRewardData.productQty),
+                                        qty: await calPromotion(listGroup.qtyPurc, itemList.productQty, listRewardData.productQty),
                                         unitQty: dataUnitName1.nameEng
                                     })
                                 }
@@ -127,7 +127,7 @@ comparePromotion.post('/compare', async (req, res) => {
 
                                 ttRewardGroup.push({
                                     productId: listRewardData.productGroup,
-                                    qty: await calPromotion(listGroup.qtyPurc, itemBuyList.productQty , listRewardData.productQty),
+                                    qty: await calPromotion(listGroup.qtyPurc, itemBuyList.productQty, listRewardData.productQty),
                                     unitQty: dataUnitName1.nameEng
                                 })
 
@@ -135,7 +135,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     group: listGroup.group,
                                     size: listGroup.size,
                                     proId: listGroupPromotion.proId,
-                                    qtyReward: await calPromotion(filterData[0].qty , itemBuyList.productQty , listRewardData.productQty),
+                                    qtyReward: await calPromotion(filterData[0].qty, itemBuyList.productQty, listRewardData.productQty),
                                     qtyUnit: dataUnitName1.nameEng,
                                     listProductReward: dataRewardItem
                                 }
@@ -149,18 +149,51 @@ comparePromotion.post('/compare', async (req, res) => {
             }
         }
 
-            
-        // await RewardReceipt.create({
-        //     area:req.body.area,
-        //     storeId:req.body.storeId,
-        //     proId: ,
-        //     listFreeItem: ,
-        //     listFreeGroup: ,
-        //     createDate:currentdateDash(),
-        //     updateDate: '****/**/**T**:**'
-        // })
+        // ยิง rest api ไป อัพเดต หรือเก็บข้อมูลลง RewardReceipt
+        const addRewardReceipt = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/receiptReward', {
+            area: req.body.area,
+            storeId: req.body.storeId,
+            ListProduct: PromotionProductMatch,
+            ProductGroup: PromotionGroupMatch
+        })
+
+        if (addRewardReceipt.status == 200) {
+            console.log('ยิงไปอัปเดตสำเร็จ')
+            console.log(addRewardReceipt.data)
+        } else {
+            console.log('ยิงไปอัปเดตไม่สำเร็จ')
+            console.log(addRewardReceipt.data)
+        }
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+comparePromotion.post('/summaryCompare', async (req, res) => {
+    try {
+        const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare',req.body)
+        const data = response.data
+
+        console.log(data)
+        // for (const list of data[0].listProductReward){
+        //     console.log(list)
+        // }
+
+        const mainData = {
+            proId:'pro03',
+            nameProduct:'ผงปรุงรสไก่ ฟ้าไทย 12g x12x20',
+            qty:10,
+            unitName:'PCS',
+            unitQty:'2'
+        }
+
+        res.status(200).json(mainData)
     } catch (error) {
         console.log(error)
         res.status(500).json({
