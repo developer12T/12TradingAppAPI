@@ -10,7 +10,7 @@ const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
     try {
-        const {calPromotion} = require('../../utils/utility')
+        const { calPromotion } = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
 
@@ -137,10 +137,10 @@ comparePromotion.post('/compare', async (req, res) => {
                                     proId: listGroupPromotion.proId,
                                     qtyReward: await calPromotion(filterData[0].qty, itemBuyList.productQty, listRewardData.productQty),
                                     qtyUnit: dataUnitName1.nameEng,
-                                    listProductReward: dataRewardItem
+                                    listProductReward: dataRewardItem,
+                                    listProduct:listGroup.listProduct
                                 }
                                 PromotionGroupMatch.push(data_obj)
-
                             }
                         }
                     }
@@ -159,10 +159,10 @@ comparePromotion.post('/compare', async (req, res) => {
 
         if (addRewardReceipt.status == 200) {
             console.log('ยิงไปอัปเดตสำเร็จ')
-            console.log(addRewardReceipt.data)
+            // console.log(addRewardReceipt.data)
         } else {
             console.log('ยิงไปอัปเดตไม่สำเร็จ')
-            console.log(addRewardReceipt.data)
+            // console.log(addRewardReceipt.data)
         }
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
@@ -179,11 +179,33 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
     try {
         const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare',req.body)
         const data = response.data
+        const freeItem = []
+        // console.log(data.ListProduct)
+        for(const list of data.ListProduct){
+            // console.log(list.TotalReward)
+            for (const subList of list.TotalReward){
+                // console.log(subList)
+                if(subList.productId == list.productId){
+                    subList.proId = list.proId
+                    freeItem.push(subList)
+                }
+            }
+            // console.log(list.productId)
+        }
 
-        console.log(data)
-        // for (const list of data[0].listProductReward){
-        //     console.log(list)
-        // }
+        for(const list of data.ProductGroup){
+            // console.log(list)
+            for(const subList of list.listProductReward){
+                // console.log(subList)
+                for(const memberList of list.listProduct){
+                    // console.log(memberList)
+                    if (memberList.id == subList.id){
+                        console.log('มี id อยุ่แล้ว')
+                    }
+                    // console.log('*---------------------*')
+                }
+            }
+        }
 
         const mainData = {
             proId:'pro03',
@@ -193,7 +215,8 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
             unitQty:'2'
         }
 
-        res.status(200).json(mainData)
+        // res.status(200).json(data)
+        res.status(200).json(freeItem)
     } catch (error) {
         console.log(error)
         res.status(500).json({

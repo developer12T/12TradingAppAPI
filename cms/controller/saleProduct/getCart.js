@@ -173,7 +173,9 @@ getCart.post('/getSummaryCart', async (req, res) => {
         }
 
         const groupData_arr = []
+        const groupDataListProduct_arr = []
         for (const listMainData of listProductGroup) {
+            // console.log(listMainData)
             const groupData_obj = {
                 group: listMainData.group,
                 size: listMainData.size,
@@ -184,10 +186,11 @@ getCart.post('/getSummaryCart', async (req, res) => {
             }
             groupData_arr.push(groupData_obj)
         }
+        // console.log(groupData_arr)
 
         const groupedData = groupData_arr.reduce((acc, curr) => {
             const {group, size, flavour,typeUnit} = curr
-            const key = `${group}/${size}/${typeUnit}`
+            const key = `${group}/${size}/${typeUnit}/${flavour}`
             if (!acc[key]) {
                 acc[key] = {
                     group,
@@ -198,20 +201,25 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 }
             }
             acc[key].qty += curr.qty
-
             return acc
         }, {})
+
+        // console.log(groupedData)
 
         const outputDataGroupSize = Object.keys(groupedData).sort().map((key) => {
             return groupedData[key]
         })
 
+
+
         const listProductGroupUnit = []
         var listProductGroupUnitListQty = []
-
+        // console.log(listProductInGroup)
         for (const listProGroup of outputDataGroupSize) {
+            // console.log(listProGroup)
             //  loop
             if(listProGroup.typeUnit === 'แผง'){
+
                 const dataConvertion = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
@@ -230,6 +238,8 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 listProductGroupUnitListQty = []
                 // listProductGroupUnit.push(listProGroup)
             }else{
+
+                // console.log('cz2')
                 const dataConvertion2 = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
@@ -268,12 +278,51 @@ getCart.post('/getSummaryCart', async (req, res) => {
             listCon.converterUnit = dataUnitListProductConvert
             productList.push(listCon)
             dataUnitListProductConvert  = []
+        }
 
+        // ดึงข้อมูล สินค้าจากตะกร้ามาเพื่อเอาข้อมูลไปใช้ เริ่มต้น
+        // console.log('cz')
+        const listProductInGroup = []
+        const dataProductCart= await Cart.findOne({area:req.body.area,storeId:req.body.storeId})
+        // console.log(dataProductCart.list)
+
+        for(const listDetailProduct of dataProductCart.list){
+            // console.log(listDetailProduct.id)
+            const detailProduct = await Product.findOne({id:listDetailProduct.id},{group:1,size:1,flavour:1,id:1,name:1,_id:0})
+            // console.log(detailProduct)
+            listProductInGroup.push(detailProduct)
+        }
+        // ดึงข้อมูล สินค้าจากตะกร้ามาเพื่อเอาข้อมูลไปใช้ สิ้นสุด
+        const listProductGroupUnitModify = []
+        for(const list of listProductGroupUnit){
+            // console.log(list)
+            const subDataListPro = []
+            for (const subList of listProductInGroup){
+                // console.log(subList)
+                if((list.group == subList.group) && (list.size == subList.size) && (list.flavour == subList.flavour)){
+                    // listProductGroupUnit.listProduct = subList
+                    // console.log(c.id + list.group)
+                    // console.log(list.converterUnit)
+                    subDataListPro.push(
+                        subList
+                    )
+                }
+            }
+            listProductGroupUnitModify.push({
+                group:list.group,
+                size:list.size,
+                flavour:list.flavour,
+                typeUnit:list.typeUnit,
+                qty:list.typeUnit,
+                converterUnit:list.converterUnit,
+                listProduct:subDataListPro
+            })
         }
 
         const summaryMainData = {
             listProduct: productList,
-            listProductGroup: listProductGroupUnit,
+            // listProductGroup: listProductGroupUnit,
+            listProductGroup: listProductGroupUnitModify,
         }
 
         res.status(200).json({typeStore: dataStore.type, list: summaryMainData,})

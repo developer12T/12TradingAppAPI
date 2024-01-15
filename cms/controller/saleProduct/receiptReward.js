@@ -22,7 +22,7 @@ receiptReward.post('/receiptReward', async (req, res) => {
         const subTotalRewardGroup = []
         // console.log(listProduct)
         // console.log('*--------------------------------------------------------------------*')
-        console.log(listGroup)
+        // console.log(listGroup)
 
         for (const list2 of listProduct) {
             for (const list of list2.TotalReward) {
@@ -36,7 +36,7 @@ receiptReward.post('/receiptReward', async (req, res) => {
             }
         }
         for (const list of listGroup) {
-            console.log(list)
+            // console.log(list)
             for (const list2 of list.listProductReward) {
                 // console.log(list2)
                 subTotalRewardGroup.push({
@@ -68,6 +68,21 @@ receiptReward.post('/receiptReward', async (req, res) => {
     } catch
         (error) {
         console.log(error)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+receiptReward.get('/getReceiptReward', async (req,res) =>{
+    try{
+       const { area,storeId } = req.query
+        console.log(area)
+        console.log(storeId)
+        const data = await RewardReceipt.findOne(req.quer)
+        res.status(200).json(data)
+    }catch (error){
         res.status(500).json({
             status: 500,
             message: error.message
