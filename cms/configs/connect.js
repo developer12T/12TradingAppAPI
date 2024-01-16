@@ -27,7 +27,7 @@ const connectDB = async () => {
                 process.stdout.cursorTo(0);
                 console.log('\x1b[35mConnected to MongoDB Success\x1b[0m')
             }
-        }, 150)
+        }, 10)
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         throw error;

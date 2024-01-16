@@ -2,7 +2,7 @@ const express = require('express')
 
 require('../../configs/connect')
 const axios = require("axios")
-const {Promotion, RewardReceipt} = require("../../models/promotion")
+const {Promotion, RewardReceipt, RewardSummary} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
 const _ = require("lodash")
 const {calPromotion, currentdateDash} = require("../../utils/utility");
@@ -158,10 +158,10 @@ comparePromotion.post('/compare', async (req, res) => {
         })
 
         if (addRewardReceipt.status == 200) {
-            console.log('ยิงไปอัปเดตสำเร็จ')
+            // console.log('ยิงไปอัปเดตสำเร็จ')
             // console.log(addRewardReceipt.data)
         } else {
-            console.log('ยิงไปอัปเดตไม่สำเร็จ')
+            // console.log('ยิงไปอัปเดตไม่สำเร็จ')
             // console.log(addRewardReceipt.data)
         }
 
@@ -192,31 +192,83 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
             }
             // console.log(list.productId)
         }
-
         for(const list of data.ProductGroup){
-            // console.log(list)
+            let idProduct = ''
+            let nameProduct = ''
+            // console.log(_.uniqBy(list.listProduct, 'id'))
+            const uniqListProduct = _.uniqBy(list.listProduct, 'id')
             for(const subList of list.listProductReward){
                 // console.log(subList)
-                for(const memberList of list.listProduct){
+                for(const memberList of uniqListProduct){
                     // console.log(memberList)
                     if (memberList.id == subList.id){
-                        console.log('มี id อยุ่แล้ว')
+                         // console.log('มี id อยุ่แล้ว')
+                         idProduct = subList.id
+                        nameProduct = subList.name
                     }
-                    // console.log('*---------------------*')
                 }
             }
+            // console.log(idProduct)
+            freeItem.push({
+                productId:idProduct,
+                productName:nameProduct,
+                qty:list.qtyReward,
+                unitQty: list.qtyUnit,
+                proId:list.proId,
+            })
         }
 
-        const mainData = {
-            proId:'pro03',
-            nameProduct:'ผงปรุงรสไก่ ฟ้าไทย 12g x12x20',
-            qty:10,
-            unitName:'PCS',
-            unitQty:'2'
+        //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
+        const dataArray = []
+        let  dataFreeItem = freeItem
+
+        for(const list of freeItem ){
+            // console.log(list.proId)
+            if(dataArray.length > 0){
+                // console.log('ไม่ว่าง')
+
+                for (const subList of dataArray){
+                    console.log(`${list.proId} == ${subList.proId}`)
+                    if(list.proId == subList.proId ){
+                        console.log('มีอยู่แล้ว')
+
+                    }else{
+                        console.log('ไม่มี promotion ')
+                        const mainData = {
+                            area:req.body.area,
+                            storeId: req.body.storeId,
+                            proId:list.proId,
+                            summaryQty:list.qty,
+                            list:[list]
+                        }
+                        dataArray.push(mainData)
+                    }
+                }
+
+            }else{
+                // console.log('ว่าง')
+                const mainData = {
+                    area:req.body.area,
+                    storeId: req.body.storeId,
+                    proId:list.proId,
+                    summaryQty:list.qty,
+                    list:[list]
+                }
+                dataArray.push(mainData)
+            }
+        }
+        // console.log(_.intersectionBy(dataArray, freeItem,'proId'))
+         console.log(dataArray)
+        // await RewardSummary.create(dataArray)
+        const preDataToInsert = {
+            area:req.body.area,
+            storeId:req.body.storeId,
+
         }
 
-        // res.status(200).json(data)
-        res.status(200).json(freeItem)
+        //3. ดึงข้อมูลจาก doc.RewardSummary มาแสดงแทน
+
+        res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
     } catch (error) {
         console.log(error)
         res.status(500).json({

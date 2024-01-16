@@ -2,6 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const {currentdateDash} = require("../../utils/utility");
 const {RewardReceipt} = require("../../models/promotion");
+const axios = require("axios");
 
 const receiptReward = express.Router()
 
@@ -11,7 +12,7 @@ receiptReward.post('/receiptReward', async (req, res) => {
         // console.log((checkData != null))
         if(checkData === null){
         }else  {
-            console.log('เจอ Id')
+            // console.log('เจอ Id')
            const action = await RewardReceipt.deleteOne({area:req.body.area,storeId:req.body.storeId})
         }
 
@@ -82,6 +83,18 @@ receiptReward.get('/getReceiptReward', async (req,res) =>{
         console.log(storeId)
         const data = await RewardReceipt.findOne(req.quer)
         res.status(200).json(data)
+    }catch (error){
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+receiptReward.post('/addRewardSummary', async (req,res) =>{
+    try{
+        const data = await axios.post(process.env.API_URL_IN_USE+'/cms/saleProduct/summaryCompare',req.body)
+        res.status(200).json(data.data)
     }catch (error){
         res.status(500).json({
             status: 500,

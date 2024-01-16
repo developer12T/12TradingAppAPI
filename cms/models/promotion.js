@@ -89,8 +89,26 @@ const rewardReceiptSchema = new Schema({
     updateDate:String
 })
 
+const listProduct = new Schema({
+    productId: String,
+    productName: String,
+    qty: Number,
+    unitQty: String,
+})
+
+const rewardSummarySchema = new Schema({
+    area: String,
+    storeId:String,
+    proId: String,
+    summaryQty:Number,
+    list:[listProduct],
+    createDate:String,
+    updateDate:String
+})
+
 const Promotion = mongoose.model('Promotion', promotionSchema)
 const ProType = mongoose.model('ProType', proTypeSchema)
 const Coupon = mongoose.model('Coupon', couponSchema)
 const RewardReceipt = mongoose.model('RewardReceipt', rewardReceiptSchema)
-module.exports = { Promotion,ProType,Coupon,RewardReceipt }
+const RewardSummary = mongoose.model('RewardSummary', rewardSummarySchema)
+module.exports = { Promotion,ProType,Coupon,RewardReceipt,RewardSummary }

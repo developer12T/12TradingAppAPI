@@ -210,8 +210,6 @@ getCart.post('/getSummaryCart', async (req, res) => {
             return groupedData[key]
         })
 
-
-
         const listProductGroupUnit = []
         var listProductGroupUnitListQty = []
         // console.log(listProductInGroup)
