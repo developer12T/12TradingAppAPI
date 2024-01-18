@@ -2,7 +2,7 @@ const express = require('express')
 
 require('../../configs/connect')
 const axios = require("axios")
-const {Promotion, RewardReceipt, RewardSummary} = require("../../models/promotion")
+const {Promotion, RewardSummary} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
 const _ = require("lodash")
 const {calPromotion, currentdateDash} = require("../../utils/utility");
@@ -10,7 +10,7 @@ const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
     try {
-        const { calPromotion } = require('../../utils/utility')
+        const {calPromotion} = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
 
@@ -138,7 +138,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     qtyReward: await calPromotion(filterData[0].qty, itemBuyList.productQty, listRewardData.productQty),
                                     qtyUnit: dataUnitName1.nameEng,
                                     listProductReward: dataRewardItem,
-                                    listProduct:listGroup.listProduct
+                                    listProduct: listGroup.listProduct
                                 }
                                 PromotionGroupMatch.push(data_obj)
                             }
@@ -147,22 +147,6 @@ comparePromotion.post('/compare', async (req, res) => {
                 }
             } else {
             }
-        }
-
-        // ยิง rest api ไป อัพเดต หรือเก็บข้อมูลลง RewardReceipt
-        const addRewardReceipt = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/receiptReward', {
-            area: req.body.area,
-            storeId: req.body.storeId,
-            ListProduct: PromotionProductMatch,
-            ProductGroup: PromotionGroupMatch
-        })
-
-        if (addRewardReceipt.status == 200) {
-            // console.log('ยิงไปอัปเดตสำเร็จ')
-            // console.log(addRewardReceipt.data)
-        } else {
-            // console.log('ยิงไปอัปเดตไม่สำเร็จ')
-            // console.log(addRewardReceipt.data)
         }
 
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
@@ -177,98 +161,83 @@ comparePromotion.post('/compare', async (req, res) => {
 
 comparePromotion.post('/summaryCompare', async (req, res) => {
     try {
-        const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare',req.body)
-        const data = response.data
-        const freeItem = []
-        // console.log(data.ListProduct)
-        for(const list of data.ListProduct){
-            // console.log(list.TotalReward)
-            for (const subList of list.TotalReward){
-                // console.log(subList)
-                if(subList.productId == list.productId){
-                    subList.proId = list.proId
-                    freeItem.push(subList)
-                }
-            }
-            // console.log(list.productId)
-        }
-        for(const list of data.ProductGroup){
-            let idProduct = ''
-            let nameProduct = ''
-            // console.log(_.uniqBy(list.listProduct, 'id'))
-            const uniqListProduct = _.uniqBy(list.listProduct, 'id')
-            for(const subList of list.listProductReward){
-                // console.log(subList)
-                for(const memberList of uniqListProduct){
-                    // console.log(memberList)
-                    if (memberList.id == subList.id){
-                         // console.log('มี id อยุ่แล้ว')
-                         idProduct = subList.id
-                        nameProduct = subList.name
+        let queryData
+            await RewardSummary.deleteOne(req.body)
+            const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare', req.body)
+            const data = response.data
+            const freeItem = []
+            // console.log(data.ListProduct)
+            for (const list of data.ListProduct) {
+                // console.log(list.TotalReward)
+                for (const subList of list.TotalReward) {
+                    // console.log(subList)
+                    if (subList.productId == list.productId) {
+                        subList.proId = list.proId
+                        freeItem.push(subList)
                     }
                 }
+                // console.log(list.productId)
             }
-            // console.log(idProduct)
-            freeItem.push({
-                productId:idProduct,
-                productName:nameProduct,
-                qty:list.qtyReward,
-                unitQty: list.qtyUnit,
-                proId:list.proId,
-            })
-        }
-
-        //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
-        const dataArray = []
-        let  dataFreeItem = freeItem
-
-        for(const list of freeItem ){
-            // console.log(list.proId)
-            if(dataArray.length > 0){
-                // console.log('ไม่ว่าง')
-
-                for (const subList of dataArray){
-                    console.log(`${list.proId} == ${subList.proId}`)
-                    if(list.proId == subList.proId ){
-                        console.log('มีอยู่แล้ว')
-
-                    }else{
-                        console.log('ไม่มี promotion ')
-                        const mainData = {
-                            area:req.body.area,
-                            storeId: req.body.storeId,
-                            proId:list.proId,
-                            summaryQty:list.qty,
-                            list:[list]
+            for (const list of data.ProductGroup) {
+                let idProduct = ''
+                let nameProduct = ''
+                // console.log(_.uniqBy(list.listProduct, 'id'))
+                const uniqListProduct = _.uniqBy(list.listProduct, 'id')
+                for (const subList of list.listProductReward) {
+                    // console.log(subList)
+                    for (const memberList of uniqListProduct) {
+                        // console.log(memberList)
+                        if (memberList.id == subList.id) {
+                            idProduct = subList.id
+                            nameProduct = subList.name
                         }
-                        dataArray.push(mainData)
                     }
                 }
-
-            }else{
-                // console.log('ว่าง')
-                const mainData = {
-                    area:req.body.area,
-                    storeId: req.body.storeId,
-                    proId:list.proId,
-                    summaryQty:list.qty,
-                    list:[list]
-                }
-                dataArray.push(mainData)
+                // console.log(idProduct)
+                freeItem.push({
+                    productId: idProduct,
+                    productName: nameProduct,
+                    qty: list.qtyReward,
+                    unitQty: list.qtyUnit,
+                    proId: list.proId,
+                })
             }
-        }
-        // console.log(_.intersectionBy(dataArray, freeItem,'proId'))
-         console.log(dataArray)
-        // await RewardSummary.create(dataArray)
-        const preDataToInsert = {
-            area:req.body.area,
-            storeId:req.body.storeId,
 
-        }
+            //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
+            const combinedProducts = {}
+            freeItem.forEach(product => {
+                const {proId, qty, ...rest} = product
 
-        //3. ดึงข้อมูลจาก doc.RewardSummary มาแสดงแทน
+                // ถ้า proid ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
+                if (!combinedProducts[proId]) {
+                    rest.qty = qty
+                    combinedProducts[proId] = {summaryQty: qty, products: [rest]}
+                } else {
+                    // ถ้า proid มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
+                    combinedProducts[proId].summaryQty += qty
+                    rest.qty = qty
+                    combinedProducts[proId].products.push(rest)
+                }
+            })
 
-        res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
+            // แปลงผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์
+            const resultArray = Object.keys(combinedProducts).map(proId => ({
+                proId,
+                summaryQty: combinedProducts[proId].summaryQty,
+                listProduct: combinedProducts[proId].products,
+            }))
+
+            // console.log(resultArray)
+            const saveData = {
+                area: req.body.area,
+                storeId: req.body.storeId,
+                listPromotion: resultArray
+            }
+            await RewardSummary.create(saveData)
+            queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
+            const listPromotion = queryData.listPromotion
+            // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
+            res.status(200).json({status: 200, area: req.body.area, storeId: req.body.storeId, listPromotion})
     } catch (error) {
         console.log(error)
         res.status(500).json({

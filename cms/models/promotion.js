@@ -96,12 +96,16 @@ const listProduct = new Schema({
     unitQty: String,
 })
 
+const listPromotion = new Schema({
+    proId: String,
+    summaryQty:Number,
+    listProduct:[listProduct],
+})
+
 const rewardSummarySchema = new Schema({
     area: String,
     storeId:String,
-    proId: String,
-    summaryQty:Number,
-    list:[listProduct],
+    listPromotion:[listPromotion],
     createDate:String,
     updateDate:String
 })
