@@ -169,7 +169,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
             // console.log(data.ListProduct)
             for (const list of data.ListProduct) {
                 // console.log(list.TotalReward)
-                for (const subList of list.TotalReward) {
+                for (let subList of list.TotalReward) {
                     // console.log(subList)
                     if (subList.productId == list.productId) {
                         subList.proId = list.proId
@@ -178,9 +178,11 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 }
                 // console.log(list.productId)
             }
+            // console.log(freeItem)
             for (const list of data.ProductGroup) {
                 let idProduct = ''
                 let nameProduct = ''
+                let qtyProduct = 0
                 // console.log(_.uniqBy(list.listProduct, 'id'))
                 const uniqListProduct = _.uniqBy(list.listProduct, 'id')
                 for (const subList of list.listProductReward) {
@@ -190,6 +192,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                         if (memberList.id == subList.id) {
                             idProduct = subList.id
                             nameProduct = subList.name
+                            // qtyProduct = list.qtyReward
                         }
                     }
                 }
@@ -233,11 +236,12 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 storeId: req.body.storeId,
                 listPromotion: resultArray
             }
+
             await RewardSummary.create(saveData)
             queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
             const listPromotion = queryData.listPromotion
             // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
-            res.status(200).json({status: 200, area: req.body.area, storeId: req.body.storeId, listPromotion})
+            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listPromotion})
     } catch (error) {
         console.log(error)
         res.status(500).json({

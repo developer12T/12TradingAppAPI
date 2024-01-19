@@ -179,7 +179,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
             const groupData_obj = {
                 group: listMainData.group,
                 size: listMainData.size,
-                flavour: listMainData.flavour,
+                // flavour: listMainData.flavour,
                 typeUnit: listMainData.typeUnit,
                 qty: listMainData.qtyConvert
 
@@ -189,13 +189,13 @@ getCart.post('/getSummaryCart', async (req, res) => {
         // console.log(groupData_arr)
 
         const groupedData = groupData_arr.reduce((acc, curr) => {
-            const {group, size, flavour,typeUnit} = curr
-            const key = `${group}/${size}/${typeUnit}/${flavour}`
+            const {group, size,typeUnit} = curr
+            const key = `${group}/${size}/${typeUnit}`
             if (!acc[key]) {
                 acc[key] = {
                     group,
                     size,
-                    flavour,
+                    // flavour,
                     typeUnit,
                     qty: 0,
                 }
@@ -221,7 +221,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 const dataConvertion = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
-                    flavour: listProGroup.flavour,
+                    // flavour: listProGroup.flavour,
                     unitList:{$elemMatch: {id: '3'}}
                 }, { convertFact:1 })
 
@@ -241,7 +241,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 const dataConvertion2 = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
-                    flavour: listProGroup.flavour,
+                    // flavour: listProGroup.flavour,
                     "unitList.id": {
                         $nin: ['3']
                     }
@@ -297,7 +297,8 @@ getCart.post('/getSummaryCart', async (req, res) => {
             const subDataListPro = []
             for (const subList of listProductInGroup){
                 // console.log(subList)
-                if((list.group == subList.group) && (list.size == subList.size) && (list.flavour == subList.flavour)){
+                // if((list.group == subList.group) && (list.size == subList.size) && (list.flavour == subList.flavour)){
+                if((list.group == subList.group) && (list.size == subList.size) ){
                     // listProductGroupUnit.listProduct = subList
                     // console.log(c.id + list.group)
                     // console.log(list.converterUnit)
@@ -309,7 +310,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
             listProductGroupUnitModify.push({
                 group:list.group,
                 size:list.size,
-                flavour:list.flavour,
+                // flavour:list.flavour,
                 typeUnit:list.typeUnit,
                 qty:list.typeUnit,
                 converterUnit:list.converterUnit,
