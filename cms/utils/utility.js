@@ -14,6 +14,12 @@ function currentdateDash() {
     const date = moment().format('YYYY/MM/DD', 'th');
     return date
   }
+
+function currentDateDDMMYY() {
+  const date = moment().format('DD/MM/YYYY', 'th');
+  return date
+}
+
   function currenttime() {
     const time = moment().format('HH:mm:ss', 'th');
     return time
@@ -78,6 +84,7 @@ async function calPromotion(totalPurchase,buy,free){
 
 module.exports = {
     // converting,
+  currentDateDDMMYY,
     currentdateDash,
     currentdateSlash,
     currentdate,
