@@ -37,14 +37,15 @@ addGiveProduct.post('/addProductToGP', async (req, res) => {
                 dateSend: null,
                 dateAction: null,
                 appPerson: null
-            }
+            }0
+            req.body.id = 1
             req.body.approve = approve
             req.body.updateDate = null
             req.body.createDate = null
             await GiveProduct.create(req.body)
         } else {
             // console.log('พบ')
-            await GiveProduct.updateOne({area: req.body.area}, {
+            await GiveProduct.updateOne({ area: req.body.area }, {
                 $push: {
                     list: {
                         id: req.body.list[0].id,
@@ -57,7 +58,7 @@ addGiveProduct.post('/addProductToGP', async (req, res) => {
                 }
             })
         }
-        res.status(200).json({status: 200, message: 'Add Product to GiveProduct Successfully!'})
+        res.status(200).json({status: 200, message: 'Add Product to GiveProduct Successfully!',additionalData:req.body.id})
     } catch (e) {
         console.log(e)
         res.status(500).json({
