@@ -37,7 +37,7 @@ addGiveProduct.post('/addProductToGP', async (req, res) => {
                 dateSend: null,
                 dateAction: null,
                 appPerson: null
-            }0
+            }
             req.body.id = 1
             req.body.approve = approve
             req.body.updateDate = null

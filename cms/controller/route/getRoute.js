@@ -179,8 +179,7 @@ getRoute.post('/getStoreDetail', async (req, res) => {
 getRoute.post('/checkDistance', async (req, res) => {
     try {
         const {checkDistanceLatLon, spltitString} = require('../../utils/utility')
-        const idSplit = await spltitString(req.body.storeId)
-        const dataStore = await Store.findOne({idCharecter: idSplit.prefix, idNumber: idSplit.subfix}, {
+        const dataStore = await Store.findOne({storeId:req.body.storeId}, {
             latitude: 1,
             longtitude: 1,
             _id:0
