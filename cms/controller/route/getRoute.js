@@ -6,13 +6,16 @@ const _ = require('lodash')
 const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
 const {statusDes} = require("../../models/statusDes");
-
+const { errResponse } = require('../../services/errorResponse')
+const {checkDistanceLatLon} = require("../../utils/utility");
+const {createLog} = require("../../services/errorLog");
 getRoute.get('/getAll', async (req, res) => {
     try {
         const data = await Route.find().exec()
         res.status(200).json(data)
 
     } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -26,30 +29,35 @@ getRoute.post('/getRouteMain', async (req, res) => {
         let statusCount = 0
         let statusBlack = 0
         const data = await Route.find({area:req.body.area}, {_id: 0}).exec()
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].list.length; j++) {
-                statusCount += (data[i].list[j].status === '1') ? 1 : 0;
-                statusBlack = data[i].list.length
+        // console.log(data)
+        if(data.length > 0){
+            for (let i = 0; i < data.length; i++) {
+                for (let j = 0; j < data[i].list.length; j++) {
+                    statusCount += (data[i].list[j].status === '1') ? 1 : 0;
+                    statusBlack = data[i].list.length
+                }
+                const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
+                var descript =
+                    (statusCount < statusBlack && statusCount !== 0) ? 'processing' :
+                        statusCount === statusBlack ? 'success' :
+                            statusBlack === 0 ? 'pending' :
+                                'progress'
+                const showData_obj = {
+                    id: data[i].id,
+                    day: 'Day ' + day,
+                    route: i + 1,
+                    statusNumber: statusCount + '/' + statusBlack,
+                    statusText: descript
+                }
+                showData.push(showData_obj)
+                statusCount = 0
             }
-            const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
-            var descript =
-                (statusCount < statusBlack && statusCount !== 0) ? 'processing' :
-                    statusCount === statusBlack ? 'success' :
-                        statusBlack === 0 ? 'pending' :
-                            'progress'
-            const showData_obj = {
-                id: data[i].id,
-                day: 'Day ' + day,
-                route: i + 1,
-                statusNumber: statusCount + '/' + statusBlack,
-                statusText: descript
-            }
-            showData.push(showData_obj)
-            statusCount = 0
+            res.status(200).json(showData)
+        }else{
+            await errResponse(res)
         }
-        res.status(200).json(showData)
-
     } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -60,44 +68,50 @@ getRoute.post('/getRouteMain', async (req, res) => {
 getRoute.post('/getRouteDetail', async (req, res) => {
     try {
         const data = await Route.findOne({id: req.body.id}, {_id: 0, __v: 0})
-        const showData = []
-        for (let i = 0; i < data.list.length; i++) {
-            // console.log(data.list[i])
-            const prefix = data.list[i].storeId.substring(0, 2)
-            const numberPart = data.list[i].storeId.substring(2)
-            const dataStore = await Store.findOne({storeId: data.list[i].storeId}, {name: 1, _id: 0})
-            // console.log(prefix)
-            const status_store = await Route.findOne({id: req.body.id}, {
-                '_id': 0,
-                'list': {$elemMatch: {'storeId': data.list[i].storeId}}
-            }).exec()
-            const statusText = await statusDes.findOne({type: 'route'}, {'list': {$elemMatch: {'id': status_store.list[0].status}}})
-            // console.log()
-            const showData_obj = {
-                idRoute: data.id,
-                id: data.list[i].storeId,
-                name: dataStore.name,
-                status: statusText.list[0].id,
-                statusText: statusText.list[0].name
-            }
-            showData.push(showData_obj)
-        }
-        const statusCounts = _.countBy(showData, 'status')
-        // console.log(statusCounts)
-        const status0Count = statusCounts['0'] || 0
-        const status1Count = statusCounts['1'] || 0
-        const status2Count = statusCounts['2'] || 0
 
-        const mainData = {
-            targetGroup: showData.length,
-            progress: status0Count,
-            checkin: status1Count,
-            buy: status2Count,
-            list: showData
+        if(data){
+            const showData = []
+            for (let i = 0; i < data.list.length; i++) {
+                // console.log(data.list[i])
+                const prefix = data.list[i].storeId.substring(0, 2)
+                const numberPart = data.list[i].storeId.substring(2)
+                const dataStore = await Store.findOne({storeId: data.list[i].storeId}, {name: 1, _id: 0})
+                // console.log(prefix)
+                const status_store = await Route.findOne({id: req.body.id}, {
+                    '_id': 0,
+                    'list': {$elemMatch: {'storeId': data.list[i].storeId}}
+                }).exec()
+                const statusText = await statusDes.findOne({type: 'route'}, {'list': {$elemMatch: {'id': status_store.list[0].status}}})
+                // console.log()
+                const showData_obj = {
+                    idRoute: data.id,
+                    id: data.list[i].storeId,
+                    name: dataStore.name,
+                    status: statusText.list[0].id,
+                    statusText: statusText.list[0].name
+                }
+                showData.push(showData_obj)
+            }
+            const statusCounts = _.countBy(showData, 'status')
+            // console.log(statusCounts)
+            const status0Count = statusCounts['0'] || 0
+            const status1Count = statusCounts['1'] || 0
+            const status2Count = statusCounts['2'] || 0
+
+            const mainData = {
+                targetGroup: showData.length,
+                progress: status0Count,
+                checkin: status1Count,
+                buy: status2Count,
+                list: showData
+            }
+            res.status(200).json(mainData)
+        }else{
+            await errResponse(res)
         }
-        res.status(200).json(mainData)
     } catch (e) {
         console.log(e)
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -118,8 +132,13 @@ getRoute.post('/getRouteStore', async (req, res) => {
             province: 1,
             provinceCode: 1
         }).sort({storeId: 1})
-        res.status(200).json(data)
+        if(data.length > 0){
+            res.status(200).json(data)
+        }else{
+            await errResponse(res)
+        }
     } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -134,47 +153,49 @@ getRoute.post('/getStoreDetail', async (req, res) => {
             '_id': 0,
             'list': {$elemMatch: {'storeId': req.body.storeId}}
         }).exec()
-
-        const id = req.body.storeId;
-
-
-        // let idCharecterEnd = 0;
-        // while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
-        //     idCharecterEnd++;
-        // }
-        // const idCharecter = id.substring(0, idCharecterEnd);
-        // const idNumber = parseInt(id.substring(idCharecterEnd));
-
-        const dataStore = await Store.findOne({
-            storeId: id
-        }, {})
+        if(data){
+            const id = req.body.storeId;
 
 
-        const mainData = {
-            storeId: id,
-            name: dataStore.name,
-            address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
-            list: data.list[0].listCheck.map(item => {
-                const dateObject = new Date(item.date);
-                const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
-                return {
-                    number: item.number,
-                    orderId: item.orderId,
-                    date: formattedDate,
-                    _id: item._id
-                };
-            })
+            // let idCharecterEnd = 0;
+            // while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
+            //     idCharecterEnd++;
+            // }
+            // const idCharecter = id.substring(0, idCharecterEnd);
+            // const idNumber = parseInt(id.substring(idCharecterEnd));
+
+            const dataStore = await Store.findOne({
+                storeId: id
+            }, {})
+
+
+            const mainData = {
+                storeId: id,
+                name: dataStore.name,
+                address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
+                list: data.list[0].listCheck.map(item => {
+                    const dateObject = new Date(item.date);
+                    const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
+                    return {
+                        number: item.number,
+                        orderId: item.orderId,
+                        date: formattedDate,
+                        _id: item._id
+                    };
+                })
+            }
+            res.status(200).json(mainData)
+        }else{
+            await errResponse(res)
         }
-
-        res.status(200).json(mainData)
     } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
         })
     }
 })
-
 
 getRoute.post('/checkDistance', async (req, res) => {
     try {
@@ -184,31 +205,36 @@ getRoute.post('/checkDistance', async (req, res) => {
             longtitude: 1,
             _id:0
         })
-        const distance = await checkDistanceLatLon(parseFloat(dataStore.latitude),parseFloat(dataStore.longtitude),parseFloat(req.body.latitude),parseFloat(req.body.longtitude),'K')
-        if(distance >= 1){
-            var dist = distance.toFixed(2) + ' km'
-        }else{
-            var dist = (distance*1000).toFixed(2) + ' m'
-        }
-
-        if(distance > 0.2){
-            var response = {
-                status: 202,
-                message:'Not Allowed Checkin',
-                additionalData:0,
-                distance:dist
+        if(dataStore){
+            const distance = await checkDistanceLatLon(parseFloat(dataStore.latitude),parseFloat(dataStore.longtitude),parseFloat(req.body.latitude),parseFloat(req.body.longtitude),'K')
+            if(distance >= 1){
+                var dist = distance.toFixed(2) + ' km'
+            }else{
+                var dist = (distance*1000).toFixed(2) + ' m'
             }
-        }else{
-            var response = {
-                status: 201,
-                message:'Allowed Checkin',
-                additionalData:1,
-                distance:dist
-            }
-        }
 
-        res.status(200).json(response)
+            if(distance > 0.2){
+                var response = {
+                    status: 202,
+                    message:'Not Allowed Checkin',
+                    additionalData:0,
+                    distance:dist
+                }
+            }else{
+                var response = {
+                    status: 201,
+                    message:'Allowed Checkin',
+                    additionalData:1,
+                    distance:dist
+                }
+            }
+
+            res.status(200).json(response)
+        }else{
+            await errResponse(res)
+        }
     } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
