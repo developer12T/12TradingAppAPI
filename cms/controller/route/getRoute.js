@@ -3,15 +3,16 @@ const express = require('express')
 require('../../configs/connect')
 const getRoute = express.Router()
 const _ = require('lodash')
-const {Route, Checkin} = require('../../models/route')
-const {Store} = require("../../models/store");
-const {statusDes} = require("../../models/statusDes");
+const { Route, Checkin } = require('../../models/route')
+const { Store} = require("../../models/store")
+const { statusDes} = require("../../models/statusDes")
 const { errResponse } = require('../../services/errorResponse')
-const {checkDistanceLatLon} = require("../../utils/utility");
-const {createLog} = require("../../services/errorLog");
+const { checkDistanceLatLon } = require("../../utils/utility")
+const { createLog } = require("../../services/errorLog")
 getRoute.get('/getAll', async (req, res) => {
     try {
         const data = await Route.find().exec()
+        await createLog('200',req.method,req.originalUrl,res.body,'Get All Route Data complete')
         res.status(200).json(data)
 
     } catch (e) {
@@ -52,8 +53,10 @@ getRoute.post('/getRouteMain', async (req, res) => {
                 showData.push(showData_obj)
                 statusCount = 0
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteMain Data complete')
             res.status(200).json(showData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteMain No Data')
             await errResponse(res)
         }
     } catch (e) {
@@ -105,8 +108,10 @@ getRoute.post('/getRouteDetail', async (req, res) => {
                 buy: status2Count,
                 list: showData
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteDetail Data complete')
             res.status(200).json(mainData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteDetail No Data')
             await errResponse(res)
         }
     } catch (e) {
@@ -133,8 +138,10 @@ getRoute.post('/getRouteStore', async (req, res) => {
             provinceCode: 1
         }).sort({storeId: 1})
         if(data.length > 0){
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteStore Data complete')
             res.status(200).json(data)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'GetRouteStore No Data')
             await errResponse(res)
         }
     } catch (e) {
@@ -184,8 +191,10 @@ getRoute.post('/getStoreDetail', async (req, res) => {
                     };
                 })
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail Data complete')
             res.status(200).json(mainData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail No Data')
             await errResponse(res)
         }
     } catch (e) {
@@ -228,9 +237,10 @@ getRoute.post('/checkDistance', async (req, res) => {
                     distance:dist
                 }
             }
-
+            await createLog('200',req.method,req.originalUrl,res.body,'CheckDistance complete')
             res.status(200).json(response)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'CheckDistance No Data')
             await errResponse(res)
         }
     } catch (e) {

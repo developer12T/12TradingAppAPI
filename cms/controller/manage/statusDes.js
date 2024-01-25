@@ -3,6 +3,7 @@ require('../../configs/connect')
 const statusDesManage = express.Router()
 const { statusDes } = require('../../models/statusDes')
 const {Product} = require("../../models/product");
+const {createLog} = require("../../services/errorLog");
 
 statusDesManage.post('/getAll', async(req, res) => {
     const { currentdateDash } = require('../../utils/utility.js')
@@ -21,9 +22,11 @@ statusDesManage.post('/getAll', async(req, res) => {
         req.body.createDate = currentdateDash()
 
         await statusDes.create(req.body)
+        await createLog('200',req.method,req.originalUrl,res.body,'Add StatusDes Successfully')
         res.status(200).json({status:201,message:'Add StatusDes Successfully'})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status:500,
             message:error.message

@@ -7,11 +7,14 @@ const {log} = require("winston");
 const _ = require('lodash')
 const axios = require("axios");
 const {Store} = require("../../models/store");
+const {createLog} = require("../../services/errorLog");
 ProductManage.post('/getAll', async (req, res) => {
     try {
         const data = await Product.find({}, {_id: 0, __v: 0})
+        await createLog('200',req.method,req.originalUrl,res.body,'getAll Product Successfully!')
         res.status(200).json(data)
     } catch (e) {
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -34,9 +37,11 @@ ProductManage.post('/addProduct', async (req, res) => {
         // console.log(sortedUnitList)
         const newProduct = new Product(req.body)
         await newProduct.save()
+        await createLog('200',req.method,req.originalUrl,res.body,'addProduct Successfully!')
         res.status(200).json({status: 201, message: 'Product Added Successfully'})
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -140,10 +145,12 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
             idUnitList = []
             idConvList = []
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'addProductFromM3 Successfully!')
         res.status(200).json({status: 201, message: 'Product Added Succesfully', additionalData: dataArray})
 
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -154,9 +161,11 @@ ProductManage.post('/addProductFromM3', async (req, res) => {
 ProductManage.put('/updateProduct', async (req, res) => {
     try {
         const data = await Product.updateOne({id: req.body.id}, {$set: req.body})
+        await createLog('200',req.method,req.originalUrl,res.body,'updateProduct Successfully!')
         res.status(200).json({status: 201, message: 'update ' + data.modifiedCount + ' row complete'})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

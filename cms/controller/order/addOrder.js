@@ -10,6 +10,7 @@ const {Store} = require('../../models/store')
 const {History} = require('../../models/history')
 const {currentdateDash, spltitString} = require('../../utils/utility')
 const axios = require('axios')
+const {createLog} = require("../../services/errorLog");
 
 addOrder.post('/newOrder', async (req, res) => {
     try {
@@ -89,9 +90,11 @@ addOrder.post('/newOrder', async (req, res) => {
                 respone:visitResponse.data
             }
         })
+        await createLog('200',req.method,req.originalUrl,res.body,'newOrder Successfully!')
         await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status:500,
             message:error.message
@@ -122,9 +125,11 @@ addOrder.post('/addShipment', async (req, res) => {
         // }
 
         await Shipping.create(shlist)
+        await createLog('200',req.method,req.originalUrl,res.body,'Successfully Add Shipment')
 
         res.status(200).json({status: 200, message: 'Successfully Add Shipment'})
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status:500,
             message:error.message
@@ -136,14 +141,18 @@ addOrder.post('/getShipment', async (req, res) => {
     try {
         if (req.body.selection === 'All') {
             const data = await Shipping.find()
+            await createLog('200',req.method,req.originalUrl,res.body,'getShipment All Successfully!')
             res.status(200).json(data)
         } else if (req.body.selection === 'filter') {
             const data = await Shipping.findOne({id: req.body.id})
+            await createLog('200',req.method,req.originalUrl,res.body,'getShipment filter Successfully!')
             res.status(200).json(data)
         } else {
+            await createLog('501',req.method,req.originalUrl,res.body,'Require selection or id!!!')
             res.status(501).json({status: 501, message: 'Require selection or id!!!'})
         }
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({status: 500, message: error.message})
     }
 })

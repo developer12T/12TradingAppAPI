@@ -6,12 +6,15 @@ const {calPromotion} = require("../../utils/utility")
 const getPromotion = express.Router()
 const {takeNameEng, takeNameThai} = require('../../services/takeNameUnit')
 const {convertUnit} = require('../../services/convertUnit')
+const {createLog} = require("../../services/errorLog");
 getPromotion.post('/getPromotion', async (req, res) => {
     try {
         const data = await Promotion.find()
+        await createLog('200',req.method,req.originalUrl,res.body,'getPromotion Successfully!')
         res.status(200).json(data)
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -79,9 +82,11 @@ getPromotion.post('/getChangeReward', async (req, res) => {
             // promotionData: data.itemfree,
             itemFree: dataItem
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'getChangeReward Successfully!')
         res.status(200).json(mainData)
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message

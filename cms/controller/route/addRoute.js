@@ -6,6 +6,7 @@ const {Route, Checkin} = require('../../models/route')
 const {Store} = require("../../models/store");
 const {currentdateDash, currentdateFormatYearMont} = require("../../utils/utility");
 const axios = require("axios");
+const {createLog} = require("../../services/errorLog");
 
 addRoute.post('/addRouteStore', async (req, res) => {
     try {
@@ -46,7 +47,7 @@ addRoute.post('/addRouteStore', async (req, res) => {
            additionalMessage.push(message)
         }else{}
 
-
+        await createLog('200',req.method,req.originalUrl,res.body,'Add Store to Route Successfully')
 
         res.status(200).json({
             status: 201,
@@ -54,6 +55,7 @@ addRoute.post('/addRouteStore', async (req, res) => {
             additionalMessage
         })
     } catch (e) {
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -100,9 +102,10 @@ addRoute.post('/addRouteStoreFromM3', async (req, res) => {
             await Route.create(mainData)
             listStore.length = 0
         }
-
+        await createLog('200',req.method,req.originalUrl,res.body,'Add Route Successfully')
         res.status(200).json({status: 201, message: 'Add Route Successfully'})
     } catch (e) {
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -187,6 +190,7 @@ addRoute.post('/visit', async (req, res) => {
                 responseMessage = ' Is no this case in the system.'
                 break
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'CheckIn has complete')
         res.status(200).json({
             status: 201,
             message: 'CheckIn has complete',
@@ -194,6 +198,7 @@ addRoute.post('/visit', async (req, res) => {
         })
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message

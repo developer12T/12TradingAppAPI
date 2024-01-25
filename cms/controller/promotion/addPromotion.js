@@ -1,6 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 const {Promotion} = require("../../models/promotion");
+const {createLog} = require("../../services/errorLog");
 const addPromotion = express.Router()
 addPromotion.post('/addPromotion', async (req, res) => {
     try {
@@ -18,12 +19,14 @@ addPromotion.post('/addPromotion', async (req, res) => {
         }
         req.body.proId = idAuto
         const data = await Promotion.create(req.body)
+        await createLog('200',req.method,req.originalUrl,res.body,'addPromotion Successfully!')
         res.status(200).json({
             status: 201,
             message: 'AddPromotion Successfully'
         })
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message

@@ -18,9 +18,11 @@ addGiveProduct.post('/add', async (req, res) => {
         req.body.createDate = currentdateDash()
         // const check = await
         await GiveProduct.updateOne({area:req.body.area},{$set:req.body})
+        await createLog('200',req.method,req.originalUrl,res.body,'Add GiveProduct Successfully!')
         res.status(200).json({status: 200, message: 'Add GiveProduct Successfully!'})
     } catch (e) {
         console.log(e)
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -77,8 +79,10 @@ addGiveProduct.post('/addProductToGP', async (req, res) => {
         }
 
         if(checkRes === 1){
+            await createLog('500',req.method,req.originalUrl,res.body,message)
             res.status(500).json({status: 500, message:message})
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'Add Product to GiveProduct Successfully!')
             res.status(200).json({status: 200, message:message ,idGiveProduct:dataId})
         }
     } catch (e) {

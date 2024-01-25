@@ -2,15 +2,18 @@ const express = require('express')
 
 require('../../configs/connect')
 const {Order, PreOrder} = require("../../models/order")
+const {createLog} = require("../../services/errorLog");
 const getOrder = express.Router()
 
 
 getOrder.get('/getAll', async (req, res) => {
     try {
         const data = await Order.find().exec()
+        await createLog('200',req.method,req.originalUrl,res.body,'getAll Order Successfully!')
         res.status(200).json(data)
 
     } catch (e) {
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
         res.status(500).json({
             status:500,
             message:e.message
@@ -42,8 +45,10 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
             summaryAmount:totalAmount.toFixed(2),
             list:data.list
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'getAllPreOrder Successfully!')
         res.status(200).json(mainData)
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json(
             {
                 status: 500,

@@ -197,12 +197,15 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                     }
                 }
                 // console.log(idProduct)
+                const dataPro = await Promotion.findOne({proId:list.proId})
+                console.log(dataPro.proType)
                 freeItem.push({
                     productId: idProduct,
                     productName: nameProduct,
                     qty: list.qtyReward,
                     unitQty: list.qtyUnit,
                     proId: list.proId,
+                    proType: dataPro.proType
                 })
             }
 
@@ -239,9 +242,9 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
 
             await RewardSummary.create(saveData)
             queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
-            const listPromotion = queryData.listPromotion
+            const listFree = queryData.listPromotion
             // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
-            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listPromotion})
+            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree,listDistcount:[]})
     } catch (error) {
         console.log(error)
         res.status(500).json({

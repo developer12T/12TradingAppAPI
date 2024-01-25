@@ -3,6 +3,7 @@ require('../../configs/connect')
 const {Unit} = require("../../models/product");
 const {currentdateDash, currentdateFormatYearMont} = require("../../utils/utility");
 const {Route} = require("../../models/route");
+const {createLog} = require("../../services/errorLog");
 const routeManage = express.Router()
 
 
@@ -43,8 +44,10 @@ routeManage.post('/newRoute', async(req, res) => {
                 list: listStore
             }
             await Route.create(mainData)
+            await createLog('200',req.method,req.originalUrl,res.body,'Add Route Successfully!')
             res.status(200).json({status: 201, message: 'Add Route Successfully'})
         } catch (e) {
+            await createLog('500',req.method,req.originalUrl,res.body,e.message)
             res.status(500).json({
                 status: 500,
                 message: e.message
@@ -52,6 +55,7 @@ routeManage.post('/newRoute', async(req, res) => {
         }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status:500,
             message:error.message
