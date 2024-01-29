@@ -5,11 +5,14 @@ const {Store, TypeStore} = require('../../models/store')
 const {ErrorLog} = require("../../models/errorLog");
 const {currentdateDash} = require("../../utils/utility");
 const { errResponse } = require('../../services/errorResponse')
+const {createLog} = require("../../services/errorLog");
 getStore.post('/getAll', async (req, res) => {
     try {
         const data = await Store.find().sort({idNumber: 1}).exec()
+        await createLog('200',req.method,req.originalUrl,res.body,'getAll Store Succesfully')
         res.status(200).json(data)
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -47,12 +50,15 @@ getStore.post('/getStore', async (req, res) => {
                 }
                 mainData.push(newData)
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getStore Succesfully')
             res.status(200).json(mainData)
         }else {
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json(
             {
                 status: 500,
@@ -98,12 +104,15 @@ getStore.post('/getStoreNew', async (req, res) => {
                 mainData.push(newData)
 
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getStoreNew Succesfully')
             res.status(200).json(mainData)
         }else {
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({status:501,message:error.message})
     }
 })
@@ -160,14 +169,18 @@ getStore.post('/getDetail', async (req, res) => {
                     createdDate: data.createdDate,
                     updatedDate: data.updatedDate
                 }
+                await createLog('200',req.method,req.originalUrl,res.body,'getDetail Store Succesfully')
                 res.status(200).json(newData)
             }else {
+                await createLog('200',req.method,req.originalUrl,res.body,'No Data')
                 await errResponse(res)
             }
         } else {
+            await createLog('501',req.method,req.originalUrl,res.body,'require body!')
             res.status(501).json({status: 501, message: 'require body!'})
         }
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

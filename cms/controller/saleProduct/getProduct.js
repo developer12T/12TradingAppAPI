@@ -5,6 +5,7 @@ const {Product, Unit} = require('../../models/product')
 const axios = require('axios')
 const _ = require('lodash')
 const {errResponse} = require("../../services/errorResponse");
+const {createLog} = require("../../services/errorLog");
 getProduct.post('/getProductAll', async (req, res) => {
     try {
         const data = await Product.find({}, {_id: 0, id: 1, name: 1})
@@ -17,13 +18,16 @@ getProduct.post('/getProductAll', async (req, res) => {
                 }
                 responseData.push(mainData)
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getProductAll successfully')
             res.status(200).json(responseData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
 
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json(error.message)
     }
 })
@@ -51,12 +55,15 @@ getProduct.post('/getProductDetail', async (req, res) => {
                 name: data.name,
                 unitList: listObj
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getProductDetail successfully')
             res.status(200).json(mainData)
         }else {
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
 
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json(error.message)
     }
 })
@@ -90,13 +97,16 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                 sumPrice: parseFloat(priceUnit * req.body.qty).toFixed(2),
                 unitList: listObj
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getProductDetailUnit successfully')
             res.status(200).json(mainData)
 
         }else {
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
 
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -129,13 +139,15 @@ getProduct.get('/getDataOption', async (req, res) => {
                 size: op3,
                 flavour: op4
             }
-
+            await createLog('200',req.method,req.originalUrl,res.body,'getDataOption successfully')
             res.status(200).json(mainData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
 
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -159,12 +171,15 @@ getProduct.post('/getProduct', async (req, res) => {
                     pricePerUnitChange: list.pricePerUnitChange,
                 }))
             }))
+            await createLog('200',req.method,req.originalUrl,res.body,'getProduct successfully')
             res.status(200).json(responseData)
         }else {
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
         }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

@@ -6,6 +6,7 @@ const {Promotion, RewardSummary} = require("../../models/promotion")
 const {Unit, Product} = require("../../models/product")
 const _ = require("lodash")
 const {calPromotion, currentdateDash} = require("../../utils/utility");
+const {createLog} = require("../../services/errorLog");
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
@@ -148,10 +149,11 @@ comparePromotion.post('/compare', async (req, res) => {
             } else {
             }
         }
-
+        await createLog('200',req.method,req.originalUrl,res.body,' getCompare successfully')
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -244,9 +246,11 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
             queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
             const listFree = queryData.listPromotion
             // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
-            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree,listDistcount:[]})
+        await createLog('200',req.method,req.originalUrl,res.body,'getSummary Compare successfully')
+            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree,listDiscount:[]})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

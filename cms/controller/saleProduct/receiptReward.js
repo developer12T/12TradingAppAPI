@@ -4,6 +4,7 @@ const {currentdateDash} = require("../../utils/utility");
 const {RewardSummary, Promotion} = require("../../models/promotion");
 const axios = require("axios");
 const {Product} = require("../../models/product");
+const {createLog} = require("../../services/errorLog");
 
 const receiptReward = express.Router()
 
@@ -56,8 +57,10 @@ receiptReward.post('/getChangeRewardSummary', async (req, res) => {
             groupObj,
             listProduct: mainData[0]
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'getChangeRewardSummary successfully')
         res.status(200).json(resData)
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -77,12 +80,13 @@ receiptReward.post('/updateRewardSummary', async (req, res) => {
             }
         },{'listPromotion.$': 1,_id:0})
         console.log(dataReward)
-
+        await createLog('200',req.method,req.originalUrl,res.body,'Update Receipt Promotion Success!')
         res.status(200).json({
             status: 200,
             message: 'Update Receipt Promotion Success!'
         })
     } catch (error) {
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

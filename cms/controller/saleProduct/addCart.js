@@ -3,6 +3,7 @@ const express = require('express')
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
 const {log} = require("winston");
+const {createLog} = require("../../services/errorLog");
 
 const addCart = express.Router()
 
@@ -84,9 +85,11 @@ addCart.post('/addProductToCart', async (req, res) => {
             }
         })
         // res.status(200).json(checkStore)
+        await createLog('200',req.method,req.originalUrl,res.body,'Added/Update Successfully')
         res.status(200).json({status: 201, message: 'Added/Update Successfully'})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500, message: error.message
         })
@@ -105,11 +108,13 @@ addCart.post('/deleteItemCart', async (req, res) => {
                 }
             }
         })
+        await createLog('200',req.method,req.originalUrl,res.body,'Item Deleteded successfully')
         res.status(200).json({
             status: 200, message: 'Item Deleteded successfully'
         });
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500, message: error.message
         })
@@ -131,11 +136,13 @@ addCart.put('/updateShipping', async (req, res) => {
                 shipping: shipDate
             }
         })
+        await createLog('200',req.method,req.originalUrl,res.body,'Update Shipping successfully')
         res.status(200).json({
             status: 201, message: 'Update Shipping successfully'
         });
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500, message: error.message
         })

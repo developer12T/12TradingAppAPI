@@ -13,6 +13,7 @@ const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 const bcrypt = require("bcrypt")
 const {updateAvailable} = require("../../services/numberSeriers");
+const {createLog} = require("../../services/errorLog");
 addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
     try{
         const { currentdatena} = require('../../utils/utility')
@@ -21,8 +22,10 @@ addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
         const imageName = hashedPassword+'-DATE'+currentdatena() + path.extname(image.originalname)
         const imagePath = path.join(__dirname, '../../public/image/store', imageName)
         await fs.writeFileSync(imagePath, image.buffer)
+        await createLog('200',req.method,req.originalUrl,res.body,'Added Image Successfully')
         res.status(200).json({status:201,message:'Added Image Successfully',additionalData:{ImageName:imageName,path:imagePath}})
     }catch (error){
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({status:501,message:error.message})
     }
 })
@@ -205,20 +208,25 @@ addStore.post('/addStore',  async (req, res) => {
             if(taxIdCon === 1){
                 if(nameCon === 1){
                     if(addressCon === 1){
+
+                        await createLog('201',req.method,req.originalUrl,res.body,'Store Replace')
                         res.status(200).json({
                             status: 201, message: 'Store Replace', additionalData: storeReplace
                         })
                     }else {
+                        await createLog('201',req.method,req.originalUrl,res.body,'Store Replace')
                         res.status(200).json({
                             status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
                         })
                     }
                 }else{
+                    await createLog('201',req.method,req.originalUrl,res.body,'Store Replace')
                     res.status(200).json({
                         status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
                     })
                 }
             }else{
+                await createLog('201',req.method,req.originalUrl,res.body,'Store Replace')
                 res.status(200).json({
                     status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
                 })
@@ -227,6 +235,7 @@ addStore.post('/addStore',  async (req, res) => {
             const newStore = new Store(mainData)
             await newStore.save()
             await updateAvailable(numberSeries.type, numberSeries.zone, idAvailable + 1)
+            await createLog('200',req.method,req.originalUrl,res.body,'Store added successfully')
             res.status(200).json({
                 status: 201, message: 'Store added successfully', additionalData: idAvailable
             })
@@ -243,6 +252,7 @@ addStore.post('/addStore',  async (req, res) => {
         // }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -301,11 +311,13 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                         dataArray.push(idStoreReplace)
                     }
         }
+        await createLog('200',req.method,req.originalUrl,res.body,'Store Added Succesfully')
         res.status(200).json({status:201,message:'Store Added Succesfully',additionalData:dataArray})
 
         // res.status(200).json({status: 201, message: 'Store Added Successfully'})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -315,9 +327,11 @@ addStore.post('/addStoreFormM3', async (req, res) => {
 
 addStore.put('/updateStore', async (req, res) => {
     try {
+        await createLog('200',req.method,req.originalUrl,res.body,'Store Added Succesfully')
         res.status(200).json({status:201,message:'Store Added Succesfully'})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message

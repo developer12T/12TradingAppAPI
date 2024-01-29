@@ -13,6 +13,7 @@ const getCart = express.Router()
 getCart.post('/getCart', async (req, res) => {
     try {
         const data = await Cart.find({area: req.body.area, storeId: req.body.storeId})
+        await createLog('200',req.method,req.originalUrl,res.body,'getCart successfully')
         res.status(200).json(data)
     } catch (e) {
         await createLog('500',res.method,req.originalUrl,res.e,error.stack)
@@ -58,12 +59,14 @@ getCart.post('/getCartToShow', async (req, res) => {
                 totalAmount: parseFloat(totalAmount).toFixed(2),
                 list: data_arr
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getCartToShow successfully')
             res.status(200).json(mainData)
         }else{
             console.log('พบ')
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             res.status(200).json({
                 status: 200,
-                message: 'Cart In Area Not Found!'
+                message: 'No Data'
             })
         }
 
@@ -119,15 +122,18 @@ getCart.post('/getPreOrder', async (req, res) => {
                 shippingAddress: data.shipping.address,
                 shippingDate: data.shipping.dateShip
             }
+            await createLog('200',req.method,req.originalUrl,res.body,'getPreOrder successfully')
             res.status(200).json(mainData)
         }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             res.status(200).json({
                 status: 200,
-                message: 'PreOrder Not Found!'
+                message: 'No Data'
             })
         }
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -343,10 +349,11 @@ getCart.post('/getSummaryCart', async (req, res) => {
             // listProductGroup: listProductGroupUnit,
             listProductGroup: listProductGroupUnitModify,
         }
-
+        await createLog('200',req.method,req.originalUrl,res.body,'getSummary successfully')
         res.status(200).json({typeStore: dataStore.type, list: summaryMainData,})
     } catch (error) {
         console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({
             status: 500,
             message: error.message
