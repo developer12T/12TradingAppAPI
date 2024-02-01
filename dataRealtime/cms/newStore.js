@@ -14,9 +14,9 @@ const newStore = (io) => {
         })
 
         socket.on('newStore', (data) => {
-            const areaData = data.area;
-            checkNewStore(areaData);
-        });
+            const areaData = data.area
+            checkNewStore(areaData)
+        })
 
         //find data
         const checkNewStore = async (area) => {

@@ -11,6 +11,7 @@ const order = require('./routes/order')
 const refund = require('./routes/refund')
 const promotion = require('./routes/promotion')
 const giveProduct = require('./routes/giveProduct')
+const cnOrder = require('./routes/cnOrder')
 
 cms.use('/store',store)
 cms.use('/route',route)
@@ -22,5 +23,6 @@ cms.use('/order',order)
 cms.use('/refund',refund)
 cms.use('/promotion',promotion)
 cms.use('/giveProduct',giveProduct)
+cms.use('/cnOrder',cnOrder)
 
 module.exports = cms

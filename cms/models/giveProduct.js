@@ -30,6 +30,14 @@ const giveProductSchema = mongoose.Schema(
         updateDate: String
     })
 
-const GiveProduct = mongoose.model('GiveProduct', giveProductSchema)
+const typeGiveProductSchema = mongoose.Schema(
+    {
+        id: Number,
+       name:String,
+        description:String
+    })
 
-module.exports = {GiveProduct}
+const GiveProduct = mongoose.model('GiveProduct', giveProductSchema)
+const typeGive = mongoose.model('typeGiveProduct', typeGiveProductSchema)
+
+module.exports = {GiveProduct,typeGive}

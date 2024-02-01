@@ -149,11 +149,11 @@ comparePromotion.post('/compare', async (req, res) => {
             } else {
             }
         }
-        await createLog('200',req.method,req.originalUrl,res.body,' getCompare successfully')
+        await createLog('200', req.method, req.originalUrl, res.body, ' getCompare successfully')
         res.status(200).json({ListProduct: PromotionProductMatch, ProductGroup: PromotionGroupMatch})
     } catch (error) {
         console.log(error)
-        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -164,93 +164,94 @@ comparePromotion.post('/compare', async (req, res) => {
 comparePromotion.post('/summaryCompare', async (req, res) => {
     try {
         let queryData
-            await RewardSummary.deleteOne(req.body)
-            const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare', req.body)
-            const data = response.data
-            const freeItem = []
-            // console.log(data.ListProduct)
-            for (const list of data.ListProduct) {
-                // console.log(list.TotalReward)
-                for (let subList of list.TotalReward) {
-                    // console.log(subList)
-                    if (subList.productId == list.productId) {
-                        subList.proId = list.proId
-                        freeItem.push(subList)
+        await RewardSummary.deleteOne(req.body)
+        const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare', req.body)
+        const data = response.data
+        const freeItem = []
+        // console.log(data.ListProduct)
+        for (const list of data.ListProduct) {
+            // console.log(list.TotalReward)
+            for (let subList of list.TotalReward) {
+                // console.log(subList)
+                if (subList.productId == list.productId) {
+                    subList.proId = list.proId
+                    freeItem.push(subList)
+                }
+            }
+            // console.log(list.productId)
+        }
+        // console.log(freeItem)
+        for (const list of data.ProductGroup) {
+            let idProduct = ''
+            let nameProduct = ''
+            let qtyProduct = 0
+            // console.log(_.uniqBy(list.listProduct, 'id'))
+            const uniqListProduct = _.uniqBy(list.listProduct, 'id')
+            for (const subList of list.listProductReward) {
+                // console.log(subList)
+                for (const memberList of uniqListProduct) {
+                    // console.log(memberList)
+                    if (memberList.id == subList.id) {
+                        idProduct = subList.id
+                        nameProduct = subList.name
+                        // qtyProduct = list.qtyReward
                     }
                 }
-                // console.log(list.productId)
             }
-            // console.log(freeItem)
-            for (const list of data.ProductGroup) {
-                let idProduct = ''
-                let nameProduct = ''
-                let qtyProduct = 0
-                // console.log(_.uniqBy(list.listProduct, 'id'))
-                const uniqListProduct = _.uniqBy(list.listProduct, 'id')
-                for (const subList of list.listProductReward) {
-                    // console.log(subList)
-                    for (const memberList of uniqListProduct) {
-                        // console.log(memberList)
-                        if (memberList.id == subList.id) {
-                            idProduct = subList.id
-                            nameProduct = subList.name
-                            // qtyProduct = list.qtyReward
-                        }
-                    }
-                }
-                // console.log(idProduct)
-                const dataPro = await Promotion.findOne({proId:list.proId})
-                console.log(dataPro.proType)
-                freeItem.push({
-                    productId: idProduct,
-                    productName: nameProduct,
-                    qty: list.qtyReward,
-                    unitQty: list.qtyUnit,
-                    proId: list.proId,
-                    proType: dataPro.proType
-                })
-            }
-
-            //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
-            const combinedProducts = {}
-            freeItem.forEach(product => {
-                const {proId, qty, ...rest} = product
-
-                // ถ้า proid ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
-                if (!combinedProducts[proId]) {
-                    rest.qty = qty
-                    combinedProducts[proId] = {summaryQty: qty, products: [rest]}
-                } else {
-                    // ถ้า proid มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
-                    combinedProducts[proId].summaryQty += qty
-                    rest.qty = qty
-                    combinedProducts[proId].products.push(rest)
-                }
+            // console.log(idProduct)
+            const dataPro = await Promotion.findOne({proId: list.proId})
+            console.log(dataPro.proType)
+            const unitThai = await Unit.findOne({nameEng:list.qtyUnit})
+            freeItem.push({
+                productId: idProduct,
+                productName: nameProduct,
+                qty: list.qtyReward,
+                unitQty: unitThai.nameThai,
+                proId: list.proId,
+                proType: dataPro.proType
             })
+        }
 
-            // แปลงผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์
-            const resultArray = Object.keys(combinedProducts).map(proId => ({
-                proId,
-                summaryQty: combinedProducts[proId].summaryQty,
-                listProduct: combinedProducts[proId].products,
-            }))
+        //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
+        const combinedProducts = {}
+        freeItem.forEach(product => {
+            const {proId, qty, ...rest} = product
 
-            // console.log(resultArray)
-            const saveData = {
-                area: req.body.area,
-                storeId: req.body.storeId,
-                listPromotion: resultArray
+            // ถ้า proid ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
+            if (!combinedProducts[proId]) {
+                rest.qty = qty
+                combinedProducts[proId] = {summaryQty: qty, products: [rest]}
+            } else {
+                // ถ้า proid มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
+                combinedProducts[proId].summaryQty += qty
+                rest.qty = qty
+                combinedProducts[proId].products.push(rest)
             }
+        })
 
-            await RewardSummary.create(saveData)
-            queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
-            const listFree = queryData.listPromotion
-            // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
-        await createLog('200',req.method,req.originalUrl,res.body,'getSummary Compare successfully')
-            res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree,listDiscount:[]})
+        // แปลงผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์
+        const resultArray = Object.keys(combinedProducts).map(proId => ({
+            proId,
+            summaryQty: combinedProducts[proId].summaryQty,
+            listProduct: combinedProducts[proId].products,
+        }))
+
+        // console.log(resultArray)
+        const saveData = {
+            area: req.body.area,
+            storeId: req.body.storeId,
+            listPromotion: resultArray
+        }
+
+        await RewardSummary.create(saveData)
+        queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
+        const listFree = queryData.listPromotion
+        // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
+        await createLog('200', req.method, req.originalUrl, res.body, 'getSummary Compare Successfully')
+        res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree, listDiscount: []})
     } catch (error) {
         console.log(error)
-        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message

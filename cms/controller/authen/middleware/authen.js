@@ -20,10 +20,11 @@ process.env.ALGORITHYM_DECODED
     console.log(concatenatedWord);
     const hashedPassword = await bcrypt.hash(concatenatedWord, 10)
     const passwordMatch = await bcrypt.compare(hashedPassword, lockData)
+    let checkOut_api = 0
     if (passwordMatch) {
-        var checkOut_api = 1
+         checkOut_api = 1
     }else{
-        var checkOut_api = 0
+         checkOut_api = 0
     }
 
     if(checkOut_api === 1){
