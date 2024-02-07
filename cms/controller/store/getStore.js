@@ -8,7 +8,7 @@ const { errResponse } = require('../../services/errorResponse')
 const {createLog} = require("../../services/errorLog");
 getStore.post('/getAll', async (req, res) => {
     try {
-        const data = await Store.find().sort({idNumber: 1}).exec()
+        const data = await Store.find({},{_id:0,'approve._id':0,'policyConsent._id':0}).sort({storeId: 1}).exec()
         await createLog('200',req.method,req.originalUrl,res.body,'getAll Store Succesfully')
         res.status(200).json(data)
     } catch (error) {

@@ -217,12 +217,12 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
         freeItem.forEach(product => {
             const {proId, qty, ...rest} = product
 
-            // ถ้า proid ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
+            // ถ้า proId ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
             if (!combinedProducts[proId]) {
                 rest.qty = qty
                 combinedProducts[proId] = {summaryQty: qty, products: [rest]}
             } else {
-                // ถ้า proid มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
+                // ถ้า proId มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
                 combinedProducts[proId].summaryQty += qty
                 rest.qty = qty
                 combinedProducts[proId].products.push(rest)
@@ -244,10 +244,14 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
         }
 
         await RewardSummary.create(saveData)
-        queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
-        const listFree = queryData.listPromotion
+        // queryData = await RewardSummary.findOne(req.body, {listPromotion: 1, _id: 0})
+        queryData = await RewardSummary.findOne(req.body, {_id: 0,'listPromotion._id':0,'listPromotion.listProduct._id':0})
+        let listFree = queryData.listPromotion
         // res.status(200).json({ status:200,message:'Get/Calculator Data Complete',data:freeItem })
         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary Compare Successfully')
+
+        // console.log(listFree[0]._id )
+        // listFree[0]._id = 0
         res.status(200).json({area: req.body.area, storeId: req.body.storeId, listFree, listDiscount: []})
     } catch (error) {
         console.log(error)
