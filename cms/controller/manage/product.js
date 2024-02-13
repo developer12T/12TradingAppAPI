@@ -173,4 +173,20 @@ ProductManage.put('/updateProduct', async (req, res) => {
     }
 })
 
+ProductManage.get('/getGroupProduct', async (req, res) => {
+    try {
+        const data = await Product.find({}, {group:1,_id:0})
+        await createLog('200',req.method,req.originalUrl,res.body,'getGroupProduct Successfully!')
+        const resData = _.uniqBy(data,'group')
+        res.status(200).json(resData)
+    } catch (error) {
+        console.log(error)
+        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
 module.exports = ProductManage

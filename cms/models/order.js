@@ -5,6 +5,7 @@ const list = mongoose.Schema({
     name:{type:String},
     qty:{type:Number},
     pricePerQty:{type:Number},
+    unitQty:{type:String},
     discount:{type:Number},
     totalAmount:{type:Number}
 })
@@ -18,14 +19,18 @@ const orderSchema = mongoose.Schema({
     idIndex:{type:Number},
     id:{type:String},
     saleMan:{type:String},
+    area:String,
     storeId:{type:String},
     storeName:{type:String},
     address:{type:String},
     taxID:{type:String},
     tel:{type:String},
+    totalPrice:{type:Number,toFixed: 2, default: 0.00},
     list:[list],
     shipping:shipping,
-    status:{type:String}
+    status:{type:String},
+    createDate:{type:String},
+    updateDate:{type:String}
 
 })
 

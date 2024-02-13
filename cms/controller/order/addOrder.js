@@ -8,7 +8,7 @@ const {User} = require('../../models/user')
 const {NumberSeries} = require('../../models/numberSeries')
 const {Store} = require('../../models/store')
 const {History} = require('../../models/history')
-const {currentdateDash, spltitString} = require('../../utils/utility')
+const {currentdateDash, spltitString, currentdateSlash, floatConvert} = require('../../utils/utility')
 const axios = require('axios')
 const {createLog} = require("../../services/errorLog");
 
@@ -31,16 +31,17 @@ addOrder.post('/newOrder', async (req, res) => {
         }, {})
         // console.log(cartData.shipping)
         const listProduct = []
-
+        let totalPrice = 0
         for (const data of cartData.list) {
             const totalAmount = data.qty * data.pricePerUnitSale
+            totalPrice = totalPrice+totalAmount
              // console.log(data.qty)
             const listData = {
                 id: data.id,
                 name: data.name,
                 qty: data.qty,
                 pricePerQty: data.pricePerUnitSale,
-                typeQty: data.typeQty,
+                unitQty: data.unitId,
                 totalAmount:totalAmount ,
                 discount: 0
             }
@@ -51,13 +52,18 @@ addOrder.post('/newOrder', async (req, res) => {
             idIndex: indexPlus,
             id: availableNumber + 1,
             saleMan: userData.firstName + ' ' + userData.surName,
-            storeId: storeData.idCharecter + storeData.idNumber,
+            area:req.body.area,
+            storeId: storeData.storeId,
             storeName: storeData.name,
             address: storeData.address + ' ' + storeData.distric + ' ' + storeData.subDistric + ' ' + storeData.province,
             taxID: storeData.taxId,
             tel: storeData.tel,
+            totalPrice:await floatConvert(totalPrice,2),
             list: listProduct,
-            shipping:cartData.shipping
+            shipping:cartData.shipping,
+            status:'10',
+            createDate:currentdateSlash(),
+            updateDate:null
         }
         await Order.create(mainData)
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
@@ -91,7 +97,7 @@ addOrder.post('/newOrder', async (req, res) => {
             }
         })
         await createLog('200',req.method,req.originalUrl,res.body,'newOrder Successfully!')
-        await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
+        // await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
     } catch (error) {
         console.log(error)
         await createLog('500',req.method,req.originalUrl,res.body,error.message)
