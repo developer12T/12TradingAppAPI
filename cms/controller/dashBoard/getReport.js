@@ -310,4 +310,58 @@ getReport.post('/getScatter', async (req, res) => {
         })
     }
 })
+
+getReport.post('/getScatterTest', async (req, res) => {
+    try {
+        const cheerio = require('cheerio');
+
+        const html = `
+<tbody>
+    <tr data-toggle="collapse" data-target="exchange-0" class="accordion-toggle">
+        <td class="position-sticky text-break">
+            <div class="d-flex flex-row">
+                <div><img src="/global/assets/img/exchangerates/ico-USD.png" class="mr-2"/>
+                </div>
+                <div>
+                    <h6 class="mb-0">USD</h6><small>United States Dollar</small>
+                </div>
+            </div>
+        </td>
+        <td class="text-center align-middle d-none d-md-table-cell">35.85000</td>
+        <td class="text-center align-middle">35.95000</td>
+        <td class="text-center align-middle d-none d-md-table-cell"></td>
+        <td class="text-center align-middle">36.25000</td>
+        <td class="text-center align-middle d-none d-md-table-cell"></td>
+    </tr>
+</tbody>
+`;
+
+        const $ = cheerio.load(html);
+        const data = [];
+
+        $('tbody tr').each((index, element) => {
+            const currency = $(element).find('td').text();
+            const description = $(element).find('small').text();
+            const rates = $(element).find('.text-center.align-middle').map((i, el) => $(el).text()).get();
+
+            data.push({
+                currency,
+                description,
+                buy: rates[0],
+                sell: rates[1],
+                data:'11'
+            });
+        });
+
+        console.log({data,main:'111'});
+
+            res.status(200).json(data)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
 module.exports = getReport

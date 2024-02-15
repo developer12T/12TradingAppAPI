@@ -8,15 +8,16 @@ const {PreOrder} = require("../../models/order")
 const {User} = require("../../models/user")
 const _ = require('lodash')
 const {createLog} = require("../../services/errorLog");
+const axios = require("axios");
 const getCart = express.Router()
 
 getCart.post('/getCart', async (req, res) => {
     try {
         const data = await Cart.find({area: req.body.area, storeId: req.body.storeId})
-        await createLog('200',req.method,req.originalUrl,res.body,'getCart successfully')
+        await createLog('200', req.method, req.originalUrl, res.body, 'getCart successfully')
         res.status(200).json(data)
     } catch (e) {
-        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
+        await createLog('500', res.method, req.originalUrl, res.e, error.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -27,7 +28,7 @@ getCart.post('/getCartToShow', async (req, res) => {
     try {
         var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
-        if(data){
+        if (data) {
             console.log('ไม่พบ')
             // console.log(data)
             const data_arr = []
@@ -59,20 +60,19 @@ getCart.post('/getCartToShow', async (req, res) => {
                 totalAmount: parseFloat(totalAmount).toFixed(2),
                 list: data_arr
             }
-            await createLog('200',req.method,req.originalUrl,res.body,'getCartToShow successfully')
+            await createLog('200', req.method, req.originalUrl, res.body, 'getCartToShow successfully')
             res.status(200).json(mainData)
-        }else{
+        } else {
             console.log('พบ')
-            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             res.status(200).json({
                 status: 200,
                 message: 'No Data'
             })
         }
-
     } catch (error) {
         console.log(error)
-        await createLog('500', res.method,req.originalUrl,res.e,error.stack)
+        await createLog('500', res.method, req.originalUrl, res.e, error.stack)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -87,7 +87,13 @@ getCart.post('/getPreOrder', async (req, res) => {
             __v: 0,
             _id: 0
         })
-        if(data){
+        const dataPromotion = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/summaryCompare', {
+            area: req.body.area,
+            storeId: req.body.storeId
+        })
+        const responseData = dataPromotion.data
+        console.log(responseData)
+        if (data) {
             const dataUser = await User.findOne({saleCode: req.body.saleCode})
             const dataStore = await Store.findOne({storeId: req.body.storeId})
             const mainList = []
@@ -97,13 +103,32 @@ getCart.post('/getPreOrder', async (req, res) => {
                     id: listdata.id,
                     name: listdata.name,
                     qty: listdata.qty,
+                    type: "buy",
                     nameQty: unitData.nameThai,
                     qtyText: listdata.qty + ' ' + unitData.nameThai,
-                    pricePerQty: parseFloat(listdata.pricePerUnitSale).toFixed(2),
+                    pricePerQty: parseFloat(parseFloat(listdata.pricePerUnitSale).toFixed(2)),
                     discount: 0,
-                    totalAmount: parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)
+                    totalAmount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2))
                 }
                 mainList.push(dataList)
+            }
+            let listFree_Arr = []
+            for (const listFreePro of responseData.listFree) {
+                for (const listFreeItem of listFreePro.listProduct) {
+                    // const unitData = await Unit.findOne({idUnit: listFreeItem.unitId})
+                    const dataListFree = {
+                        id: listFreeItem.productId,
+                        name: listFreeItem.productName,
+                        qty: listFreeItem.qty,
+                        type: "free",
+                        nameQty: listFreeItem.unitQty,
+                        qtyText: listFreeItem.qty + ' ' + listFreeItem.unitQty,
+                        pricePerQty: '0.00',
+                        discount: 0,
+                        totalAmount: '0.00'
+                    }
+                    listFree_Arr.push(dataListFree)
+                }
             }
 
             const mainData = {
@@ -113,27 +138,29 @@ getCart.post('/getPreOrder', async (req, res) => {
                 address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
                 taxID: dataStore.taxId,
                 tel: dataStore.tel,
-                totalAmount: data.totalPrice.toFixed(2),
+                totalAmount: parseFloat(data.totalPrice.toFixed(2)),
                 discount: '0.00',
-                totalAmountNoVat: (data.totalPrice / 1.07).toFixed(2),
-                vat: (data.totalPrice - (data.totalPrice / 1.07)).toFixed(2),
-                summaryAmount: data.totalPrice.toFixed(2),
+                totalAmountNoVat: parseFloat((data.totalPrice / 1.07).toFixed(2)),
+                vat: parseFloat((data.totalPrice - (data.totalPrice / 1.07)).toFixed(2)),
+                summaryAmount: parseFloat(data.totalPrice.toFixed(2)),
                 list: mainList,
+                listFree: listFree_Arr,
                 shippingAddress: data.shipping.address,
                 shippingDate: data.shipping.dateShip
             }
-            await createLog('200',req.method,req.originalUrl,res.body,'getPreOrder successfully')
+            await createLog('200', req.method, req.originalUrl, res.body, 'getPreOrder successfully')
             res.status(200).json(mainData)
-        }else{
-            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
+        } else {
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             res.status(200).json({
                 status: 200,
                 message: 'No Data'
             })
         }
-    } catch (error) {
+    } catch
+        (error) {
         console.log(error)
-        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message
@@ -162,26 +189,26 @@ getCart.post('/getSummaryCart', async (req, res) => {
             const unitDetail = await Unit.findOne({idUnit: list.unitId})
 
             // console.log(factoryCal)
-            if(unitDetail.nameThai === 'แผง'){
+            if (unitDetail.nameThai === 'แผง') {
                 listProductGroup.push({
                     id: list.id,
                     group: dataProduct.group,
                     brand: dataProduct.brand,
                     size: dataProduct.size,
                     flavour: dataProduct.flavour,
-                    typeUnit:'แผง',
+                    typeUnit: 'แผง',
                     qty: list.qty,
                     unitQty: unitDetail.nameEng,
                     qtyConvert: factoryCal.convertFact[0].factor * list.qty
                 })
-            }else {
+            } else {
                 listProductGroup.push({
                     id: list.id,
                     group: dataProduct.group,
                     brand: dataProduct.brand,
                     size: dataProduct.size,
                     flavour: dataProduct.flavour,
-                    typeUnit:'ไม่แผง',
+                    typeUnit: 'ไม่แผง',
                     qty: list.qty,
                     unitQty: unitDetail.nameEng,
                     qtyConvert: factoryCal.convertFact[0].factor * list.qty
@@ -215,7 +242,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
         // console.log(groupData_arr)
 
         const groupedData = groupData_arr.reduce((acc, curr) => {
-            const {group, size,typeUnit} = curr
+            const {group, size, typeUnit} = curr
             const key = `${group}/${size}/${typeUnit}`
             if (!acc[key]) {
                 acc[key] = {
@@ -242,26 +269,26 @@ getCart.post('/getSummaryCart', async (req, res) => {
         for (const listProGroup of outputDataGroupSize) {
             // console.log(listProGroup)
             //  loop
-            if(listProGroup.typeUnit === 'แผง'){
+            if (listProGroup.typeUnit === 'แผง') {
 
                 const dataConvertion = await Product.findOne({
                     group: listProGroup.group,
                     size: listProGroup.size,
                     // flavour: listProGroup.flavour,
-                    unitList:{$elemMatch: {id: '3'}}
-                }, { convertFact:1 })
+                    unitList: {$elemMatch: {id: '3'}}
+                }, {convertFact: 1})
 
-                for(listDataConvertion of dataConvertion.convertFact){
+                for (listDataConvertion of dataConvertion.convertFact) {
                     const dataList = {
-                        name:listDataConvertion.unitName,
-                        qty:parseInt((listProGroup.qty/listDataConvertion.factor).toFixed(0))
+                        name: listDataConvertion.unitName,
+                        qty: parseInt((listProGroup.qty / listDataConvertion.factor).toFixed(0))
                     }
                     listProductGroupUnitListQty.push(dataList)
                 }
                 listProGroup.converterUnit = listProductGroupUnitListQty
                 listProductGroupUnitListQty = []
                 // listProductGroupUnit.push(listProGroup)
-            }else{
+            } else {
 
                 // console.log('cz2')
                 const dataConvertion2 = await Product.findOne({
@@ -271,11 +298,11 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     "unitList.id": {
                         $nin: ['3']
                     }
-                }, { convertFact:1 })
-                for(listDataConvertion2 of dataConvertion2.convertFact){
+                }, {convertFact: 1})
+                for (listDataConvertion2 of dataConvertion2.convertFact) {
                     const dataList2 = {
-                        name:listDataConvertion2.unitName,
-                        qty:parseInt((listProGroup.qty/listDataConvertion2.factor).toFixed(0))
+                        name: listDataConvertion2.unitName,
+                        qty: parseInt((listProGroup.qty / listDataConvertion2.factor).toFixed(0))
                     }
                     listProductGroupUnitListQty.push(dataList2)
                 }
@@ -289,42 +316,49 @@ getCart.post('/getSummaryCart', async (req, res) => {
         //convert product type
         var dataUnitListProductConvert = []
         const productList = []
-        for(const listCon of listProduct){
-            const dataConvertion = await Product.findOne({id:listCon.id},{convertFact:1,_id:0})
+        for (const listCon of listProduct) {
+            const dataConvertion = await Product.findOne({id: listCon.id}, {convertFact: 1, _id: 0})
             // console.log(dataConvertion)
-            for(const convFactList of dataConvertion.convertFact){
+            for (const convFactList of dataConvertion.convertFact) {
                 const detail = {
-                    name:convFactList.unitName,
-                    qty:parseInt((listCon.qtyconvert/convFactList.factor).toFixed(0))
+                    name: convFactList.unitName,
+                    qty: parseInt((listCon.qtyconvert / convFactList.factor).toFixed(0))
                 }
                 dataUnitListProductConvert.push(detail)
             }
             listCon.converterUnit = dataUnitListProductConvert
             productList.push(listCon)
-            dataUnitListProductConvert  = []
+            dataUnitListProductConvert = []
         }
 
         // ดึงข้อมูล สินค้าจากตะกร้ามาเพื่อเอาข้อมูลไปใช้ เริ่มต้น
         // console.log('cz')
         const listProductInGroup = []
-        const dataProductCart= await Cart.findOne({area:req.body.area,storeId:req.body.storeId})
+        const dataProductCart = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         // console.log(dataProductCart.list)
 
-        for(const listDetailProduct of dataProductCart.list){
+        for (const listDetailProduct of dataProductCart.list) {
             // console.log(listDetailProduct.id)
-            const detailProduct = await Product.findOne({id:listDetailProduct.id},{group:1,size:1,flavour:1,id:1,name:1,_id:0})
+            const detailProduct = await Product.findOne({id: listDetailProduct.id}, {
+                group: 1,
+                size: 1,
+                flavour: 1,
+                id: 1,
+                name: 1,
+                _id: 0
+            })
             // console.log(detailProduct)
             listProductInGroup.push(detailProduct)
         }
         // ดึงข้อมูล สินค้าจากตะกร้ามาเพื่อเอาข้อมูลไปใช้ สิ้นสุด
         const listProductGroupUnitModify = []
-        for(const list of listProductGroupUnit){
+        for (const list of listProductGroupUnit) {
             // console.log(list)
             const subDataListPro = []
-            for (const subList of listProductInGroup){
+            for (const subList of listProductInGroup) {
                 // console.log(subList)
                 // if((list.group == subList.group) && (list.size == subList.size) && (list.flavour == subList.flavour)){
-                if((list.group == subList.group) && (list.size == subList.size) ){
+                if ((list.group == subList.group) && (list.size == subList.size)) {
                     // listProductGroupUnit.listProduct = subList
                     // console.log(c.id + list.group)
                     // console.log(list.converterUnit)
@@ -334,13 +368,13 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 }
             }
             listProductGroupUnitModify.push({
-                group:list.group,
-                size:list.size,
+                group: list.group,
+                size: list.size,
                 // flavour:list.flavour,
-                typeUnit:list.typeUnit,
-                qty:list.typeUnit,
-                converterUnit:list.converterUnit,
-                listProduct:subDataListPro
+                typeUnit: list.typeUnit,
+                qty: list.typeUnit,
+                converterUnit: list.converterUnit,
+                listProduct: subDataListPro
             })
         }
 
@@ -349,11 +383,11 @@ getCart.post('/getSummaryCart', async (req, res) => {
             // listProductGroup: listProductGroupUnit,
             listProductGroup: listProductGroupUnitModify,
         }
-        await createLog('200',req.method,req.originalUrl,res.body,'getSummary successfully')
+        await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully')
         res.status(200).json({typeStore: dataStore.type, list: summaryMainData,})
     } catch (error) {
         console.log(error)
-        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message

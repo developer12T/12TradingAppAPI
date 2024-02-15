@@ -39,6 +39,7 @@ addOrder.post('/newOrder', async (req, res) => {
             const listData = {
                 id: data.id,
                 name: data.name,
+                type:'buy',
                 qty: data.qty,
                 pricePerQty: data.pricePerUnitSale,
                 unitQty: data.unitId,
@@ -46,6 +47,29 @@ addOrder.post('/newOrder', async (req, res) => {
                 discount: 0
             }
             listProduct.push(listData)
+        }
+
+        const dataPromotion = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/summaryCompare', {
+            area: req.body.area,
+            storeId: req.body.storeId
+        })
+        const responseData = dataPromotion.data
+
+        for (const listFreePro of responseData.listFree) {
+            for (const listFreeItem of listFreePro.listProduct) {
+                const dataListFree = {
+                    id: listFreeItem.productId,
+                    name: listFreeItem.productName,
+                    qty: listFreeItem.qty,
+                    type: "free",
+                    nameQty: listFreeItem.unitQty,
+                    qtyText: listFreeItem.qty + ' ' + listFreeItem.unitQty,
+                    pricePerQty: '0.00',
+                    discount: 0,
+                    totalAmount: '0.00'
+                }
+                listProduct.push(dataListFree)
+            }
         }
 
         const mainData = {
