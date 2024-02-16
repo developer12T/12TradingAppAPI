@@ -3,15 +3,17 @@ const mongoose = require('mongoose')
 const list = mongoose.Schema({
     id:String,
     name:String,
+    targetMarket:Number,
+    targetQty:Number,
+    unit:String,
+    list:[]
 })
 
-
 const targetSchema = mongoose.Schema({
-    id:String,
-    name:String,
-    group:String,
-    TargetBalance:{type:Number,toFixed: 2},
-    list:[list]
+    year:String,
+    month:String,
+    area:String,
+    data:[list]
 })
 
 const Target = mongoose.model('Target',targetSchema)

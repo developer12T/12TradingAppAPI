@@ -206,7 +206,8 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 productId: idProduct,
                 productName: nameProduct,
                 qty: list.qtyReward,
-                unitQty: unitThai.nameThai,
+                unitQty: unitThai.idUnit,
+                unitQtyThai: unitThai.nameThai,
                 proId: list.proId,
                 proType: dataPro.proType
             })
