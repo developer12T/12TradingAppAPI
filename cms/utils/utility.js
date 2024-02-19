@@ -1,5 +1,6 @@
 const moment = require('moment');
 const fs = require("fs");
+const {Product} = require("../models/product");
 
 function currentdateDash() {
     const datedash = moment().format('YYYY-MM-DDTHH:mm:ss', 'th');
@@ -143,6 +144,14 @@ async function dayOfMonth(monthNumber) {
 //     const dataUnit
 //     return dist;
 // }
+// async function convertUnitToCTN(smallest_unit,unitQty,id) {
+//     // const smallest_unit
+//     const convertChange = await Product.findOne({
+//         id: id,
+//         convertFact: {$elemMatch: {unitId: convertDataSub.unitQty}}
+//     }, {'convertFact.$': 1,_id:0})
+//     return 'dist';
+// }
 
 
 
@@ -163,5 +172,6 @@ module.exports = {
     spltitString,
     checkDistanceLatLon,
     calPromotion,
-    nameMonth
+    nameMonth,
+    // convertUnitToCTN
 };

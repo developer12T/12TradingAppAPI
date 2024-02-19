@@ -7,6 +7,7 @@ const axios = require("axios");
 const {Product, Unit} = require("../../models/product");
 const {access} = require("fs");
 const {createLog} = require("../../services/errorLog");
+const {log} = require("winston");
 const getReport = express.Router()
 getReport.post('/getGroupProduct', async (req, res) => {
     try {
@@ -486,7 +487,7 @@ getReport.post('/getTargetProduct', async (req, res) => {
         const dataCheck = await Order.find({createDate: {$regex: year + '/' + month, $options: 'i'}}, {})
         if (dataCheck.length > 0) {
 
-            const dataFree = await Order.find({
+            let dataFree = await Order.find({
                 area, createDate: {$regex: year + '/' + month, $options: 'i'},
                 list: {
                     $elemMatch: {
@@ -499,17 +500,48 @@ getReport.post('/getTargetProduct', async (req, res) => {
                 _id: 0,
             })
 
+             // console.log(dataFree)
+            let dataConvetList = []
+            let dataConvet = []
+            for (let convertData of dataFree) {
+                for (let convertDataSub of convertData.list) {
+                    const convertChange = await Product.findOne({
+                        id: convertDataSub.id,
+                        convertFact: {$elemMatch: {unitId: convertDataSub.unitQty}}
+                    }, {'convertFact.$': 1,_id:0})
+                    // console.log(convertDataSub.qty * convertChange.convertFact[0].factor + 'PCS')
+
+                    const convertChangeCtn = await Product.findOne({
+                        id: convertDataSub.id,
+                        convertFact: {$elemMatch: {unitId: '1'}}
+                    }, {'convertFact.$': 1,_id:0})
+
+                   const dataQtyCtn = parseInt((convertDataSub.qty * convertChange.convertFact[0].factor)/convertChangeCtn.convertFact[0].factor)
+                    // console.log(convertDataSub)
+                    convertDataSub.qty = dataQtyCtn
+                    convertDataSub.unitQty = '1'
+                    // console.log(dataQtyCtn)
+                    dataConvetList.push(convertDataSub)
+                }
+                dataConvet.push({
+                    storeId:convertData.storeId,
+                    list:dataConvetList
+                })
+                dataConvetList = []
+                // console.log(convertData)
+            }
+
+            dataFree = []
+            dataFree = dataConvet
             // console.log(dataFree)
 
             const summaryDataOrder = dataFree.reduce((acc, store) => {
                 const existingStore = acc.find((s) => s.storeId === store.storeId)
-
                 if (existingStore) {
                     existingStore.list = existingStore.list.concat(store.list)
                 } else {
                     acc.push(store)
                 }
-
                 return acc
             }, [])
 
@@ -541,7 +573,6 @@ getReport.post('/getTargetProduct', async (req, res) => {
                 list.forEach(item => {
                     const {id, group, qty, unitQty} = item
                     const key = `${id}-${group}-${unitQty}`
-
                     if (map[key]) {
                         map[key].qty += qty
                     } else {
@@ -627,11 +658,14 @@ getReport.post('/getTargetProduct', async (req, res) => {
             let resData = []
             for (let rData of preData) {
                 rData.numberStore = rData.listStore.length
+                rData.percentDifStore = (parseFloat((rData.numberStore / rData.targetMarket) * 100)).toFixed(2) + '%'
+                rData.percentDifQty = (parseFloat((rData.qty / rData.targetQty) * 100)).toFixed(2) + '%'
                 resData.push(rData)
             }
 
             const resultResponse = resData.map(item => {
-                const {listStore, ...rest} = item
+                let {listStore, ...rest} = item
+                // rest.percentDifStore = 0
                 return rest
             })
             res.status(200).json(resultResponse)
@@ -640,11 +674,135 @@ getReport.post('/getTargetProduct', async (req, res) => {
         }
     } catch (e) {
         console.log(e)
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
             status: 500,
             message: e.message
         })
+    }
+})
+
+getReport.post('/getTargetProductFast', async (req, res) => {
+    try {
+        const { currentYear, currentMonth, dayOfMonth } = require('../../utils/utility');
+
+        // Get product groups from API
+        const { data: dataGroup } = await axios.get(process.env.API_URL_IN_USE + '/cms/manage/Product/getGroupProduct');
+        const { month, year, area } = req.body;
+
+        // Get target details
+        const { data: dataTarget } = await axios.post(process.env.API_URL_IN_USE + '/cms/manage/Target/getDetail', { year, month });
+
+        // Default month and year if not provided
+        if (month === '') {
+            month = await currentMonth();
+        }
+        if (year === '') {
+            year = await currentYear();
+        }
+
+        // Fetch orders for the specified month and year
+        const dataCheck = await Order.find({ createDate: { $regex: year + '/' + month, $options: 'i' } });
+
+        if (dataCheck.length > 0) {
+            let dataFree = await Order.find({
+                area,
+                createDate: { $regex: year + '/' + month, $options: 'i' },
+                'list.type': 'buy' // Filter only the 'buy' type
+            }, { 'list.$': 1, storeId: 1, _id: 0 });
+
+            // Prepare data with converted quantities
+            let processedData = {};
+            for (let order of dataFree) {
+                for (let item of order.list) {
+                    const convertChange = await Product.findOne({
+                        id: item.id,
+                        'convertFact.unitId': item.unitQty // Find conversion factor based on the unitQty
+                    }, { 'convertFact.$': 1, _id: 0 });
+
+                    const convertChangeCtn = await Product.findOne({
+                        id: item.id,
+                        'convertFact.unitId': '1' // Assume unitQty '1' represents 'PCS'
+                    }, { 'convertFact.$': 1, _id: 0 });
+
+                    const dataQtyCtn = parseInt((item.qty * convertChange.convertFact[0].factor) / convertChangeCtn.convertFact[0].factor);
+                    item.qty = dataQtyCtn;
+                    item.unitQty = '1';
+
+                    if (!processedData[order.storeId]) {
+                        processedData[order.storeId] = [];
+                    }
+                    processedData[order.storeId].push(item);
+                }
+            }
+
+            // Consolidate quantities for each product group
+            let summaryData = [];
+            for (let storeId in processedData) {
+                const storeData = processedData[storeId];
+                let groupQtyMap = new Map();
+
+                for (let item of storeData) {
+                    const product = await Product.findOne({ id: item.id });
+                    const group = product.group;
+
+                    if (!groupQtyMap.has(group)) {
+                        groupQtyMap.set(group, { group, qty: 0 });
+                    }
+                    groupQtyMap.get(group).qty += item.qty;
+                }
+
+                for (let [group, qtyObj] of groupQtyMap) {
+                    summaryData.push({ storeId, group, qty: qtyObj.qty });
+                }
+            }
+
+            // Combine summary data with target data
+            let resultData = [];
+            for (let groupData of dataTarget.data.data) {
+                for (let group of groupData.list) {
+                    let totalQty = 0;
+                    let storeList = [];
+
+                    for (let item of summaryData) {
+                        if (item.group === group) {
+                            totalQty += item.qty;
+                            storeList.push(item.storeId);
+                        }
+                    }
+
+                    resultData.push({
+                        group: groupData.name,
+                        targetMarket: groupData.targetMarket,
+                        targetQty: groupData.targetQty,
+                        qty: totalQty,
+                        listStore: storeList
+                    });
+                }
+            }
+
+            // Process the combined data for final response
+            let finalData = [];
+            for (let item of resultData) {
+                let { listStore, ...rest } = item;
+                rest.numberStore = listStore.length;
+                rest.percentDifStore = (parseFloat((rest.numberStore / rest.targetMarket) * 100)).toFixed(2) + '%';
+                rest.percentDifQty = (parseFloat((rest.qty / rest.targetQty) * 100)).toFixed(2) + '%';
+                finalData.push(rest);
+            }
+
+            // Send the processed data as response
+            res.status(200).json(finalData);
+        } else {
+            await errResponse(res);
+        }
+    } catch (error) {
+        console.log(error);
+        await createLog('500', req.method, req.originalUrl, res.body, error.message);
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        });
     }
 })
 

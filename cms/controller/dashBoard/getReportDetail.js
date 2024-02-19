@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2567. by develop 12Trading
+ */
+
 const express = require('express')
 require('../../configs/connect')
 const {Order} = require("../../models/order")
@@ -7,8 +11,10 @@ const axios = require("axios");
 const {Product, Unit} = require("../../models/product");
 const {access} = require("fs");
 const {createLog} = require("../../services/errorLog");
+const _ = require("lodash");
+const {log} = require("winston");
 const getReport = express.Router()
-getReport.post('/getGroupProduct', async (req, res) => {
+getReport.post('/getGroupProductDetail', async (req, res) => {
     try {
         if (req.body.area === '' || !req.body.area) {
             res.status(500).json({
@@ -380,7 +386,7 @@ getReport.post('/getGroupProduct', async (req, res) => {
     }
 })
 
-getReport.post('/getDaily', async (req, res) => {
+getReport.post('/getDailyDetail', async (req, res) => {
     try {
         const {currentYear, currentMonth, dayOfMonth} = require('../../utils/utility')
         if (req.body.area === '' || !req.body.area) {
@@ -389,7 +395,7 @@ getReport.post('/getDaily', async (req, res) => {
                 message: 'require area!'
             })
         } else {
-            let {month, year, area} = req.body
+            let {month, year, area,day} = req.body
             let mainData = []
             let resData = []
             let no = ''
@@ -400,63 +406,21 @@ getReport.post('/getDaily', async (req, res) => {
             if (year == '') {
                 year = await currentYear()
             }
-            const numberOfMonth = await dayOfMonth(month)
             // console.log(numberOfMonth)
             const dataCheck = await Order.find({
                 area: area,
-                createDate: {$regex: year + '/' + month, $options: 'i'}
+                createDate: {$regex: year + '/' + month+'/'+day, $options: 'i'}
             }, {})
             if (dataCheck.length > 0) {
-                for (let i = 1; i <= parseInt(numberOfMonth.numberOfDay); i++) {
-                    // console.log(i)
-                    if (i > 9) {
-                        no = i
-                    } else {
-                        no = '0' + i
-                    }
                     const data = await Order.find({
                         area,
                         createDate: {
-                            $regex: year + '/' + month + '/' + no,
+                            $regex: year + '/' + month + '/' + day,
                             $options: 'i'
                         }
-                    }, {})
-                    mainData.push({
-                        year,
-                        month,
-                        day: no.toString(),
-                        list: data
-                    })
-                }
+                    }, {_id:0,id:1,storeId:1,totalPrice:1}).sort({id:1})
 
-                for (let listMainData of mainData) {
-                    let total = 0
-                    listMainData.list.forEach(list => {
-                        total += list.totalPrice
-                        listMainData.totalPrice = total
-                    })
-                    delete listMainData.list
-                    if (listMainData.totalPrice) {
-
-                    } else {
-                        listMainData.totalPrice = 0.00
-                    }
-                    listMainData.sendMoney = null
-                    resData.push(listMainData)
-                }
-                console.log(resData)
-                let totalMonth = 0
-                resData.forEach(item => {
-                    totalMonth += item.totalPrice;
-                })
-                let vatPer = await floatConvert(totalMonth * 0.07, 2)
-                res.status(200).json({
-                    totalPrice: totalMonth,
-                    vat: vatPer,
-                    totalSummary: totalMonth - vatPer,
-                    targetMonth: null,
-                    list: resData
-                })
+                res.status(200).json(data)
             } else {
                 await errResponse(res)
             }
@@ -469,14 +433,12 @@ getReport.post('/getDaily', async (req, res) => {
         })
     }
 })
-getReport.post('/getTargetProduct', async (req, res) => {
+getReport.post('/getTargetProductDetail', async (req, res) => {
     try {
         const {currentYear, currentMonth, dayOfMonth} = require('../../utils/utility')
         const dataGroup = await axios.get(process.env.API_URL_IN_USE + '/cms/manage/Product/getGroupProduct')
         // console.log(dataGroup.data)
-        let {month, year, area} = req.body
-        const dataTarget = await axios.post(process.env.API_URL_IN_USE + '/cms/manage/Target/getDetail', {year, month})
-        // console.log(dataTarget.data)
+        let {month, year, area, group} = req.body
         if (month === '') {
             month = await currentMonth()
         }
@@ -486,161 +448,75 @@ getReport.post('/getTargetProduct', async (req, res) => {
         const dataCheck = await Order.find({createDate: {$regex: year + '/' + month, $options: 'i'}}, {})
         if (dataCheck.length > 0) {
 
+            const dataTarget = await axios.post(process.env.API_URL_IN_USE + '/cms/manage/Target/getDetail', {
+                year,
+                month,
+                area
+            })
+            const dataTargetList = _.find(dataTarget.data.data, {name: group})
+            // console.log(dataTargetList.list)
             const dataFree = await Order.find({
                 area, createDate: {$regex: year + '/' + month, $options: 'i'},
                 list: {
                     $elemMatch: {
                         type: 'buy',
+                        group: {$in: dataTargetList.list}
                     }
                 }
             }, {
                 'list.$': 1,
                 storeId: 1,
+                id: 1,
                 _id: 0,
             })
+            const result = {};
 
-            // console.log(dataFree)
-
-            const summaryDataOrder = dataFree.reduce((acc, store) => {
-                const existingStore = acc.find((s) => s.storeId === store.storeId)
-
-                if (existingStore) {
-                    existingStore.list = existingStore.list.concat(store.list)
-                } else {
-                    acc.push(store)
+            dataFree.forEach(item => {
+                if (!result[item.storeId]) {
+                    result[item.storeId] = []
                 }
-
-                return acc
-            }, [])
-
-            // console.log(summaryDataOrder)
-            let rdDataOrder = []
-            let mainDataOrder = []
-            for (const listMain of summaryDataOrder) {
-                for (const listSub of listMain.list) {
-                    const dataGroupProduct = await Product.findOne({id: listSub.id})
-                    rdDataOrder.push({
-                        id: listSub.id,
-                        group: dataGroupProduct.group,
-                        qty: listSub.qty,
-                        unitQty: listSub.unitQty,
-                    })
-                }
-                mainDataOrder.push({storeId: listMain.storeId, list: rdDataOrder})
-                rdDataOrder = []
-            }
-            // console.log(mainDataOrder)
-            const processedData = {};
-
-            mainDataOrder.forEach(store => {
-                const {storeId, list} = store
-                if (!processedData[storeId]) {
-                    processedData[storeId] = []
-                }
-                const map = {}
-                list.forEach(item => {
-                    const {id, group, qty, unitQty} = item
-                    const key = `${id}-${group}-${unitQty}`
-
-                    if (map[key]) {
-                        map[key].qty += qty
-                    } else {
-                        map[key] = {id, group, qty, unitQty}
-                    }
-                })
-                processedData[storeId] = Object.values(map)
+                result[item.storeId].push(item.id)
             })
 
-            // console.log(processedData);
-            let resultSum = {}
-            let resultSumArr = []
+            const formattedResult = Object.keys(result).map(storeId => ({
+                storeId: storeId,
+                listOrder: result[storeId]
+            }))
 
-            Object.keys(processedData).forEach((storeId) => {
-                resultSum = {
-                    storeId,
-                    list: processedData[storeId],
-                }
-                resultSumArr.push(resultSum)
-            })
-
-            // console.log(resultSumArr)
-            // console.log(dataTarget.data.data)
-            let combinedData = []
-            let data_Arr = []
-            for (const list of dataTarget.data.data) {
-                data_Arr.push({
-                    name: list.name,
-                    targetMarket: list.targetMarket,
-                    targetQty: list.targetQty,
-                    list: list.list
-                })
-            }
-
-            for (const group1 of data_Arr) {
-                // console.log(group.list)
-                for (const group of group1.list) {
-                    const groupName = group;
-                    let groupQty = 0;
-                    const groupListStore = []
-                    for (const store of resultSumArr) {
-                        for (const item of store.list) {
-                            if (item.group === groupName) {
-                                groupQty += item.qty;
-                                groupListStore.push(store.storeId)
-                            }
-                        }
-                    }
-                    combinedData.push({
-                        group: group1.name,
-                        targetMarket: group1.targetMarket,
-                        targetQty: group1.targetQty,
-                        qty: groupQty,
-                        listStore: groupListStore,
-                    })
-                }
-            }
-            // console.log(combinedData)
-
-            const preData = [];
-            const groupMap = new Map();
-
-            for (const item of combinedData) {
-                const group = item.group;
-                if (!groupMap.has(group)) {
-                    groupMap.set(group, {
-                        group,
-                        targetMarket: item.targetMarket,
-                        targetQty: item.targetQty,
-                        qty: 0,
-                        listStore: []
-                    });
-                }
-                const groupData = groupMap.get(group)
-                groupData.qty += item.qty
-                groupData.listStore.push(...item.listStore)
-            }
-
-            for (const groupData of groupMap.values()) {
-                preData.push(groupData);
-            }
-            // console.log(preData)
             let resData = []
-            for (let rData of preData) {
-                rData.numberStore = rData.listStore.length
-                resData.push(rData)
-            }
+            let OrderDetail = []
 
-            const resultResponse = resData.map(item => {
-                const {listStore, ...rest} = item
-                return rest
-            })
-            res.status(200).json(resultResponse)
+            for (const listOrder of formattedResult) {
+                // console.log(listOrder)
+                for (const listSub of listOrder.listOrder) {
+                    // console.log(listSub)
+                    const dataOrder = await Order.findOne({id: listSub})
+                    const OrderDetailObj = {
+                        idOrder: listSub,
+                        totalPrice: dataOrder.totalPrice
+
+                    }
+                    OrderDetail.push(OrderDetailObj)
+                    console.log(dataOrder)
+                }
+                resData.push({
+                    storeId: listOrder.storeId,
+                    listOrder:OrderDetail
+                })
+                OrderDetail = []
+            }
+            // console.log(formattedResult)
+            if(resData.length === 0){
+                res.status(200).json({status:204,message:'No Data'})
+            }else{
+                res.status(200).json(resData)
+            }
         } else {
             await errResponse(res)
         }
     } catch (e) {
         console.log(e)
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
             status: 500,
             message: e.message

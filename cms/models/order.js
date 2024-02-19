@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const list = mongoose.Schema({
     id: { type: String},
     name:{type:String},
+    group:{type:String},
     type:String,
     qty:{type:Number},
     pricePerQty:{type:Number},

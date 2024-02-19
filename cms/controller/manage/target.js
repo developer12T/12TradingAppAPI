@@ -56,6 +56,33 @@ targetManage.post('/getDetail', async (req, res) => {
     }
 })
 
+targetManage.post('/getDetailInGroup', async (req, res) => {
+    try {
+        const isYearMonthProvided = req.body.year !== undefined && req.body.month !== undefined
+
+        if (!isYearMonthProvided) {
+            await createLog('500', req.method, req.originalUrl, res.body, `require year and month. Received: year=${req.body.year}, month=${req.body.month}, area=${req.body.area}`)
+            return res.status(200).json({status: 500, message: 'require year and month and area'})
+        }
+        const {year,month,area,group} = req.body
+        const data = await Target.findOne({year:year,month:month,area:area}, {_id: 0, __v: 0, 'data._id': 0})
+        if (!data) {
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
+            return await errResponse(res)
+        }
+
+        await createLog('200', req.method, req.originalUrl, res.body, 'get target Successfully')
+        res.status(200).json(data)
+    } catch (error) {
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
 targetManage.post('/addGrouped', async (req, res) => {
     try {
         const {year, month,area, data} = req.body
