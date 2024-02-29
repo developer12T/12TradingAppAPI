@@ -8,6 +8,7 @@ const {Product, Unit} = require("../../models/product");
 const {access} = require("fs");
 const {createLog} = require("../../services/errorLog");
 const {log} = require("winston");
+const {Target} = require("../../models/target");
 const getReport = express.Router()
 getReport.post('/getGroupProduct', async (req, res) => {
     try {
@@ -442,7 +443,7 @@ getReport.post('/getDaily', async (req, res) => {
                     } else {
                         listMainData.totalPrice = 0.00
                     }
-                    listMainData.sendMoney = null
+                    // listMainData.sendMoney = null
                     resData.push(listMainData)
                 }
                 console.log(resData)
@@ -451,11 +452,15 @@ getReport.post('/getDaily', async (req, res) => {
                     totalMonth += item.totalPrice;
                 })
                 let vatPer = await floatConvert(totalMonth * 0.07, 2)
+
+                const targetMont = await Target.findOne({year:year,month:month,area:area})
+
                 res.status(200).json({
                     totalPrice: totalMonth,
                     vat: vatPer,
                     totalSummary: totalMonth - vatPer,
-                    targetMonth: null,
+                    targetMonth: targetMont.targetSale,
+                    percentDiff: parseFloat(parseFloat(((totalMonth - vatPer)/targetMont.targetSale)*100)).toFixed(2)+'%',
                     list: resData
                 })
             } else {

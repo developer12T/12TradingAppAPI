@@ -13,6 +13,7 @@ const targetSchema = mongoose.Schema({
     year:String,
     month:String,
     area:String,
+    targetSale:{type:Number,toFixed: 2},
     data:[list]
 })
 

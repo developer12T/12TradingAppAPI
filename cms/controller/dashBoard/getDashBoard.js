@@ -4,7 +4,7 @@ const {Order} = require("../../models/order");
 const {currentYear, nameMonth} = require("../../utils/utility");
 const {Promotion} = require("../../models/promotion");
 const getDashBoard = express.Router()
-getDashBoard.get('/getMain', async (req, res) => {
+getDashBoard.post('/getMain', async (req, res) => {
     try {
         const yearLastes = await currentYear()
         let mnthName = await nameMonth()
@@ -27,7 +27,7 @@ getDashBoard.get('/getMain', async (req, res) => {
 
         for (let list of mainData2) {
             // console.log(yearLastes+'/'+list.number)
-            const summary = await Order.find({createDate: {$regex: yearLastes + '/' + list.number, $options: 'i'}})
+            const summary = await Order.find({area:req.body.area,createDate: {$regex: yearLastes + '/' + list.number, $options: 'i'}})
             list.totalSale = 0
             for (const listSub of summary) {
                 // console.log(listSub.totalPrice)

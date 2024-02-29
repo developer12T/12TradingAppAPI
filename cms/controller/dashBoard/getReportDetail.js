@@ -366,13 +366,14 @@ getReport.post('/getGroupProductDetail', async (req, res) => {
 
                 let vat = await floatConvert(totalPriceSum, 2)
                 // console.log("ผลรวมของ totalPrice ทั้งหมด: " + totalPriceSum);
-                res.status(200).json({
-                    totalQty: dataTotalQty,
-                    totalPrice: totalPriceSum,
-                    vat: vat,
-                    summaryPrice: totalPriceSum + vat,
-                    list: sumData
-                })
+                // res.status(200).json({
+                //     totalQty: dataTotalQty,
+                //     totalPrice: totalPriceSum,
+                //     vat: vat,
+                //     summaryPrice: totalPriceSum + vat,
+                //     list: sumData
+                // })
+                res.status(200).json({status:200,message:'Prepare Develop!!!'})
             } else {
                 await errResponse(res)
             }
