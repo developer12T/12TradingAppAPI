@@ -30,7 +30,7 @@ address.post('/getProvince', async(req, res) => {
         const data = await Address.aggregate([
             { $group: { _id: '$province' } },
             { $project: { _id: 0, province: '$_id' } }
-        ]).exec();
+        ]).sort({province:1})
         await createLog('200',req.method,req.originalUrl,res.body,'GetProvince From Address Successfully!')
         res.status(200).json(data)
     } catch (error) {
@@ -72,7 +72,7 @@ address.post('/getDistrict', async(req, res) => {
 
     // const data = await Address.find({province:req.body.province}).exec()
     const data = await Address.aggregate([
-        { $match: { amphoe: req.body.amphoe } },
+        { $match: { amphoe: req.body.amphoe,province:req.body.province } },
         { $group: { _id: '$district' } },
         { $project: { _id: 0, district: '$_id' } }
     ]).exec()

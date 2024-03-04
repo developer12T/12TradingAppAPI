@@ -90,7 +90,6 @@ getDashBoard.post('/getMain', async (req, res) => {
                 dataSalePercent.push(per)
                 dataSaleNumber.push(parseFloat(per2))
             }
-
         }
         // console.log(dataSale)
         res.status(200).json({
