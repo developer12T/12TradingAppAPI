@@ -3,6 +3,7 @@
     {
       "number": "01",
       "nameThai": "มกราคม",
+      "nameThaiYO": "ม.ค.",
       "nameEngUpper": "January",
       "nameEngLower": "january",
       "numberOfDay": "31"
@@ -10,6 +11,7 @@
     {
       "number": "02",
       "nameThai": "กุมภาพันธ์",
+      "nameThaiYO": "ก.พ.",
       "nameEngUpper": "February",
       "nameEngLower": "february",
       "numberOfDay": ""
@@ -17,6 +19,7 @@
     {
       "number": "03",
       "nameThai": "มีนาคม",
+      "nameThaiYO": "มี.ค.",
       "nameEngUpper": "March",
       "nameEngLower": "march",
       "numberOfDay": "31"
@@ -24,6 +27,7 @@
     {
       "number": "04",
       "nameThai": "เมษายน",
+      "nameThaiYO": "ม.ย.",
       "nameEngUpper": "April",
       "nameEngLower": "april",
       "numberOfDay": "30"
@@ -31,6 +35,7 @@
     {
       "number": "05",
       "nameThai": "พฤษภาคม",
+      "nameThaiYO": "พ.ค.",
       "nameEngUpper": "May",
       "nameEngLower": "may",
       "numberOfDay": "31"
@@ -38,6 +43,7 @@
     {
       "number": "06",
       "nameThai": "มิถุนายน",
+      "nameThaiYO": "มิ.ย.",
       "nameEngUpper": "June",
       "nameEngLower": "june",
       "numberOfDay": "30"
@@ -45,6 +51,7 @@
     {
       "number": "07",
       "nameThai": "กรกฎาคม",
+      "nameThaiYO": "ก.ค.",
       "nameEngUpper": "July",
       "nameEngLower": "july",
       "numberOfDay": "31"
@@ -52,6 +59,7 @@
     {
       "number": "08",
       "nameThai": "สิงหาคม",
+      "nameThaiYO": "ส.ค.",
       "nameEngUpper": "August",
       "nameEngLower": "august",
       "numberOfDay": "31"
@@ -59,6 +67,7 @@
     {
       "number": "09",
       "nameThai": "กันยายน",
+      "nameThaiYO": "ก.ย.",
       "nameEngUpper": "September",
       "nameEngLower": "september",
       "numberOfDay": "30"
@@ -66,6 +75,7 @@
     {
       "number": "10",
       "nameThai": "ตุลาคม",
+      "nameThaiYO": "ต.ค.",
       "nameEngUpper": "October",
       "nameEngLower": "october",
       "numberOfDay": "31"
@@ -73,6 +83,7 @@
     {
       "number": "11",
       "nameThai": "พฤศจิกายน",
+      "nameThaiYO": "พ.ย.",
       "nameEngUpper": "November",
       "nameEngLower": "november",
       "numberOfDay": "30"
@@ -80,6 +91,7 @@
     {
       "number": "12",
       "nameThai": "ธันวาคม",
+      "nameThaiYO": "ธ.ค.",
       "nameEngUpper": "December",
       "nameEngLower": "december",
       "numberOfDay": "31"

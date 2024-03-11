@@ -5,7 +5,7 @@ const ErrorLogSchema = mongoose.Schema(
         status:String,
         method:String,
         pathApi:{type:String,require:true},
-        dataBody:Object,
+        dataBody:Object, 
         message:String,
         dateCreate:String
     })

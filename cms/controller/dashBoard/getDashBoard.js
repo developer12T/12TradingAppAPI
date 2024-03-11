@@ -17,7 +17,7 @@ getDashBoard.post('/getMain', async (req, res) => {
         for (let list of mnthName.month) {
             // console.log(list.counter)
             list.year = yearLastes
-            monthData.push(list.nameThai)
+            monthData.push(list.nameThaiYO)
         }
 
         for (let list of mnthName.month) {
@@ -115,6 +115,7 @@ getDashBoard.get('/getDetail', async (req, res) => {
         let mnthName = await nameMonth()
         let mainData = []
         let mainData2 = []
+        let mainData3 = []
         let resData = []
         let resData2 = []
 
@@ -122,6 +123,12 @@ getDashBoard.get('/getDetail', async (req, res) => {
             // console.log(list.counter)
             list.year = yearLastes
             mainData2.push(list)
+        }
+
+        for (let list of mnthName.month) {
+            // console.log(list.counter)
+            list.year = yearLastes
+            mainData3.push(list)
         }
 
         for (let list of mainData2) {
