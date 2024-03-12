@@ -46,7 +46,7 @@ getRoute.post('/getRouteMain', async (req, res) => {
                     let descript2 =
                                 (statusCount < statusBlack && statusCount !== 0) ? '1' :
                                     statusCount === statusBlack ? '2' :
-                                        statusBlack === 0 ? '-1' :
+                                        statusBlack === 0 ? '3' :
                                             '0'
                     
                 const showData_obj = {
@@ -109,6 +109,8 @@ getRoute.post('/getRouteDetail', async (req, res) => {
             const status2Count = statusCounts['2'] || 0
 
             const mainData = {
+                day:req.body.day,
+                idRoute:req.body.id,
                 targetGroup: showData.length,
                 progress: status0Count,
                 checkin: status1Count,
@@ -144,10 +146,27 @@ getRoute.post('/getRouteStore', async (req, res) => {
             province: 1,
             provinceCode: 1
         }).sort({storeId: 1})
-        
+        const dataArr = []
+        for(let listData of data){
+               
+                const dataObj = {
+                    storeId: listData.storeId,
+                    name: listData.name,
+                    route:listData.route ,
+                    address: listData.address,
+                    distric: listData.distric,
+                    subDistric:listData.subDistric ,
+                    province:listData.province ,
+                    provinceCode:listData.provinceCode, 
+                    day:req.body.day
+                }
+                dataArr.push(dataObj)
+                // console.log(listData); 
+        }
+
         if(data.length > 0){
             await createLog('200',req.method,req.originalUrl,res.body,'GetRouteStore Data complete')
-            res.status(200).json(data)
+            res.status(200).json(dataArr)
         }else{
             await createLog('200',req.method,req.originalUrl,res.body,'GetRouteStore No Data')
             await errResponse(res)

@@ -435,6 +435,7 @@ getReport.post('/getDailyDetail', async (req, res) => {
         })
     }
 })
+
 getReport.post('/getTargetProductDetail', async (req, res) => {
     try {
         const {currentYear, currentMonth, dayOfMonth} = require('../../utils/utility')
