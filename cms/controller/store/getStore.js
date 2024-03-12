@@ -131,7 +131,6 @@ getStore.post('/getDetail', async (req, res) => {
                     __v: 0
                 })
             if (data){
-
                 const type = await TypeStore.findOne({id: data.type}, {})
                 if (data.status === '19') {
                     data.status = 'รออนุมัติ'

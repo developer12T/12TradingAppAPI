@@ -199,4 +199,19 @@ getDashBoard.get('/getNews', async (req, res) => {
     }
 })
 
+
+getDashBoard.get('/connectzab', async (req, res) => {
+    try {
+       
+
+        res.status(200).json(resData)
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
+
 module.exports = getDashBoard

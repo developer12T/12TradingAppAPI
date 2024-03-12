@@ -389,6 +389,7 @@ getReport.post('/getGroupProductDetail', async (req, res) => {
 
 getReport.post('/getDailyDetail', async (req, res) => {
     try {
+      
         const {currentYear, currentMonth, dayOfMonth} = require('../../utils/utility')
         if (req.body.area === '' || !req.body.area) {
             res.status(500).json({

@@ -114,9 +114,58 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
     }
 })
 
-getProduct.get('/getDataOption', async (req, res) => {
+// getProduct.get('/getDataOption', async (req, res) => {
+//     try {
+//         const data = await Product.find({}, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
+//         if (data.length > 0){
+//             const group = []
+//             const brand = []
+//             const size = []
+//             const flavour = []
+//             for (const subData of data) {
+//                 group.push(subData.group)
+//                 brand.push(subData.brand)
+//                 size.push(subData.size)
+//                 flavour.push(subData.flavour)
+//             }
+//             const op1 = _.uniq(group)
+//             const op2 = _.uniq(brand)
+//             const op3 = _.uniq(size)
+//             const op4 = _.uniq(flavour)
+
+//             const mainData = {
+//                 group: op1,
+//                 brand: op2,
+//                 size: op3,
+//                 flavour: op4
+//             }
+//             await createLog('200',req.method,req.originalUrl,res.body,'getDataOption successfully')
+//             res.status(200).json(mainData)
+//         }else{
+//             await createLog('200',req.method,req.originalUrl,res.body,'No Data')
+//             await errResponse(res)
+//         }
+
+//     } catch (error) {
+//         await createLog('500',req.method,req.originalUrl,res.body,error.message)
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         })
+//     }
+// })
+
+getProduct.post('/getDataOption', async (req, res) => {
     try {
-        const data = await Product.find({}, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
+        // let dataSearch = req.body
+
+        for (const key in req.body) {
+            if (req.body[key] === "") {
+                delete req.body[key];
+            }
+        }
+        
+        const data = await Product.find(req.body, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
         if (data.length > 0){
             const group = []
             const brand = []
@@ -155,9 +204,18 @@ getProduct.get('/getDataOption', async (req, res) => {
     }
 })
 
+
 getProduct.post('/getProduct', async (req, res) => {
     try {
+
+        for (const key in req.body) {
+            if (req.body[key] === "") {
+                delete req.body[key];
+            }
+        }
+        // console.log(req.body);
         const data = await Product.find(req.body, {_id: 0, idIndex: 0, __v: 0, status: 0})
+        // console.log(data);
         if (data.length > 0){
             const responseData = data.map(main => ({
                 id: main.id,

@@ -19,6 +19,7 @@ const ProTypeManage = require('../controller/manage/proType')
 const CouponManage = require('../controller/manage/coupon')
 const typeGiveProduct = require('../controller/manage/typeGiveProduct')
 const targetManage = require('../controller/manage/target')
+const reasonManage = require('../controller/manage/reason.js')
 
 manage.use('/TypeStore',TypeStore)
 manage.use('/NumberSeries',numberSeries)
@@ -32,5 +33,6 @@ manage.use('/ProType',ProTypeManage)
 manage.use('/Coupon',CouponManage)
 manage.use('/typeGiveProduct',typeGiveProduct)
 manage.use('/Target',targetManage)
+manage.use('/Reason',reasonManage)
 
 module.exports = manage

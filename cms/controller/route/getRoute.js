@@ -1,5 +1,4 @@
 const express = require('express')
-
 require('../../configs/connect')
 const getRoute = express.Router()
 const _ = require('lodash')
@@ -38,17 +37,25 @@ getRoute.post('/getRouteMain', async (req, res) => {
                     statusBlack = data[i].list.length
                 }
                 const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
-                var descript =
+                let descript =
                     (statusCount < statusBlack && statusCount !== 0) ? 'processing' :
                         statusCount === statusBlack ? 'success' :
                             statusBlack === 0 ? 'pending' :
                                 'progress'
+
+                    let descript2 =
+                                (statusCount < statusBlack && statusCount !== 0) ? '1' :
+                                    statusCount === statusBlack ? '2' :
+                                        statusBlack === 0 ? '-1' :
+                                            '0'
+                    
                 const showData_obj = {
                     id: data[i].id,
                     day: 'Day ' + day,
                     route: i + 1,
                     statusNumber: statusCount + '/' + statusBlack,
-                    statusText: descript
+                    statusText: descript,
+                    status:descript2
                 }
                 showData.push(showData_obj)
                 statusCount = 0
@@ -137,6 +144,7 @@ getRoute.post('/getRouteStore', async (req, res) => {
             province: 1,
             provinceCode: 1
         }).sort({storeId: 1})
+        
         if(data.length > 0){
             await createLog('200',req.method,req.originalUrl,res.body,'GetRouteStore Data complete')
             res.status(200).json(data)
