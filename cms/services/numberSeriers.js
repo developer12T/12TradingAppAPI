@@ -2,18 +2,19 @@ const {NumberSeries} = require("../models/numberSeries");
 const {History} = require('../models/history')
 const {Store} = require("../models/store");
 
-async function available(type, zone) {
+async function available(year,type,zone) {
     const data = await NumberSeries.findOne({
-        type: type,
-        zone: zone
+        year,
+        type,
+        zone
     }).sort({'detail.available': -1}).select('detail.available').exec()
-    // console.log(data.detail.available)
+    // console.log(data)
     return data.detail.available
 }
 
-async function updateAvailable(type,zone,number){
+async function updateAvailable(year,type,zone,number){
     const { currentdateDash }= require('../utils/utility')
-    const filter = { type: type, zone:zone }
+    const filter = { year:year,type: type, zone:zone }
     const update = { 'detail.available': number }
     const result = await NumberSeries.updateOne(filter, update)
 

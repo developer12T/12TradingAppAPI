@@ -85,6 +85,7 @@ saleLogin.post('/login', async (req, res) => {
                         saleCode: data.saleCode,
                         salePayer: data.salePlayer,
                         area: data.area,
+                        zone:data.zone,
                         token: token
                     }
                 });

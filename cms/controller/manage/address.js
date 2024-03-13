@@ -53,7 +53,7 @@ address.post('/getAmphoe', async(req, res) => {
         { $match: { province: req.body.province } },
         { $group: { _id: '$amphoe' } },
         { $project: { _id: 0, amphoe: '$_id' } }
-    ]).exec()
+    ]).sort({amphoe:1})
         await createLog('200',req.method,req.originalUrl,res.body,'GetAmphoe Address Successfully!')
         res.status(200).json(data)
     } catch (error) {
@@ -75,7 +75,7 @@ address.post('/getDistrict', async(req, res) => {
         { $match: { amphoe: req.body.amphoe,province:req.body.province } },
         { $group: { _id: '$district' } },
         { $project: { _id: 0, district: '$_id' } }
-    ]).exec()
+    ]).sort({district:1})
         await createLog('200',req.method,req.originalUrl,res.body,'GetDistrict Address Successfully!')
         res.status(200).json(data)
     } catch (error) {

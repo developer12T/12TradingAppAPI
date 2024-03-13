@@ -29,9 +29,11 @@ addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
         res.status(500).json({status:501,message:error.message})
     }
 })
+
+
 addStore.post('/addStore',  async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')
-    const {currentdateDash, checkDistanceLatLon} = require('../../utils/utility.js')
+    const {currentdateDash, checkDistanceLatLon,currentYearToDigi,currentYear} = require('../../utils/utility.js')
     try {
         const {
             taxId,
@@ -53,9 +55,12 @@ addStore.post('/addStore',  async (req, res) => {
             policyConsent,
             imageList,
             note,
-            numberSeries
+            typeNumberSeries,
+            zoneNumberSeries
         } = req.body
-        const idAvailable = await available(numberSeries.type, numberSeries.zone)
+        // console.log(numberSeries.zone);
+        const idAvailable = await available(currentYear(),typeNumberSeries,zoneNumberSeries)
+        console.log(idAvailable+'test');
         const poliAgree = {
             status: policyConsent,
             date: currentdateDash()
@@ -67,8 +72,33 @@ addStore.post('/addStore',  async (req, res) => {
             dateAction: "",
             appPerson: ""
         }
-        const mainData = {
-            storeId: numberSeries.zone+idAvailable,
+        let idAviModi = idAvailable+''
+        let idSt 
+
+        if(idAviModi.length === 1){
+            idSt = 'M' + zoneNumberSeries+currentYearToDigi()+'0000'+idAviModi
+        }else if (idAviModi.length === 2){
+            idSt = 'M' + zoneNumberSeries+currentYearToDigi()+'000'+idAviModi
+        }else if (idAviModi.length === 3){
+            idSt = 'M' + zoneNumberSeries+currentYearToDigi()+'00'+idAviModi
+        }else if (idAviModi.length === 4){
+            idSt = 'M' + zoneNumberSeries+currentYearToDigi()+'0'+idAviModi
+        }else if (idAviModi.length === 5){
+            idSt = 'M' + zoneNumberSeries+currentYearToDigi()+idAviModi
+        }else{
+            idSt = 'over'
+           
+        }
+
+        if(idSt === 'over'){
+            await createLog('500',req.method,req.originalUrl,res.body,'storeId is Over length')
+            res.status(200).json({
+                status: 500, message: 'storeId is Over length'
+            })
+        }else{
+
+              const mainData = {
+            storeId: idSt,
             taxId,
             name,
             tel,
@@ -194,7 +224,7 @@ addStore.post('/addStore',  async (req, res) => {
             console.log(listStruc)
 
             const similarityPercentage = compareStrings(text1, text2);
-            console.log(`Similarity Percentage: ${similarityPercentage}%`);
+            // console.log(`Similarity Percentage: ${similarityPercentage}%`);
             if (similarityPercentage > 50) {
                 nameCon = 1
             }
@@ -234,10 +264,10 @@ addStore.post('/addStore',  async (req, res) => {
         }else{
             const newStore = new Store(mainData)
             await newStore.save()
-            await updateAvailable(numberSeries.type, numberSeries.zone, idAvailable + 1)
+            await updateAvailable(currentYear(),typeNumberSeries, zoneNumberSeries, idAvailable + 1)
             await createLog('200',req.method,req.originalUrl,res.body,'Store added successfully')
             res.status(200).json({
-                status: 201, message: 'Store added successfully', additionalData: idAvailable
+                status: 201, message: 'Store added successfully', additionalData: {storeId:idSt,storeName:name}
             })
         }
 
@@ -250,7 +280,9 @@ addStore.post('/addStore',  async (req, res) => {
         // } else {
         //
         // }
+    }
     } catch (error) {
+        
         console.log(error)
         await createLog('500',req.method,req.originalUrl,res.body,error.message)
         res.status(500).json({

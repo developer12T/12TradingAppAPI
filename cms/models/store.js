@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
         })
 
     const  imageSchema = mongoose.Schema({
-            id: { type: Number, require: true},
+            // id: { type: Number, require: true},
             name:{ type:String,require:true},
             path:{ type:String,require:true},
             descript:{ type:String,require:true},

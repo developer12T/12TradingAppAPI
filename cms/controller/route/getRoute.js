@@ -279,4 +279,28 @@ getRoute.post('/checkDistance', async (req, res) => {
     }
 })
 
+
+getRoute.post('/getRouteList', async (req, res) => {
+    try {
+
+        const data = await Route.find({area: req.body.area}, {
+            '_id': 0,id:1
+        })
+        
+        if(data.length > 0){
+            await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail Data complete')
+            res.status(200).json(data)
+        }else{
+            await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail No Data')
+            await errResponse(res)
+        }
+    } catch (e) {
+        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
+
 module.exports = getRoute

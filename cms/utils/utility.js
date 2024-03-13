@@ -42,6 +42,11 @@ function currentYear() {
     return date
 }
 
+function currentYearToDigi() {
+    const date = moment().format('YY', 'th');
+    return date
+}
+
 function currentMonth() {
     const date = moment().format('MM', 'th');
     return date
@@ -159,6 +164,7 @@ async function dayOfMonth(monthNumber) {
 module.exports = {
     // converting,
     currentDateDDMMYY,
+    currentYearToDigi,
     currentdateDash,
     currentdateSlash,
     currentYear,
