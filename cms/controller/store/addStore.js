@@ -224,7 +224,7 @@ addStore.post('/addStore',  async (req, res) => {
             console.log(listStruc)
 
             const similarityPercentage = compareStrings(text1, text2);
-            // console.log(`Similarity Percentage: ${similarityPercentage}%`);
+             console.log(`Similarity Percentage: ${similarityPercentage}%`);
             if (similarityPercentage > 50) {
                 nameCon = 1
             }

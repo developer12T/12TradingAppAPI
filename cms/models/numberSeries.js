@@ -24,4 +24,4 @@ const mongoose = require('mongoose')
         })
  
  const NumberSeries = mongoose.model('NumberSeries',numberSeriesSchema)
- module.exports = { NumberSeries }
+ module.exports = { NumberSeries } 
