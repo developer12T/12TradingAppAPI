@@ -18,6 +18,17 @@ const mongoose = require('mongoose')
             descript:{ type:String,require:true},
         })
 
+        const  shippingSchema = mongoose.Schema({
+            address:String ,
+            distric:String ,
+            subDistric:String ,
+            province:String ,
+            provinceCode:String ,
+            postCode:String,
+            default:String
+        })
+
+
     const storeSchema = mongoose.Schema(
         {
             storeId: { type: String, require: true },
@@ -41,6 +52,7 @@ const mongoose = require('mongoose')
             status:{type:String,require:false}, // 0=ปิด ,1=เปิด
             policyConsent:[policyConsentSchema],
             imageList:[imageSchema],
+            shippingAddress:[shippingSchema],
             note:{type:String,require:true},
             createdDate: { type: String,  },
             updatedDate: { type: String, }

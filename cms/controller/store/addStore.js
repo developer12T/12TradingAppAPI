@@ -47,6 +47,7 @@ addStore.post('/addStore',  async (req, res) => {
             province,
             provinceCode,
             postCode,
+            shippingAddress,
             zone,
             area,
             latitude,
@@ -119,6 +120,7 @@ addStore.post('/addStore',  async (req, res) => {
             status: "19",
             policyConsent: poliAgree,
             imageList,
+            shippingAddress,
             note,
             createdDate: currentdateDash(),
             updatedDate: currentdateDash()
@@ -328,6 +330,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                         status: '20',
                         policyConsent: poliAgree,
                         "imageList": [],
+                        "shippingAddress": [],
                         "note ": "",
                         createdDate: currentdateDash(),
                         updatedDate: currentdateDash()
