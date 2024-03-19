@@ -6,6 +6,7 @@ const {ErrorLog} = require("../../models/errorLog");
 const {currentdateDash} = require("../../utils/utility");
 const { errResponse } = require('../../services/errorResponse')
 const {createLog} = require("../../services/errorLog");
+const _ = require("lodash");
 
 reasonManage.get('/getAll', async (req, res) => {
     try {
@@ -73,7 +74,8 @@ reasonManage.post('/getDetail', async (req, res) => {
             const data = await Reason.findOne(req.body,{_id:0,__v:0,'list._id':0})
             if (data){
                 await createLog('200',req.method,req.originalUrl,res.body,'getDetail Store Succesfully')
-                res.status(200).json(data.list)
+                const resData = _.reverse(data.list)
+                res.status(200).json(resData)
             }else {
                 await createLog('200',req.method,req.originalUrl,res.body,'No Data')
                 await errResponse(res)

@@ -289,7 +289,15 @@ getRoute.post('/getRouteList', async (req, res) => {
         
         if(data.length > 0){
             await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail Data complete')
-            res.status(200).json(data)
+            let dataArray = []
+            for(const list of data){
+                const listObj = {
+                    id:list.id.slice(-3)
+                }
+                dataArray.push(listObj)
+            }
+
+            res.status(200).json(dataArray)
         }else{
             await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail No Data')
             await errResponse(res)

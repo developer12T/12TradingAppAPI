@@ -66,7 +66,7 @@ getCart.post('/getCartToShow', async (req, res) => {
             console.log('พบ')
             await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             res.status(200).json({
-                status: 200,
+                status: 204,
                 message: 'No Data'
             })
         }
