@@ -77,6 +77,7 @@ getRoute.post('/getRouteMain', async (req, res) => {
 
 getRoute.post('/getRouteDetail', async (req, res) => {
     try {
+        const {getDayOfRoute} = require('../../utils/utility')
         const data = await Route.findOne({id: req.body.id}, {_id: 0, __v: 0})
 
         if(data){
@@ -109,8 +110,9 @@ getRoute.post('/getRouteDetail', async (req, res) => {
             const status2Count = statusCounts['2'] || 0
 
             const mainData = {
-                day:req.body.day,
+                day:await getDayOfRoute(req.body.id),
                 idRoute:req.body.id,
+                route:req.body.id.slice(-3),
                 targetGroup: showData.length,
                 progress: status0Count,
                 checkin: status1Count,
@@ -157,8 +159,7 @@ getRoute.post('/getRouteStore', async (req, res) => {
                     distric: listData.distric,
                     subDistric:listData.subDistric ,
                     province:listData.province ,
-                    provinceCode:listData.provinceCode, 
-                    day:req.body.day
+                    provinceCode:listData.provinceCode,
                 }
                 dataArr.push(dataObj)
                 // console.log(listData); 

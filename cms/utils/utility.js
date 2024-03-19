@@ -1,6 +1,7 @@
 const moment = require('moment');
 const fs = require("fs");
 const {Product} = require("../models/product");
+const {Route} = require("../models/route");
 
 function currentdateDash() {
     const datedash = moment().format('YYYY-MM-DDTHH:mm:ss', 'th');
@@ -106,6 +107,20 @@ async function floatConvert(number,digit) {
     return parseFloat(parseFloat(number).toFixed(digit));
 }
 
+async function getDayOfRoute(idRoute) {
+    const dataArea = await Route.findOne({id:idRoute}, {_id: 0,area:1})
+    // console.log(dataArea.area + 'AAAAA')
+    const data = await Route.find({area:dataArea.area}, {_id: 0}).exec()
+    let dayReturn = 'Day error'
+    for (let i = 0; i < data.length; i++) {
+        const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
+        if(data[i].id === idRoute){
+            dayReturn = "Day " + day
+        }
+    }
+    return dayReturn
+}
+
 
 async function dayOfMonth(monthNumber) {
     const fs = require('fs')
@@ -179,5 +194,6 @@ module.exports = {
     checkDistanceLatLon,
     calPromotion,
     nameMonth,
+    getDayOfRoute
     // convertUnitToCTN
 };

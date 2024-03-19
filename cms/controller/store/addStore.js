@@ -266,6 +266,13 @@ addStore.post('/addStore',  async (req, res) => {
         }else{
             const newStore = new Store(mainData)
             await newStore.save()
+
+            await axios.post(process.env.API_URL_IN_USE+'/cms/route/addRouteStore',{
+                area:area,
+                idRoute:route,
+                list: [mainData.storeId]
+            })
+
             await updateAvailable(currentYear(),typeNumberSeries, zoneNumberSeries, idAvailable + 1)
             await createLog('200',req.method,req.originalUrl,res.body,'Store added successfully')
             res.status(200).json({
