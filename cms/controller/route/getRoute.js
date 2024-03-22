@@ -187,10 +187,9 @@ getRoute.post('/getStoreDetail', async (req, res) => {
         const data = await Route.findOne({id: req.body.idRoute}, {
             '_id': 0,
             'list': {$elemMatch: {'storeId': req.body.storeId}}
-        }).exec()
+        })
         if(data){
             const id = req.body.storeId;
-
 
             // let idCharecterEnd = 0;
             // while (isNaN(parseInt(id[idCharecterEnd])) && idCharecterEnd < id.length) {
@@ -208,17 +207,24 @@ getRoute.post('/getStoreDetail', async (req, res) => {
                 storeId: id,
                 name: dataStore.name,
                 address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
-                list: data.list[0].listCheck.map(item => {
-                    const dateObject = new Date(item.date);
-                    const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
-                    return {
-                        number: item.number,
-                        orderId: item.orderId,
-                        date: formattedDate,
-                        _id: item._id
-                    };
-                })
+                list: data.list[0].listCheck
+                    .map(item => {
+                        const dateObject = new Date(item.date);
+                        const formattedDate = `${dateObject.getFullYear()}/${dateObject.getMonth() + 1}/${dateObject.getDate()}`;
+                        const formattedDate2 = `${dateObject.getDate()}/${dateObject.getMonth() + 1}/${dateObject.getFullYear()}`;
+
+                        return {
+                            number: item.number,
+                            orderId: item.orderId,
+                            date: formattedDate,
+                            date2: formattedDate2,
+                            _id: item._id
+                        };
+                    }).sort((a, b) => new Date(b.date) - new Date(a.date))
             }
+
+
+
             await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail Data complete')
             res.status(200).json(mainData)
         }else{
