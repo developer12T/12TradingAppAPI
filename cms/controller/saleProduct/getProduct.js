@@ -6,6 +6,7 @@ const axios = require('axios')
 const _ = require('lodash')
 const {errResponse} = require("../../services/errorResponse");
 const {createLog} = require("../../services/errorLog");
+const { slicePackSize } = require('../../utils/utility')
 getProduct.post('/getProductAll', async (req, res) => {
     try {
         const data = await Product.find({}, {_id: 0, id: 1, name: 1})
@@ -14,12 +15,17 @@ getProduct.post('/getProductAll', async (req, res) => {
             for (const main of data) {
                 const mainData = {
                     id: main.id,
-                    name: main.name,
+                    nameDetail: main.name,
                 }
                 responseData.push(mainData)
             }
+            const newData =  responseData.map(item =>  {
+                item.name = slicePackSize( item.nameDetail )
+                return item;
+            });
+
             await createLog('200',req.method,req.originalUrl,res.body,'getProductAll successfully')
-            res.status(200).json(responseData)
+            res.status(200).json(newData)
         }else{
             await createLog('200',req.method,req.originalUrl,res.body,'No Data')
             await errResponse(res)
@@ -52,7 +58,8 @@ getProduct.post('/getProductDetail', async (req, res) => {
             }
             const mainData = {
                 id: data.id,
-                name: data.name,
+                name: slicePackSize(data.name),
+                nameDetail: data.name,
                 unitList: listObj
             }
             await createLog('200',req.method,req.originalUrl,res.body,'getProductDetail successfully')
@@ -91,7 +98,8 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
             }
             const mainData = {
                 id: data.id,
-                name: data.name,
+                name: slicePackSize(data.name),
+                nameDetail: data.name,
                 unitId: req.body.unitId,
                 qty: req.body.qty,
                 sumPrice: parseFloat(priceUnit * req.body.qty).toFixed(2),
@@ -219,7 +227,8 @@ getProduct.post('/getProduct', async (req, res) => {
         if (data.length > 0){
             const responseData = data.map(main => ({
                 id: main.id,
-                name: main.name,
+                name: slicePackSize(main.name),
+                nameDetail: main.name,
                 unitList: main.unitList.map(list => ({
                     id: list.id,
                     nameThai: list.nameThai,

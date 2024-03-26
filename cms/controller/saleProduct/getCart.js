@@ -10,6 +10,7 @@ const _ = require('lodash')
 const {createLog} = require("../../services/errorLog");
 const axios = require("axios");
 const getCart = express.Router()
+const  { slicePackSize } = require('../../utils/utility')
 
 getCart.post('/getCart', async (req, res) => {
     try {
@@ -37,7 +38,8 @@ getCart.post('/getCartToShow', async (req, res) => {
                 const detail_product = await Unit.findOne({idUnit: data.list[i].unitId})
                 const list_obj = {
                     id: data.list[i].id,
-                    name: data.list[i].name,
+                    name: slicePackSize(data.list[i].name),
+                    nameDetail: data.list[i].name,
                     qtyText: data.list[i].qty + ' ' + detail_product.nameThai,
                     qty: data.list[i].qty,
                     unitId: data.list[i].unitId,
@@ -102,6 +104,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                 const dataList = {
                     id: listdata.id,
                     name: listdata.name,
+                    nameDetail: slicePackSize(listdata.name),
                     qty: listdata.qty,
                     type: "buy",
                     nameQty: unitData.nameThai,
@@ -118,7 +121,8 @@ getCart.post('/getPreOrder', async (req, res) => {
                     // const unitData = await Unit.findOne({idUnit: listFreeItem.unitId})
                     const dataListFree = {
                         id: listFreeItem.productId,
-                        name: listFreeItem.productName,
+                        name: slicePackSize(listFreeItem.productName),
+                        nameDetail: listFreeItem.productName,
                         qty: listFreeItem.qty,
                         type: "free",
                         nameQty: listFreeItem.unitQty,
