@@ -67,6 +67,7 @@ async function spltitString(id) {
 
 async function checkDistanceLatLon(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
+        console.log(0)
         return 0;
     } else {
         var radlat1 = Math.PI * lat1 / 180;
@@ -86,6 +87,7 @@ async function checkDistanceLatLon(lat1, lon1, lat2, lon2, unit) {
         if (unit == "N") {
             dist = dist * 0.8684
         }
+
         return dist;
     }
 }

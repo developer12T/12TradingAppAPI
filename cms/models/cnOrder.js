@@ -4,8 +4,9 @@ const list = mongoose.Schema({
     id: { type: String},
     name:{type:String},
     qty:{type:Number},
-    unitQty:{type:String},
-    pricePerQty:{type:Number},
+    note:String,
+    unitId:{type:String},
+    pricePerUnitRefund:{type:Number},
     totalAmount:{type:Number}
 })
 const shipping = mongoose.Schema({
@@ -16,15 +17,22 @@ const shipping = mongoose.Schema({
 
 const cnOrderSchema = mongoose.Schema({
     id:{type:String},
+    orderDate:String,
     storeId:{type:String},
     storeName:{type:String},
     address:{type:String},
     taxID:{type:String},
     tel:{type:String},
+    note:String,
     totalPrice:{ type: Number,toFixed: 2, default: 0.00 },
+    zone:String,
+    area:String,
+    saleCode:String,
     list:[list],
     shipping:shipping,
-    status:{type:String}
+    noteCnOrder:String,
+    status:{type:String},
+    createDate:String
 })
 
 const detailSchema = mongoose.Schema({
@@ -32,6 +40,7 @@ const detailSchema = mongoose.Schema({
     name: { type: String, require: true},
     pricePerUnitRefund: { type: Number,toFixed: 2, default: 0.00 },
     qty:{type:Number,require:true},
+    note:String,
     unitId:{type:String,require:true},
 })
 
@@ -41,7 +50,8 @@ const cartCnSchema = mongoose.Schema({
     storeId:{type:String},
     totalPrice:{type: Number,toFixed: 2, default: 0.00},
     list:[detailSchema],
-    shipping:shipping
+    shipping:shipping,
+    noteCnOrder:String
 })
 
 const CnOrder = mongoose.model('cnOrder',cnOrderSchema)
