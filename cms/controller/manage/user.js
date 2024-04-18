@@ -38,7 +38,7 @@ UserManage.post('/addUser', async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.passWord, 10)
         const  { available } = require('../../services/numberSeriers')
         const mainData = {
-            id:await available('userNumber','cms'),
+            id:await available('2024','userNumber','cms'),
             saleCode:req.body.saleCode,
             salePlayer:req.body.salePlayer,
             userName:req.body.userName,
@@ -53,7 +53,7 @@ UserManage.post('/addUser', async (req, res) => {
         // const newUser = new User(mainData)
         // await newUser.save()
         await User.create(mainData)
-        await updateAvailable('userNumber','cms',await available('userNumber','cms')+1)
+        await updateAvailable('2024','userNumber','cms',await available('2024','userNumber','cms')+1)
         await createLog('200',req.method,req.originalUrl,res.body,'Added User Successfully')
         res.status(200).json({status:201,message:'Added User Successfully'})
     }catch (e) {
@@ -68,7 +68,8 @@ UserManage.post('/addUser', async (req, res) => {
 
 UserManage.post('/changePassword', async (req, res) => {
     try{
-        const update = await User.updateOne({id: req.body.id}, {$set: {passWord: req.body.newPassWord}})
+        const hashedPassword = await bcrypt.hash(req.body.newPassWord, 10)
+        const update = await User.updateOne({id: req.body.id}, {$set: {passWord: hashedPassword}})
         await createLog('200',req.method,req.originalUrl,res.body,'changePassword User Successfully!')
         res.status(200).json(update)
     }catch (e) {
