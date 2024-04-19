@@ -18,8 +18,8 @@ app.use(cors())
 
 const verifyToken = require('./cms/controller/authen/middleware/authen');
 const cms = require('./cms/index')
-const {ErrorLog} = require("./cms/models/errorLog");
-const {currentdateDash} = require("./cms/utils/utility");
+const {ErrorLog} = require("./cms/models/errorLog")
+const {currentdateDash} = require("./cms/utils/utility")
 
 // app.use('/cms', async (req , res ,next)=>{
 //     // console.log(res)
