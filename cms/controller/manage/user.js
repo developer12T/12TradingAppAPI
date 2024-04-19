@@ -5,6 +5,7 @@ const UserManage = express.Router()
 const {User} = require('../../models/user')
 const {updateAvailable} = require("../../services/numberSeriers");
 const {createLog} = require("../../services/errorLog");
+const {currentYear} = require("../../utils/utility");
 
 UserManage.post('/getAll', async (req, res) => {
     try{
@@ -37,8 +38,9 @@ UserManage.post('/addUser', async (req, res) => {
     try{
         const hashedPassword = await bcrypt.hash(req.body.passWord, 10)
         const  { available } = require('../../services/numberSeriers')
+        const { currentYear } = require('../../utils/utility')
         const mainData = {
-            id:await available('2024','userNumber','cms'),
+            id:await available(currentYear(),'userNumber','cms'),
             saleCode:req.body.saleCode,
             salePlayer:req.body.salePlayer,
             userName:req.body.userName,
@@ -53,7 +55,7 @@ UserManage.post('/addUser', async (req, res) => {
         // const newUser = new User(mainData)
         // await newUser.save()
         await User.create(mainData)
-        await updateAvailable('2024','userNumber','cms',await available('2024','userNumber','cms')+1)
+        await updateAvailable('2024','userNumber','cms',await available(currentYear(),'userNumber','cms')+1)
         await createLog('200',req.method,req.originalUrl,res.body,'Added User Successfully')
         res.status(200).json({status:201,message:'Added User Successfully'})
     }catch (e) {

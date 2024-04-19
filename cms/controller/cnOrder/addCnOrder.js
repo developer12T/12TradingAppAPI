@@ -7,6 +7,7 @@ const axios = require("axios");
 const {Store} = require("../../models/store");
 const {available, updateAvailable} = require("../../services/numberSeriers");
 const {currentYear} = require("../../utils/utility");
+const {Unit} = require("../../models/product");
 const addCnOrder = express.Router()
 addCnOrder.post('/addCnOrder', async (req, res) => {
     try {
@@ -28,6 +29,8 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
             listData.totalAmount = listData.pricePerUnitRefund * listData.qty
             listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
             summary = summary + listData.pricePerUnitRefund * listData.qty
+            const dataQtyText = await Unit.findOne({idUnit:listData.unitId})
+            listData.qtyText = dataQtyText.nameEng
             listArr.push(listData)
         }
         console.log(listArr)
@@ -67,35 +70,10 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
             res.status(200).json({status: 200, message: 'add CnOrder Successfully!'})
             // res.status(200).json(data)
         } else {
+
             await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             await errResponse(res)
         }
-    } catch (e) {
-        console.log(e)
-        await createLog('500', req.method, req.originalUrl, res.body, e.message)
-        res.status(500).json({
-            status: 500,
-            message: e.message
-        })
-    }
-})
-
-addCnOrder.post('/addCnOrderTest', async (req, res) => {
-    try {
-        let { area,storeId,zone } = req.body
-        const getDataCart  = await CartCn.findOne({area,storeId})
-        const { available } = require('../../services/numberSeriers')
-        const { currentYear } = require('../../utils/utility')
-
-        const mainData = {
-            id:await available(currentYear(),'cnOrder',zone) + 1,
-            storeId
-        }
-
-        console.log(getDataCart)
-        console.log(await available(currentYear(),'cnOrder',zone))
-
-        res.status(200).json({status: 200, message: 'addCnOrder Successfully'})
     } catch (e) {
         console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
