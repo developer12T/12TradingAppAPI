@@ -1,9 +1,10 @@
-const express = require('express')
+ const express = require('express')
 
 require('../../configs/connect')
 const {Cart} = require("../../models/saleProduct")
 const {log} = require("winston");
 const {createLog} = require("../../services/errorLog");
+ const {CartCn} = require("../../models/cnOrder");
 
 const addCart = express.Router()
 
@@ -148,6 +149,68 @@ addCart.put('/updateShipping', async (req, res) => {
         })
     }
 })
+
+ addCart.post('/updateQtyProduct', async (req, res) => {
+         try {
+             const {area, storeId, id, qty, unitId} = req.body
+             let counter
+             // console.log(action)
+             if (qty === 0) {
+                 await Cart.updateOne({
+                     area,
+                     storeId,
+                     'list.id': id,
+                     'list.unitId': unitId
+                 }, {
+                     $pull: {
+                         'list': {
+                             id: id,
+                             unitId: unitId
+                         }
+                     }
+                 })
+
+             } else if(qty !== 0) {
+                 await Cart.updateOne({
+                     area, storeId, list: {
+                         $elemMatch: {
+                             id: id,
+                             unitId: unitId
+                         }
+                     }
+                 }, {
+                     $set: {
+                         'list.$.qty': qty
+                     }
+                 })
+
+             }else{
+                 res.status(200).json({status: '204', message: 'qty has undefined!!'})
+             }
+
+             const dataList = await Cart.findOne({
+                 area, storeId
+             },{
+                 "list":1
+             })
+
+             let ttPrice = 0
+             for (const list of dataList.list){
+                 ttPrice = ttPrice + (list.pricePerUnitSale * list.qty)
+             }
+             await Cart.updateOne({ area, storeId},{
+                 totalPrice:ttPrice
+             })
+             res.status(200).json({status: '200', message: 'update qty successfully'})
+         } catch (e) {
+             console.log(e)
+             await createLog('500', req.method, req.originalUrl, res.body, e.message)
+             res.status(500).json({
+                 status: 500,
+                 message: e.message
+             })
+         }
+ })
 
 
 module.exports = addCart

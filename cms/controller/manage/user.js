@@ -3,9 +3,9 @@ require('../../configs/connect')
 const  bcrypt  = require('bcrypt')
 const UserManage = express.Router()
 const {User} = require('../../models/user')
-const {updateAvailable} = require("../../services/numberSeriers");
-const {createLog} = require("../../services/errorLog");
-const {currentYear} = require("../../utils/utility");
+// const {updateAvailable} = require("../../services/numberSeriers");
+// const {createLog} = require("../../services/errorLog");
+// const {currentYear} = require("../../utils/utility");
 
 UserManage.post('/getAll', async (req, res) => {
     try{

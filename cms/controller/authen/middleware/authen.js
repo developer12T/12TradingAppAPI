@@ -42,9 +42,6 @@ process.env.ALGORITHYM_DECODED
         })
 
     }
-
-
-
 };
 
 module.exports = verifyToken
