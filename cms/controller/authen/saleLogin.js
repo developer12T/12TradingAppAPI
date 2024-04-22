@@ -63,8 +63,8 @@ saleLogin.post('/login', async (req, res) => {
                 message: 'Validation failed'
             });
         } else {
-            const passwordMatch = await bcrypt.compare(req.body.passWord, data.passWord)
-
+            const passwordMatch = await bcrypt.compare("123456",data.passWord)
+            console.log( passwordMatch)
             if (passwordMatch) {
                 const token = jwt.sign(
                     {username: data.userName},

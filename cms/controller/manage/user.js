@@ -4,7 +4,7 @@ const  bcrypt  = require('bcrypt')
 const UserManage = express.Router()
 const {User} = require('../../models/user')
 // const {updateAvailable} = require("../../services/numberSeriers");
-// const {createLog} = require("../../services/errorLog");
+ const {createLog} = require("../../services/errorLog");
 // const {currentYear} = require("../../utils/utility");
 
 UserManage.post('/getAll', async (req, res) => {
@@ -36,28 +36,34 @@ UserManage.post('/getDetail', async (req, res) => {
 
 UserManage.post('/addUser', async (req, res) => {
     try{
-        const hashedPassword = await bcrypt.hash(req.body.passWord, 10)
-        const  { available } = require('../../services/numberSeriers')
-        const { currentYear } = require('../../utils/utility')
+        let {saleCode,salePlayer,userName,firstName,surName,passWord,area,role,zone} = req.body
+        const hashedPassword = await bcrypt.hash(passWord, 10)
+        // const  { available } = require('../../services/numberSeriers')
+        // const { currentYear } = require('../../utils/utility')
         const mainData = {
-            id:await available(currentYear(),'userNumber','cms'),
-            saleCode:req.body.saleCode,
-            salePlayer:req.body.salePlayer,
-            userName:req.body.userName,
-            firstName:req.body.firstName,
-            surName:req.body.surName,
+            // id:await available(currentYear(),'userNumber','cms'),
+            saleCode,
+            salePlayer,
+            userName,
+            firstName,
+            surName,
             passWord:hashedPassword,
-            area:req.body.area,
-            role:req.body.role,
-            zone:req.body.zone,
+            area,
+            role,
+            zone,
             status:"1",
         }
-        // const newUser = new User(mainData)
-        // await newUser.save()
-        await User.create(mainData)
-        await updateAvailable('2024','userNumber','cms',await available(currentYear(),'userNumber','cms')+1)
-        await createLog('200',req.method,req.originalUrl,res.body,'Added User Successfully')
-        res.status(200).json({status:201,message:'Added User Successfully'})
+
+        const checkUser = await User.findOne({userName})
+        if(checkUser){
+            await createLog('200',req.method,req.originalUrl,res.body,'Added User Successfully')
+            res.status(200).json({status:500,message:'Replace UserName!'})
+        }else{
+            await User.create(mainData)
+            await createLog('200',req.method,req.originalUrl,res.body,'Added User Successfully')
+            res.status(200).json({status:201,message:'Added User Successfully'})
+        }
+        // await updateAvailable('2024','userNumber','cms',await available(currentYear(),'userNumber','cms')+1)
     }catch (e) {
         console.log(e)
         await createLog('500',req.method,req.originalUrl,res.body,e.message)

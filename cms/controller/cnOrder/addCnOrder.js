@@ -57,7 +57,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
         console.log(listArr)
 
         const mainData = {
-            id: idAvailable,
+            orderNo: idAvailable,
             orderDate: currentdate(),
             storeId: storeId,
             storeName: storeData.name,
@@ -82,7 +82,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
         await CnOrder.create(mainData)
         await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
-        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId})
+        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเทส
 
         await updateAvailable('cnOrder', req.body.zone, idAvailable + 1)
         if (data) {
