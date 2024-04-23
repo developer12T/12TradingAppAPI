@@ -6,9 +6,10 @@ const {errResponse} = require("../../services/errorResponse")
 const axios = require("axios")
 const {Store} = require("../../models/store")
 const {available, updateAvailable} = require("../../services/numberSeriers")
-const {currentYear} = require("../../utils/utility")
-const {Unit} = require("../../models/product")
+const {currentYear, currentdate, currentdateSlash} = require("../../utils/utility")
+const {Unit, Product} = require("../../models/product")
 const jwt = require('jsonwebtoken')
+const {Order} = require("../../models/order");
 const addCnOrder = express.Router()
 
 const verifyToken = (req, res, next) => {
@@ -104,6 +105,71 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
         })
     }
 })
+
+addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
+    try {
+        let {orderNo, noteCnOrder} = req.body
+        if (orderNo && noteCnOrder) {
+            const orderRef = await Order.findOne({id:orderNo})
+            // for (let listData of orderRef.list){
+            //     console.log(listData.id)
+            //
+            // }
+            let listArr = []
+            for (let listData of orderRef.list) {
+                // listData.totalAmount = listData.pricePerUnitRefund * listData.qty
+                // listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
+                // summary = summary + listData.pricePerUnitRefund * listData.qty
+                const dataQtyText = await Unit.findOne({idUnit: listData.unitQty})
+                const dataProduct = await Product.findOne({id: listData.id,unitList:{$elemMatch:{id:listData.unitQty}}},{'unitList.$':1})
+                // listData.qtyText = dataQtyText.nameEng
+                console.log(dataProduct)
+                let listObj = {
+                    id:listData.id,
+                    qty:listData.qty,
+                    pricePerUnitRefund:dataProduct.unitList[0].pricePerUnitRefund,
+                    qtyText:dataQtyText.nameEng
+                }
+                listArr.push(listObj)
+            }
+
+            const mainData = {
+                orderNo: orderRef.id,
+                orderDate: currentdate(),
+                storeId: orderRef.storeId,
+                storeName: orderRef.name,
+                address: orderRef.address,
+                taxID: orderRef.taxId,
+                tel: orderRef.tel,
+                totalPrice: orderRef.totalPrice,
+                zone:"",
+                area: orderRef.area,
+                list: listArr,
+                saleCode: orderRef.saleMan,
+                shipping: {
+                    address: null,
+                    dateShip: null,
+                    note: null
+                },
+                noteCnOrder,
+                status: '10',
+                createDate: currentdateSlash()
+            }
+            // res.status(200).json({status: '200', message: 'Update Status Successfully'})
+            res.status(200).json(mainData)
+        } else {
+            res.status(500).json({status: '500', message: 'require req.body!!'})
+        }
+    } catch (e) {
+        console.log(e)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
+
 
 addCnOrder.post('/updateStatusCnOrder',verifyToken, async (req, res) => {
     try {

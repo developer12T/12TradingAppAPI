@@ -93,7 +93,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
                     'list': {$elemMatch: {'storeId': data.list[i].storeId}}
                 }).exec()
                 const statusText = await statusDes.findOne({type: 'route'}, {'list': {$elemMatch: {'id': status_store.list[0].status}}})
-                // console.log()
+                 console.log(statusText)
                 const showData_obj = {
                     idRoute: data.id,
                     id: data.list[i].storeId,
@@ -127,7 +127,7 @@ getRoute.post('/getRouteDetail', async (req, res) => {
         }
     } catch (e) {
         console.log(e)
-        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
+        await createLog('500',res.method,req.originalUrl,res.e,e.stack)
         res.status(500).json({
             status: 500,
             message: e.message
@@ -184,10 +184,11 @@ getRoute.post('/getRouteStore', async (req, res) => {
 getRoute.post('/getStoreDetail', async (req, res) => {
     try {
 
-        const data = await Route.findOne({id: req.body.idRoute}, {
+        const data = await Route.findOne({id: req.body.idRoute,"list.storeId":req.body.storeId}, {
             '_id': 0,
-            'list': {$elemMatch: {'storeId': req.body.storeId}}
+            // 'list': {$elemMatch: {'storeId': req.body.storeId}}
         })
+        console.log(data)
         if(data){
             const id = req.body.storeId;
 
@@ -223,8 +224,6 @@ getRoute.post('/getStoreDetail', async (req, res) => {
                     }).sort((a, b) => new Date(b.date) - new Date(a.date))
             }
 
-
-
             await createLog('200',req.method,req.originalUrl,res.body,'GetStoreDetail Data complete')
             res.status(200).json(mainData)
         }else{
@@ -232,7 +231,8 @@ getRoute.post('/getStoreDetail', async (req, res) => {
             await errResponse(res)
         }
     } catch (e) {
-        await createLog('500',res.method,req.originalUrl,res.e,error.stack)
+        console.log(e.stack)
+        await createLog('500',res.method,req.originalUrl,res.e,e.stack)
         res.status(500).json({
             status: 500,
             message: e.message
