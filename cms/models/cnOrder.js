@@ -32,7 +32,8 @@ const cnOrderSchema = mongoose.Schema({
     shipping:shipping,
     noteCnOrder:String,
     status:{type:String},
-    createDate:String
+    createDate:String,
+    refOrder:String
 })
 
 const detailSchema = mongoose.Schema({

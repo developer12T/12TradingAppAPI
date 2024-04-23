@@ -46,7 +46,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
         const idAvailable = await available(currentYear(), 'cnOrder', req.body.zone)
         let listArr = []
         let summary = 0
-
+        console.log(list)
         for (let listData of list) {
             listData.totalAmount = listData.pricePerUnitRefund * listData.qty
             listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
@@ -77,12 +77,15 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
             },
             noteCnOrder,
             status: '10',
-            createDate: currentdateSlash()
+            createDate: currentdateSlash(),
+            refOrder:req.body.refOrder
         }
         console.log(mainData)
 
         await CnOrder.create(mainData)
         await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+
+
         // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเทส
 
         await updateAvailable('cnOrder', req.body.zone, idAvailable + 1)
@@ -108,13 +111,16 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
 addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
     try {
-        let {orderNo, noteCnOrder} = req.body
+        let {orderNo, noteCnOrder,saleCode} = req.body
         if (orderNo && noteCnOrder) {
             const orderRef = await Order.findOne({id:orderNo})
             // for (let listData of orderRef.list){
             //     console.log(listData.id)
             //
             // }
+            const {available, updateAvailable} = require('../../services/numberSeriers')
+            const {currentYear, currentdate, currentdateSlash} = require('../../utils/utility')
+            const idAvailable = await available(currentYear(), 'cnOrder', req.body.zone)
             let listArr = []
             for (let listData of orderRef.list) {
                 // listData.totalAmount = listData.pricePerUnitRefund * listData.qty
@@ -125,27 +131,31 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
                 // listData.qtyText = dataQtyText.nameEng
                 console.log(dataProduct)
                 let listObj = {
-                    id:listData.id,
-                    qty:listData.qty,
+                    id:listData.id, //
+                    name:listData.name, //
+                    qty:listData.qty, //
+                    unitId:listData.unitQty,
                     pricePerUnitRefund:dataProduct.unitList[0].pricePerUnitRefund,
-                    qtyText:dataQtyText.nameEng
+                    qtyText:dataQtyText.nameEng,
+                    totalAmount:listData.totalAmount,
+                    note:""
                 }
                 listArr.push(listObj)
             }
 
             const mainData = {
-                orderNo: orderRef.id,
-                orderDate: currentdate(),
+                orderNo: idAvailable, //
+                orderDate: currentdate(), //
                 storeId: orderRef.storeId,
                 storeName: orderRef.name,
                 address: orderRef.address,
                 taxID: orderRef.taxId,
                 tel: orderRef.tel,
                 totalPrice: orderRef.totalPrice,
-                zone:"",
+                zone:orderRef.area.slice(0,2),
                 area: orderRef.area,
                 list: listArr,
-                saleCode: orderRef.saleMan,
+                saleCode,
                 shipping: {
                     address: null,
                     dateShip: null,
@@ -153,10 +163,16 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
                 },
                 noteCnOrder,
                 status: '10',
-                createDate: currentdateSlash()
+                createDate: currentdateSlash(),
+                refOrder:orderRef.id
             }
-            // res.status(200).json({status: '200', message: 'Update Status Successfully'})
-            res.status(200).json(mainData)
+
+            await CnOrder.create(mainData)
+            await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+
+            await updateAvailable('cnOrder', req.body.zone, idAvailable + 1)
+             res.status(200).json({status: '200', message: 'add CnOrder Successfully!'})
+            // res.status(200).json(mainData)
         } else {
             res.status(500).json({status: '500', message: 'require req.body!!'})
         }
