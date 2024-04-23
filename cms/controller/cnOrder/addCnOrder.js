@@ -82,23 +82,20 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
         }
         console.log(mainData)
 
-        await CnOrder.create(mainData)
-        await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
-
-
-        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเทส
-
-        await updateAvailable('cnOrder', req.body.zone, idAvailable + 1)
-        if (data) {
+        const dataCheck = await axios.post(process.env.API_URL_12SERVICE + "/dataCn/checkOrderReplace", {orderNo:mainData.orderNo})
+        if(dataCheck.data.statusCheck === 0){
+            await CnOrder.create(mainData)
+            await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+            await updateAvailable(currentYear(),'cnOrder', req.body.zone ,idAvailable + 1)
             await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
 
             res.status(200).json({status: 200, message: 'add CnOrder Successfully!'})
-            // res.status(200).json(data)
-        } else {
+        }else{
+            await createLog('200', req.method, req.originalUrl, res.body, 'CnOrder has replace Successfully!')
 
-            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
-            await errResponse(res)
+            res.status(200).json({status: 200, message: 'CnOrder has replace Successfully!'})
         }
+        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเท
     } catch (e) {
         console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
@@ -113,7 +110,7 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
     try {
         let {orderNo, noteCnOrder,saleCode} = req.body
         if (orderNo && noteCnOrder) {
-            const orderRef = await Order.findOne({id:orderNo})
+            const orderRef = await Order.findOne({orderNo:orderNo})
             // for (let listData of orderRef.list){
             //     console.log(listData.id)
             //
@@ -164,14 +161,21 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
                 noteCnOrder,
                 status: '10',
                 createDate: currentdateSlash(),
-                refOrder:orderRef.id
+                refOrder:orderRef.orderNo
+            }
+            const dataCheck = await axios.post(process.env.API_URL_12SERVICE + "/dataCn/checkOrderReplace", {orderNo:mainData.orderNo})
+            if(dataCheck.data.statusCheck === 0){
+                await CnOrder.create(mainData)
+                await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+
+                await updateAvailable(currentYear(),'cnOrder', req.body.zone ,idAvailable + 1)
+                await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
+                res.status(200).json({status: '200', message: 'add CnOrder Successfully!'})
+            }else{
+                await createLog('200', req.method, req.originalUrl, res.body, 'CnOrder has replace Successfully!')
+                res.status(200).json({status: '200', message: 'CnOrder has replace Successfully!'})
             }
 
-            await CnOrder.create(mainData)
-            await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
-
-            await updateAvailable('cnOrder', req.body.zone, idAvailable + 1)
-             res.status(200).json({status: '200', message: 'add CnOrder Successfully!'})
             // res.status(200).json(mainData)
         } else {
             res.status(500).json({status: '500', message: 'require req.body!!'})

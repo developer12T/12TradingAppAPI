@@ -3,7 +3,7 @@
 const userSchema = mongoose.Schema({
     id:{type:String,require:true},
     saleCode:String,
-    salePlayer:String,
+    salePayer:String,
     userName:{type:String,require:true},
     firstName:{type:String,require:true},
     surName:{type:String,require:true},

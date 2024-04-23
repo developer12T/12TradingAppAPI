@@ -18,9 +18,10 @@ const shipping = mongoose.Schema({
 })
 
 const orderSchema = mongoose.Schema({
-    idIndex:{type:Number},
-    id:{type:String},
+    // idIndex:{type:Number},
+    orderNo:{type:String},
     saleMan:{type:String},
+    saleCode:{type:String},
     area:String,
     storeId:{type:String},
     storeName:{type:String},

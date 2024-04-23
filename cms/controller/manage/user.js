@@ -36,14 +36,14 @@ UserManage.post('/getDetail', async (req, res) => {
 
 UserManage.post('/addUser', async (req, res) => {
     try{
-        let {saleCode,salePlayer,userName,firstName,surName,passWord,area,role,zone} = req.body
+        let {saleCode,salePayer,userName,firstName,surName,passWord,area,role,zone} = req.body
         const hashedPassword = await bcrypt.hash(passWord, 10)
         // const  { available } = require('../../services/numberSeriers')
         // const { currentYear } = require('../../utils/utility')
         const mainData = {
             // id:await available(currentYear(),'userNumber','cms'),
             saleCode,
-            salePlayer,
+            salePayer,
             userName,
             firstName,
             surName,

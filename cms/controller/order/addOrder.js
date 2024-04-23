@@ -10,8 +10,8 @@ const {Store} = require('../../models/store')
 const {History} = require('../../models/history')
 const {currentdateDash, spltitString, currentdateSlash, floatConvert} = require('../../utils/utility')
 const axios = require('axios')
-const {createLog} = require("../../services/errorLog")
-const {Product} = require("../../models/product")
+const {createLog} = require("../../services/errorLog");
+const {Product} = require("../../models/product");
 
 addOrder.post('/newOrder', async (req, res) => {
     try {
@@ -78,10 +78,10 @@ addOrder.post('/newOrder', async (req, res) => {
             }
 
             const mainData = {
-                idIndex: indexPlus,
-                id:
-                    + 1,
+                 // idIndex: indexPlus,
+                orderNo: availableNumber + 1,
                 saleMan: userData.firstName + ' ' + userData.surName,
+                saleCode: userData.saleCode,
                 area:req.body.area,
                 storeId: storeData.storeId,
                 storeName: storeData.name,
@@ -96,7 +96,7 @@ addOrder.post('/newOrder', async (req, res) => {
                 updateDate:null
             }
                 await Order.create(mainData)
-                //await Cart.deleteOne({area: req.body.area, storeId: req.body.storeId})
+                await Cart.deleteOne({area: req.body.area, storeId: req.body.storeId})
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
 
         const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/visit', {
