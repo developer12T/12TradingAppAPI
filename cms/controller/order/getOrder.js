@@ -2,9 +2,10 @@ const express = require('express')
 
 require('../../configs/connect')
 const {Order, PreOrder} = require("../../models/order")
+const {Unit} = require("../../models/product")
 const {createLog} = require("../../services/errorLog");
 const {statusDes} = require("../../models/statusDes");
-const {getNameStatus} = require("../../utils/utility");
+const {getNameStatus, slicePackSize} = require("../../utils/utility");
 const getOrder = express.Router()
 
 
@@ -89,6 +90,50 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
                 message: error.message
             }
         )
+    }
+})
+
+getOrder.post('/getDetail', async (req, res) => {
+    try {
+        const { orderNo } = req.body
+        const data = await Order.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1})
+        if(data) {
+            const data_list = []
+            for (let i = 0; i < data.list.length; i++) {
+                const detail_product = await Unit.findOne({idUnit: data.list[i].unitQty})
+                const list_obj = {
+                    id: data.list[i].id,
+                    name: slicePackSize(data.list[i].name),
+                    nameDetail: data.list[i].name,
+                    qtyText: data.list[i].qty + ' ' + detail_product.nameThai,
+                    qty: data.list[i].qty,
+                    unitId: data.list[i].unitId,
+                    unitTypeThai: detail_product.nameThai,
+                    unitTypeEng: detail_product.nameEng,
+                    summaryPrice: parseFloat(data.list[i].pricePerQty * data.list[i].qty).toFixed(2)
+                }
+                data_list.push(list_obj)
+            }
+            const mainData = {
+                orderDate:data.createDate,
+                orderNo:data.orderNo,
+                name:data.storeName,
+                totalPrice:data.totalPrice,
+                status:data.status,
+                list: data_list
+            }
+            await createLog('200',req.method,req.originalUrl,res.body,'get Order Detail Successfully!')
+            res.status(200).json(mainData)
+        }else{
+            await createLog('204',req.method,req.originalUrl,res.body,'No Data')
+            res.status(200).json({status:204,message:'No Data'})
+        }
+    } catch (e) {
+        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        res.status(500).json({
+            status:500,
+            message:e.message
+        })
     }
 })
 
