@@ -186,7 +186,7 @@ getRoute.post('/getStoreDetail', async (req, res) => {
 
         const data = await Route.findOne({id: req.body.idRoute,"list.storeId":req.body.storeId}, {
             '_id': 0,
-            // 'list': {$elemMatch: {'storeId': req.body.storeId}}
+            'list': {$elemMatch: {'storeId': req.body.storeId}}
         })
         console.log(data)
         if(data){
