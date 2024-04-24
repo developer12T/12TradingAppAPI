@@ -168,7 +168,7 @@ async function dayOfMonth(monthNumber) {
 }
 
 async function getNameStatus(type,id) {
-    const statusText = (await statusDes.findOne({type: type}, {'list': {$elemMatch: {'id': id}}})).list
+    const statusText = (await statusDes.findOne({type: type}, {'list': {$elemMatch: {'id': id}}})).list[0]
     return statusText
 }
 

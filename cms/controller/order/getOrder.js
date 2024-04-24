@@ -6,6 +6,7 @@ const {Unit} = require("../../models/product")
 const {createLog} = require("../../services/errorLog");
 const {statusDes} = require("../../models/statusDes");
 const {getNameStatus, slicePackSize} = require("../../utils/utility");
+const { log } = require('winston');
 const getOrder = express.Router()
 
 
@@ -95,33 +96,50 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
 
 getOrder.post('/getDetail', async (req, res) => {
     try {
+        var discount = 0
         const { orderNo } = req.body
-        const data = await Order.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1})
+        
+       const data = await Order.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1})
         if(data) {
             const data_list = []
-            for (let i = 0; i < data.list.length; i++) {
-                const detail_product = await Unit.findOne({idUnit: data.list[i].unitQty})
+            for (let list of data.list) {
+                const detail_product = await Unit.findOne({idUnit: list.unitQty})
                 const list_obj = {
-                    id: data.list[i].id,
-                    name: slicePackSize(data.list[i].name),
-                    nameDetail: data.list[i].name,
-                    qtyText: data.list[i].qty + ' ' + detail_product.nameThai,
-                    qty: data.list[i].qty,
-                    unitId: data.list[i].unitId,
+                    id: list.id,
+                    name: slicePackSize(list.name),
+                    nameDetail: list.name,
+                    qtyText: list.qty + ' ' + detail_product.nameThai,
+                    qty: list.qty,
+                    unitId: list.unitQty,
                     unitTypeThai: detail_product.nameThai,
                     unitTypeEng: detail_product.nameEng,
-                    summaryPrice: parseFloat(data.list[i].pricePerQty * data.list[i].qty).toFixed(2)
+                    itemDiscount: list.discount,
+                    pricePerQty:list.pricePerQty,
+                    summaryPrice: parseFloat(list.pricePerQty * list.qty).toFixed(2)
                 }
+                discount = discount + (list.discount)
                 data_list.push(list_obj)
             }
+
+            // data.list1 = []
+            // data.list1 = data_list
+            // data.statusText = (await getNameStatus('order',data.status)).name,
             const mainData = {
                 orderDate:data.createDate,
                 orderNo:data.orderNo,
                 name:data.storeName,
+                address:data.address,
+                tax:data.taxID,
+                tel:data.tel,
+                saleMan:data.saleMan,
                 totalPrice:data.totalPrice,
+                totalExVat:parseFloat((data.totalPrice/1.07).toFixed(2)),
+                totalDiscount:parseFloat(discount).toFixed(2),
                 status:data.status,
+                statusText:(await getNameStatus('order',data.status)).name,
                 list: data_list
             }
+
             await createLog('200',req.method,req.originalUrl,res.body,'get Order Detail Successfully!')
             res.status(200).json(mainData)
         }else{
