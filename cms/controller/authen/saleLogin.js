@@ -1,7 +1,7 @@
 
 const express = require('express')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 require('../../configs/connect')
 const saleLogin = express.Router()
 const {Route, Checkin} = require('../../models/route')
