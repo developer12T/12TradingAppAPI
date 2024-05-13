@@ -118,7 +118,7 @@ getCart.post('/getPreOrder', async (req, res) => {
             let listFree_Arr = []
             for (const listFreePro of responseData.listFree) {
                 for (const listFreeItem of listFreePro.listProduct) {
-                    // const unitData = await Unit.findOne({idUnit: listFreeItem.unitId})
+                    const unitData = await Unit.findOne({idUnit: listFreeItem.unitQty})
                     const dataListFree = {
                         id: listFreeItem.productId,
                         name: slicePackSize(listFreeItem.productName),
@@ -126,7 +126,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                         qty: listFreeItem.qty,
                         type: "free",
                         nameQty: listFreeItem.unitQty,
-                        qtyText: listFreeItem.qty + ' ' + listFreeItem.unitQty,
+                        qtyText: listFreeItem.qty + ' ' + unitData.nameThai,
                         pricePerQty: '0.00',
                         discount: 0,
                         totalAmount: '0.00'

@@ -107,7 +107,7 @@ addOrder.post('/newOrder', async (req, res) => {
              latitude:req.body.latitude,
              longtitude:req.body.longtitude,
              note: 'ขายสินค้าแล้ว',
-             orderId: mainData.id
+             orderId: mainData.orderNo
              })
         // console.log(fextcapi.data)
         await History.create({
