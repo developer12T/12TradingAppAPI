@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 const config = process.env
 const verifyToken = async (req, res, next) => {

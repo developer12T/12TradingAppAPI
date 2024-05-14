@@ -1,6 +1,6 @@
 const express = require('express')
 require('../../configs/connect')
-const  bcrypt  = require('bcryptjs')
+const  bcrypt  = require('bcrypt')
 const UserManage = express.Router()
 const {User} = require('../../models/user')
 // const {updateAvailable} = require("../../services/numberSeriers");
