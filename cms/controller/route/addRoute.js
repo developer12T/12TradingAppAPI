@@ -133,6 +133,8 @@ addRoute.post('/visit', async (req, res) => {
                             'list.storeId': req.body.storeId
                         }, {
                             $set: {
+                                'list.$.latitude': req.body.latitude,
+                                'list.$.longtitude': req.body.longtitude,
                                 'list.$.note': req.body.note,
                                 'list.$.status': '1',
                                 'list.$.dateCheck': currentdateDash()
