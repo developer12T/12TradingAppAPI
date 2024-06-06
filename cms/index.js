@@ -14,6 +14,7 @@ const giveProduct = require('./routes/giveProduct')
 const cnOrder = require('./routes/cnOrder')
 const monitorLog = require('./routes/reportLog')
 const dashBoard = require('./routes/dashBoard')
+const print = require('./routes/print')
 
 cms.use('/store',store)
 cms.use('/route',route)
@@ -28,5 +29,6 @@ cms.use('/giveProduct',giveProduct)
 cms.use('/cnOrder',cnOrder)
 cms.use('/monitorLog',monitorLog)
 cms.use('/dashBoard',dashBoard)
+cms.use('/print',print)
 
 module.exports = cms
