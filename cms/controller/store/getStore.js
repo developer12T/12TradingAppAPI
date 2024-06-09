@@ -82,13 +82,13 @@ getStore.post('/getStoreNew', async (req, res) => {
         if (data.length >  0){
             data.forEach(item => {
                 if (item.status === '19') {
-                    item.status = 'รออนุมัติ'
+                    item.statusText = 'รออนุมัติ'
                     console.log(item.status)
                 } else if (item.status === '99') {
-                    item.status = 'ไม่อนุมัติ'
+                    item.statusText = 'ไม่อนุมัติ'
                     console.log(item.status)
                 } else if (item.status === '20') {
-                    item.status = 'อนุมัติแล้ว'
+                    item.statusText = 'อนุมัติแล้ว'
                     console.log(item.status)
                 }
             })
@@ -99,7 +99,8 @@ getStore.post('/getStoreNew', async (req, res) => {
                     idStore: list.storeId,
                     name: list.name,
                     route: list.route,
-                    approved: list.status
+                    status: list.status,
+                    approvedText: list.statusText
                 }
                 mainData.push(newData)
 
