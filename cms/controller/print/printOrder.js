@@ -35,11 +35,59 @@ const printReceipt = (items, total, date) => {
         console.log('found nothing');
     });
 };
+
+const connectAndPrint = (dataToPrint) => {
+    return new Promise((resolve, reject) => {
+      const btSerial = new bluetooth.BluetoothSerialPort();
+      
+      btSerial.on('found', function(address, name) {
+        if (name === 'Bixolon SPP-R410') {
+          btSerial.findSerialPortChannel(address, function(channel) {
+            btSerial.connect(address, channel, function() {
+              const device = new escpos.Console(btSerial);
+              const options = { encoding: "GB18030" }
+              const printer = new escpos.Printer(device, options);
+  
+              device.open(function() {
+                printer
+                  .text(dataToPrint)
+                  .cut()
+                  .close();
+                resolve('Printed successfully');
+              });
+            }, function () {
+              reject('Cannot connect to device');
+            });
+          }, function() {
+            reject('Found nothing');
+          });
+        }
+      });
+  
+      btSerial.inquire();
+    });
+  };
+
+  
 printOrder.post('/orderPrint', async (req, res) => {
     try {
         const { items, total, date } = req.body;
         printReceipt(items, total, date);
         res.status(200).send('Printing receipt...');
+    } catch (error) {
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+printOrder.post('/printTest', async (req, res) => {
+    const { data } = req.body;
+    try {
+      const result = await connectAndPrint(data);
+      res.status(200).send(result);
     } catch (error) {
         await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
