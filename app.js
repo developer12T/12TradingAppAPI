@@ -2,6 +2,7 @@ const express = require('express')
 const auth = require('./cms/controller/authen/middleware/authen')
 const app = express()
 const cors = require('cors')
+const cms = require('./cms/index')
 
 app.use(express.json())
 app.use(cors())
@@ -16,8 +17,7 @@ app.use(cors())
 // }, express.static('public'))
 
 // const verifyToken = require('./cms/controller/authen/middleware/authen');
-const cms = require('./cms/index')
-app.use('api/cms',cms)
+app.use('/api/cms',cms)
 
 app.get('/', (req, res) => {
     res.send('Server is running');
