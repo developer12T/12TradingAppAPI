@@ -17,7 +17,7 @@ app.use(cors())
 
 // const verifyToken = require('./cms/controller/authen/middleware/authen');
 const cms = require('./cms/index')
-app.use('/api',cms)
+app.use('api/cms',cms)
 
 app.get('/', (req, res) => {
     res.send('Server is running');
