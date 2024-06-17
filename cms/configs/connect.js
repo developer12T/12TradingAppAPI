@@ -17,13 +17,13 @@ const connectDB = async () => {
         const interval = await setInterval(() => {
             progress += 1;
             const percentage = (progress / totalSteps) * 100;
-            process.stdout.clearLine();
+            // process.stdout.clearLine();
             process.stdout.cursorTo(0);
             process.stdout.write(`\x1b[35mConnecting Database... ${percentage.toFixed(2)}%\x1b[0m`);
 
             if (progress === totalSteps) {
                 clearInterval(interval);
-                process.stdout.clearLine();
+                // process.stdout.clearLine();
                 process.stdout.cursorTo(0);
                 console.log('\x1b[35mConnected to MongoDB Success\x1b[0m')
             }
