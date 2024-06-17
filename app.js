@@ -2,8 +2,8 @@ const express = require('express')
 const auth = require('./cms/controller/authen/middleware/authen')
 const app = express()
 const cors = require('cors')
-app.use(express.json())
 
+app.use(express.json())
 app.use(cors())
 
 // app.use('/cms', (req, res, next) => {
@@ -17,7 +17,18 @@ app.use(cors())
 
 // const verifyToken = require('./cms/controller/authen/middleware/authen');
 const cms = require('./cms/index')
+app.use('api/cms',cms)
 
-app.use('/cms',cms)
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/logmonitor/index.html')
+})
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(__dirname + '/logmonitor/dashboard.html')
+})
 
 module.exports = app

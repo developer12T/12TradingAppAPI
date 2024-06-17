@@ -1,4 +1,4 @@
- const express = require('express')
+const express = require('express')
 const cms = express.Router()
 
 const store = require('./routes/store')

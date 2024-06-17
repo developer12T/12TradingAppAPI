@@ -2,14 +2,13 @@ const http = require('http')
 const app = require('./app')
 const dotenv = require('dotenv')
 const connectDB = require('./cms/configs/connect')
+
 dotenv.config()
 
 const { PORT } = process.env;
 
-
 const newStore = require('./dataRealtime/cms/newStore')
 // const server = http.createServer(app)
-
 
 const server = http.createServer(app)
 
@@ -19,19 +18,6 @@ const io = require('socket.io')(server, {
         methods: ['GET', 'POST','PUT']
     }
 })
-
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
-
-app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/logmonitor/index.html')
-})
-
-app.get('/dashboard', (req, res) => {
-    res.sendFile(__dirname + '/logmonitor/dashboard.html')
-})
-
 
 newStore(io)
 connectDB().then(() => {
