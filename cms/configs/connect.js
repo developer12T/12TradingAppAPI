@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const readline = require('readline');
+
 dotenv.config();
 
 const { CONNECT_STRING } = process.env;
@@ -18,13 +20,17 @@ const connectDB = async () => {
             progress += 1;
             const percentage = (progress / totalSteps) * 100;
             // process.stdout.clearLine();
-            process.stdout.cursorTo(0);
+            // process.stdout.cursorTo(0);
+            readline.clearLine(process.stdout, 0);
+            readline.cursorTo(process.stdout, 0);
             process.stdout.write(`\x1b[35mConnecting Database... ${percentage.toFixed(2)}%\x1b[0m`);
 
             if (progress === totalSteps) {
                 clearInterval(interval);
                 // process.stdout.clearLine();
-                process.stdout.cursorTo(0);
+                // process.stdout.cursorTo(0);
+                readline.clearLine(process.stdout, 0);
+                readline.cursorTo(process.stdout, 0);
                 console.log('\x1b[35mConnected to MongoDB Success\x1b[0m')
             }
         }, 10)
