@@ -10,6 +10,6 @@ authen.use(cors())
 
 const saleLogin = require('../controller/authen/saleLogin')
 
-authen.use('/authen',saleLogin)
+authen.use('/',saleLogin)
 
 module.exports = authen
