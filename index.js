@@ -20,6 +20,10 @@ const io = require('socket.io')(server, {
     }
 })
 
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
+
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/logmonitor/index.html')
 })
