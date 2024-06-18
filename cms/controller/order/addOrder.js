@@ -127,7 +127,7 @@ addOrder.post('/newOrder', async (req, res) => {
             }
         })
         await createLog('200',req.method,req.originalUrl,res.body,'newOrder Successfully!')
-        // await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
+        await Cart.deleteOne({area:req.body.area,storeId:req.body.storeId})
     } catch (error) {
         console.log(error)
         await createLog('500',req.method,req.originalUrl,res.body,error.message)
