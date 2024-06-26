@@ -27,33 +27,33 @@ getRoute.post('/getRouteMain', async (req, res) => {
     try {
         const showData = []
         let statusCount = 0
-        let statusBlack = 0
+        let statusAll = 0
         const data = await Route.find({area:req.body.area}, {_id: 0}).exec()
         // console.log(data)
         if(data.length > 0){
             for (let i = 0; i < data.length; i++) {
                 for (let j = 0; j < data[i].list.length; j++) {
-                    statusCount += (data[i].list[j].status === '1') ? 1 : 0;
-                    statusBlack = data[i].list.length
+                    statusCount += (data[i].list[j].status === '1' || data[i].list[j].status === '2') ? 1 : 0;
+                    statusAll = data[i].list.length
                 }
                 const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
                 let descript =
-                    (statusCount < statusBlack && statusCount !== 0) ? 'processing' :
-                        statusCount === statusBlack ? 'success' :
-                            statusBlack === 0 ? 'pending' :
+                    (statusCount < statusAll && statusCount !== 0) ? 'processing' :
+                        statusCount === statusAll ? 'success' :
+                            statusAll === 0 ? 'pending' :
                                 'progress'
 
                     let descript2 =
-                                (statusCount < statusBlack && statusCount !== 0) ? '1' :
-                                    statusCount === statusBlack ? '2' :
-                                        statusBlack === 0 ? '3' :
+                                (statusCount < statusAll && statusCount !== 0) ? '1' :
+                                    statusCount === statusAll ? '2' :
+                                        statusAll === 0 ? '3' :
                                             '0'
                     
                 const showData_obj = {
                     id: data[i].id,
                     day: 'Day ' + day,
                     route: i + 1,
-                    statusNumber: statusCount + '/' + statusBlack,
+                    statusNumber: statusCount + '/' + statusAll,
                     statusText: descript,
                     status:descript2
                 }

@@ -95,8 +95,8 @@ addOrder.post('/newOrder', async (req, res) => {
                 createDate:currentdateSlash(),
                 updateDate:null
             }
-                await Order.create(mainData)
-                await Cart.deleteOne({area: req.body.area, storeId: req.body.storeId})
+        const createdOrder = await Order.create(mainData)
+        await Cart.deleteOne({area: req.body.area, storeId: req.body.storeId})
         await NumberSeries.updateOne({type: 'order'}, {$set: {'detail.available': availableNumber + 1}})
 
         const visitResponse = await axios.post(process.env.API_URL_IN_USE+'/cms/route/visit', {
@@ -104,10 +104,10 @@ addOrder.post('/newOrder', async (req, res) => {
              area: req.body.area,
              storeId: req.body.storeId,
              idRoute: req.body.idRoute,
-             latitude:req.body.latitude,
-             longtitude:req.body.longtitude,
+            //  latitude:req.body.latitude,
+            //  longtitude:req.body.longtitude,
              note: 'ขายสินค้าแล้ว',
-             orderId: mainData.orderNo
+             orderId: createdOrder.orderNo
              })
         // console.log(fextcapi.data)
         await History.create({
@@ -122,7 +122,7 @@ addOrder.post('/newOrder', async (req, res) => {
             },
             visit:{
                 status:201,
-                message:`Visit Store : ${req.body.storeId} and OrderId : ${mainData.id} Success`,
+                message:`Visit Store : ${req.body.storeId} and OrderId : ${createdOrder._id} Success`,
                 respone:visitResponse.data
             }
         })
