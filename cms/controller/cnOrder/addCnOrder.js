@@ -95,7 +95,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
             res.status(200).json({status: 200, message: 'CnOrder has replace Successfully!'})
         }
-        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเท
+        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเทส
     } catch (e) {
         console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
@@ -108,48 +108,39 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
 addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
     try {
-        let {orderNo, noteCnOrder,saleCode} = req.body
+        let {orderNo, noteCnOrder, saleCode} = req.body
         if (orderNo && noteCnOrder) {
-            const orderRef = await Order.findOne({orderNo:orderNo})
-            // for (let listData of orderRef.list){
-            //     console.log(listData.id)
-            //
-            // }
-            const {available, updateAvailable} = require('../../services/numberSeriers')
-            const {currentYear, currentdate, currentdateSlash} = require('../../utils/utility')
+            const orderRef = await Order.findOne({ orderNo: orderNo })
+            const { available, updateAvailable } = require('../../services/numberSeriers')
+            const { currentYear, currentdate, currentdateSlash } = require('../../utils/utility')
             const idAvailable = await available(currentYear(), 'cnOrder', req.body.zone)
-            let listArr = []
+            let listArr = [];
             for (let listData of orderRef.list) {
-                // listData.totalAmount = listData.pricePerUnitRefund * listData.qty
-                // listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
-                // summary = summary + listData.pricePerUnitRefund * listData.qty
-                const dataQtyText = await Unit.findOne({idUnit: listData.unitQty})
-                const dataProduct = await Product.findOne({id: listData.id,unitList:{$elemMatch:{id:listData.unitQty}}},{'unitList.$':1})
-                // listData.qtyText = dataQtyText.nameEng
-                console.log(dataProduct)
+                const dataQtyText = await Unit.findOne({ idUnit: listData.unitQty });
+                const dataProduct = await Product.findOne({ id: listData.id, unitList: { $elemMatch: { id: listData.unitQty } } }, { 'unitList.$': 1 });
                 let listObj = {
-                    id:listData.id, //
-                    name:listData.name, //
-                    qty:listData.qty, //
-                    unitId:listData.unitQty,
-                    pricePerUnitRefund:dataProduct.unitList[0].pricePerUnitRefund,
-                    qtyText:dataQtyText.nameEng,
-                    totalAmount:listData.totalAmount,
-                    note:""
-                }
+                    id: listData.id,
+                    name: listData.name,
+                    qty: listData.qty,
+                    unitId: listData.unitQty,
+                    pricePerUnitRefund: dataProduct.unitList[0].pricePerUnitRefund,
+                    qtyText: dataQtyText.nameEng,
+                    totalAmount: listData.totalAmount,
+                    note: ""
+                };
                 listArr.push(listObj)
             }
 
             const mainData = {
-                orderNo: idAvailable, //
-                orderDate: currentdate(), //
+                orderNo: idAvailable,
+                orderDate: currentdate(),
                 storeId: orderRef.storeId,
-                storeName: orderRef.name,
+                storeName: orderRef.storeName,
                 address: orderRef.address,
                 taxID: orderRef.taxId,
                 tel: orderRef.tel,
                 totalPrice: orderRef.totalPrice,
-                zone:orderRef.area.slice(0,2),
+                zone: orderRef.area.slice(0, 2),
                 area: orderRef.area,
                 list: listArr,
                 saleCode,
@@ -161,24 +152,19 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
                 noteCnOrder,
                 status: '10',
                 createDate: currentdateSlash(),
-                refOrder:orderRef.orderNo
-            }
-            const dataCheck = await axios.post(process.env.API_URL_12SERVICE + "/dataCn/checkOrderReplace", {orderNo:mainData.orderNo})
-            if(dataCheck.data.statusCheck === 0){
-                await CnOrder.create(mainData)
-                await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+                refOrder: orderRef.orderNo
+            };
 
-                await updateAvailable(currentYear(),'cnOrder', req.body.zone ,idAvailable + 1)
-                await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
-                res.status(200).json({status: '200', message: 'add CnOrder Successfully!'})
-            }else{
-                await createLog('200', req.method, req.originalUrl, res.body, 'CnOrder has replace Successfully!')
-                res.status(200).json({status: '200', message: 'CnOrder has replace Successfully!'})
-            }
-
-            // res.status(200).json(mainData)
+            await CnOrder.create(mainData)
+            await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
+            await Order.updateOne({ orderNo: orderRef.orderNo }, { status: "99" })
+            await updateAvailable(currentYear(), 'cnOrder', req.body.zone, idAvailable + 1)
+            await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
+            res.status(200).json({ status: '200', message: 'add CnOrder Successfully!' })
+            return;
         } else {
-            res.status(500).json({status: '500', message: 'require req.body!!'})
+            res.status(500).json({ status: '500', message: 'require req.body!!' })
+            return
         }
     } catch (e) {
         console.log(e)
@@ -186,10 +172,10 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
         res.status(500).json({
             status: 500,
             message: e.message
-        })
+        });
+        return
     }
-})
-
+});
 
 addCnOrder.post('/updateStatusCnOrder',verifyToken, async (req, res) => {
     try {

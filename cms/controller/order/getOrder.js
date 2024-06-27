@@ -35,15 +35,16 @@ getOrder.post('/getMain', async (req, res) => {
                 // const nameSt = await statusDes.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
                 mainData.push({
                     orderDate:list.createDate,
-                    number:list.id,
+                    number:list.orderNo,
                     name:list.storeName,
                     totalPrice:list.totalPrice,
                     status:list.status,
-                    // statusText: await getNameStatus('order',list.status).name
+                    statusText: (await getNameStatus('order', list.status)).name
                 })
             }
+            console.log(mainData);
             await createLog('200',req.method,req.originalUrl,res.body,'getAll Order Successfully!')
-            res.status(200).json(data)
+            res.status(200).json(mainData)
         }else{
             await createLog('204',req.method,req.originalUrl,res.body,'No Data')
             res.status(200).json({status:204,message:'No Data'})
@@ -96,14 +97,14 @@ getOrder.post('/getAllPreOrder', async (req, res) => {
 
 getOrder.post('/getDetail', async (req, res) => {
     try {
-        var discount = 0
-        const { orderNo } = req.body
+        var discount = 0;
+        const { orderNo } = req.body;
         
-       const data = await Order.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1})
-        if(data) {
-            const data_list = []
+        const data = await Order.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1});
+        if (data) {
+            const data_list = [];
             for (let list of data.list) {
-                const detail_product = await Unit.findOne({idUnit: list.unitQty})
+                const detail_product = await Unit.findOne({idUnit: list.unitQty});
                 const list_obj = {
                     id: list.id,
                     name: slicePackSize(list.name),
@@ -114,45 +115,45 @@ getOrder.post('/getDetail', async (req, res) => {
                     unitTypeThai: detail_product.nameThai,
                     unitTypeEng: detail_product.nameEng,
                     itemDiscount: list.discount,
-                    pricePerQty:list.pricePerQty,
-                    summaryPrice: parseFloat(list.pricePerQty * list.qty).toFixed(2)
-                }
-                discount = discount + (list.discount)
-                data_list.push(list_obj)
+                    pricePerQty: list.pricePerQty.toFixed(2),
+                    summaryPrice: parseFloat(list.pricePerQty * list.qty).toFixed(2),
+                };
+                discount += list.discount;
+                data_list.push(list_obj);
             }
 
-            // data.list1 = []
-            // data.list1 = data_list
-            // data.statusText = (await getNameStatus('order',data.status)).name,
+            const totalExVat = parseFloat((data.totalPrice / 1.07).toFixed(2));
+            const totalVat = parseFloat((data.totalPrice - totalExVat).toFixed(2));
             const mainData = {
-                orderDate:data.createDate,
-                orderNo:data.orderNo,
-                name:data.storeName,
-                address:data.address,
-                tax:data.taxID,
-                tel:data.tel,
-                saleMan:data.saleMan,
-                totalPrice:data.totalPrice,
-                totalExVat:parseFloat((data.totalPrice/1.07).toFixed(2)),
-                totalDiscount:parseFloat(discount).toFixed(2),
-                status:data.status,
-                statusText:(await getNameStatus('order',data.status)).name,
-                list: data_list
-            }
+                orderDate: data.createDate,
+                orderNo: data.orderNo,
+                name: data.storeName,
+                address: data.address,
+                tax: data.taxID,
+                tel: data.tel,
+                saleMan: data.saleMan,
+                totalPrice: data.totalPrice.toFixed(2),
+                totalExVat: totalExVat,
+                totalVat: totalVat,
+                totalDiscount: parseFloat(discount).toFixed(2),
+                status: data.status,
+                statusText: (await getNameStatus('order', data.status)).name,
+                list: data_list,
+            };
 
-            await createLog('200',req.method,req.originalUrl,res.body,'get Order Detail Successfully!')
-            res.status(200).json(mainData)
-        }else{
-            await createLog('204',req.method,req.originalUrl,res.body,'No Data')
-            res.status(200).json({status:204,message:'No Data'})
+            await createLog('200', req.method, req.originalUrl, res.body, 'get Order Detail Successfully!');
+            res.status(200).json(mainData);
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data');
+            res.status(200).json({ status: 204, message: 'No Data' });
         }
     } catch (e) {
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message);
         res.status(500).json({
-            status:500,
-            message:e.message
-        })
+            status: 500,
+            message: e.message,
+        });
     }
-})
+});
 
 module.exports = getOrder

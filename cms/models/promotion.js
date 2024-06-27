@@ -93,12 +93,14 @@ const listProduct = new Schema({
     productId: String,
     productName: String,
     qty: Number,
+    qtyText: String,
     unitQty: String,
     unitQtyThai: String,
 })
 
 const listPromotion = new Schema({
     proId: String,
+    proName: String,
     summaryQty:Number,
     listProduct:[listProduct],
 })

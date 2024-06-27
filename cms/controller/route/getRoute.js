@@ -46,7 +46,7 @@ getRoute.post('/getRouteMain', async (req, res) => {
                     let descript2 =
                                 (statusCount < statusAll && statusCount !== 0) ? '1' :
                                     statusCount === statusAll ? '2' :
-                                        statusAll === 0 ? '3' :
+                                        statusAll === 0 ? '3' :  
                                             '0'
                     
                 const showData_obj = {

@@ -206,6 +206,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 productId: idProduct,
                 productName: nameProduct,
                 qty: list.qtyReward,
+                qtyText: list.qtyReward + ' ' + unitThai.nameThai,
                 unitQty: unitThai.idUnit,
                 unitQtyThai: unitThai.nameThai,
                 proId: list.proId,
@@ -217,23 +218,25 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
         //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
         const combinedProducts = {}
         freeItem.forEach(product => {
-            const {proId, proName, qty, ...rest} = product
+            const {proId, proName, qty, qtyText, ...rest} = product
 
             // ถ้า proId ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
             if (!combinedProducts[proId]) {
                 rest.qty = qty
-                combinedProducts[proId] = {summaryQty: qty, products: [rest]}
+                rest.qtyText = qtyText
+                combinedProducts[proId] = {summaryQty: qty, products: [rest], proName}
             } else {
                 // ถ้า proId มีอยู่แล้ว ให้เพิ่ม qty และรายการใหม่เข้าไป
                 combinedProducts[proId].summaryQty += qty
                 rest.qty = qty
+                rest.qtyText = qtyText
                 combinedProducts[proId].products.push(rest)
             }
         })
         // แปลงผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์
         const resultArray = Object.keys(combinedProducts).map(proId => ({
             proId,
-            name: freeItem.proName,
+            proName: combinedProducts[proId].proName,
             summaryQty: combinedProducts[proId].summaryQty,
             listProduct: combinedProducts[proId].products,
         }))
