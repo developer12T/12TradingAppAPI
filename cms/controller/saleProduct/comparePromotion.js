@@ -209,14 +209,15 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 unitQty: unitThai.idUnit,
                 unitQtyThai: unitThai.nameThai,
                 proId: list.proId,
+                proName: dataPro.name,
                 proType: dataPro.proType
             })
         }
-
+        console.log(freeItem)
         //2. เอาข้อมูลจากตรงนี้(ข้างบน) เก็บลงไปใน doc.RewardSummary
         const combinedProducts = {}
         freeItem.forEach(product => {
-            const {proId, qty, ...rest} = product
+            const {proId, proName, qty, ...rest} = product
 
             // ถ้า proId ยังไม่มีใน combinedProducts ให้สร้าง key ใหม่
             if (!combinedProducts[proId]) {
@@ -229,14 +230,13 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 combinedProducts[proId].products.push(rest)
             }
         })
-
         // แปลงผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์
         const resultArray = Object.keys(combinedProducts).map(proId => ({
             proId,
+            name: freeItem.proName,
             summaryQty: combinedProducts[proId].summaryQty,
             listProduct: combinedProducts[proId].products,
         }))
-
         // console.log(resultArray)
         const saveData = {
             area: req.body.area,
