@@ -25,7 +25,6 @@ comparePromotion.post('/compare', async (req, res) => {
         const totalAmount = dataSummary.data.list.totalAmount
         console.log('totalAmount:', totalAmount)
 
-        // ตรวจสอบรายการสินค้าทีละรายการ
         for (const listGroup of dataSummary.data.list.listProduct) {
             console.log('listGroup:', listGroup)
             const dataPromotion = await Promotion.find({ 
@@ -39,11 +38,38 @@ comparePromotion.post('/compare', async (req, res) => {
                 for (const listDataPromotion of dataPromotion) {
                     for (const itemList of listDataPromotion.conditions) {
                         console.log('itemList:', itemList)
-                        if (itemList.productQty === 0 && itemList.productAmount > 0) {
+
+                        if (listDataPromotion.proType === 'free' && itemList.productQty === 0 && itemList.productAmount > 0) {
                             if (totalAmount >= itemList.productAmount) {
+                                const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId })
+                                const ttReward = []
+                                for (const listRewardData of rewardData.rewards) {
+                                    const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit })
+                                    const productDetail = await Product.findOne({ id: listRewardData.productId })
+                                    ttReward.push({
+                                        productId: listRewardData.productId,
+                                        productName: productDetail.name,
+                                        qty: listRewardData.productQty,
+                                        unitQty: dataUnitName1.nameEng
+                                    })
+                                }
+                                const data_obj = {
+                                    productId: listGroup.id,
+                                    proId: listDataPromotion.proId,
+                                    TotalPurchasedQuantity: {
+                                        productId: listGroup.id,
+                                        qty: listGroup.qtyPurc,
+                                        nameQty: listGroup.qtyUnitName
+                                    },
+                                    TotalReward: ttReward
+                                }
+                                PromotionProductMatch.push(data_obj)
+                            }
+                        } else if (itemList.productUnit === listGroup.qtyUnitId) {
+                            if (listGroup.qtyPurc >= itemList.productQty) {
                                 if (listDataPromotion.proType === 'discount') {
                                     const discountPerUnit = listDataPromotion.discounts[0].amount
-                                    const discountTotal = Math.floor(totalAmount / itemList.productAmount) * discountPerUnit
+                                    const discountTotal = Math.floor(listGroup.qtyPurc / itemList.productQty) * discountPerUnit
                                     const data_obj = {
                                         productId: listGroup.id,
                                         proId: listDataPromotion.proId,
@@ -64,7 +90,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         ttReward.push({
                                             productId: listRewardData.productId,
                                             productName: productDetail.name,
-                                            qty: listRewardData.productQty,
+                                            qty: await calPromotion(listGroup.qtyPurc, itemList.productQty, listRewardData.productQty),
                                             unitQty: dataUnitName1.nameEng
                                         })
                                     }
@@ -82,70 +108,26 @@ comparePromotion.post('/compare', async (req, res) => {
                                 }
                             }
                         } else {
-                            if (itemList.productUnit === listGroup.qtyUnitId) {
-                                if (listGroup.qtyPurc >= itemList.productQty) {
-                                    if (listDataPromotion.proType === 'discount') {
-                                        const discountPerUnit = listDataPromotion.discounts[0].amount
-                                        const discountTotal = Math.floor(listGroup.qtyPurc / itemList.productQty) * discountPerUnit
-                                        const data_obj = {
-                                            productId: listGroup.id,
-                                            proId: listDataPromotion.proId,
-                                            discount: discountTotal,
-                                            TotalPurchasedQuantity: {
-                                                productId: listGroup.id,
-                                                qty: listGroup.qtyPurc,
-                                                nameQty: listGroup.qtyUnitName
-                                            }
-                                        }
-                                        PromotionDiscountMatch.push(data_obj)
-                                    } else if (listDataPromotion.proType === 'free') {
-                                        const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId })
-                                        const ttReward = []
-                                        for (const listRewardData of rewardData.rewards) {
-                                            const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit })
-                                            const productDetail = await Product.findOne({ id: listRewardData.productId })
-                                            ttReward.push({
-                                                productId: listRewardData.productId,
-                                                productName: productDetail.name,
-                                                qty: await calPromotion(listGroup.qtyPurc, itemList.productQty, listRewardData.productQty),
-                                                unitQty: dataUnitName1.nameEng
-                                            })
-                                        }
-                                        const data_obj = {
-                                            productId: listGroup.id,
-                                            proId: listDataPromotion.proId,
-                                            TotalPurchasedQuantity: {
-                                                productId: listGroup.id,
-                                                qty: listGroup.qtyPurc,
-                                                nameQty: listGroup.qtyUnitName
-                                            },
-                                            TotalReward: ttReward
-                                        }
-                                        PromotionProductMatch.push(data_obj)
-                                    }
-                                }
-                            } else {
-                                const convertChange = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: listGroup.qtyUnitId } } }, { 'convertFact.$': 1 })
-                                const convertChangePro = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: itemList.productUnit } } }, { 'convertFact.$': 1 })
+                            const convertChange = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: listGroup.qtyUnitId } } }, { 'convertFact.$': 1 })
+                            const convertChangePro = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: itemList.productUnit } } }, { 'convertFact.$': 1 })
 
-                                if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
-                                    if (listDataPromotion.proType === 'discount') {
-                                        const discountPerUnit = listDataPromotion.discounts[0].amount
-                                        const discountTotal = Math.floor((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor / itemList.productQty) * discountPerUnit
-                                        const data_obj = {
+                            if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
+                                if (listDataPromotion.proType === 'discount') {
+                                    const discountPerUnit = listDataPromotion.discounts[0].amount
+                                    const discountTotal = Math.floor((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor / itemList.productQty) * discountPerUnit
+                                    const data_obj = {
+                                        productId: listGroup.id,
+                                        proId: listDataPromotion.proId,
+                                        discount: discountTotal,
+                                        TotalPurchasedQuantity: {
                                             productId: listGroup.id,
-                                            proId: listDataPromotion.proId,
-                                            discount: discountTotal,
-                                            TotalPurchasedQuantity: {
-                                                productId: listGroup.id,
-                                                qty: listGroup.qtyPurc,
-                                                nameQty: listGroup.qtyUnitName
-                                            }
+                                            qty: listGroup.qtyPurc,
+                                            nameQty: listGroup.qtyUnitName
                                         }
-                                        PromotionDiscountMatch.push(data_obj)
-                                    } else if (listDataPromotion.proType === 'free') {
-                                        console.log('ได้โปรโมชั่นของแถม')
                                     }
+                                    PromotionDiscountMatch.push(data_obj)
+                                } else if (listDataPromotion.proType === 'free') {
+                                    console.log('ได้โปรโมชั่นของแถม')
                                 }
                             }
                         }
