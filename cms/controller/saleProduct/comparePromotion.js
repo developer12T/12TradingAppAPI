@@ -1,17 +1,16 @@
 const express = require('express')
-
 require('../../configs/connect')
-const axios = require("axios")
-const {Promotion, RewardSummary} = require("../../models/promotion")
-const {Unit, Product} = require("../../models/product")
+const { Promotion, RewardSummary } = require("../../models/promotion")
+const { Unit, Product } = require("../../models/product")
 const _ = require("lodash")
-const {calPromotion, currentdateDash, slicePackSize} = require("../../utils/utility")
-const {createLog} = require("../../services/errorLog")
+const { calPromotion, slicePackSize } = require("../../utils/utility")
+const { createLog } = require("../../services/errorLog")
+const axios = require("axios")
+const { log } = require('winston')
 const comparePromotion = express.Router()
 
 comparePromotion.post('/compare', async (req, res) => {
     try {
-        const { calPromotion } = require('../../utils/utility')
         const PromotionProductMatch = []
         const PromotionGroupMatch = []
         const PromotionDiscountMatch = []
@@ -21,16 +20,30 @@ comparePromotion.post('/compare', async (req, res) => {
             storeId: req.body.storeId
         })
 
+        console.log('dataSummary:', JSON.stringify(dataSummary.data, null, 2))
+
+        const totalAmount = dataSummary.data.list.totalAmount
+        console.log('totalAmount:', totalAmount)
+
+        // ตรวจสอบรายการสินค้าทีละรายการ
         for (const listGroup of dataSummary.data.list.listProduct) {
-            const dataPromotion = await Promotion.find({ itembuy: { $elemMatch: { productId: listGroup.id } } })
+            console.log('listGroup:', listGroup)
+            const dataPromotion = await Promotion.find({ 
+                $or: [
+                    { 'conditions': { $elemMatch: { productId: listGroup.id } } },
+                    { 'conditions': { $elemMatch: { productGroup: listGroup.group, productSize: listGroup.size } } }
+                ] 
+            })
+            console.log('dataPromotion:', dataPromotion)
             if (dataPromotion && dataPromotion.length > 0) {
                 for (const listDataPromotion of dataPromotion) {
-                    for (const itemList of listDataPromotion.itembuy) {
-                        if (itemList.productUnit === listGroup.qtyUnitId) {
-                            if (listGroup.qtyPurc >= itemList.productQty) {
+                    for (const itemList of listDataPromotion.conditions) {
+                        console.log('itemList:', itemList)
+                        if (itemList.productQty === 0 && itemList.productAmount > 0) {
+                            if (totalAmount >= itemList.productAmount) {
                                 if (listDataPromotion.proType === 'discount') {
-                                    const discountPerUnit = listDataPromotion.discount[0].amount
-                                    const discountTotal = Math.floor(listGroup.qtyPurc / itemList.productQty) * discountPerUnit
+                                    const discountPerUnit = listDataPromotion.discounts[0].amount
+                                    const discountTotal = Math.floor(totalAmount / itemList.productAmount) * discountPerUnit
                                     const data_obj = {
                                         productId: listGroup.id,
                                         proId: listDataPromotion.proId,
@@ -44,14 +57,14 @@ comparePromotion.post('/compare', async (req, res) => {
                                     PromotionDiscountMatch.push(data_obj)
                                 } else if (listDataPromotion.proType === 'free') {
                                     const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId })
-                                    var ttReward = []
-                                    for (const listRewardData of rewardData.itemfree) {
+                                    const ttReward = []
+                                    for (const listRewardData of rewardData.rewards) {
                                         const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit })
                                         const productDetail = await Product.findOne({ id: listRewardData.productId })
                                         ttReward.push({
                                             productId: listRewardData.productId,
                                             productName: productDetail.name,
-                                            qty: await calPromotion(listGroup.qtyPurc, itemList.productQty, listRewardData.productQty),
+                                            qty: listRewardData.productQty,
                                             unitQty: dataUnitName1.nameEng
                                         })
                                     }
@@ -69,26 +82,70 @@ comparePromotion.post('/compare', async (req, res) => {
                                 }
                             }
                         } else {
-                            const convertChange = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: listGroup.qtyUnitId } } }, { 'convertFact.$': 1 })
-                            const convertChangePro = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: itemList.productUnit } } }, { 'convertFact.$': 1 })
-
-                            if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
-                                if (listDataPromotion.proType === 'discount') {
-                                    const discountPerUnit = listDataPromotion.discount[0].amount
-                                    const discountTotal = Math.floor((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor / itemList.productQty) * discountPerUnit
-                                    const data_obj = {
-                                        productId: listGroup.id,
-                                        proId: listDataPromotion.proId,
-                                        discount: discountTotal,
-                                        TotalPurchasedQuantity: {
+                            if (itemList.productUnit === listGroup.qtyUnitId) {
+                                if (listGroup.qtyPurc >= itemList.productQty) {
+                                    if (listDataPromotion.proType === 'discount') {
+                                        const discountPerUnit = listDataPromotion.discounts[0].amount
+                                        const discountTotal = Math.floor(listGroup.qtyPurc / itemList.productQty) * discountPerUnit
+                                        const data_obj = {
                                             productId: listGroup.id,
-                                            qty: listGroup.qtyPurc,
-                                            nameQty: listGroup.qtyUnitName
+                                            proId: listDataPromotion.proId,
+                                            discount: discountTotal,
+                                            TotalPurchasedQuantity: {
+                                                productId: listGroup.id,
+                                                qty: listGroup.qtyPurc,
+                                                nameQty: listGroup.qtyUnitName
+                                            }
                                         }
+                                        PromotionDiscountMatch.push(data_obj)
+                                    } else if (listDataPromotion.proType === 'free') {
+                                        const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId })
+                                        const ttReward = []
+                                        for (const listRewardData of rewardData.rewards) {
+                                            const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit })
+                                            const productDetail = await Product.findOne({ id: listRewardData.productId })
+                                            ttReward.push({
+                                                productId: listRewardData.productId,
+                                                productName: productDetail.name,
+                                                qty: await calPromotion(listGroup.qtyPurc, itemList.productQty, listRewardData.productQty),
+                                                unitQty: dataUnitName1.nameEng
+                                            })
+                                        }
+                                        const data_obj = {
+                                            productId: listGroup.id,
+                                            proId: listDataPromotion.proId,
+                                            TotalPurchasedQuantity: {
+                                                productId: listGroup.id,
+                                                qty: listGroup.qtyPurc,
+                                                nameQty: listGroup.qtyUnitName
+                                            },
+                                            TotalReward: ttReward
+                                        }
+                                        PromotionProductMatch.push(data_obj)
                                     }
-                                    PromotionDiscountMatch.push(data_obj)
-                                } else if (listDataPromotion.proType === 'free') {
-                                    console.log('ได้โปรโมชั่นของแถม')
+                                }
+                            } else {
+                                const convertChange = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: listGroup.qtyUnitId } } }, { 'convertFact.$': 1 })
+                                const convertChangePro = await Product.findOne({ id: listGroup.id, convertFact: { $elemMatch: { unitId: itemList.productUnit } } }, { 'convertFact.$': 1 })
+
+                                if ((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor >= itemList.productQty) {
+                                    if (listDataPromotion.proType === 'discount') {
+                                        const discountPerUnit = listDataPromotion.discounts[0].amount
+                                        const discountTotal = Math.floor((listGroup.qtyPurc * convertChange.convertFact[0].factor) / convertChangePro.convertFact[0].factor / itemList.productQty) * discountPerUnit
+                                        const data_obj = {
+                                            productId: listGroup.id,
+                                            proId: listDataPromotion.proId,
+                                            discount: discountTotal,
+                                            TotalPurchasedQuantity: {
+                                                productId: listGroup.id,
+                                                qty: listGroup.qtyPurc,
+                                                nameQty: listGroup.qtyUnitName
+                                            }
+                                        }
+                                        PromotionDiscountMatch.push(data_obj)
+                                    } else if (listDataPromotion.proType === 'free') {
+                                        console.log('ได้โปรโมชั่นของแถม')
+                                    }
                                 }
                             }
                         }
@@ -97,17 +154,19 @@ comparePromotion.post('/compare', async (req, res) => {
             }
         }
 
+        // ตรวจสอบกลุ่มสินค้าทีละกลุ่ม
         for (const listGroup of dataSummary.data.list.listProductGroup) {
-            const dataPromotionGroup = await Promotion.find({ itembuy: { $elemMatch: { productGroup: listGroup.group, productSize: listGroup.size } } })
+            const dataPromotionGroup = await Promotion.find({ 'conditions': { $elemMatch: { productGroup: listGroup.group, productSize: listGroup.size } } })
+            console.log('dataPromotionGroup:', dataPromotionGroup)
             if (dataPromotionGroup.length > 0) {
                 for (const listGroupPromotion of dataPromotionGroup) {
-                    for (const itemBuyList of listGroupPromotion.itembuy) {
+                    for (const itemBuyList of listGroupPromotion.conditions) {
                         const unitDetail = await Unit.findOne({ idUnit: itemBuyList.productUnit })
                         const filterData = _.filter(listGroup.converterUnit, { 'name': unitDetail.nameEng })
 
                         if (filterData[0].qty >= itemBuyList.productQty) {
                             if (listGroupPromotion.proType === 'discount') {
-                                const discountPerUnit = listGroupPromotion.discount[0].amount
+                                const discountPerUnit = listGroupPromotion.discounts[0].amount
                                 const discountTotal = Math.floor(filterData[0].qty / itemBuyList.productQty) * discountPerUnit
                                 PromotionDiscountMatch.push({
                                     group: listGroup.group,
@@ -116,9 +175,9 @@ comparePromotion.post('/compare', async (req, res) => {
                                     discount: discountTotal
                                 })
                             } else if (listGroupPromotion.proType === 'free') {
-                                var ttRewardGroup = []
+                                const ttRewardGroup = []
                                 const rewardDataGroup = await Promotion.findOne({ proId: listGroupPromotion.proId })
-                                for (const listRewardData of rewardDataGroup.itemfree) {
+                                for (const listRewardData of rewardDataGroup.rewards) {
                                     const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit })
                                     const dataRewardItem = await Product.find({ group: listRewardData.productGroup, size: listRewardData.productSize, "convertFact.unitId": { $ne: '3' } }, { id: 1, _id: 0, name: 1 })
                                     ttRewardGroup.push({
@@ -158,13 +217,12 @@ comparePromotion.post('/compare', async (req, res) => {
 
 comparePromotion.post('/summaryCompare', async (req, res) => {
     try {
-        let queryData
         await RewardSummary.deleteOne(req.body)
         const response = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/compare', req.body)
         const data = response.data
         const freeItem = []
         const discountItem = []
-        
+
         // Process free items
         for (const list of data.ListProduct) {
             for (let subList of list.TotalReward) {
@@ -200,7 +258,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 proType: dataPro.proType
             })
         }
-        
+
         // Process discount items
         for (const list of data.Discount) {
             discountItem.push({
@@ -241,8 +299,8 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
         }
 
         await RewardSummary.create(saveData)
-        queryData = await RewardSummary.findOne(req.body, { _id: 0, 'listPromotion._id': 0, 'listPromotion.listProduct._id': 0 })
-        let listFree = queryData.listPromotion
+        const queryData = await RewardSummary.findOne(req.body, { _id: 0, 'listPromotion._id': 0, 'listPromotion.listProduct._id': 0 })
+        const listFree = queryData.listPromotion
         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary Compare Successfully')
 
         res.status(200).json({ area: req.body.area, storeId: req.body.storeId, listFree, listDiscount: discountItem })

@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const discount = new Schema({
+const Discount = new Schema({
     amount: {type: Number},
 })
 
-const itemBuy = new Schema({
+const ItemCondition = new Schema({
     productId: {type: String},
     productNo: {type: String},
-    productGroup: {type: String},
-    productFlavour: {type: String},
-    productBrand: {type: String},
-    productSize: {type: String},
-    productUnit: {type: String},
-    productQty: {type: Number},
-    productAmount: {type: Number}
+    productGroup: { type: [String], default: [] },
+    productFlavour: { type: String },
+    productBrand: { type: [String], default: [] },
+    productSize: { type: [String], default: [] },
+    productUnit: { type: String },
+    productQty: { type: Number, default: 0 },
+    productAmount: { type: Number, default: 0 }
 })
 
-const itemFree = new Schema({
+const ItemFree = new Schema({
     productId: {type: String},
     productGroup: {type: String},
     productFlavour: {type: String},
@@ -27,95 +27,96 @@ const itemFree = new Schema({
     productQty: {type: Number}
 })
 
-const promotionSchema = new Schema({
+const PromotionSchema = new Schema({
     proId: {type: String},
     name: {type: String},
     description: {type: String},
     proType: {type: String},
     coupon: {type: String},
-    store: [],
-    typeStore: [],
-    zone: [],
-    area: [],
-    except: [],
-    itembuy: [itemBuy],
-    itemfree: [itemFree],
-    discount: [discount]
+    store: { type: [String], default: [] },
+    typeStore: { type: [String], default: [] },
+    zone: { type: [String], default: [] },
+    area: { type: [String], default: [] },
+    except: { type: [String], default: [] },
+    conditions: [ItemCondition],
+    rewards: [ItemFree],
+    discounts: [Discount]
 })
 
-const proTypeSchema = new Schema({
+const ProTypeSchema = new Schema({
     name: {type: String},
     description: {type: String},
-    createDate:String,
-    updateDate:String
+    createDate: {type: String},
+    updateDate: {type: String}
 })
 
-const couponSchema = new Schema({
+const CouponSchema = new Schema({
     name: {type: String},
-    code:String,
+    code: {type: String},
     description: {type: String},
-    createDate:String,
-    updateDate:String
+    createDate: {type: String},
+    updateDate: {type: String}
 })
 
-const listFreeItem = new Schema({
-    productId:String,
-    productName:String,
-    qty:Number,
-    unitQty:String
+const ListFreeItem = new Schema({
+    productId: {type: String},
+    productName: {type: String},
+    qty: {type: Number},
+    unitQty: {type: String}
 })
 
-const listProductFreeGroup = new Schema({
-    id:String,
-    name:String,
+const ListProductFreeGroup = new Schema({
+    id: {type: String},
+    name: {type: String},
 })
 
-const listFreeGroup = new Schema({
-    group: String,
-    size: String,
-    proId:String,
-    qtyReward: Number,
-    qtyUnit: String,
-    listProduct: [listProductFreeGroup]
+const ListFreeGroup = new Schema({
+    group: {type: String},
+    size: {type: String},
+    proId: {type: String},
+    qtyReward: {type: Number},
+    qtyUnit: {type: String},
+    listProduct: [ListProductFreeGroup]
 })
 
-const rewardReceiptSchema = new Schema({
-    area: String,
-    storeId:String,
-    proId: String,
-    listFreeItem:[listFreeItem],
-    listFreeGroup:[listFreeGroup],
-    createDate:String,
-    updateDate:String
+const RewardReceiptSchema = new Schema({
+    area: {type: String},
+    storeId: {type: String},
+    proId: {type: String},
+    listFreeItem: [ListFreeItem],
+    listFreeGroup: [ListFreeGroup],
+    createDate: {type: String},
+    updateDate: {type: String}
 })
 
-const listProduct = new Schema({
-    productId: String,
-    productName: String,
-    qty: Number,
-    qtyText: String,
-    unitQty: String,
-    unitQtyThai: String,
+const ListProduct = new Schema({
+    productId: {type: String},
+    productName: {type: String},
+    qty: {type: Number},
+    qtyText: {type: String},
+    unitQty: {type: String},
+    unitQtyThai: {type: String}
 })
 
-const listPromotion = new Schema({
-    proId: String,
-    proName: String,
-    summaryQty:Number,
-    listProduct:[listProduct],
+const ListPromotion = new Schema({
+    proId: {type: String},
+    proName: {type: String},
+    summaryQty: {type: Number},
+    listProduct: [ListProduct],
 })
 
-const rewardSummarySchema = new Schema({
-    area: String,
-    storeId:String,
-    listPromotion:[listPromotion],
-    createDate:String,
-    updateDate:String
+const RewardSummarySchema = new Schema({
+    area: {type: String},
+    storeId: {type: String},
+    listPromotion: [ListPromotion],
+    createDate: {type: String},
+    updateDate: {type: String}
 })
 
-const Promotion = mongoose.model('Promotion', promotionSchema)
-const ProType = mongoose.model('ProType', proTypeSchema)
-const Coupon = mongoose.model('Coupon', couponSchema)
-const RewardReceipt = mongoose.model('RewardReceipt', rewardReceiptSchema)
-const RewardSummary = mongoose.model('RewardSummary', rewardSummarySchema)
-module.exports = { Promotion,ProType,Coupon,RewardReceipt,RewardSummary }
+const Promotion = mongoose.model('Promotion', PromotionSchema)
+const ProType = mongoose.model('ProType', ProTypeSchema)
+const Coupon = mongoose.model('Coupon', CouponSchema)
+const RewardReceipt = mongoose.model('RewardReceipt', RewardReceiptSchema)
+const RewardSummary = mongoose.model('RewardSummary', RewardSummarySchema)
+
+module.exports = { Promotion, ProType, Coupon, RewardReceipt, RewardSummary }
