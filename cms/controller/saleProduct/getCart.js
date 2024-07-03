@@ -92,7 +92,6 @@ getCart.post('/getPreOrder', async (req, res) => {
             storeId: req.body.storeId
         })
         const responseData = dataPromotion.data
-        console.log(responseData)
         if (data) {
             const dataUser = await User.findOne({saleCode: req.body.saleCode})
             const dataStore = await Store.findOne({storeId: req.body.storeId})
@@ -266,7 +265,6 @@ getCart.post('/getSummaryCart', async (req, res) => {
         const listProductGroupUnit = []
         var listProductGroupUnitListQty = []
         for (const listProGroup of outputDataGroupSize) {
-            console.log(outputDataGroupSize)
             if (listProGroup.typeUnit === 'แผง') {
                 const dataConvertion = await Product.findOne({
                     group: listProGroup.group,
