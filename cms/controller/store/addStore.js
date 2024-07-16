@@ -46,8 +46,8 @@ addStore.post('/addStore', async (req, res) => {
             route,
             type,
             address,
-            distric,
-            subDistric,
+            district,
+            subDistrict,
             province,
             provinceCode,
             postCode,
@@ -109,8 +109,8 @@ addStore.post('/addStore', async (req, res) => {
                 route,
                 type,
                 address,
-                distric,
-                subDistric,
+                district,
+                subDistrict,
                 province,
                 provinceCode,
                 postCode,
@@ -135,7 +135,7 @@ addStore.post('/addStore', async (req, res) => {
             var addressCon = 0
 
             // const listLenght = []
-            const dataLatLonStore = await Store.find({subDistric: subDistric,distric:distric,province:province}, {
+            const dataLatLonStore = await Store.find({subDistrict:subDistrict,district:district,province:province}, {
                 storeId: 1,
                 latitude: 1,
                 longtitude: 1,
@@ -143,8 +143,8 @@ addStore.post('/addStore', async (req, res) => {
                 taxId: 1,
                 name: 1,
                 address: 1,
-                distric: 1,
-                subDistric: 1,
+                district: 1,
+                subDistrict: 1,
                 province: 1,
             })
 
@@ -229,7 +229,7 @@ addStore.post('/addStore', async (req, res) => {
 addStore.post('/addStoreFormM3', async (req, res) => {
     try {
         const dataArray = []
-        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer.php')
+        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer2.php')
         for (const splitData of response.data) {
             const approveData = {
                 dateSend: currentdateDash(),
@@ -247,17 +247,17 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                 "tel": splitData.tel,
                 "route": splitData.route,
                 "type": splitData.type,
-                "address": splitData.address + ',' + splitData.subDistrict + ',' + splitData.district + ',' + splitData.province,
-                "distric": splitData.district,
-                "subDistric": splitData.subDistrict,
+                "address": splitData.address,
+                "district": splitData.district,
+                "subDistrict": splitData.subDistrict,
                 "province": splitData.province,
                 "provinceCode": splitData.provinceCode,
-                "postCode ": "",
+                "postCode ": splitData.postCode,
                 "zone": splitData.zone,
                 "area": splitData.area,
                 "latitude": splitData.latitude,
                 "longtitude": splitData.longtitude,
-                "lineId": splitData.lineId,
+                "lineId": '',
                 approve: approveData,
                 status: '20',
                 policyConsent: poliAgree,

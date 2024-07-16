@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll --coverage",
-    "app-mb": "nodemon index.js",
     "api": "nodemon index.js"
   },
   "keywords": [],

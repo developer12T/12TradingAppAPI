@@ -20,8 +20,8 @@ const mongoose = require('mongoose')
 
         const  shippingSchema = mongoose.Schema({
             address:String ,
-            distric:String ,
-            subDistric:String ,
+            district:String ,
+            subDistrict:String ,
             province:String ,
             provinceCode:String ,
             postCode:String,
@@ -38,8 +38,8 @@ const mongoose = require('mongoose')
             route:{type:String,require: true},
             type:{type:String,require:true},
             address:{type:String,require:true},
-            distric:{type:String,require:true},
-            subDistric:{type:String,require:true},
+            district:{type:String,require:true},
+            subDistrict:{type:String,require:true},
             province:{type:String,require:true},
             provinceCode:{type:String,require:true},
             postCode:{type:String,require:true},
