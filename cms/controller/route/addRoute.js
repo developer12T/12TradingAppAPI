@@ -65,7 +65,7 @@ addRoute.post('/addRouteStore', async (req, res) => {
 
 addRoute.post('/addRouteStoreFromM3', async (req, res) => {
     try {
-        const dataFetch = await axios.post('http://58.181.206.159:9814/cms_api/cms_route.php')
+        const dataFetch = await axios.post('http://58.181.206.159:9814/cms_api/cms_route2.php')
         const {currentdateFormatYearMont} = require('../../utils/utility')
         const idRu = await Route.findOne({period: currentdateFormatYearMont()},).sort({id: -1})
         if (!idRu) {

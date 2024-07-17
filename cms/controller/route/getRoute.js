@@ -143,8 +143,8 @@ getRoute.post('/getRouteStore', async (req, res) => {
             name: 1,
             route: 1,
             address: 1,
-            distric: 1,
-            subDistric: 1,
+            district: 1,
+            subDistrict: 1,
             province: 1,
             provinceCode: 1
         }).sort({storeId: 1})
@@ -156,8 +156,8 @@ getRoute.post('/getRouteStore', async (req, res) => {
                     name: listData.name,
                     route:listData.route ,
                     address: listData.address,
-                    distric: listData.distric,
-                    subDistric:listData.subDistric ,
+                    district: listData.district,
+                    subDistrict:listData.subDistrict ,
                     province:listData.province ,
                     provinceCode:listData.provinceCode,
                 }
@@ -207,7 +207,7 @@ getRoute.post('/getStoreDetail', async (req, res) => {
             const mainData = {
                 storeId: id,
                 name: dataStore.name,
-                address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
+                address: dataStore.address + ' ' + dataStore.district + ' ' + dataStore.subDistrict + ' ' + dataStore.province,
                 list: data.list[0].listCheck
                     .map(item => {
                         const dateObject = new Date(item.date);
