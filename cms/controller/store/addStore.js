@@ -12,28 +12,53 @@ const multer = require('multer')
 const storage = multer.memoryStorage()
 const upload = multer({storage: storage})
 const bcrypt = require("bcrypt")
-const {updateAvailable} = require("../../services/numberSeriers");
-const {createLog} = require("../../services/errorLog");
+const {updateAvailable} = require("../../services/numberSeriers")
+const {createLog} = require("../../services/errorLog")
+const {currentdatena} = require('../../utils/utility')
+
+// addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
+//     try {
+//         const {currentdatena} = require('../../utils/utility')
+//         const image = req.file
+//         const hashedPassword = await bcrypt.hash(image.originalname, 10)
+//         const imageName = hashedPassword + '-DATE' + currentdatena() + path.extname(image.originalname)
+//         const imagePath = path.join(__dirname, '../../public/image/store', imageName)
+//         await fs.writeFileSync(imagePath, image.buffer)
+//         await createLog('200', req.method, req.originalUrl, res.body, 'Added Image Successfully')
+//         res.status(200).json({
+//             status: 201,
+//             message: 'Added Image Successfully',
+//             additionalData: {ImageName: imageName, path: imagePath}
+//         })
+//     } catch (error) {
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message)
+//         res.status(500).json({status: 501, message: error.message})
+//     }
+// })
+
 addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
     try {
-        const {currentdatena} = require('../../utils/utility')
-        const image = req.file
-        const hashedPassword = await bcrypt.hash(image.originalname, 10)
-        const imageName = hashedPassword + '-DATE' + currentdatena() + path.extname(image.originalname)
-        const imagePath = path.join(__dirname, '../../public/image/store', imageName)
-        await fs.writeFileSync(imagePath, image.buffer)
-        await createLog('200', req.method, req.originalUrl, res.body, 'Added Image Successfully')
+        const image = req.file;
+        if (!image) {
+            throw new Error('No file uploaded');
+        }
+        
+        const imageName = `${Date.now()}-${currentdatena()}${path.extname(image.originalname)}`;
+        const imagePath = path.join(__dirname, '../../public/image/store', imageName);
+        
+        await fs.promises.writeFile(imagePath, image.buffer);
+        await createLog('200', req.method, req.originalUrl, res.body, 'Added Image Successfully');
+        
         res.status(200).json({
             status: 201,
             message: 'Added Image Successfully',
-            additionalData: {ImageName: imageName, path: imagePath}
-        })
+            additionalData: { ImageName: imageName, path: imagePath }
+        });
     } catch (error) {
-        await createLog('500', req.method, req.originalUrl, res.body, error.message)
-        res.status(500).json({status: 501, message: error.message})
+        await createLog('500', req.method, req.originalUrl, res.body, error.message);
+        res.status(500).json({ status: 501, message: error.message });
     }
 })
-
 
 addStore.post('/addStore', async (req, res) => {
     const {available, updateAvailable} = require('../../services/numberSeriers')

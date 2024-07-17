@@ -47,7 +47,7 @@ getOrder.post('/getMain', async (req, res) => {
             res.status(200).json(mainData)
         }else{
             await createLog('204',req.method,req.originalUrl,res.body,'No Data')
-            res.status(200).json({status:204,message:'No Data'})
+            res.status(204).json({status:204,message:'No Data'})
         }
     } catch (e) {
         await createLog('500',req.method,req.originalUrl,res.body,e.message)
