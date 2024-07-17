@@ -32,8 +32,8 @@ getStore.post('/getStore', async (req, res) => {
             name: 1,
             route: 1,
             address: 1,
-            distric: 1,
-            subDistric: 1,
+            district: 1,
+            subDistrict: 1,
             province: 1
         }).sort({idNumber: 1,route:1}).exec()
         if (data.length > 0){
@@ -44,8 +44,8 @@ getStore.post('/getStore', async (req, res) => {
                     name: list.name,
                     route: list.route,
                     address: list.address,
-                    distric: list.distric,
-                    subDistric: list.subDistric,
+                    district: list.district,
+                    subDistrict: list.subDistrict,
                     province: list.province
                 }
                 mainData.push(newData)
