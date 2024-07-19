@@ -6,13 +6,13 @@ const Discount = new Schema({
 })
 
 const ItemCondition = new Schema({
-    productId: {type: String},
-    productNo: {type: String},
+    productId: { type: [String], default: [] },
+    productNo: { type: [String], default: [] },
     productGroup: { type: [String], default: [] },
-    productFlavour: { type: String },
+    productFlavour: { type: [String], default: [] },
     productBrand: { type: [String], default: [] },
     productSize: { type: [String], default: [] },
-    productUnit: { type: String },
+    productUnit: { type: [String], default: [] },
     productQty: { type: Number, default: 0 },
     productAmount: { type: Number, default: 0 }
 })
