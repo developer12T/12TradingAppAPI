@@ -83,7 +83,7 @@ saleLogin.post('/login', async (req, res) => {
                         fullName: data.firstName + ' ' + data.surName,
                         role: data.role,
                         saleCode: data.saleCode,
-                        salePayer: data.salePlayer,
+                        salePayer: data.salePayer                        ,
                         area: data.area,
                         zone:data.zone,
                         token: token
