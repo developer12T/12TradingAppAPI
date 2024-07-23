@@ -130,10 +130,15 @@ comparePromotion.post('/compare', async (req, res) => {
             const dataPromotionGroup = await Promotion.find({
                 $or: [
                     { 'conditions': { $elemMatch: { productGroup: listGroup.group } } },
+                ],
+                $or: [
                     { 'conditions': { $elemMatch: { productBrand: listGroup.brand } } },
+                ],
+                $or: [
                     { 'conditions': { $elemMatch: { productSize: listGroup.size } } }
-                ]
+                ],
             })
+            console.log('6666',dataPromotionGroup)
             if (dataPromotionGroup.length > 0) {
                 for (const listGroupPromotion of dataPromotionGroup) {
                     for (const itemBuyList of listGroupPromotion.conditions) {
@@ -275,6 +280,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
 
             if (!idProduct) {
                 const randomProduct = _.sample(list.listProductReward)
+                console.log('555', randomProduct)
                 idProduct = randomProduct.id
                 nameProduct = randomProduct.name
             }
