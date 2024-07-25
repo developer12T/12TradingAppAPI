@@ -10,20 +10,80 @@ const { log } = require('winston');
 const getOrder = express.Router()
 
 
-getOrder.get('/getAll', async (req, res) => {
-    try {
-        const data = await Order.find().exec()
-        await createLog('200',req.method,req.originalUrl,res.body,'getAll Order Successfully!')
-        res.status(200).json(data)
+// getOrder.get('/getAll', async (req, res) => {
+//     try {
+//         const data = await Order.find().exec()
+//         await createLog('200',req.method,req.originalUrl,res.body,'getAll Order Successfully!')
+//         res.status(200).json(data)
 
+//     } catch (e) {
+//         await createLog('500',req.method,req.originalUrl,res.body,e.message)
+//         res.status(500).json({
+//             status:500,
+//             message:e.message
+//         })
+//     }
+// })
+
+getOrder.post('/getAll', async (req, res) => {
+    try {
+        var discount = 0;
+        const data = await Order.find({},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1});
+        if (data) {
+            const data_list = [];
+            for (let list of data.list) {
+                console.log(list)
+                const detail_product = await Unit.findOne({idUnit: list.unitQty});
+                const list_obj = {
+                    id: list.id,
+                    name: slicePackSize(list.name),
+                    nameDetail: list.name,
+                    qtyText: list.qty + ' ' + detail_product.nameThai,
+                    qty: list.qty,
+                    unitId: list.unitQty,
+                    unitTypeThai: detail_product.nameThai,
+                    unitTypeEng: detail_product.nameEng,
+                    itemDiscount: list.discount,
+                    pricePerQty: list.pricePerQty.toFixed(2),
+                    summaryPrice: parseFloat(list.pricePerQty * list.qty).toFixed(2),
+                };
+                discount += list.discount;
+                data_list.push(list_obj);
+            }
+
+            const totalExVat = parseFloat((data.totalPrice / 1.07).toFixed(2));
+            const totalVat = parseFloat((data.totalPrice - totalExVat).toFixed(2));
+            const mainData = {
+                orderDate: data.createDate,
+                orderNo: data.orderNo,
+                name: data.storeName,
+                address: data.address,
+                tax: data.taxID,
+                tel: data.tel,
+                saleMan: data.saleMan,
+                totalPrice: data.totalPrice.toFixed(2),
+                totalExVat: totalExVat,
+                totalVat: totalVat,
+                totalDiscount: parseFloat(discount).toFixed(2),
+                status: data.status,
+                statusText: (await getNameStatus('order', data.status)).name,
+                list: data_list,
+            };
+
+            await createLog('200', req.method, req.originalUrl, res.body, 'get Order Successfully!');
+            res.status(200).json(mainData);
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data');
+            res.status(200).json({ status: 204, message: 'No Data' });
+        }
     } catch (e) {
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message);
         res.status(500).json({
-            status:500,
-            message:e.message
-        })
+            status: 500,
+            message: e.message,
+        });
     }
-})
+});
 
 getOrder.post('/getMain', async (req, res) => {
     try {
