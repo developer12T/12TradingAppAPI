@@ -1,20 +1,29 @@
 const express = require('express')
 
 require('../../configs/connect')
-const {Order, PreOrder} = require("../../models/order")
-const {createLog} = require("../../services/errorLog");
+const { Order, PreOrder } = require("../../models/order")
+const { createLog } = require("../../services/errorLog")
+const { currentdateDash } = require('../../utils/utility.js')
 const updateOrder = express.Router()
 
-updateOrder.get('/UpdateOrder', async (req, res) => {
+updateOrder.post('/UpdateOrder', async (req, res) => {
     try {
-        const data = await Order.find().exec()
-        await createLog('200',req.method,req.originalUrl,res.body,'UpdateOrder Successfully!')
-        res.status(200).json(data)
+        const { order, status, remark } = req.body
+        if (!order) {
+            await createLog('501', req.method, req.originalUrl, res.body, 'require body')
+            res.status(501).json({ status: 501, message: 'require body' })
+        } else {
+
+            await Order.updateOne({ orderNo: order }, { $set: { status: status, updateDate: currentdateDash() } })
+            await createLog('200', req.method, req.originalUrl, res.body, 'update Status Successfully')
+            res.status(200).json({ status: 200, message: 'Update Status Successfully' })
+
+        }
     } catch (e) {
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
