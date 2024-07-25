@@ -172,6 +172,13 @@ async function getNameStatus(type,id) {
     return statusText
 }
 
+function convertDateFormat(dateString) {
+    if (moment(dateString, 'YYYY/MM/DDTHH:mm:ss', true).isValid()) {
+        return moment(dateString, 'YYYY/MM/DDTHH:mm:ss').format('DD/MM/YYYY');
+    } else {
+        return 'Invalid date format';
+    }
+}
 
 // async function converting(idProduct,qty,unitIdBuy) {
 //     const dataUnit
@@ -209,6 +216,7 @@ module.exports = {
     nameMonth,
     getDayOfRoute,
     slicePackSize,
-    getNameStatus
+    getNameStatus,
+    convertDateFormat
     // convertUnitToCTN
 };
