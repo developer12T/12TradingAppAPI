@@ -42,8 +42,8 @@ addStore.post('/addStore',  async (req, res) => {
             route,
             type,
             address,
-            distric,
-            subDistric,
+            district,
+            subDistrict,
             province,
             provinceCode,
             postCode,
@@ -106,8 +106,8 @@ addStore.post('/addStore',  async (req, res) => {
             route,
             type,
             address,
-            distric,
-            subDistric,
+            district,
+            subDistrict,
             province,
             provinceCode,
             postCode,
@@ -140,8 +140,8 @@ addStore.post('/addStore',  async (req, res) => {
             taxId: 1,
             name: 1,
             address: 1,
-            distric: 1,
-            subDistric: 1,
+            district: 1,
+            subDistrict: 1,
             province: 1,
         })
         for (const list of dataLatLonStore) {
@@ -231,7 +231,7 @@ addStore.post('/addStore',  async (req, res) => {
                 nameCon = 1
             }
 
-            const similarityPercentageAddress = compareStrings(listStruc.address + listStruc.distric + listStruc.subDistric + listStruc.province, address+ distric + subDistric + province);
+            const similarityPercentageAddress = compareStrings(listStruc.address + listStruc.district + listStruc.subDistrict + listStruc.province, address+ district + subDistrict + province);
             if (similarityPercentageAddress > 90) {
                 addressCon = 1
             }

@@ -85,7 +85,7 @@ addOrder.post('/newOrder', async (req, res) => {
                 area:req.body.area,
                 storeId: storeData.storeId,
                 storeName: storeData.name,
-                address: storeData.address + ' ' + storeData.distric + ' ' + storeData.subDistric + ' ' + storeData.province,
+                address: storeData.address + ' ' + storeData.district + ' ' + storeData.subDistrict + ' ' + storeData.province,
                 taxID: storeData.taxId,
                 tel: storeData.tel,
                 totalPrice:await floatConvert(totalPrice,2),

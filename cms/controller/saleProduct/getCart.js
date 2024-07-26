@@ -136,7 +136,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                 saleMan: dataUser.firstName + ' ' + dataUser.surName,
                 storeId: data.storeId,
                 storeName: dataStore.name,
-                address: dataStore.address + ' ' + dataStore.distric + ' ' + dataStore.subDistric + ' ' + dataStore.province,
+                address: dataStore.address + ' ' + dataStore.district + ' ' + dataStore.subDistrict + ' ' + dataStore.province,
                 taxID: dataStore.taxId,
                 tel: dataStore.tel,
                 totalAmount: parseFloat(data.totalPrice.toFixed(2)),
