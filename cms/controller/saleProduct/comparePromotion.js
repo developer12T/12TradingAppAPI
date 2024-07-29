@@ -10,60 +10,44 @@ const { log } = require('winston');
 const comparePromotion = express.Router();
 
 const getPromotionData = async (listGroup) => {
-    try {
-        return await Promotion.find({ 'conditions': { $elemMatch: { productId: listGroup.id } } });
-    } catch (error) {
-        console.error('Error fetching promotion data:', error);
-        return [];
-    }
+    return Promotion.find({ 'conditions': { $elemMatch: { productId: listGroup.id } } });
 };
 
 const getUnitAndProductDetail = async (listRewardData) => {
-    try {
-        const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
-        const productDetail = await Product.findOne({ id: listRewardData.productId });
-        return {
-            unitQty: dataUnitName1 ? dataUnitName1.nameEng : '',
-            productName: productDetail ? productDetail.name : ''
-        };
-    } catch (error) {
-        console.error('Error fetching unit and product details:', error);
-        return {
-            unitQty: '',
-            productName: ''
-        };
-    }
+    const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
+    const productDetail = await Product.findOne({ id: listRewardData.productId });
+    return {
+        unitQty: dataUnitName1 ? dataUnitName1.nameEng : '',
+        productName: productDetail ? productDetail.name : ''
+    };
 };
 
 const handleFreePromotion = async (listDataPromotion, itemList, listGroup, totalAmount) => {
     const PromotionProductMatch = [];
     if (listDataPromotion.proType === 'free' && itemList.productQty === 0 && itemList.productAmount > 0) {
         if (totalAmount >= itemList.productAmount) {
-            try {
-                const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId });
-                const ttReward = await Promise.all(rewardData.rewards.map(async (listRewardData) => {
-                    const detail = await getUnitAndProductDetail(listRewardData);
-                    return {
-                        productId: listRewardData.productId,
-                        productName: detail.productName,
-                        qty: listRewardData.productQty,
-                        unitQty: detail.unitQty
-                    };
-                }));
-                const data_obj = {
-                    productId: listGroup.id,
-                    proId: listDataPromotion.proId,
-                    TotalPurchasedQuantity: {
-                        productId: listGroup.id,
-                        qty: listGroup.qtyPurc,
-                        nameQty: listGroup.qtyUnitName
-                    },
-                    TotalReward: ttReward
-                };
-                PromotionProductMatch.push(data_obj);
-            } catch (error) {
-                console.error('Error handling free promotion:', error);
+            const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId });
+            const ttReward = [];
+            for (const listRewardData of rewardData.rewards) {
+                const detail = await getUnitAndProductDetail(listRewardData);
+                ttReward.push({
+                    productId: listRewardData.productId,
+                    productName: detail.productName,
+                    qty: listRewardData.productQty,
+                    unitQty: detail.unitQty
+                });
             }
+            const data_obj = {
+                productId: listGroup.id,
+                proId: listDataPromotion.proId,
+                TotalPurchasedQuantity: {
+                    productId: listGroup.id,
+                    qty: listGroup.qtyPurc,
+                    nameQty: listGroup.qtyUnitName
+                },
+                TotalReward: ttReward
+            };
+            PromotionProductMatch.push(data_obj);
         }
     }
     return PromotionProductMatch;
@@ -93,47 +77,111 @@ const handleDiscountPromotion = async (listDataPromotion, itemList, listGroup) =
     return PromotionDiscountMatch;
 };
 
-const handleNewPromotion = async (listDataPromotion, itemList, listGroup, totalAmount, area) => {
+// const handleNewPromotion = async (listDataPromotion, listGroup, area, totalAmount) => {
+//     try {
+//         const { data: stores } = await axios.post(process.env.API_URL_IN_USE + '/cms/store/getStoreNew', { area });
+//         const newStorePromotions = [];
+
+//         for (const store of stores) {
+//             if (store) {
+//                 const response = await axios.post(process.env.API_URL_IN_USE + '/cms/order/getOrderCustomer', { customer: store.idStore });
+//                 if (response.status === 204) {
+//                     for (const itemList of listDataPromotion.conditions) {
+//                         if (itemList.productQty === 0 && itemList.productAmount > 0 ) {
+//                             if(totalAmount) {
+
+//                             }
+//                             const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId });
+//                             const ttReward = [];
+//                             for (const listRewardData of rewardData.rewards) {
+//                                 const detail = await getUnitAndProductDetail(listRewardData);
+//                                 ttReward.push({
+//                                     productId: listRewardData.productId,
+//                                     productName: detail.productName,
+//                                     qty: listRewardData.productQty,
+//                                     unitQty: detail.unitQty
+//                                 });
+//                             }
+//                             const data_obj = {
+//                                 productId: listGroup.id,
+//                                 proId: listDataPromotion.proId,
+//                                 TotalPurchasedQuantity: {
+//                                     productId: listGroup.id,
+//                                     qty: listGroup.qtyPurc,
+//                                     nameQty: listGroup.qtyUnitName
+//                                 },
+//                                 TotalReward: ttReward,
+//                                 storeId: store.idStore,
+//                                 storeName: store.name
+//                             };
+//                             newStorePromotions.push(data_obj);
+//                         } else if (itemList.productUnit === listGroup.qtyUnitId && listGroup.qtyPurc >= itemList.productQty) {
+//                             const discountPerUnit = listDataPromotion.discounts[0].amount;
+//                             const discountTotal = Math.floor(listGroup.qtyPurc / itemList.productQty) * discountPerUnit;
+//                             const data_obj = {
+//                                 productId: listGroup.id,
+//                                 proId: listDataPromotion.proId,
+//                                 discount: discountTotal,
+//                                 TotalPurchasedQuantity: {
+//                                     productId: listGroup.id,
+//                                     qty: listGroup.qtyPurc,
+//                                     nameQty: listGroup.qtyUnitName
+//                                 }
+//                             };
+//                             newStorePromotions.push(data_obj);
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+
+//         return newStorePromotions;
+//     } catch (error) {
+//         console.error('Error in handleNewPromotion:', error);
+//         return [];
+//     }
+// };
+
+const handleNewPromotion = async (listDataPromotion, itemList, listGroup, totalAmount) => {
     const PromotionProductMatch = [];
-    try {
-        const { data: stores } = await axios.post(process.env.API_URL_IN_USE + '/cms/store/getStoreNew', { area });
-        for (const store of stores) {
-            if (store) {
-                const response = await axios.post(process.env.API_URL_IN_USE + '/cms/order/getOrderCustomer', { customer: store.idStore });
-                if (response.status === 204) {
-                    if (listDataPromotion.proType === 'free' && itemList.productQty === 0 && itemList.productAmount > 0) {
-                        if (totalAmount >= itemList.productAmount) {
-                            const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId });
-                            const ttReward = await Promise.all(rewardData.rewards.map(async (listRewardData) => {
-                                const detail = await getUnitAndProductDetail(listRewardData);
-                                return {
-                                    productId: listRewardData.productId,
-                                    productName: detail.productName,
-                                    qty: listRewardData.productQty,
-                                    unitQty: detail.unitQty
-                                };
-                            }));
-                            const data_obj = {
-                                productId: listGroup.id,
-                                proId: listDataPromotion.proId,
-                                TotalPurchasedQuantity: {
-                                    productId: listGroup.id,
-                                    qty: listGroup.qtyPurc,
-                                    nameQty: listGroup.qtyUnitName
-                                },
-                                TotalReward: ttReward
-                            };
-                            PromotionProductMatch.push(data_obj);
+    const { data: stores } = await axios.post(process.env.API_URL_IN_USE + '/cms/store/getStoreNew', { area });
+    for (const store of stores) {
+        if (store) {
+            const response = await axios.post(process.env.API_URL_IN_USE + '/cms/order/getOrderCustomer', { customer: store.idStore });
+            if (response.status === 204) {
+                if (listDataPromotion.proType === 'free' && itemList.productQty === 0 && itemList.productAmount > 0) {
+                    if (totalAmount >= itemList.productAmount) {
+                        const rewardData = await Promotion.findOne({ proId: listDataPromotion.proId });
+                        const ttReward = [];
+                        for (const listRewardData of rewardData.rewards) {
+                            const detail = await getUnitAndProductDetail(listRewardData);
+                            ttReward.push({
+                                productId: listRewardData.productId,
+                                productName: detail.productName,
+                                qty: listRewardData.productQty,
+                                unitQty: detail.unitQty
+                            });
                         }
+                        const data_obj = {
+                            productId: listGroup.id,
+                            proId: listDataPromotion.proId,
+                            TotalPurchasedQuantity: {
+                                productId: listGroup.id,
+                                qty: listGroup.qtyPurc,
+                                nameQty: listGroup.qtyUnitName
+                            },
+                            TotalReward: ttReward
+                        };
+                        PromotionProductMatch.push(data_obj);
                     }
                 }
+
             }
         }
-    } catch (error) {
-        console.error('Error handling new promotion:', error);
     }
     return PromotionProductMatch;
 };
+
 
 const combinePromotions = (PromotionProductMatch, PromotionGroupMatch, PromotionDiscountMatch) => {
     const combinedPromotions = {
@@ -165,7 +213,10 @@ const combinePromotions = (PromotionProductMatch, PromotionGroupMatch, Promotion
 
 const handlePromotionGroupMatch = async (dataPromotionGroup, listGroup, totalAmount, area) => {
     const PromotionGroupMatch = [];
+
     for (const listGroupPromotion of dataPromotionGroup) {
+        const rewardDataGroup = await Promotion.findOne({ proId: listGroupPromotion.proId });
+
         for (const itemBuyList of listGroupPromotion.conditions) {
             let isMatch = true;
 
@@ -184,18 +235,10 @@ const handlePromotionGroupMatch = async (dataPromotionGroup, listGroup, totalAmo
             if (isMatch) {
                 if ((listGroupPromotion.proType === 'free' || listGroupPromotion.proType === 'new') && itemBuyList.productQty === 0 && itemBuyList.productAmount > 0) {
                     if (totalAmount >= itemBuyList.productAmount) {
-                        try {
-                            const rewardDataGroup = await Promotion.findOne({ proId: listGroupPromotion.proId });
-                            const rewardQty = Math.floor(totalAmount / itemBuyList.productAmount);
-                            const ttRewardGroup = await Promise.all(rewardDataGroup.rewards.map(async (listRewardData) => {
-                                const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
-                                const dataRewardItem = await Product.find({ group: listRewardData.productGroup, size: listRewardData.productSize }, { id: 1, _id: 0, name: 1 });
-                                return {
-                                    productId: listRewardData.productGroup,
-                                    qty: listRewardData.productQty,
-                                    unitQty: dataUnitName1 ? dataUnitName1.nameEng : ''
-                                };
-                            }));
+                        const rewardQty = Math.floor(totalAmount / itemBuyList.productAmount);
+                        for (const listRewardData of rewardDataGroup.rewards) {
+                            const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
+                            const dataRewardItem = await Product.find({ group: listRewardData.productGroup, size: listRewardData.productSize }, { id: 1, _id: 0, name: 1 });
                             const data_obj = {
                                 group: listGroup.group,
                                 size: listGroup.size,
@@ -206,35 +249,25 @@ const handlePromotionGroupMatch = async (dataPromotionGroup, listGroup, totalAmo
                                 listProduct: listGroup.listProduct
                             };
                             PromotionGroupMatch.push(data_obj);
-                        } catch (error) {
-                            console.error('Error handling promotion group match:', error);
                         }
                     }
                 } else {
-                    try {
-                        const unitDetail = await Unit.findOne({ idUnit: itemBuyList.productUnit });
-                        const filterData = _.filter(listGroup.converterUnit, { 'name': unitDetail ? unitDetail.nameEng : '' });
-                        if (filterData.length > 0 && filterData[0].qty >= itemBuyList.productQty) {
-                            if (listGroupPromotion.proType === 'discount') {
-                                const discountPerUnit = listGroupPromotion.discounts[0].amount;
-                                const discountTotal = Math.floor(filterData[0].qty / itemBuyList.productQty) * discountPerUnit;
-                                PromotionGroupMatch.push({
-                                    group: listGroup.group,
-                                    size: listGroup.size,
-                                    proId: listGroupPromotion.proId,
-                                    discount: discountTotal
-                                });
-                            } else if (listGroupPromotion.proType === 'free' || listGroupPromotion.proType === 'new') {
-                                const rewardDataGroup = await Promotion.findOne({ proId: listGroupPromotion.proId });
-                                const ttRewardGroup = await Promise.all(rewardDataGroup.rewards.map(async (listRewardData) => {
-                                    const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
-                                    const dataRewardItem = await Product.find({ group: listRewardData.productGroup, size: listRewardData.productSize }, { id: 1, _id: 0, name: 1 });
-                                    return {
-                                        productId: listRewardData.productGroup,
-                                        qty: await calPromotion(filterData[0].qty, itemBuyList.productQty, listRewardData.productQty),
-                                        unitQty: dataUnitName1 ? dataUnitName1.nameEng : ''
-                                    };
-                                }));
+                    const unitDetail = await Unit.findOne({ idUnit: itemBuyList.productUnit });
+                    const filterData = _.filter(listGroup.converterUnit, { 'name': unitDetail ? unitDetail.nameEng : '' });
+                    if (filterData.length > 0 && filterData[0].qty >= itemBuyList.productQty) {
+                        if (listGroupPromotion.proType === 'discount') {
+                            const discountPerUnit = listGroupPromotion.discounts[0].amount;
+                            const discountTotal = Math.floor(filterData[0].qty / itemBuyList.productQty) * discountPerUnit;
+                            PromotionDiscountMatch.push({
+                                group: listGroup.group,
+                                size: listGroup.size,
+                                proId: listGroupPromotion.proId,
+                                discount: discountTotal
+                            });
+                        } else if (listGroupPromotion.proType === 'free' || listGroupPromotion.proType === 'new') {
+                            for (const listRewardData of rewardDataGroup.rewards) {
+                                const dataUnitName1 = await Unit.findOne({ idUnit: listRewardData.productUnit });
+                                const dataRewardItem = await Product.find({ group: listRewardData.productGroup, size: listRewardData.productSize }, { id: 1, _id: 0, name: 1 });
                                 const data_obj = {
                                     group: listGroup.group,
                                     size: listGroup.size,
@@ -247,8 +280,6 @@ const handlePromotionGroupMatch = async (dataPromotionGroup, listGroup, totalAmo
                                 PromotionGroupMatch.push(data_obj);
                             }
                         }
-                    } catch (error) {
-                        console.error('Error handling promotion group match:', error);
                     }
                 }
             }
@@ -283,7 +314,7 @@ comparePromotion.post('/compare', async (req, res) => {
                         const discountPromotionMatch = await handleDiscountPromotion(listDataPromotion, itemList, listGroup);
                         PromotionDiscountMatch.push(...discountPromotionMatch);
 
-                        const newPromotionMatch = await handleNewPromotion(listDataPromotion, itemList, listGroup, totalAmount, req.body.area);
+                        const newPromotionMatch = await handleNewPromotion(listDataPromotion, itemList, listGroup, totalAmount);
                         PromotionNewMatch.push(...newPromotionMatch);
                     }
                 }
@@ -303,7 +334,7 @@ comparePromotion.post('/compare', async (req, res) => {
                 }
             });
 
-            const groupPromotionMatch = await handlePromotionGroupMatch(dataPromotionGroup, listGroup, totalAmount, req.body.area);
+            const groupPromotionMatch = await handlePromotionGroupMatch(dataPromotionGroup, listGroup, totalAmount);
             PromotionGroupMatch.push(...groupPromotionMatch);
         }
 
@@ -312,7 +343,7 @@ comparePromotion.post('/compare', async (req, res) => {
         await createLog('200', req.method, req.originalUrl, res.body, 'getCompare successfully');
         res.status(200).json(combinedPromotions);
     } catch (error) {
-        console.error('Error in /compare route:', error);
+        console.log(error);
         await createLog('500', req.method, req.originalUrl, res.body, error.message);
         res.status(500).json({
             status: 500,
@@ -419,7 +450,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
 
         res.status(200).json({ area: req.body.area, storeId: req.body.storeId, listFree, listDiscount: discountItem });
     } catch (error) {
-        console.error('Error in /summaryCompare route:', error);
+        console.log(error);
         await createLog('500', req.method, req.originalUrl, res.body, error.message);
         res.status(500).json({
             status: 500,
