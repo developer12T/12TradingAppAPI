@@ -88,7 +88,7 @@ addStore.post('/addStore', async (req, res) => {
             typeNumberSeries,
             zoneNumberSeries
         } = req.body
-        // console.log(numberSeries.zone);
+        console.log(zoneNumberSeries);
         const idAvailable = await available(currentYear(), typeNumberSeries, zoneNumberSeries)
         // console.log(idAvailable+'test');
         const poliAgree = {

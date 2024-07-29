@@ -127,6 +127,39 @@ getOrder.post('/getMain', async (req, res) => {
     }
 })
 
+getOrder.post('/getOrderCustomer', async (req, res) => {
+    try {
+        const { customer } = req.body
+        const data = await Order.find({ storeId: customer }, { _id: 0, __v: 0, idIndex: 0 }).sort({ id: -1 })
+        if (data.length > 0) {
+            const mainData = []
+            for (let list of data) {
+                // const nameSt = await statusDes.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
+                mainData.push({
+                    orderDate: convertDateFormat(list.createDate),
+                    number: list.orderNo,
+                    name: list.storeName,
+                    totalPrice: list.totalPrice,
+                    status: list.status,
+                    statusText: (await getNameStatus('order', list.status)).name
+                })
+            }
+            console.log(mainData);
+            await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
+            res.status(200).json(mainData)
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            res.status(204).json({ status: 204, message: 'No Data' })
+        }
+    } catch (e) {
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
+
 getOrder.post('/getAllPreOrder', async (req, res) => {
     try {
         const data = await PreOrder.findOne({ id: req.body.id }, { 'list._id': 0, __v: 0, _id: 0 })
