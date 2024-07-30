@@ -174,13 +174,16 @@ getProduct.post('/getDataOption', async (req, res) => {
         }
         
         const data = await Product.find(req.body, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
+        const dataGroup = await Product.find({},{_id: 0, group: 1 })
         if (data.length > 0){
             const group = []
             const brand = []
             const size = []
             const flavour = []
             for (const subData of data) {
-                group.push(subData.group)
+                for (const subGroup of dataGroup) {
+                    group.push(subGroup.group)
+                }
                 brand.push(subData.brand)
                 size.push(subData.size)
                 flavour.push(subData.flavour)
