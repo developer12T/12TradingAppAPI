@@ -5,10 +5,13 @@ const list = mongoose.Schema({
     name:{type:String},
     group:{type:String},
     type:String,
+    proCode:{type:String},
     qty:{type:Number},
     pricePerQty:{type:Number},
     unitQty:{type:String},
     discount:{type:Number},
+    amount:{type:Number},
+    totalDiscount:{type:Number},
     totalAmount:{type:Number}
 })
 const shipping = mongoose.Schema({
@@ -29,6 +32,7 @@ const orderSchema = mongoose.Schema({
     taxID:{type:String},
     tel:{type:String},
     totalPrice:{type:Number,toFixed: 2, default: 0.00},
+    totalDiscount:{type:Number,toFixed: 2, default: 0.00},
     list:[list],
     shipping:shipping,
     status:{type:String},
@@ -36,7 +40,6 @@ const orderSchema = mongoose.Schema({
     updateDate:{type:String}
 
 })
-
 
 const shippingSchema = mongoose.Schema({
     id:{type:String},

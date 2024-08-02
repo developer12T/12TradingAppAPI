@@ -272,6 +272,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                 "tel": splitData.tel,
                 "route": splitData.route,
                 "type": splitData.type,
+                "typeName": splitData.typeName,
                 "address": splitData.address,
                 "district": splitData.district,
                 "subDistrict": splitData.subDistrict,

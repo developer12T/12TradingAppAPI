@@ -208,6 +208,7 @@ getRoute.post('/getStoreDetail', async (req, res) => {
                 storeId: id,
                 name: dataStore.name,
                 address: dataStore.address + ' ' + dataStore.district + ' ' + dataStore.subDistrict + ' ' + dataStore.province,
+                typeStore: dataStore.typeName,
                 list: data.list[0].listCheck
                     .map(item => {
                         const dateObject = new Date(item.date);

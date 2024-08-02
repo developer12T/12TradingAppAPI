@@ -86,51 +86,66 @@ getCart.post('/getPreOrder', async (req, res) => {
             'list._id': 0,
             __v: 0,
             _id: 0
-        })
+        });
         const dataPromotion = await axios.post(process.env.API_URL_IN_USE + '/cms/saleProduct/summaryCompare', {
             area: req.body.area,
             storeId: req.body.storeId
-        })
-        const responseData = dataPromotion.data
+        });
+        const responseData = dataPromotion.data;
+
         if (data) {
-            const dataUser = await User.findOne({saleCode: req.body.saleCode})
-            const dataStore = await Store.findOne({storeId: req.body.storeId})
-            const mainList = []
+            const dataUser = await User.findOne({saleCode: req.body.saleCode});
+            const dataStore = await Store.findOne({storeId: req.body.storeId});
+            const mainList = [];
+
             for (const listdata of data.list) {
-                const unitData = await Unit.findOne({idUnit: listdata.unitId})
+                const unitData = await Unit.findOne({idUnit: listdata.unitId});
+                const discountInfo = responseData.listDiscount.find(discount => discount.productId.includes(listdata.id));
                 const dataList = {
                     id: listdata.id,
                     name: listdata.name,
                     nameDetail: slicePackSize(listdata.name),
                     qty: listdata.qty,
                     type: "buy",
-                    nameQty: unitData.nameThai,
-                    qtyText: listdata.qty + ' ' + unitData.nameThai,
+                    unitQty: unitData ? unitData.idUnit : '',
+                    nameQty: unitData ? unitData.nameThai : '',
+                    qtyText: listdata.qty + ' ' + (unitData ? unitData.nameThai : ''),
                     pricePerQty: parseFloat(parseFloat(listdata.pricePerUnitSale).toFixed(2)),
-                    discount: 0,
-                    totalAmount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2))
-                }
-                mainList.push(dataList)
+                    discount: parseFloat(parseFloat(discountInfo ? discountInfo.discount : 0).toFixed(2)),
+                    totalDiscount: parseFloat(parseFloat(discountInfo ? discountInfo.totalDiscount : 0).toFixed(2)),
+                    amount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitSale).toFixed(2)),
+                    totalAmount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitSale - (discountInfo ? discountInfo.totalDiscount : 0)).toFixed(2))
+                };
+
+                mainList.push(dataList);
             }
-            let listFree_Arr = []
+
+            let listFree_Arr = [];
             for (const listFreePro of responseData.listFree) {
                 for (const listFreeItem of listFreePro.listProduct) {
-                    const unitData = await Unit.findOne({idUnit: listFreeItem.unitQty})
+                    const unitData = await Unit.findOne({idUnit: listFreeItem.unitQty});
                     const dataListFree = {
                         id: listFreeItem.productId,
                         name: slicePackSize(listFreeItem.productName),
                         nameDetail: listFreeItem.productName,
                         qty: listFreeItem.qty,
                         type: "free",
-                        nameQty: listFreeItem.unitQty,
-                        qtyText: listFreeItem.qty + ' ' + unitData.nameThai,
+                        proCode: listFreePro.proCode,
+                        unitQty: unitData ? unitData.idUnit : '',
+                        nameQty: unitData ? unitData.nameThai : '',
+                        qtyText: listFreeItem.qty + ' ' + (unitData ? unitData.nameThai : ''),
                         pricePerQty: '0.00',
                         discount: 0,
+                        totalDiscount: 0,
+                        amount: 0,
                         totalAmount: '0.00'
-                    }
-                    listFree_Arr.push(dataListFree)
+                    };
+                    listFree_Arr.push(dataListFree);
                 }
             }
+
+            const totalAmountSum = mainList.reduce((sum, item) => sum + item.totalAmount, 0);
+            const totalDiscountSum = mainList.reduce((sum, item) => sum + item.totalDiscount, 0);
 
             const mainData = {
                 saleMan: dataUser.firstName + ' ' + dataUser.surName,
@@ -139,35 +154,35 @@ getCart.post('/getPreOrder', async (req, res) => {
                 address: dataStore.address + ' ' + dataStore.district + ' ' + dataStore.subDistrict + ' ' + dataStore.province,
                 taxID: dataStore.taxId,
                 tel: dataStore.tel,
-                totalAmount: parseFloat(data.totalPrice.toFixed(2)),
-                discount: '0.00',
-                totalAmountNoVat: parseFloat((data.totalPrice / 1.07).toFixed(2)),
-                vat: parseFloat((data.totalPrice - (data.totalPrice / 1.07)).toFixed(2)),
-                summaryAmount: parseFloat(data.totalPrice.toFixed(2)),
+                totalAmount: parseFloat(totalAmountSum.toFixed(2)),
+                discount: totalDiscountSum,
+                totalAmountNoVat: parseFloat((totalAmountSum / 1.07).toFixed(2)),
+                vat: parseFloat((totalAmountSum  - (totalAmountSum / 1.07)).toFixed(2)),
+                summaryAmount: parseFloat(totalAmountSum.toFixed(2)),
                 list: mainList,
                 listFree: listFree_Arr,
                 shippingAddress: data.shipping.address,
                 shippingDate: data.shipping.dateShip
-            }
-            await createLog('200', req.method, req.originalUrl, res.body, 'getPreOrder successfully')
-            res.status(200).json(mainData)
+            };
+
+            await createLog('200', req.method, req.originalUrl, res.body, 'getPreOrder successfully');
+            res.status(200).json(mainData);
         } else {
-            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data');
             res.status(200).json({
                 status: 200,
                 message: 'No Data'
-            })
+            });
         }
-    } catch
-        (error) {
-        console.log(error)
-        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+    } catch (error) {
+        console.log(error);
+        await createLog('500', req.method, req.originalUrl, res.body, error.message);
         res.status(500).json({
             status: 500,
             message: error.message
-        })
+        });
     }
-})
+});
 
 getCart.post('/getSummaryCart', async (req, res) => {
     try {
