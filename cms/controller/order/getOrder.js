@@ -8,11 +8,26 @@ const { getNameStatus, slicePackSize, convertDateFormat } = require("../../utils
 const { log } = require('winston');
 const getOrder = express.Router()
 
-
 getOrder.get('/getAll', async (req, res) => {
     try {
+        // const data = await Order.aggregate([
+        //     { $addFields: { orderNoInt: { $toInt: "$orderNo" } } },
+        //     { $sort: { orderNoInt: -1 } }, 
+        //     { $project: { _id: 0, __v: 0, idIndex: 0, orderNoInt: 0 }} 
+        // ]).exec();
         const data = await Order.aggregate([
-            { $addFields: { orderNoInt: { $toInt: "$orderNo" } } },
+            { 
+                $addFields: { 
+                    orderNoInt: { 
+                        $convert: { 
+                            input: "$orderNo", 
+                            to: "int", 
+                            onError: 0, 
+                            onNull: 0  
+                        } 
+                    } 
+                } 
+            },
             { $sort: { orderNoInt: -1 } }, 
             { $project: { _id: 0, __v: 0, idIndex: 0, orderNoInt: 0 }} 
         ]).exec();
