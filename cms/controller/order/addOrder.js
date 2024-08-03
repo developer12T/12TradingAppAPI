@@ -255,6 +255,91 @@ const {Product} = require("../../models/product");
 //     }
 // });
 
+// addOrder.post('/newOrder', async (req, res) => {
+//     try {
+//         const preOrderResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/saleProduct/getPreOrder`, {
+//             area: req.body.area,
+//             storeId: req.body.storeId,
+//             saleCode: req.body.saleCode
+//         });
+//         const preOrderData = preOrderResponse.data;
+
+//         console.log('PreOrder data:', preOrderData);
+
+//         const { area, storeId, idRoute } = req.body;
+//         const { saleMan, storeName, address, taxID, tel, totalAmount, discount, list, listFree, shippingAddress, shippingDate } = preOrderData;
+
+//         const numberSeries = await NumberSeries.findOne({ type: 'order' }, { 'detail.available': 1, _id: 0 });
+//         const availableNumber = numberSeries ? numberSeries.detail.available : 0;
+//         const orderNo = (availableNumber + 1).toString();
+
+//         if (!Array.isArray(list) || !Array.isArray(listFree) || (list.length === 0 && listFree.length === 0)) {
+//             return res.status(400).json({
+//                 status: 400,
+//                 message: 'Invalid or missing product data.'
+//             });
+//         }
+
+//         const mainData = {
+//             orderNo: orderNo,
+//             saleMan: saleMan,
+//             saleCode: req.body.saleCode,
+//             area: area,
+//             storeId: storeId,
+//             storeName: storeName,
+//             address: address,
+//             taxID: taxID,
+//             tel: tel,
+//             totalPrice: parseFloat(parseFloat(totalAmount).toFixed(2)),
+//             totalDiscount: parseFloat(parseFloat(discount).toFixed(2)),
+//             list: [...list, ...listFree],
+//             shipping: {
+//                 address: shippingAddress,
+//                 dateShip: shippingDate,
+//                 note: ''
+//             },
+//             status: '10',
+//             createDate: currentdateSlash(),
+//             updateDate: null
+//         };
+
+//         // บันทึกข้อมูลการสั่งซื้อ
+//         const createdOrder = await Order.create(mainData);
+
+//         // ลบข้อมูลตะกร้าสินค้าหลังจากสร้างคำสั่งซื้อ
+//         await Cart.deleteOne({ area: req.body.area, storeId: req.body.storeId });
+
+//         // อัปเดตหมายเลขออร์เดอร์ใน NumberSeries
+//         await NumberSeries.updateOne({ type: 'order' }, { $set: { 'detail.available': availableNumber + 1 } });
+
+//         // บันทึกข้อมูลการเข้าร้าน
+//         const visitResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/route/visit`, {
+//             case: 'sale',
+//             area: req.body.area,
+//             storeId: req.body.storeId,
+//             idRoute: req.body.idRoute,
+//             note: 'ขายสินค้าแล้ว',
+//             orderId: orderNo
+//         });
+
+//         res.status(200).json({
+//             status: 201,
+//             message: 'Create Order Successfully',
+//             order: createdOrder,
+//             visit: visitResponse.data
+//         });
+//         // res.status(200).json(mainData)
+//         await createLog('200', req.method, req.originalUrl, res.body, 'newOrder Successfully!');
+//     } catch (error) {
+//         console.log(error);
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message);
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         });
+//     }
+// });
+
 addOrder.post('/newOrder', async (req, res) => {
     try {
         const preOrderResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/saleProduct/getPreOrder`, {
@@ -266,11 +351,19 @@ addOrder.post('/newOrder', async (req, res) => {
 
         console.log('PreOrder data:', preOrderData);
 
-        const { area, storeId, idRoute } = req.body;
+        const { area, storeId, idRoute, warehouse } = req.body;
         const { saleMan, storeName, address, taxID, tel, totalAmount, discount, list, listFree, shippingAddress, shippingDate } = preOrderData;
 
-        const numberSeries = await NumberSeries.findOne({ type: 'order' }, { 'detail.available': 1, _id: 0 });
-        const availableNumber = numberSeries ? numberSeries.detail.available : 0;
+        // ดึงหมายเลขออร์เดอร์จาก external API
+        const seriesResponse = await axios.post('http://192.168.2.97:8383/M3API/OrderManage/Order/getNumberSeries', {
+            series: "ฃ",
+            seriestype: "01",
+            companycode: 410,
+            seriesname: "0"
+        });
+
+        const seriesData = seriesResponse.data[0];
+        const availableNumber = seriesData.lastno;
         const orderNo = (availableNumber + 1).toString();
 
         if (!Array.isArray(list) || !Array.isArray(listFree) || (list.length === 0 && listFree.length === 0)) {
@@ -290,6 +383,7 @@ addOrder.post('/newOrder', async (req, res) => {
             address: address,
             taxID: taxID,
             tel: tel,
+            warehouse: warehouse,
             totalPrice: parseFloat(parseFloat(totalAmount).toFixed(2)),
             totalDiscount: parseFloat(parseFloat(discount).toFixed(2)),
             list: [...list, ...listFree],
@@ -309,8 +403,14 @@ addOrder.post('/newOrder', async (req, res) => {
         // ลบข้อมูลตะกร้าสินค้าหลังจากสร้างคำสั่งซื้อ
         await Cart.deleteOne({ area: req.body.area, storeId: req.body.storeId });
 
-        // อัปเดตหมายเลขออร์เดอร์ใน NumberSeries
-        await NumberSeries.updateOne({ type: 'order' }, { $set: { 'detail.available': availableNumber + 1 } });
+        // อัปเดตหมายเลขออร์เดอร์ใน external API
+        await axios.post('http://192.168.2.97:8383/M3API/OrderManage/Order/updateNumberRunning', {
+            lastno: orderNo,
+            series: "ฃ",
+            seriesname: "0",
+            seriestype: "01",
+            companycode: 410
+        });
 
         // บันทึกข้อมูลการเข้าร้าน
         const visitResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/route/visit`, {
@@ -328,7 +428,6 @@ addOrder.post('/newOrder', async (req, res) => {
             order: createdOrder,
             visit: visitResponse.data
         });
-        // res.status(200).json(mainData)
         await createLog('200', req.method, req.originalUrl, res.body, 'newOrder Successfully!');
     } catch (error) {
         console.log(error);

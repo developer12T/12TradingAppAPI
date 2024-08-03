@@ -10,7 +10,7 @@ const list = mongoose.Schema({
 const reasonSchema = mongoose.Schema(
     {
         type:String,
-        descript:{type:String,require:true},
+        description:{type:String,require:true},
         list:[list],
         status:{type:String,require:true},
         modifyDate:{type:String,require:true},

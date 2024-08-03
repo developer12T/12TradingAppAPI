@@ -31,6 +31,8 @@ const orderSchema = mongoose.Schema({
     address:{type:String},
     taxID:{type:String},
     tel:{type:String},
+    warehouse:{type:String},
+    note:{type:String},
     totalPrice:{type:Number,toFixed: 2, default: 0.00},
     totalDiscount:{type:Number,toFixed: 2, default: 0.00},
     list:[list],

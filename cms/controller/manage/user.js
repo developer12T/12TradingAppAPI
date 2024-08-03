@@ -36,7 +36,7 @@ UserManage.post('/getDetail', async (req, res) => {
 
 UserManage.post('/addUser', async (req, res) => {
     try{
-        let {saleCode,salePayer,userName,firstName,surName,passWord,area,role,zone} = req.body
+        let {saleCode,salePayer,userName,firstName,surName,passWord,tel,zone,area,warehouse,role} = req.body
         const hashedPassword = await bcrypt.hash(passWord, 10)
         // const  { available } = require('../../services/numberSeriers')
         // const { currentYear } = require('../../utils/utility')
@@ -48,9 +48,11 @@ UserManage.post('/addUser', async (req, res) => {
             firstName,
             surName,
             passWord:hashedPassword,
-            area,
-            role,
+            tel,
             zone,
+            area,
+            warehouse,
+            role,
             status:"1",
         }
 

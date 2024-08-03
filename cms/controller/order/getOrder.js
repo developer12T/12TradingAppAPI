@@ -3,8 +3,7 @@ const express = require('express')
 require('../../configs/connect')
 const { Order, PreOrder } = require("../../models/order")
 const { Unit } = require("../../models/product")
-const { createLog } = require("../../services/errorLog");
-const { statusDes } = require("../../models/statusDes");
+const { createLog } = require("../../services/errorLog")
 const { getNameStatus, slicePackSize, convertDateFormat } = require("../../utils/utility");
 const { log } = require('winston');
 const getOrder = express.Router()
@@ -101,7 +100,6 @@ getOrder.post('/getMain', async (req, res) => {
         if (data.length > 0) {
             const mainData = []
             for (let list of data) {
-                // const nameSt = await statusDes.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
                 mainData.push({
                     orderDate: convertDateFormat(list.createDate),
                     number: list.orderNo,
@@ -134,7 +132,6 @@ getOrder.post('/getOrderCustomer', async (req, res) => {
         if (data.length > 0) {
             const mainData = []
             for (let list of data) {
-                // const nameSt = await statusDes.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
                 mainData.push({
                     orderDate: convertDateFormat(list.createDate),
                     number: list.orderNo,

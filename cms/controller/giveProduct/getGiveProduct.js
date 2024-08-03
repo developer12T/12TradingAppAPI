@@ -2,7 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const _ = require("lodash");
 const {GiveProduct} = require("../../models/giveProduct");
-const {statusDes} = require("../../models/statusDes");
+const {status} = require("../../models/status");
 const {createLog} = require("../../services/errorLog");
 const getGiveProduct = express.Router()
 getGiveProduct.post('/getAll', async (req, res) => {
@@ -31,7 +31,7 @@ getGiveProduct.post('/getMain', async (req, res) => {
         })
         const showData = []
         for (const mainData of data) {
-            let dataStatus = await statusDes.findOne({
+            let dataStatus = await status.findOne({
                 type: 'giveProduct',
                 list: {$elemMatch: {id: mainData.status}}
             }, {'list.$': 1})

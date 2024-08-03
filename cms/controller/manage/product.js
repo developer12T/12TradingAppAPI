@@ -2,7 +2,6 @@ const express = require('express')
 require('../../configs/connect')
 const ProductManage = express.Router()
 const {Product, Unit} = require('../../models/product')
-const {statusDes} = require("../../models/statusDes");
 const {log} = require("winston");
 const _ = require('lodash')
 const axios = require("axios");

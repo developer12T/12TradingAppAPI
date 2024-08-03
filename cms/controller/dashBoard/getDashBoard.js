@@ -1,11 +1,11 @@
 const express = require('express')
 require('../../configs/connect')
-const {Order} = require("../../models/order");
-const {currentYear, nameMonth} = require("../../utils/utility");
-const {Promotion} = require("../../models/promotion");
-const {Target} = require("../../models/target");
-const getDashBoard = express.Router()
-getDashBoard.post('/getMain', async (req, res) => {
+const { Order } = require("../../models/order");
+const { currentYear, nameMonth } = require("../../utils/utility");
+const { Promotion } = require("../../models/promotion");
+const { Target } = require("../../models/target");
+const getDashboard = express.Router()
+getDashboard.post('/getMain', async (req, res) => {
     try {
         const yearLastes = await currentYear()
         let mnthName = await nameMonth()
@@ -28,7 +28,7 @@ getDashBoard.post('/getMain', async (req, res) => {
 
         for (let list of mainData2) {
             // console.log(yearLastes+'/'+list.number)
-            const summary = await Order.find({area:req.body.area,createDate: {$regex: yearLastes + '/' + list.number, $options: 'i'}})
+            const summary = await Order.find({ area: req.body.area, createDate: { $regex: yearLastes + '/' + list.number, $options: 'i' } })
             list.totalSale = 0
             for (const listSub of summary) {
                 // console.log(listSub.totalPrice)
@@ -41,26 +41,26 @@ getDashBoard.post('/getMain', async (req, res) => {
             resData.push(list.totalSale)
         }
 
-        const dataTarget = await Target.find({area:req.body.area})
+        const dataTarget = await Target.find({ area: req.body.area })
         console.log(dataTarget)
 
         let monthI = 1
         let dataSale = []
         let monthNo
-        for(const listResData of resData){
+        for (const listResData of resData) {
             // console.log(listResData)
-            if(monthI < 10){
-                    monthNo = '0'+monthI
-            }else{
-                    monthNo = monthI
+            if (monthI < 10) {
+                monthNo = '0' + monthI
+            } else {
+                monthNo = monthI
             }
 
             const dataObj = {
-                month:monthNo.toString(),
-                Sale:listResData,
+                month: monthNo.toString(),
+                Sale: listResData,
             }
             dataSale.push(dataObj)
-            monthI = monthI+1
+            monthI = monthI + 1
         }
 
         const targetSalesMap = {}
@@ -77,16 +77,16 @@ getDashBoard.post('/getMain', async (req, res) => {
             item.targetSale = targetSale !== undefined ? targetSale : 0
         })
 
-      const dataSalePercent = []
-      const dataSaleNumber = []
-        for(const listDataSale of dataSale){
-            if(listDataSale.Sale == 0){
+        const dataSalePercent = []
+        const dataSaleNumber = []
+        for (const listDataSale of dataSale) {
+            if (listDataSale.Sale == 0) {
                 const per = '0%'
                 dataSalePercent.push(per)
                 dataSaleNumber.push(0.00)
-            }else{
-                const per = parseFloat((listDataSale.Sale/listDataSale.targetSale)*100).toFixed(2) + '%'
-                const per2 = parseFloat((listDataSale.Sale/listDataSale.targetSale)*100).toFixed(2)
+            } else {
+                const per = parseFloat((listDataSale.Sale / listDataSale.targetSale) * 100).toFixed(2) + '%'
+                const per2 = parseFloat((listDataSale.Sale / listDataSale.targetSale) * 100).toFixed(2)
                 dataSalePercent.push(per)
                 dataSaleNumber.push(parseFloat(per2))
             }
@@ -109,7 +109,7 @@ getDashBoard.post('/getMain', async (req, res) => {
     }
 })
 
-getDashBoard.get('/getDetail', async (req, res) => {
+getDashboard.get('/getDetail', async (req, res) => {
     try {
         const yearLastes = await currentYear()
         let mnthName = await nameMonth()
@@ -133,7 +133,7 @@ getDashBoard.get('/getDetail', async (req, res) => {
 
         for (let list of mainData2) {
             // console.log(yearLastes+'/'+list.number)
-            const summary = await Order.find({createDate: {$regex: yearLastes + '/' + list.number, $options: 'i'}})
+            const summary = await Order.find({ createDate: { $regex: yearLastes + '/' + list.number, $options: 'i' } })
             for (const listSub of summary) {
                 // console.log(listSub.totalPrice)
                 list.totalSale = listSub.totalPrice
@@ -145,7 +145,7 @@ getDashBoard.get('/getDetail', async (req, res) => {
             resData2.push(list)
         }
 
-        res.status(200).json({year: yearLastes, data: resData2})
+        res.status(200).json({ year: yearLastes, data: resData2 })
     } catch (e) {
         console.log(e)
         res.status(500).json({
@@ -155,7 +155,7 @@ getDashBoard.get('/getDetail', async (req, res) => {
     }
 })
 
-getDashBoard.get('/getNews', async (req, res) => {
+getDashboard.get('/getNews', async (req, res) => {
     try {
         const data = await Promotion.find()
         let mainData = []
@@ -180,9 +180,9 @@ getDashBoard.get('/getNews', async (req, res) => {
             }
         }
         // console.log(mainData)
-        for(let listFree of mainData){
+        for (let listFree of mainData) {
             // console.log(list)
-            const dataFree = await Promotion.findOne({proId:listFree.proId},{})
+            const dataFree = await Promotion.findOne({ proId: listFree.proId }, {})
             // console.log(dataFree)
             listFree.free = dataFree.itemfree
             resData.push(listFree)
@@ -199,19 +199,4 @@ getDashBoard.get('/getNews', async (req, res) => {
     }
 })
 
-
-getDashBoard.get('/connectzab', async (req, res) => {
-    try {
-       
-
-        res.status(200).json(resData)
-    } catch (e) {
-        console.log(e)
-        res.status(500).json({
-            status: 500,
-            message: e.message
-        })
-    }
-})
-
-module.exports = getDashBoard
+module.exports = getDashboard

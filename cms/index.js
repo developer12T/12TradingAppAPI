@@ -13,7 +13,7 @@ const promotion = require('./routes/promotion')
 const giveProduct = require('./routes/giveProduct')
 const cnOrder = require('./routes/cnOrder')
 const monitorLog = require('./routes/reportLog')
-const dashBoard = require('./routes/dashBoard')
+const dashboard = require('./routes/dashboard')
 
 cms.use('/store',store)
 cms.use('/route',route)
@@ -27,6 +27,6 @@ cms.use('/promotion',promotion)
 cms.use('/giveProduct',giveProduct)
 cms.use('/cnOrder',cnOrder)
 cms.use('/monitorLog',monitorLog)
-cms.use('/dashBoard',dashBoard)
+cms.use('/dashboard',dashboard)
 
 module.exports = cms

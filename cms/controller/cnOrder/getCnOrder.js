@@ -34,7 +34,7 @@ getCnOrder.post('/getMain', async (req, res) => {
         if(data.length > 0){
             const mainData = []
             for(let list of data){
-                // const nameSt = await statusDes.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
+                // const nameSt = await status.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
                 mainData.push({
                     orderDate:list.createDate,
                     number:list.orderNo,

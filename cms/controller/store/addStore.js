@@ -1,20 +1,20 @@
 const express = require('express')
 require('../../configs/connect')
 const addStore = express.Router()
-const {Store} = require('../../models/store')
-const {currentdateDash, checkDistanceLatLon} = require("../../utils/utility");
-const {statusDes} = require('../../models/statusDes')
+const { Store } = require('../../models/store')
+const { currentdateDash, checkDistanceLatLon } = require("../../utils/utility")
+const { status } = require('../../models/status')
 const _ = require('lodash')
-const axios = require("axios");
+const axios = require("axios")
 const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
 const storage = multer.memoryStorage()
-const upload = multer({storage: storage})
+const upload = multer({ storage: storage })
 const bcrypt = require("bcrypt")
-const {updateAvailable} = require("../../services/numberSeriers")
-const {createLog} = require("../../services/errorLog")
-const {currentdatena} = require('../../utils/utility')
+const { updateAvailable } = require("../../services/numberSeriers")
+const { createLog } = require("../../services/errorLog")
+const { currentdatena } = require('../../utils/utility')
 
 // addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
 //     try {
@@ -42,13 +42,13 @@ addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
         if (!image) {
             throw new Error('No file uploaded');
         }
-        
+
         const imageName = `${Date.now()}-${currentdatena()}${path.extname(image.originalname)}`;
         const imagePath = path.join(__dirname, '../../public/image/store', imageName);
-        
+
         await fs.promises.writeFile(imagePath, image.buffer);
         await createLog('200', req.method, req.originalUrl, res.body, 'Added Image Successfully');
-        
+
         res.status(200).json({
             status: 201,
             message: 'Added Image Successfully',
@@ -61,8 +61,8 @@ addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
 })
 
 addStore.post('/addStore', async (req, res) => {
-    const {available, updateAvailable} = require('../../services/numberSeriers')
-    const {currentdateDash, checkDistanceLatLon, currentYearToDigi, currentYear} = require('../../utils/utility.js')
+    const { available, updateAvailable } = require('../../services/numberSeriers')
+    const { currentdateDash, checkDistanceLatLon, currentYearToDigi, currentYear } = require('../../utils/utility.js')
     try {
         const {
             taxId,
@@ -160,7 +160,7 @@ addStore.post('/addStore', async (req, res) => {
             var addressCon = 0
 
             // const listLenght = []
-            const dataLatLonStore = await Store.find({subDistrict:subDistrict,district:district,province:province}, {
+            const dataLatLonStore = await Store.find({ subDistrict: subDistrict, district: district, province: province }, {
                 storeId: 1,
                 latitude: 1,
                 longtitude: 1,
@@ -177,9 +177,9 @@ addStore.post('/addStore', async (req, res) => {
             for (const listData of dataLatLonStore) {
                 console.log(listData)
                 if ((latitude === listData.latitude) && (longtitude === listData.longtitude)) { // check dist less than 10 m 0.01 km
-                    const StoreFind = await Store.findOne({storeId: listData.storeId})
-                    const list = await statusDes.findOne({type: 'store', 'list.id': StoreFind.status});
-                    const matchedObject = _.find(list.list, {'id': StoreFind.status});
+                    const StoreFind = await Store.findOne({ storeId: listData.storeId })
+                    const list = await status.findOne({ type: 'store', 'list.id': StoreFind.status });
+                    const matchedObject = _.find(list.list, { 'id': StoreFind.status });
                     // console.log(list)
                     const dataStoreReplace = {
                         id: StoreFind.storeId,
@@ -198,7 +198,7 @@ addStore.post('/addStore', async (req, res) => {
                 if (!listStruc.taxId) {
                     taxIdCon = 0
                 } else {
-                    const taxCheck = await Store.findOne({taxId: listStruc.taxId})
+                    const taxCheck = await Store.findOne({ taxId: listStruc.taxId })
                     if (!taxCheck) {
                         taxIdCon = 0
                     } else {
@@ -235,8 +235,8 @@ addStore.post('/addStore', async (req, res) => {
                 res.status(200).json({
                     status: 201,
                     message: 'Store added successfully',
-                    addRoute: {responseData: responseAddRoute.data, message: 'Success'},
-                    additionalData: {storeId: idSt, storeName: name}
+                    addRoute: { responseData: responseAddRoute.data, message: 'Success' },
+                    additionalData: { storeId: idSt, storeName: name }
                 })
             }
         }
@@ -293,7 +293,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
                 createdDate: currentdateDash(),
                 updatedDate: currentdateDash()
             }
-            const StoreIf = await Store.findOne({storeId: splitData.storeId})
+            const StoreIf = await Store.findOne({ storeId: splitData.storeId })
             if (!StoreIf) {
                 await Store.create(mainData)
             } else {
@@ -305,7 +305,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
             }
         }
         await createLog('200', req.method, req.originalUrl, res.body, 'Store Added Succesfully')
-        res.status(200).json({status: 201, message: 'Store Added Succesfully', additionalData: dataArray})
+        res.status(200).json({ status: 201, message: 'Store Added Succesfully', additionalData: dataArray })
 
         // res.status(200).json({status: 201, message: 'Store Added Successfully'})
     } catch (error) {
@@ -321,7 +321,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
 addStore.put('/updateStore', async (req, res) => {
     try {
         await createLog('200', req.method, req.originalUrl, res.body, 'Store Added Succesfully')
-        res.status(200).json({status: 201, message: 'Store Added Succesfully'})
+        res.status(200).json({ status: 201, message: 'Store Added Succesfully' })
     } catch (error) {
         console.log(error)
         await createLog('500', req.method, req.originalUrl, res.body, error.message)

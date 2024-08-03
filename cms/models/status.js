@@ -7,11 +7,10 @@ const list = mongoose.Schema({
 })
 
 
-const statusDesSchema = mongoose.Schema(
+const statusSchema = mongoose.Schema(
     {
         id:{type:Number,require:true},
-        // name:{type:String,require:true},
-        descript:{type:String,require:true},
+        description:{type:String,require:true},
         type:{type:String,require:true},
         list:[list],
         status:{type:String,require:true},
@@ -19,6 +18,6 @@ const statusDesSchema = mongoose.Schema(
         createDate:{type:String,require:true}
     })
 
-const statusDes = mongoose.model('statusDes',statusDesSchema)
+const status = mongoose.model('status',statusSchema)
 
-module.exports = { statusDes }
+module.exports = { status }

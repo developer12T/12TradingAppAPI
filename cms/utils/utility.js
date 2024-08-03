@@ -1,8 +1,8 @@
-const moment = require('moment');
-const fs = require("fs");
-const {Product} = require("../models/product");
-const {Route} = require("../models/route");
-const {statusDes} = require("../models/statusDes");
+const moment = require('moment')
+const fs = require("fs")
+const { Product } = require("../models/product")
+const { Route } = require("../models/route")
+const { status } = require("../models/status")
 
 function currentdateDash() {
     const datedash = moment().format('YYYY-MM-DDTHH:mm:ss', 'th');
@@ -106,7 +106,7 @@ async function nameMonth() {
     return month;
 }
 
-async function floatConvert(number,digit) {
+async function floatConvert(number, digit) {
     return parseFloat(parseFloat(number).toFixed(digit));
 }
 
@@ -115,13 +115,13 @@ function slicePackSize(name) {
 }
 
 async function getDayOfRoute(idRoute) {
-    const dataArea = await Route.findOne({id:idRoute}, {_id: 0,area:1})
+    const dataArea = await Route.findOne({ id: idRoute }, { _id: 0, area: 1 })
     // console.log(dataArea.area + 'AAAAA')
-    const data = await Route.find({area:dataArea.area}, {_id: 0}).exec()
+    const data = await Route.find({ area: dataArea.area }, { _id: 0 }).exec()
     let dayReturn = 'Day error'
     for (let i = 0; i < data.length; i++) {
         const day = (i + 1 < 10) ? '0' + (i + 1) : (i + 1)
-        if(data[i].id === idRoute){
+        if (data[i].id === idRoute) {
             dayReturn = "Day " + day
         }
     }
@@ -138,17 +138,17 @@ async function dayOfMonth(monthNumber) {
     let febNumber = 0
     for (const list of month.month) {
         // console.log(list.number)
-        if(list.number === '02'){
-            if( (parseInt(moment().format('YYYY', 'th')) % 4) === 0){
+        if (list.number === '02') {
+            if ((parseInt(moment().format('YYYY', 'th')) % 4) === 0) {
                 febNumber = '29'
-            }else{
+            } else {
                 febNumber = '28'
             }
             monthArray.push({
                 month: list.number,
                 numberOfDay: febNumber
             })
-        }else{
+        } else {
             monthArray.push({
                 month: list.number,
                 numberOfDay: list.numberOfDay
@@ -156,19 +156,19 @@ async function dayOfMonth(monthNumber) {
         }
     }
 
-    for(const list of monthArray ){
-        if(monthNumber == list.month){
+    for (const list of monthArray) {
+        if (monthNumber == list.month) {
             monthObj = {
-                month:list.month,
-                numberOfDay:list.numberOfDay
+                month: list.month,
+                numberOfDay: list.numberOfDay
             }
         }
     }
     return monthObj
 }
 
-async function getNameStatus(type,id) {
-    const statusText = (await statusDes.findOne({type: type}, {'list': {$elemMatch: {'id': id}}})).list[0]
+async function getNameStatus(type, id) {
+    const statusText = (await status.findOne({ type: type }, { 'list': { $elemMatch: { 'id': id } } })).list[0]
     return statusText
 }
 

@@ -1,19 +1,19 @@
 const express = require('express')
-const dashBoard = express()
+const dashboard = express()
 const cors = require('cors')
 
 require('dotenv').config()
 
-dashBoard.use(express.json())
-dashBoard.use(cors())
+dashboard.use(express.json())
+dashboard.use(cors())
 
 
-const getDashBoard = require('../controller/dashBoard/getDashBoard')
-const getReport = require('../controller/dashBoard/getReport')
-const getReportDetail = require('../controller/dashBoard/getReportDetail')
+const getDashboard = require('../controller/dashboard/getDashboard')
+const getReport = require('../controller/dashboard/getReport')
+const getReportDetail = require('../controller/dashboard/getReportDetail')
 
-dashBoard.use('/',getDashBoard)
-dashBoard.use('/report',getReport)
-dashBoard.use('/reportDetail',getReportDetail)
+dashboard.use('/',getDashboard)
+dashboard.use('/report',getReport)
+dashboard.use('/reportDetail',getReportDetail)
 
-module.exports = dashBoard
+module.exports = dashboard
