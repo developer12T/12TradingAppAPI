@@ -184,6 +184,159 @@ getCart.post('/getPreOrder', async (req, res) => {
     }
 });
 
+// getCart.post('/getSummaryCart', async (req, res) => {
+//     try {
+//         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
+//             'list._id': 0,
+//             __v: 0,
+//             _id: 0
+//         });
+//         const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 });
+//         const listProduct = [];
+//         const listProductGroup = [];
+//         let totalAmount = 0;
+
+//         for (const list of data.list) {
+//             const dataProduct = await Product.findOne({ id: list.id });
+//             const factoryCal = await Product.findOne({
+//                 id: list.id,
+//                 convertFact: { $elemMatch: { unitId: list.unitId } }
+//             }, { 'convertFact.$': 1 });
+
+//             const unitDetail = await Unit.findOne({ idUnit: list.unitId });
+
+//             const amount = list.qty * list.pricePerUnitSale;
+//             totalAmount += amount;
+
+//             // Calculate converted quantities for all units
+//             const convertedUnits = dataProduct.convertFact.map(convFact => ({
+//                 name: convFact.unitName,
+//                 qty: parseInt((list.qty * factoryCal.convertFact[0].factor) / convFact.factor),
+//                 unitId: convFact.unitId
+//             }));
+
+//             listProduct.push({
+//                 id: list.id,
+//                 brand: dataProduct.brand,
+//                 qtyPurc: list.qty,
+//                 qtyUnitId: list.unitId,
+//                 qtyUnitName: unitDetail.nameEng,
+//                 qtyconvert: factoryCal.convertFact[0].factor * list.qty,
+//                 amount: amount,
+//                 converterUnit: convertedUnits
+//             });
+
+//             listProductGroup.push({
+//                 id: list.id,
+//                 group: dataProduct.group,
+//                 brand: dataProduct.brand,
+//                 size: dataProduct.size,
+//                 flavour: dataProduct.flavour,
+//                 typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
+//                 qty: list.qty,
+//                 amount: amount,
+//                 unitQty: unitDetail.nameEng,
+//                 qtyConvert: factoryCal.convertFact[0].factor * list.qty,
+//                 converterUnit: convertedUnits
+//             });
+//         }
+
+//         const groupedData = listProductGroup.reduce((acc, curr) => {
+//             const { group, brand, size, typeUnit } = curr;
+//             const key = `${group}/${size}/${typeUnit}`;
+//             if (!acc[key]) {
+//                 acc[key] = {
+//                     group,
+//                     brand,
+//                     size,
+//                     typeUnit,
+//                     qty: 0,
+//                     amount: 0
+//                 };
+//             }
+//             acc[key].qty += curr.qtyConvert;
+//             acc[key].amount += curr.amount;
+//             return acc;
+//         }, {});
+
+//         const outputDataGroupSize = Object.keys(groupedData).sort().map((key) => groupedData[key]);
+
+//         const listProductGroupUnit = [];
+//         for (const listProGroup of outputDataGroupSize) {
+//             const listProductGroupUnitListQty = [];
+//             const dataConvertion = await Product.findOne({
+//                 group: listProGroup.group,
+//                 brand: listProGroup.brand,
+//                 size: listProGroup.size
+//             }, { convertFact: 1 });
+
+//             for (const listDataConvertion of dataConvertion.convertFact) {
+//                 // Calculate the qty in the specific unit
+//                 const qtyInUnit = parseInt((listProGroup.qty / listDataConvertion.factor).toFixed(0));
+
+//                 // Handle special case where factor doesn't divide perfectly, ensuring correct unit count
+//                 if (qtyInUnit * listDataConvertion.factor !== listProGroup.qty) {
+//                     // If conversion does not match perfectly, adjust the qty accordingly
+//                     // For example, if qtyInUnit * factor < listProGroup.qty, adjust accordingly
+//                     const remainder = listProGroup.qty % listDataConvertion.factor;
+//                     const adjustedQtyInUnit = Math.floor(listProGroup.qty / listDataConvertion.factor);
+//                     listProductGroupUnitListQty.push({
+//                         name: listDataConvertion.unitName,
+//                         qty: adjustedQtyInUnit,
+//                         unitId: listDataConvertion.unitId
+//                     });
+//                 } else {
+//                     listProductGroupUnitListQty.push({
+//                         name: listDataConvertion.unitName,
+//                         qty: qtyInUnit,
+//                         unitId: listDataConvertion.unitId
+//                     });
+//                 }
+//             }
+
+//             listProductGroupUnit.push({
+//                 ...listProGroup,
+//                 converterUnit: listProductGroupUnitListQty
+//             });
+//         }
+
+//         const listProductInGroup = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }).then(dataProductCart =>
+//             Promise.all(dataProductCart.list.map(async listDetailProduct =>
+//                 await Product.findOne({ id: listDetailProduct.id }, {
+//                     group: 1, brand: 1, size: 1, flavour: 1, id: 1, name: 1, _id: 0
+//                 })
+//             ))
+//         );
+
+//         const listProductGroupUnitModify = listProductGroupUnit.map(list => {
+//             const subDataListPro = listProductInGroup.filter(subList =>
+//                 list.group === subList.group && list.size === subList.size
+//             );
+
+//             return {
+//                 ...list,
+//                 listProduct: subDataListPro
+//             };
+//         });
+
+//         const summaryMainData = {
+//             listProduct: listProduct,
+//             listProductGroup: listProductGroupUnitModify,
+//             totalAmount: totalAmount
+//         };
+
+//         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully');
+//         res.status(200).json({ typeStore: dataStore.type, list: summaryMainData });
+//     } catch (error) {
+//         console.log(error);
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message);
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         });
+//     }
+// });
+
 getCart.post('/getSummaryCart', async (req, res) => {
     try {
         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
@@ -193,7 +346,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
         });
         const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 });
         const listProduct = [];
-        const listProductGroup = [];
+        const listProductGroup = {};
         let totalAmount = 0;
 
         for (const list of data.list) {
@@ -223,105 +376,35 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 qtyUnitName: unitDetail.nameEng,
                 qtyconvert: factoryCal.convertFact[0].factor * list.qty,
                 amount: amount,
-                converterUnit: convertedUnits
+                converterUnit: convertedUnits,
+                flavour: dataProduct.flavour // เพิ่มข้อมูลรสชาติ
             });
 
-            listProductGroup.push({
-                id: list.id,
-                group: dataProduct.group,
-                brand: dataProduct.brand,
-                size: dataProduct.size,
-                flavour: dataProduct.flavour,
-                typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
-                qty: list.qty,
-                amount: amount,
-                unitQty: unitDetail.nameEng,
-                qtyConvert: factoryCal.convertFact[0].factor * list.qty,
-                converterUnit: convertedUnits
-            });
-        }
-
-        const groupedData = listProductGroup.reduce((acc, curr) => {
-            const { group, brand, size, typeUnit } = curr;
-            const key = `${group}/${size}/${typeUnit}`;
-            if (!acc[key]) {
-                acc[key] = {
-                    group,
-                    brand,
-                    size,
-                    typeUnit,
+            // รวมสินค้าในกลุ่มตามรสชาติ
+            const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}_${dataProduct.flavour}`;
+            if (!listProductGroup[groupKey]) {
+                listProductGroup[groupKey] = {
+                    group: dataProduct.group,
+                    brand: dataProduct.brand,
+                    size: dataProduct.size,
+                    flavour: dataProduct.flavour,
+                    typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
                     qty: 0,
-                    amount: 0
+                    amount: 0,
+                    converterUnit: []
                 };
             }
-            acc[key].qty += curr.qtyConvert;
-            acc[key].amount += curr.amount;
-            return acc;
-        }, {});
-
-        const outputDataGroupSize = Object.keys(groupedData).sort().map((key) => groupedData[key]);
-
-        const listProductGroupUnit = [];
-        for (const listProGroup of outputDataGroupSize) {
-            const listProductGroupUnitListQty = [];
-            const dataConvertion = await Product.findOne({
-                group: listProGroup.group,
-                brand: listProGroup.brand,
-                size: listProGroup.size
-            }, { convertFact: 1 });
-
-            for (const listDataConvertion of dataConvertion.convertFact) {
-                // Calculate the qty in the specific unit
-                const qtyInUnit = parseInt((listProGroup.qty / listDataConvertion.factor).toFixed(0));
-
-                // Handle special case where factor doesn't divide perfectly, ensuring correct unit count
-                if (qtyInUnit * listDataConvertion.factor !== listProGroup.qty) {
-                    // If conversion does not match perfectly, adjust the qty accordingly
-                    // For example, if qtyInUnit * factor < listProGroup.qty, adjust accordingly
-                    const remainder = listProGroup.qty % listDataConvertion.factor;
-                    const adjustedQtyInUnit = Math.floor(listProGroup.qty / listDataConvertion.factor);
-                    listProductGroupUnitListQty.push({
-                        name: listDataConvertion.unitName,
-                        qty: adjustedQtyInUnit,
-                        unitId: listDataConvertion.unitId
-                    });
-                } else {
-                    listProductGroupUnitListQty.push({
-                        name: listDataConvertion.unitName,
-                        qty: qtyInUnit,
-                        unitId: listDataConvertion.unitId
-                    });
-                }
-            }
-
-            listProductGroupUnit.push({
-                ...listProGroup,
-                converterUnit: listProductGroupUnitListQty
-            });
+            listProductGroup[groupKey].qty += factoryCal.convertFact[0].factor * list.qty;
+            listProductGroup[groupKey].amount += amount;
+            listProductGroup[groupKey].converterUnit = convertedUnits;
         }
 
-        const listProductInGroup = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }).then(dataProductCart =>
-            Promise.all(dataProductCart.list.map(async listDetailProduct =>
-                await Product.findOne({ id: listDetailProduct.id }, {
-                    group: 1, brand: 1, size: 1, flavour: 1, id: 1, name: 1, _id: 0
-                })
-            ))
-        );
-
-        const listProductGroupUnitModify = listProductGroupUnit.map(list => {
-            const subDataListPro = listProductInGroup.filter(subList =>
-                list.group === subList.group && list.size === subList.size
-            );
-
-            return {
-                ...list,
-                listProduct: subDataListPro
-            };
-        });
+        // เปลี่ยน listProductGroup ให้เป็น array ของ object แทนการใช้ key
+        const listProductGroupArray = Object.values(listProductGroup);
 
         const summaryMainData = {
             listProduct: listProduct,
-            listProductGroup: listProductGroupUnitModify,
+            listProductGroup: listProductGroupArray,
             totalAmount: totalAmount
         };
 
@@ -336,4 +419,6 @@ getCart.post('/getSummaryCart', async (req, res) => {
         });
     }
 });
+
+
 module.exports = getCart
