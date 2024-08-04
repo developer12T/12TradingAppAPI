@@ -26,11 +26,11 @@ getOrder.get('/getAll', async (req, res) => {
             },
             { $sort: { orderNoInt: -1 } },
             {
-                $unwind: "$list" // แกะ Array list ออกมาเป็นแถวๆ
+                $unwind: "$list" 
             },
             {
                 $lookup: {
-                    from: "units", // คอลเล็กชัน Unit ในฐานข้อมูล
+                    from: "units",
                     localField: "list.unitQty",
                     foreignField: "idUnit",
                     as: "unitDetails"
@@ -39,23 +39,31 @@ getOrder.get('/getAll', async (req, res) => {
             {
                 $unwind: {
                     path: "$unitDetails",
-                    preserveNullAndEmptyArrays: true // ถ้าไม่มีการจับคู่ ให้คงแถวเดิมไว้
+                    preserveNullAndEmptyArrays: true 
                 }
             },
             {
                 $addFields: {
-                    "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] } // ถ้ามีค่าใช้ nameEng, ถ้าไม่มีใช้ค่าว่าง
+                    "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] }
                 }
             },
             {
                 $group: {
-                    _id: "$_id", // กลับไปจัดกลุ่มโดย _id
+                    _id: "$_id", 
                     orderNo: { $first: "$orderNo" },
-                    createDate: { $first: "$createDate" },
-                    status: { $first: "$status" },
+                    saleMan: { $first: "$saleMan" },
+                    saleCode: { $first: "$saleCode" },
+                    area: { $first: "$area" },
+                    storeId: { $first: "$storeId" },
                     storeName: { $first: "$storeName" },
+                    address: { $first: "$address" },
+                    taxID: { $first: "$taxID" },
+                    tel: { $first: "$tel" },
+                    warehouse: { $first: "$warehouse" },
                     totalPrice: { $first: "$totalPrice" },
-                    list: { $push: "$list" } // กลับไปรวม list
+                    totalDiscount: { $first: "$totalDiscount" },
+                    status: { $first: "$status" },
+                    list: { $push: "$list" } 
                 }
             },
             {
