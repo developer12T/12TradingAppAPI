@@ -4,8 +4,9 @@ require('../../configs/connect')
 const { Order, PreOrder } = require("../../models/order")
 const { Unit } = require("../../models/product")
 const { createLog } = require("../../services/errorLog")
-const { getNameStatus, slicePackSize, convertDateFormat } = require("../../utils/utility");
-const { log } = require('winston');
+const { errResponse } = require('../../services/errorResponse')
+const { getNameStatus, slicePackSize, convertDateFormat } = require("../../utils/utility")
+const { log } = require('winston')
 const getOrder = express.Router()
 
 getOrder.get('/getAll', async (req, res) => {
@@ -144,12 +145,13 @@ getOrder.post('/getOrderCustomer', async (req, res) => {
     try {
         const { customer } = req.body
         const data = await Order.find({ storeId: customer }, { _id: 0, __v: 0, idIndex: 0 }).sort({ id: -1 })
+        console.log(data.length)
         if (data.length > 0) {
             const mainData = []
             for (let list of data) {
                 mainData.push({
                     orderDate: convertDateFormat(list.createDate),
-                    number: list.orderNo,
+                    orderNo: list.orderNo,
                     name: list.storeName,
                     totalPrice: list.totalPrice,
                     status: list.status,
@@ -161,7 +163,7 @@ getOrder.post('/getOrderCustomer', async (req, res) => {
             res.status(200).json(mainData)
         } else {
             await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
-            res.status(204).json({ status: 204, message: 'No Data' })
+            await errResponse(res)
         }
     } catch (e) {
         await createLog('500', req.method, req.originalUrl, res.body, e.message)

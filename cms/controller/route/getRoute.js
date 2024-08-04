@@ -287,7 +287,6 @@ getRoute.post('/checkDistance', async (req, res) => {
     }
 })
 
-
 getRoute.post('/getRouteList', async (req, res) => {
     try {
 
@@ -319,4 +318,28 @@ getRoute.post('/getRouteList', async (req, res) => {
     }
 })
 
+getRoute.post('/getRouteOption', async (req, res) => {
+    try {
+        const data = await Store.find(
+            { area: req.body.area, route: { $exists: true, $ne: null } },
+            { _id: 0, route: 1 }
+        ).sort({ route: 1 });
+
+        if (data.length > 0) {
+
+            const routeOptions = Array.from(new Set(data.map(store => store.route).filter(route => route))); 
+            await createLog('200', req.method, req.originalUrl, res.body, 'GetRouteOption Data complete');
+            res.status(200).json(routeOptions);
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            await errResponse(res)
+        }
+    } catch (e) {
+        await createLog('500', req.method, req.originalUrl, res.body, e.stack);
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        });
+    }
+});
 module.exports = getRoute

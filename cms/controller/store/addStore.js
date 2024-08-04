@@ -60,9 +60,200 @@ addStore.post('/uploadImg', upload.single('StoreImage'), async (req, res) => {
     }
 })
 
+// addStore.post('/addStore', async (req, res) => {
+//     const { available, updateAvailable } = require('../../services/numberSeriers')
+//     const { currentdateDash, checkDistanceLatLon, currentYearToDigi, currentYear, currentdateSlash } = require('../../utils/utility.js')
+//     try {
+//         const {
+//             taxId,
+//             name,
+//             tel,
+//             route,
+//             type,
+//             address,
+//             district,
+//             subDistrict,
+//             province,
+//             provinceCode,
+//             postCode,
+//             shippingAddress,
+//             zone,
+//             area,
+//             latitude,
+//             longtitude,
+//             lineId,
+//             policyConsent,
+//             imageList,
+//             note,
+//             typeNumberSeries,
+//             zoneNumberSeries
+//         } = req.body
+//         console.log(zoneNumberSeries);
+//         const idAvailable = await available(currentYear(), typeNumberSeries, zoneNumberSeries)
+//         // console.log(idAvailable+'test');
+//         const poliAgree = {
+//             status: policyConsent,
+//             date: currentdateDash()
+//         }
+//         // console.log(idAvailable)
+//         const approveData = {
+//             status: "19",
+//             dateSend: currentdateDash(),
+//             dateAction: "",
+//             appPerson: ""
+//         }
+//         let idAviModi = idAvailable + ''
+//         let idSt
+
+//         if (idAviModi.length === 1) {
+//             idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0000' + idAviModi
+//         } else if (idAviModi.length === 2) {
+//             idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '000' + idAviModi
+//         } else if (idAviModi.length === 3) {
+//             idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '00' + idAviModi
+//         } else if (idAviModi.length === 4) {
+//             idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0' + idAviModi
+//         } else if (idAviModi.length === 5) {
+//             idSt = 'M' + zoneNumberSeries + currentYearToDigi() + idAviModi
+//         } else {
+//             idSt = 'over'
+//         }
+
+//         if (idSt === 'over') {
+//             await createLog('500', req.method, req.originalUrl, res.body, 'storeId is Over length')
+//             res.status(200).json({
+//                 status: 500, message: 'storeId is Over length'
+//             })
+//         } else {
+
+//             const mainData = {
+//                 storeId: idSt,
+//                 taxId,
+//                 name,
+//                 tel,
+//                 route,
+//                 type,
+//                 address,
+//                 district,
+//                 subDistrict,
+//                 province,
+//                 provinceCode,
+//                 postCode,
+//                 zone,
+//                 area,
+//                 latitude,
+//                 longtitude,
+//                 lineId,
+//                 approve: approveData,
+//                 status: "19",
+//                 policyConsent: poliAgree,
+//                 imageList,
+//                 shippingAddress,
+//                 note,
+//                 createdDate: currentdateSlash(),
+//                 updatedDate: currentdateDash()
+//             }
+
+//             var latLonCon = 0
+//             var taxIdCon = 0
+//             var nameCon = 0
+//             var addressCon = 0
+
+//             // const listLenght = []
+//             const dataLatLonStore = await Store.find({ subDistrict: subDistrict, district: district, province: province }, {
+//                 storeId: 1,
+//                 latitude: 1,
+//                 longtitude: 1,
+//                 _id: 0,
+//                 taxId: 1,
+//                 name: 1,
+//                 address: 1,
+//                 district: 1,
+//                 subDistrict: 1,
+//                 province: 1,
+//             })
+
+//             const storeReplace = []
+//             for (const listData of dataLatLonStore) {
+//                 console.log(listData)
+//                 if ((latitude === listData.latitude) && (longtitude === listData.longtitude)) { // check dist less than 10 m 0.01 km
+//                     const StoreFind = await Store.findOne({ storeId: listData.storeId })
+//                     const list = await status.findOne({ type: 'store', 'list.id': StoreFind.status });
+//                     const matchedObject = _.find(list.list, { 'id': StoreFind.status });
+//                     // console.log(list)
+//                     const dataStoreReplace = {
+//                         id: StoreFind.storeId,
+//                         name: StoreFind.name,
+//                         status: matchedObject.id,
+//                         statusText: matchedObject.name,
+//                         distance: parseFloat(listData.distance)
+//                     }
+//                     storeReplace.push(dataStoreReplace)
+//                     latLonCon = 1
+//                 }
+//             }
+
+//             const StoreTaxReplace = []
+//             for (const listStruc of dataLatLonStore) {
+//                 if (!listStruc.taxId) {
+//                     taxIdCon = 0
+//                 } else {
+//                     const taxCheck = await Store.findOne({ taxId: listStruc.taxId })
+//                     if (!taxCheck) {
+//                         taxIdCon = 0
+//                     } else {
+//                         taxIdCon = 1
+//                         var StoreTaxReplaceObj = {
+//                             storeId: listStruc.storeId,
+//                             storeName: listStruc.name
+//                         }
+//                         StoreTaxReplace.push(StoreTaxReplaceObj)
+//                     }
+//                 }
+//                 const text1 = listStruc.name;
+//                 const text2 = name;
+//                 if (text1 === text2) {
+//                     nameCon = 1
+//                 }
+//             }
+
+//             if ((latLonCon === 1) && (taxIdCon === 1) && (nameCon === 1)) { // replace
+//                 await createLog('201', req.method, req.originalUrl, res.body, 'Store Replace')
+//                 res.status(200).json({
+//                     status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
+//                 })
+//             } else { // no replace
+//                 await Store.create(mainData)
+//                 const responseAddRoute = await axios.post(process.env.API_URL_IN_USE + '/cms/route/addRouteStore', {
+//                     area: area,
+//                     idRoute: route,
+//                     list: [mainData.storeId]
+//                 })
+
+//                 await updateAvailable(currentYear(), typeNumberSeries, zoneNumberSeries, idAvailable + 1)
+//                 await createLog('200', req.method, req.originalUrl, res.body, 'Store added successfully')
+//                 res.status(200).json({
+//                     status: 201,
+//                     message: 'Store added successfully',
+//                     addRoute: { responseData: responseAddRoute.data, message: 'Success' },
+//                     additionalData: { storeId: idSt, storeName: name }
+//                 })
+//             }
+//         }
+//     } catch (error) {
+
+//         console.log(error)
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message)
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         })
+//     }
+// })
+
 addStore.post('/addStore', async (req, res) => {
-    const { available, updateAvailable } = require('../../services/numberSeriers')
-    const { currentdateDash, checkDistanceLatLon, currentYearToDigi, currentYear } = require('../../utils/utility.js')
+    const { available, updateAvailable } = require('../../services/numberSeriers');
+    const { currentdateDash, checkDistanceLatLon, currentYearToDigi, currentYear, currentdateSlash } = require('../../utils/utility.js');
     try {
         const {
             taxId,
@@ -87,45 +278,42 @@ addStore.post('/addStore', async (req, res) => {
             note,
             typeNumberSeries,
             zoneNumberSeries
-        } = req.body
-        console.log(zoneNumberSeries);
-        const idAvailable = await available(currentYear(), typeNumberSeries, zoneNumberSeries)
-        // console.log(idAvailable+'test');
+        } = req.body;
+
+        const idAvailable = await available(currentYear(), typeNumberSeries, zoneNumberSeries);
         const poliAgree = {
             status: policyConsent,
             date: currentdateDash()
-        }
-        // console.log(idAvailable)
+        };
         const approveData = {
             status: "19",
             dateSend: currentdateDash(),
             dateAction: "",
             appPerson: ""
-        }
-        let idAviModi = idAvailable + ''
-        let idSt
+        };
+        let idAviModi = idAvailable + '';
+        let idSt;
 
         if (idAviModi.length === 1) {
-            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0000' + idAviModi
+            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0000' + idAviModi;
         } else if (idAviModi.length === 2) {
-            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '000' + idAviModi
+            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '000' + idAviModi;
         } else if (idAviModi.length === 3) {
-            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '00' + idAviModi
+            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '00' + idAviModi;
         } else if (idAviModi.length === 4) {
-            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0' + idAviModi
+            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + '0' + idAviModi;
         } else if (idAviModi.length === 5) {
-            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + idAviModi
+            idSt = 'M' + zoneNumberSeries + currentYearToDigi() + idAviModi;
         } else {
-            idSt = 'over'
+            idSt = 'over';
         }
 
         if (idSt === 'over') {
-            await createLog('500', req.method, req.originalUrl, res.body, 'storeId is Over length')
+            await createLog('500', req.method, req.originalUrl, res.body, 'storeId is Over length');
             res.status(200).json({
                 status: 500, message: 'storeId is Over length'
-            })
+            });
         } else {
-
             const mainData = {
                 storeId: idSt,
                 taxId,
@@ -150,16 +338,10 @@ addStore.post('/addStore', async (req, res) => {
                 imageList,
                 shippingAddress,
                 note,
-                createdDate: currentdateDash(),
+                createdDate: currentdateSlash(),
                 updatedDate: currentdateDash()
-            }
+            };
 
-            var latLonCon = 0
-            var taxIdCon = 0
-            var nameCon = 0
-            var addressCon = 0
-
-            // const listLenght = []
             const dataLatLonStore = await Store.find({ subDistrict: subDistrict, district: district, province: province }, {
                 storeId: 1,
                 latitude: 1,
@@ -171,85 +353,79 @@ addStore.post('/addStore', async (req, res) => {
                 district: 1,
                 subDistrict: 1,
                 province: 1,
-            })
+            });
 
-            const storeReplace = []
+            const storeReplace = [];
+            let latLonCon = 0;
+            let taxIdCon = 0;
+            let nameCon = 0;
+
             for (const listData of dataLatLonStore) {
-                console.log(listData)
-                if ((latitude === listData.latitude) && (longtitude === listData.longtitude)) { // check dist less than 10 m 0.01 km
-                    const StoreFind = await Store.findOne({ storeId: listData.storeId })
+                if ((latitude === listData.latitude) && (longtitude === listData.longtitude)) {
+                    const StoreFind = await Store.findOne({ storeId: listData.storeId });
                     const list = await status.findOne({ type: 'store', 'list.id': StoreFind.status });
                     const matchedObject = _.find(list.list, { 'id': StoreFind.status });
-                    // console.log(list)
+
                     const dataStoreReplace = {
                         id: StoreFind.storeId,
                         name: StoreFind.name,
                         status: matchedObject.id,
                         statusText: matchedObject.name,
-                        distance: parseFloat(listData.distance)
-                    }
-                    storeReplace.push(dataStoreReplace)
-                    latLonCon = 1
+                    };
+                    storeReplace.push(dataStoreReplace);
+                    latLonCon = 1;
                 }
             }
 
-            const StoreTaxReplace = []
+            const StoreTaxReplace = [];
             for (const listStruc of dataLatLonStore) {
-                if (!listStruc.taxId) {
-                    taxIdCon = 0
-                } else {
-                    const taxCheck = await Store.findOne({ taxId: listStruc.taxId })
-                    if (!taxCheck) {
-                        taxIdCon = 0
-                    } else {
-                        taxIdCon = 1
-                        var StoreTaxReplaceObj = {
-                            storeId: listStruc.storeId,
-                            storeName: listStruc.name
-                        }
-                        StoreTaxReplace.push(StoreTaxReplaceObj)
-                    }
+                if (listStruc.taxId && listStruc.taxId === taxId) {
+                    taxIdCon = 1;
+                    StoreTaxReplace.push({
+                        storeId: listStruc.storeId,
+                        storeName: listStruc.name
+                    });
                 }
-                const text1 = listStruc.name;
-                const text2 = name;
-                if (text1 === text2) {
-                    nameCon = 1
+
+                if (listStruc.name === name) {
+                    nameCon = 1;
                 }
             }
 
-            if ((latLonCon === 1) && (taxIdCon === 1) && (nameCon === 1)) { // replace
-                await createLog('201', req.method, req.originalUrl, res.body, 'Store Replace')
+            if ((latLonCon === 1) && (taxIdCon === 1) && (nameCon === 1)) {
+                await createLog('201', req.method, req.originalUrl, res.body, 'Store Replace');
                 res.status(200).json({
                     status: 201, message: 'Store Replace', additionalData: StoreTaxReplace
-                })
-            } else { // no replace
-                await Store.create(mainData)
+                });
+            } else {
+                await Store.create(mainData);
+
+                const idRoute = `${area}${route}`;
                 const responseAddRoute = await axios.post(process.env.API_URL_IN_USE + '/cms/route/addRouteStore', {
                     area: area,
-                    idRoute: route,
+                    idRoute: idRoute,
                     list: [mainData.storeId]
-                })
+                });
 
-                await updateAvailable(currentYear(), typeNumberSeries, zoneNumberSeries, idAvailable + 1)
-                await createLog('200', req.method, req.originalUrl, res.body, 'Store added successfully')
+                await updateAvailable(currentYear(), typeNumberSeries, zoneNumberSeries, idAvailable + 1);
+                await createLog('200', req.method, req.originalUrl, res.body, 'Store added successfully');
                 res.status(200).json({
                     status: 201,
                     message: 'Store added successfully',
                     addRoute: { responseData: responseAddRoute.data, message: 'Success' },
                     additionalData: { storeId: idSt, storeName: name }
-                })
+                });
             }
         }
     } catch (error) {
-
-        console.log(error)
-        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        console.log(error);
+        await createLog('500', req.method, req.originalUrl, res.body, error.message);
         res.status(500).json({
             status: 500,
             message: error.message
-        })
+        });
     }
-})
+});
 
 addStore.post('/addStoreFormM3', async (req, res) => {
     try {

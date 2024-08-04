@@ -88,7 +88,7 @@ async function checkDistanceLatLon(lat1, lon1, lat2, lon2, unit) {
             dist = dist * 0.8684
         }
 
-        return dist;
+        return dist
     }
 }
 
@@ -100,14 +100,13 @@ async function calPromotion(totalPurchase, buy, free) {
 
 async function nameMonth() {
     const fs = require('fs')
-    let rawdata = fs.readFileSync('cms/utils/monthName.json');
-    let month = JSON.parse(rawdata);
-    // console.log(month)
-    return month;
+    let rawdata = fs.readFileSync('cms/utils/monthName.json')
+    let month = JSON.parse(rawdata)
+    return month
 }
 
 async function floatConvert(number, digit) {
-    return parseFloat(parseFloat(number).toFixed(digit));
+    return parseFloat(parseFloat(number).toFixed(digit))
 }
 
 function slicePackSize(name) {
@@ -137,7 +136,6 @@ async function dayOfMonth(monthNumber) {
     let monthObj = {}
     let febNumber = 0
     for (const list of month.month) {
-        // console.log(list.number)
         if (list.number === '02') {
             if ((parseInt(moment().format('YYYY', 'th')) % 4) === 0) {
                 febNumber = '29'
@@ -174,7 +172,7 @@ async function getNameStatus(type, id) {
 
 function convertDateFormat(dateString) {
     if (moment(dateString, 'YYYY/MM/DDTHH:mm:ss', true).isValid()) {
-        return moment(dateString, 'YYYY/MM/DDTHH:mm:ss').format('DD/MM/YYYY');
+        return moment(dateString, 'YYYY/MM/DDTHH:mm:ss').format('DD/MM/YYYY')
     } else {
         return 'Invalid date format';
     }

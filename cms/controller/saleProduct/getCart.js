@@ -337,6 +337,89 @@ getCart.post('/getPreOrder', async (req, res) => {
 //     }
 // });
 
+// getCart.post('/getSummaryCart', async (req, res) => {
+//     try {
+//         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
+//             'list._id': 0,
+//             __v: 0,
+//             _id: 0
+//         });
+//         const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 });
+//         const listProduct = [];
+//         const listProductGroup = {};
+//         let totalAmount = 0;
+
+//         for (const list of data.list) {
+//             const dataProduct = await Product.findOne({ id: list.id });
+//             const factoryCal = await Product.findOne({
+//                 id: list.id,
+//                 convertFact: { $elemMatch: { unitId: list.unitId } }
+//             }, { 'convertFact.$': 1 });
+
+//             const unitDetail = await Unit.findOne({ idUnit: list.unitId });
+
+//             const amount = list.qty * list.pricePerUnitSale;
+//             totalAmount += amount;
+
+//             // Calculate converted quantities for all units
+//             const convertedUnits = dataProduct.convertFact.map(convFact => ({
+//                 name: convFact.unitName,
+//                 qty: parseInt((list.qty * factoryCal.convertFact[0].factor) / convFact.factor),
+//                 unitId: convFact.unitId
+//             }));
+
+//             listProduct.push({
+//                 id: list.id,
+//                 brand: dataProduct.brand,
+//                 qtyPurc: list.qty,
+//                 qtyUnitId: list.unitId,
+//                 qtyUnitName: unitDetail.nameEng,
+//                 qtyconvert: factoryCal.convertFact[0].factor * list.qty,
+//                 amount: amount,
+//                 converterUnit: convertedUnits,
+//                 flavour: dataProduct.flavour // เพิ่มข้อมูลรสชาติ
+//             });
+
+//             // รวมสินค้าในกลุ่มตามรสชาติ
+//             const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}_${dataProduct.flavour}`;
+//             if (!listProductGroup[groupKey]) {
+//                 listProductGroup[groupKey] = {
+//                     group: dataProduct.group,
+//                     brand: dataProduct.brand,
+//                     size: dataProduct.size,
+//                     flavour: dataProduct.flavour,
+//                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
+//                     qty: 0,
+//                     amount: 0,
+//                     converterUnit: []
+//                 };
+//             }
+//             listProductGroup[groupKey].qty += factoryCal.convertFact[0].factor * list.qty;
+//             listProductGroup[groupKey].amount += amount;
+//             listProductGroup[groupKey].converterUnit = convertedUnits;
+//         }
+
+//         // เปลี่ยน listProductGroup ให้เป็น array ของ object แทนการใช้ key
+//         const listProductGroupArray = Object.values(listProductGroup);
+
+//         const summaryMainData = {
+//             listProduct: listProduct,
+//             listProductGroup: listProductGroupArray,
+//             totalAmount: totalAmount
+//         };
+
+//         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully');
+//         res.status(200).json({ typeStore: dataStore.type, list: summaryMainData });
+//     } catch (error) {
+//         console.log(error);
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message);
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         });
+//     }
+// });
+
 getCart.post('/getSummaryCart', async (req, res) => {
     try {
         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
@@ -391,12 +474,23 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
                     qty: 0,
                     amount: 0,
-                    converterUnit: []
+                    converterUnit: convertedUnits,
+                    listProduct: [] // เพิ่ม listProduct
                 };
             }
             listProductGroup[groupKey].qty += factoryCal.convertFact[0].factor * list.qty;
             listProductGroup[groupKey].amount += amount;
             listProductGroup[groupKey].converterUnit = convertedUnits;
+
+            // เพิ่มข้อมูลสินค้าใน listProductGroup
+            listProductGroup[groupKey].listProduct.push({
+                id: dataProduct.id,
+                name: dataProduct.name,
+                group: dataProduct.group,
+                brand: dataProduct.brand,
+                size: dataProduct.size,
+                flavour: dataProduct.flavour
+            });
         }
 
         // เปลี่ยน listProductGroup ให้เป็น array ของ object แทนการใช้ key
