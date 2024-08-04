@@ -63,6 +63,7 @@ getOrder.get('/getAll', async (req, res) => {
                     totalPrice: { $first: "$totalPrice" },
                     totalDiscount: { $first: "$totalDiscount" },
                     status: { $first: "$status" },
+                    createDate: { $first: "$createDate" },
                     list: { $push: "$list" } 
                 }
             },
