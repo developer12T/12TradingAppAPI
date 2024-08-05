@@ -1080,7 +1080,6 @@ comparePromotion.post('/compare', async (req, res) => {
                     for (const itemBuyList of listGroupPromotion.conditions) {
                         const promotionKey = `${listGroupPromotion.proId}_${listGroup.group}`;
 
-                        // ตรวจสอบรสชาติและกลุ่มสินค้า
                         const flavourMatch = itemBuyList.productFlavour.length === 0 || itemBuyList.productFlavour.includes(listGroup.flavour);
                         const matchingUnit = listGroup.converterUnit.find(unit => unit.unitId === itemBuyList.productUnit[0]);
                         const conditionQtyInUnit = matchingUnit ? matchingUnit.qty : 0;
@@ -1158,8 +1157,6 @@ comparePromotion.post('/compare', async (req, res) => {
                 }
             }
         }
-
-
 
         // Process new store promotions
         if (isStoreNew && hasNoOrder) {

@@ -12,6 +12,7 @@ const getOrder = express.Router()
 getOrder.get('/getAll', async (req, res) => {
     try {
         const data = await Order.aggregate([
+            {$match:{status:"10"}},
             {
                 $addFields: {
                     orderNoInt: {
