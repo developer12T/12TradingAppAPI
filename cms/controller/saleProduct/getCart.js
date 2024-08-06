@@ -28,7 +28,7 @@ getCart.post('/getCartToShow', async (req, res) => {
         var totalAmount = 0
         const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
         if (data) {
-            console.log('ไม่พบ')
+            // console.log('ไม่พบ')
             // console.log(data)
             const data_arr = []
             for (let i = 0; i < data.list.length; i++) {

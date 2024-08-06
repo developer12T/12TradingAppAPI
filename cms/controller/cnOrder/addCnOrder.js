@@ -118,6 +118,7 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
             for (let listData of orderRef.list) {
                 const dataQtyText = await Unit.findOne({ idUnit: listData.unitQty });
                 const dataProduct = await Product.findOne({ id: listData.id, unitList: { $elemMatch: { id: listData.unitQty } } }, { 'unitList.$': 1 });
+                console.log('cn',dataProduct)
                 let listObj = {
                     id: listData.id,
                     name: listData.name,
