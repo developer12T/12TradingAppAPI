@@ -178,6 +178,14 @@ function convertDateFormat(dateString) {
     }
 }
 
+function convertFormatErp(dateString) {
+    if (moment(dateString, 'YYYY/MM/DDTHH:mm:ss', true).isValid()) {
+        return moment(dateString, 'YYYY/MM/DDTHH:mm:ss').format('YYYYDDMM')
+    } else {
+        return 'Invalid date format';
+    }
+}
+
 // async function converting(idProduct,qty,unitIdBuy) {
 //     const dataUnit
 //     return dist;
@@ -215,6 +223,7 @@ module.exports = {
     getDayOfRoute,
     slicePackSize,
     getNameStatus,
-    convertDateFormat
+    convertDateFormat,
+    convertFormatErp
     // convertUnitToCTN
 };

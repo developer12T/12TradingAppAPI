@@ -2,8 +2,9 @@ const express = require('express')
 require('../../configs/connect')
 const getStore = express.Router()
 const { Store, TypeStore } = require('../../models/store')
+const { User } = require('../../models/user')
 const { ErrorLog } = require("../../models/errorLog")
-const { convertDateFormat } = require("../../utils/utility")
+const { convertDateFormat, convertFormatErp } = require("../../utils/utility")
 const { errResponse } = require('../../services/errorResponse')
 const { createLog } = require("../../services/errorLog")
 
@@ -191,6 +192,62 @@ getStore.post('/getDetail', async (req, res) => {
             status: 500,
             message: error.message
         })
+    }
+})
+
+getStore.post('/getStoreNewtoM3', async (req, res) => {
+    try {
+        const data = await Store.find({ status: '10' }, {_id: 0,}).sort({ storeId: 1}).exec()
+        if (data.length > 0) {
+            const dataUser = await User.find({ }, {
+                _id: 0,
+                saleCode: 1,
+                salePayer: 1,
+                area: 1
+            });
+            const mainData = []
+            for (const list of data) {
+                const matchedUser = dataUser.find(item => item.area === list.area);
+                const saleCode = matchedUser ? matchedUser.saleCode : null;
+                const salePayer = matchedUser ? matchedUser.salePayer : null;
+                const idRoute = `${list.area}${list.route}`;
+                const day = 'Day '+list.route.slice(-2);
+                const newData = {
+                    storeId: list.storeId,
+                    name: list.name,
+                    route: list.route,
+                    type: list.type,
+                    tel: list.tel,
+                    taxId: list.taxId,
+                    address1: list.address,
+                    address2: list.district+' '+list.subDistrict,
+                    address3: list.province,
+                    provinceCode: list.provinceCode,
+                    postCode: list.postCode,
+                    town: list.district,
+                    area: list.area,
+                    zone: list.zone,
+                    saleCode: saleCode,
+                    salePayer: salePayer,
+                    lat: list.latitude,
+                    long: list.longtitude,
+                    channel: '110',
+                    note: list.note && list.note.trim() !== '' ? list.note : '-',
+                    created: convertFormatErp(list.createdDate)
+                }
+                mainData.push(newData)
+
+            }
+            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreNew Succesfully')
+            res.status(200).json(mainData)
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            await errResponse(res)
+        }
+    } catch (error) {
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({ status: 501, message: error.message })
     }
 })
 
