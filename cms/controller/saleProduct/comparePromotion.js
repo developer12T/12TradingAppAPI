@@ -184,7 +184,7 @@ comparePromotion.post('/compare', async (req, res) => {
                     for (const itemBuyList of listGroupPromotion.conditions) {
                         const keyGroup = `${listGroupPromotion.proId}_${listGroup.group}`;
                         const keyBrand = `${listGroupPromotion.proId}_${listGroup.brand}`;
-                        // const keyBrand = `${listGroupPromotion.proId}`;
+                        const keyPro = `${listGroupPromotion.proId}`;
 
                         const brandMatch = itemBuyList.productBrand.length === 0 || itemBuyList.productBrand.includes(listGroup.brand);
                         const flavourMatch = itemBuyList.productFlavour.length === 0 || itemBuyList.productFlavour.includes(listGroup.flavour);
@@ -269,7 +269,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         totalAmountInBrand += brand.amount;
                                     }
                                 }
-                                if (totalAmountInBrand >= itemBuyList.productAmount && !appliedPromotions.has(keyBrand)) {
+                                if (totalAmountInBrand >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) {
                                     const rewards = await Promise.all(listGroupPromotion.rewards.map(async (reward) => {
                                         const dataRewardItem = await fetchProductDetails(reward);
                                         return {
@@ -290,7 +290,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         listProduct: listGroup.listProduct
                                     });
 
-                                    appliedPromotions.add(keyBrand);
+                                    appliedPromotions.add(keyPro);
                                 }
                             }
                         }
