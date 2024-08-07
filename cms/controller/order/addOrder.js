@@ -24,7 +24,7 @@ addOrder.post('/newOrder', async (req, res) => {
 
         console.log('PreOrder data:', preOrderData);
 
-        const { area, storeId, idRoute } = req.body;
+        const { area, storeId, idRoute, warehouse } = req.body;
         const { saleMan, storeName, address, taxID, tel, totalAmount, discount, list, listFree, shippingAddress, shippingDate } = preOrderData;
 
         const numberSeries = await NumberSeries.findOne({ type: 'order' }, { 'detail.available': 1, _id: 0 });
@@ -48,6 +48,7 @@ addOrder.post('/newOrder', async (req, res) => {
             address: address,
             taxID: taxID,
             tel: tel,
+            warehouse: warehouse,
             totalPrice: parseFloat(parseFloat(totalAmount).toFixed(2)),
             totalDiscount: parseFloat(parseFloat(discount).toFixed(2)),
             list: [...list, ...listFree],
