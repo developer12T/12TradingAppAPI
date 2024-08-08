@@ -45,7 +45,8 @@ getOrder.get('/getAll', async (req, res) => {
             },
             {
                 $addFields: {
-                    "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] }
+                    "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] },
+                    note: { $ifNull: ["$note", ""] }
                 }
             },
             {
@@ -61,6 +62,7 @@ getOrder.get('/getAll', async (req, res) => {
                     taxID: { $first: "$taxID" },
                     tel: { $first: "$tel" },
                     warehouse: { $first: "$warehouse" },
+                    note: { $first: "$note" },
                     totalPrice: { $first: "$totalPrice" },
                     totalDiscount: { $first: "$totalDiscount" },
                     status: { $first: "$status" },
