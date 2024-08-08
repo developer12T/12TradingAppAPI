@@ -33,6 +33,8 @@ const orderSchema = mongoose.Schema({
     tel:{type:String},
     warehouse:{type:String},
     note:{type:String},
+    latitude:{type:String},
+    longtitude:{type:String},
     totalPrice:{type:Number,toFixed: 2, default: 0.00},
     totalDiscount:{type:Number,toFixed: 2, default: 0.00},
     list:[list],
