@@ -73,32 +73,62 @@ getStore.post('/getStore', async (req, res) => {
 
 getStore.post('/getStoreNew', async (req, res) => {
     try {
+        const { area } = req.body;
+        
+        const currentMonth = new Date().getMonth() + 1; 
+        const currentYear = new Date().getFullYear();
 
-        // const data = await Store.find({status:'0','approve.status':'1'}).sort({ idNumber: 1 }).exec()
-        // const data = await Store.find({ status: '0', 'approve.status': { $ne: '2' } }).sort({ idNumber: 1 }).exec()
-        const data = await Store.find({ area: req.body.area, status: '19' }, {
-            _id: 0,
-            storeId: 1,
-            area: 1,
-            name: 1,
-            route: 1,
-            status: 1,
-            createdDate: 1
-        }).sort({ idNumber: 1, route: 1 }).exec()
+        const data = await Store.aggregate([
+            {
+                $match: {
+                    area: area,
+                    status: { $in: ['10', '15'] }
+                }
+            },
+            {
+                $addFields: {
+                    createdDateConverted: { $toDate: "$createdDate" }
+                }
+            },
+            {
+                $match: {
+                    $expr: {
+                        $and: [
+                            { $eq: [{ $month: "$createdDateConverted" }, currentMonth] },
+                            { $eq: [{ $year: "$createdDateConverted" }, currentYear] }
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    storeId: 1,
+                    area: 1,
+                    name: 1,
+                    route: 1,
+                    status: 1,
+                    createdDate: 1
+                }
+            },
+            {
+                $sort: { idNumber: 1, route: 1 }
+            }
+        ]);
+
         if (data.length > 0) {
             data.forEach(item => {
-                if (item.status === '19') {
-                    item.statusText = 'รออนุมัติ'
-                } else if (item.status === '99') {
-                    item.statusText = 'ไม่อนุมัติ'
-                } else if (item.status === '20') {
-                    item.statusText = 'อนุมัติแล้ว'
+                if (item.status === '10') {
+                    item.statusText = 'รออนุมัติ';
+                } else if (item.status === '15') {
+                    item.statusText = 'อนุมัติ';
                 }
-            })
-            const mainData = []
+            });
+
+            const mainData = [];
             for (const list of data) {
                 const idRoute = `${list.area}${list.route}`;
-                const day = 'Day '+list.route.slice(-2);
+                const day = 'Day ' + list.route.slice(-2);
                 const newData = {
                     storeId: list.storeId,
                     idRoute: idRoute,
@@ -108,22 +138,21 @@ getStore.post('/getStoreNew', async (req, res) => {
                     status: list.status,
                     approvedText: list.statusText,
                     created: convertDateFormat(list.createdDate)
-                }
-                mainData.push(newData)
-
+                };
+                mainData.push(newData);
             }
-            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreNew Succesfully')
-            res.status(200).json(mainData)
+            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreNew Successfully');
+            res.status(200).json(mainData);
         } else {
-            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
-            await errResponse(res)
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data');
+            await errResponse(res);
         }
     } catch (error) {
-        console.log(error)
-        await createLog('500', req.method, req.originalUrl, res.body, error.message)
-        res.status(500).json({ status: 501, message: error.message })
+        console.log(error);
+        await createLog('500', req.method, req.originalUrl, res.body, error.message);
+        res.status(500).json({ status: 501, message: error.message });
     }
-})
+});
 
 getStore.post('/getDetail', async (req, res) => {
     try {
