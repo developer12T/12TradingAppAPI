@@ -906,7 +906,7 @@ comparePromotion.post('/compare', async (req, res) => {
             const currentMonth = new Date().getMonth() + 1;
             const currentYear = new Date().getFullYear();
             const orderExists = await Order.aggregate([
-                { $match: { storeId: req.body.storeId, status: { $ne: '90' }, 'list.proCode': promotionData.proCode } },
+                { $match: { storeId: req.body.storeId, status: { $ne: '90' }, 'list.proCode': 'BT01' } },
                 { $addFields: { createdDateConverted: { $toDate: "$createDate" } } },
                 { $match: { $expr: { $and: [ { $eq: [{ $month: "$createdDateConverted" }, currentMonth] }, { $eq: [{ $year: "$createdDateConverted" }, currentYear] } ] } } }
             ]);
