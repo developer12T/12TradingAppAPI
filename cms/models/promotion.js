@@ -59,47 +59,10 @@ const CouponSchema = new Schema({
     updateDate: {type: String}
 })
 
-// const ListFreeItem = new Schema({
-//     proId: {type: String},
-//     proCode: {type: String},
-//     productId: {type: String},
-//     productName: {type: String},
-//     qty: {type: Number},
-//     unitQty: {type: String}
-// })
-
-// const ListProductFreeGroup = new Schema({
-//     id: {type: String},
-//     name: {type: String},
-// })
-
-// const ListFreeGroup = new Schema({
-//     group: {type: String},
-//     size: {type: String},
-//     proId: {type: String},
-//     proCode: {type: String},
-//     qtyReward: {type: Number},
-//     qtyUnit: {type: String},
-//     listProduct: [ListProductFreeGroup]
-// })
-
-// const RewardReceiptSchema = new Schema({
-//     area: {type: String},
-//     storeId: {type: String},
-//     proId: {type: String},
-//     listFreeItem: [ListFreeItem],
-//     listFreeGroup: [ListFreeGroup],
-//     createDate: {type: String},
-//     updateDate: {type: String}
-// })
-
 const ListProduct = new Schema({
     productId: {type: String},
     productName: {type: String},
-    qty: {type: Number},
-    qtyText: {type: String},
-    unitQty: {type: String},
-    unitQtyThai: {type: String}
+    qty: {type: Number}
 })
 
 const ListPromotion = new Schema({
@@ -107,13 +70,24 @@ const ListPromotion = new Schema({
     proCode: {type: String},
     proName: {type: String},
     summaryQty: {type: Number},
-    listProduct: [ListProduct],
+    unitQty: {type: String},
+    listProduct: [ListProduct]
+})
+
+const ListDiscount = new Schema({
+    proId: {type: String},
+    proName: {type: String},
+    productId: {type: String},
+    productName: {type: String},
+    discount: {type: Number},
+    totalDiscount: {type: Number},
 })
 
 const RewardSummarySchema = new Schema({
     area: {type: String},
     storeId: {type: String},
     listPromotion: [ListPromotion],
+    listDiscount: [ListDiscount],
     createDate: {type: String},
     updateDate: {type: String}
 })
@@ -121,7 +95,6 @@ const RewardSummarySchema = new Schema({
 const Promotion = mongoose.model('Promotion', PromotionSchema)
 const ProType = mongoose.model('ProType', ProTypeSchema)
 const Coupon = mongoose.model('Coupon', CouponSchema)
-// const RewardReceipt = mongoose.model('RewardReceipt', RewardReceiptSchema)
 const RewardSummary = mongoose.model('RewardSummary', RewardSummarySchema)
 
 module.exports = { Promotion, ProType, Coupon, RewardSummary }

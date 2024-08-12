@@ -25,9 +25,9 @@ getPromotion.post('/getPromotion', async (req, res) => {
 getPromotion.post('/getChangeReward', async (req, res) => {
     try {
         const {calPromotion} = require('../../utils/utility')
-        const data = await Promotion.findOne({proId: req.body.proId}, {itemfree: 1, proId: 1, _id: 0})
+        const data = await Promotion.findOne({proId: req.body.proId}, {rewards: 1, proId: 1, _id: 0})
         var dataItem = []
-        for (const list of data.itemfree) {
+        for (const list of data.rewards) {
             if (!list.productId) {
                 console.log('เป็นแถมแบบ group')
                 const dataRewardItem = await Product.find({
@@ -44,13 +44,13 @@ getPromotion.post('/getChangeReward', async (req, res) => {
                 const dataRewardItem = await Product.findOne({id: list.productId}, {_id: 0, id: 1, name: 1})
                 const dataPromotion = await Promotion.findOne({proId: req.body.proId}, {
                     _id: 0,
-                    itembuy: 1,
-                    itemfree: 1
+                    conditions: 1,
+                    rewards: 1
                 })
 
-                for (let list of dataPromotion.itembuy) {
+                for (let list of dataPromotion.conditions) {
                     const unitName = await takeNameEng(list.productUnit)
-                    console.log('itembuy :: ' + list.productQty + ' ' + unitName + `(${list.productUnit})`)
+                    console.log('conditions :: ' + list.productQty + ' ' + unitName + `(${list.productUnit})`)
                     if (list.productUnit == req.body.unitQty) {
                         console.log('หน่วยตรง')
 
@@ -80,7 +80,7 @@ getPromotion.post('/getChangeReward', async (req, res) => {
 
         const mainData = {
             // promotionData: data.itemfree,
-            itemFree: dataItem
+            rewards: dataItem
         }
         await createLog('200',req.method,req.originalUrl,res.body,'getChangeReward Successfully!')
         res.status(200).json(mainData)

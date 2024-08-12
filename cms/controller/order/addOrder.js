@@ -1,6 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 const { Order, PreOrder, Shipping } = require('../../models/order')
+const { RewardSummary } = require('../../models/promotion')
 const addOrder = express.Router()
 var _ = require('lodash')
 const { Cart } = require('../../models/saleProduct')
@@ -68,6 +69,8 @@ addOrder.post('/newOrder', async (req, res) => {
         const createdOrder = await Order.create(mainData);
 
         await Cart.deleteOne({ area: req.body.area, storeId: req.body.storeId });
+
+        await RewardSummary.deleteOne({ area: req.body.area, storeId: req.body.storeId });
 
         await NumberSeries.updateOne({ type: 'order' }, { $set: { 'detail.available': availableNumber + 1 } });
 

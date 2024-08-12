@@ -1,19 +1,19 @@
 const express = require('express')
 require('../../configs/connect')
-const {createLog} = require("../../services/errorLog")
-const {CnOrder} = require("../../models/cnOrder")
-const {Unit} = require("../../models/product")
-const {errResponse} = require("../../services/errorResponse")
-const {getNameStatus, slicePackSize} = require("../../utils/utility");
+const { createLog } = require("../../services/errorLog")
+const { CnOrder } = require("../../models/cnOrder")
+const { Unit } = require("../../models/product")
+const { errResponse } = require("../../services/errorResponse")
+const { getNameStatus, slicePackSize } = require("../../utils/utility")
 const getCnOrder = express.Router()
 
 getCnOrder.get('/getAll', async (req, res) => {
     try {
         const data = await CnOrder.find()
-        if(data.length > 0){
+        if (data.length > 0) {
             await createLog('200', req.method, req.originalUrl, res.body, 'GetAll Cn Successfully!')
             res.status(200).json(data)
-        }else{
+        } else {
             await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
             await errResponse(res)
         }
@@ -30,32 +30,32 @@ getCnOrder.get('/getAll', async (req, res) => {
 getCnOrder.post('/getMain', async (req, res) => {
     try {
         const { area } = req.body
-        const data = await CnOrder.find({area},{_id:0,__v:0,idIndex:0}).sort({id:-1})
-        if(data.length > 0){
+        const data = await CnOrder.find({ area }, { _id: 0, __v: 0, idIndex: 0 }).sort({ id: -1 })
+        if (data.length > 0) {
             const mainData = []
-            for(let list of data){
+            for (let list of data) {
                 // const nameSt = await status.findOne({type:"order",list: {$elemMatch:{'id':list.status}}},{list:1})
                 mainData.push({
-                    orderDate:list.createDate,
-                    number:list.orderNo,
-                    name:list.storeName,
-                    totalPrice:list.totalPrice,
-                    status:list.status,
+                    orderDate: list.createDate,
+                    number: list.orderNo,
+                    name: list.storeName,
+                    totalPrice: list.totalPrice,
+                    status: list.status,
                     statusText: (await getNameStatus('cn', list.status)).name
                 })
             }
             console.log(mainData);
-            await createLog('200',req.method,req.originalUrl,res.body,'getAll Cn Successfully!')
+            await createLog('200', req.method, req.originalUrl, res.body, 'getAll Cn Successfully!')
             res.status(200).json(mainData)
-        }else{
-            await createLog('204',req.method,req.originalUrl,res.body,'No Data')
-            res.status(204).json({status:204,message:'No Data'})
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            res.status(204).json({ status: 204, message: 'No Data' })
         }
     } catch (e) {
-        await createLog('500',req.method,req.originalUrl,res.body,e.message)
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
-            status:500,
-            message:e.message
+            status: 500,
+            message: e.message
         })
     }
 })
@@ -84,13 +84,13 @@ getCnOrder.post('/getDetail', async (req, res) => {
     try {
         var discount = 0;
         const { orderNo } = req.body;
-        
-        const data = await CnOrder.findOne({orderNo},{_id:0,__v:0,idIndex:0}).sort({orderNo:-1});
+
+        const data = await CnOrder.findOne({ orderNo }, { _id: 0, __v: 0, idIndex: 0 }).sort({ orderNo: -1 });
         if (data) {
             console.log(data)
             const data_list = [];
             for (let list of data.list) {
-                const detail_product = await Unit.findOne({idUnit: list.unitId});
+                const detail_product = await Unit.findOne({ idUnit: list.unitId });
                 const list_obj = {
                     id: list.id,
                     name: slicePackSize(list.name),

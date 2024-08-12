@@ -8,11 +8,11 @@ const _ = require('lodash')
 const { createLog } = require("../../services/errorLog");
 const axios = require("axios");
 const getCart = express.Router()
-const  { slicePackSize } = require('../../utils/utility')
+const { slicePackSize } = require('../../utils/utility')
 
 getCart.post('/getCart', async (req, res) => {
     try {
-        const data = await Cart.find({area: req.body.area, storeId: req.body.storeId})
+        const data = await Cart.find({ area: req.body.area, storeId: req.body.storeId })
         await createLog('200', req.method, req.originalUrl, res.body, 'getCart successfully')
         res.status(200).json(data)
     } catch (e) {
@@ -26,14 +26,14 @@ getCart.post('/getCart', async (req, res) => {
 getCart.post('/getCartToShow', async (req, res) => {
     try {
         var totalAmount = 0
-        const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId})
+        const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId })
         if (data) {
             // console.log('ไม่พบ')
             // console.log(data)
             const data_arr = []
             for (let i = 0; i < data.list.length; i++) {
 
-                const detail_product = await Unit.findOne({idUnit: data.list[i].unitId})
+                const detail_product = await Unit.findOne({ idUnit: data.list[i].unitId })
                 const list_obj = {
                     id: data.list[i].id,
                     name: slicePackSize(data.list[i].name),
@@ -63,7 +63,7 @@ getCart.post('/getCartToShow', async (req, res) => {
             await createLog('200', req.method, req.originalUrl, res.body, 'getCartToShow successfully')
             res.status(200).json(mainData)
         } else {
-            console.log('พบ')
+            // console.log('พบ')
             await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             res.status(200).json({
                 status: 204,
@@ -82,7 +82,7 @@ getCart.post('/getCartToShow', async (req, res) => {
 
 getCart.post('/getPreOrder', async (req, res) => {
     try {
-        const data = await Cart.findOne({area: req.body.area, storeId: req.body.storeId}, {
+        const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
             'list._id': 0,
             __v: 0,
             _id: 0
@@ -94,12 +94,12 @@ getCart.post('/getPreOrder', async (req, res) => {
         const responseData = dataPromotion.data;
 
         if (data) {
-            const dataUser = await User.findOne({saleCode: req.body.saleCode});
-            const dataStore = await Store.findOne({storeId: req.body.storeId});
+            const dataUser = await User.findOne({ saleCode: req.body.saleCode });
+            const dataStore = await Store.findOne({ storeId: req.body.storeId });
             const mainList = [];
 
             for (const listdata of data.list) {
-                const unitData = await Unit.findOne({idUnit: listdata.unitId});
+                const unitData = await Unit.findOne({ idUnit: listdata.unitId });
                 const discountInfo = responseData.listDiscount.find(discount => discount.productId.includes(listdata.id));
                 const dataList = {
                     id: listdata.id,
@@ -123,7 +123,7 @@ getCart.post('/getPreOrder', async (req, res) => {
             let listFree_Arr = [];
             for (const listFreePro of responseData.listFree) {
                 for (const listFreeItem of listFreePro.listProduct) {
-                    const unitData = await Unit.findOne({idUnit: listFreeItem.unitQty});
+                    const unitData = await Unit.findOne({ idUnit: listFreeItem.unitQty });
                     const dataListFree = {
                         id: listFreeItem.productId,
                         name: slicePackSize(listFreeItem.productName),
@@ -157,7 +157,7 @@ getCart.post('/getPreOrder', async (req, res) => {
                 totalAmount: parseFloat(totalAmountSum.toFixed(2)),
                 discount: totalDiscountSum,
                 totalAmountNoVat: parseFloat((totalAmountSum / 1.07).toFixed(2)),
-                vat: parseFloat((totalAmountSum  - (totalAmountSum / 1.07)).toFixed(2)),
+                vat: parseFloat((totalAmountSum - (totalAmountSum / 1.07)).toFixed(2)),
                 summaryAmount: parseFloat(totalAmountSum.toFixed(2)),
                 list: mainList,
                 listFree: listFree_Arr,
@@ -183,159 +183,6 @@ getCart.post('/getPreOrder', async (req, res) => {
         });
     }
 });
-
-// getCart.post('/getSummaryCart', async (req, res) => {
-//     try {
-//         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
-//             'list._id': 0,
-//             __v: 0,
-//             _id: 0
-//         });
-//         const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 });
-//         const listProduct = [];
-//         const listProductGroup = [];
-//         let totalAmount = 0;
-
-//         for (const list of data.list) {
-//             const dataProduct = await Product.findOne({ id: list.id });
-//             const factoryCal = await Product.findOne({
-//                 id: list.id,
-//                 convertFact: { $elemMatch: { unitId: list.unitId } }
-//             }, { 'convertFact.$': 1 });
-
-//             const unitDetail = await Unit.findOne({ idUnit: list.unitId });
-
-//             const amount = list.qty * list.pricePerUnitSale;
-//             totalAmount += amount;
-
-//             // Calculate converted quantities for all units
-//             const convertedUnits = dataProduct.convertFact.map(convFact => ({
-//                 name: convFact.unitName,
-//                 qty: parseInt((list.qty * factoryCal.convertFact[0].factor) / convFact.factor),
-//                 unitId: convFact.unitId
-//             }));
-
-//             listProduct.push({
-//                 id: list.id,
-//                 brand: dataProduct.brand,
-//                 qtyPurc: list.qty,
-//                 qtyUnitId: list.unitId,
-//                 qtyUnitName: unitDetail.nameEng,
-//                 qtyconvert: factoryCal.convertFact[0].factor * list.qty,
-//                 amount: amount,
-//                 converterUnit: convertedUnits
-//             });
-
-//             listProductGroup.push({
-//                 id: list.id,
-//                 group: dataProduct.group,
-//                 brand: dataProduct.brand,
-//                 size: dataProduct.size,
-//                 flavour: dataProduct.flavour,
-//                 typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
-//                 qty: list.qty,
-//                 amount: amount,
-//                 unitQty: unitDetail.nameEng,
-//                 qtyConvert: factoryCal.convertFact[0].factor * list.qty,
-//                 converterUnit: convertedUnits
-//             });
-//         }
-
-//         const groupedData = listProductGroup.reduce((acc, curr) => {
-//             const { group, brand, size, typeUnit } = curr;
-//             const key = `${group}/${size}/${typeUnit}`;
-//             if (!acc[key]) {
-//                 acc[key] = {
-//                     group,
-//                     brand,
-//                     size,
-//                     typeUnit,
-//                     qty: 0,
-//                     amount: 0
-//                 };
-//             }
-//             acc[key].qty += curr.qtyConvert;
-//             acc[key].amount += curr.amount;
-//             return acc;
-//         }, {});
-
-//         const outputDataGroupSize = Object.keys(groupedData).sort().map((key) => groupedData[key]);
-
-//         const listProductGroupUnit = [];
-//         for (const listProGroup of outputDataGroupSize) {
-//             const listProductGroupUnitListQty = [];
-//             const dataConvertion = await Product.findOne({
-//                 group: listProGroup.group,
-//                 brand: listProGroup.brand,
-//                 size: listProGroup.size
-//             }, { convertFact: 1 });
-
-//             for (const listDataConvertion of dataConvertion.convertFact) {
-//                 // Calculate the qty in the specific unit
-//                 const qtyInUnit = parseInt((listProGroup.qty / listDataConvertion.factor).toFixed(0));
-
-//                 // Handle special case where factor doesn't divide perfectly, ensuring correct unit count
-//                 if (qtyInUnit * listDataConvertion.factor !== listProGroup.qty) {
-//                     // If conversion does not match perfectly, adjust the qty accordingly
-//                     // For example, if qtyInUnit * factor < listProGroup.qty, adjust accordingly
-//                     const remainder = listProGroup.qty % listDataConvertion.factor;
-//                     const adjustedQtyInUnit = Math.floor(listProGroup.qty / listDataConvertion.factor);
-//                     listProductGroupUnitListQty.push({
-//                         name: listDataConvertion.unitName,
-//                         qty: adjustedQtyInUnit,
-//                         unitId: listDataConvertion.unitId
-//                     });
-//                 } else {
-//                     listProductGroupUnitListQty.push({
-//                         name: listDataConvertion.unitName,
-//                         qty: qtyInUnit,
-//                         unitId: listDataConvertion.unitId
-//                     });
-//                 }
-//             }
-
-//             listProductGroupUnit.push({
-//                 ...listProGroup,
-//                 converterUnit: listProductGroupUnitListQty
-//             });
-//         }
-
-//         const listProductInGroup = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }).then(dataProductCart =>
-//             Promise.all(dataProductCart.list.map(async listDetailProduct =>
-//                 await Product.findOne({ id: listDetailProduct.id }, {
-//                     group: 1, brand: 1, size: 1, flavour: 1, id: 1, name: 1, _id: 0
-//                 })
-//             ))
-//         );
-
-//         const listProductGroupUnitModify = listProductGroupUnit.map(list => {
-//             const subDataListPro = listProductInGroup.filter(subList =>
-//                 list.group === subList.group && list.size === subList.size
-//             );
-
-//             return {
-//                 ...list,
-//                 listProduct: subDataListPro
-//             };
-//         });
-
-//         const summaryMainData = {
-//             listProduct: listProduct,
-//             listProductGroup: listProductGroupUnitModify,
-//             totalAmount: totalAmount
-//         };
-
-//         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully');
-//         res.status(200).json({ typeStore: dataStore.type, list: summaryMainData });
-//     } catch (error) {
-//         console.log(error);
-//         await createLog('500', req.method, req.originalUrl, res.body, error.message);
-//         res.status(500).json({
-//             status: 500,
-//             message: error.message
-//         });
-//     }
-// });
 
 // getCart.post('/getSummaryCart', async (req, res) => {
 //     try {
@@ -380,7 +227,6 @@ getCart.post('/getPreOrder', async (req, res) => {
 //                 flavour: dataProduct.flavour // เพิ่มข้อมูลรสชาติ
 //             });
 
-//             // รวมสินค้าในกลุ่มตามรสชาติ
 //             const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}_${dataProduct.flavour}`;
 //             if (!listProductGroup[groupKey]) {
 //                 listProductGroup[groupKey] = {
@@ -391,15 +237,24 @@ getCart.post('/getPreOrder', async (req, res) => {
 //                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
 //                     qty: 0,
 //                     amount: 0,
-//                     converterUnit: []
+//                     converterUnit: convertedUnits,
+//                     listProduct: [] // เพิ่ม listProduct
 //                 };
 //             }
 //             listProductGroup[groupKey].qty += factoryCal.convertFact[0].factor * list.qty;
 //             listProductGroup[groupKey].amount += amount;
 //             listProductGroup[groupKey].converterUnit = convertedUnits;
+
+//             listProductGroup[groupKey].listProduct.push({
+//                 id: dataProduct.id,
+//                 name: dataProduct.name,
+//                 group: dataProduct.group,
+//                 brand: dataProduct.brand,
+//                 size: dataProduct.size,
+//                 flavour: dataProduct.flavour
+//             });
 //         }
 
-//         // เปลี่ยน listProductGroup ให้เป็น array ของ object แทนการใช้ key
 //         const listProductGroupArray = Object.values(listProductGroup);
 
 //         const summaryMainData = {
@@ -453,47 +308,51 @@ getCart.post('/getSummaryCart', async (req, res) => {
 
             listProduct.push({
                 id: list.id,
-                brand: dataProduct.brand,
-                qtyPurc: list.qty,
-                qtyUnitId: list.unitId,
-                qtyUnitName: unitDetail.nameEng,
-                qtyconvert: factoryCal.convertFact[0].factor * list.qty,
+                qty: factoryCal.convertFact[0].factor * list.qty,
                 amount: amount,
-                converterUnit: convertedUnits,
-                flavour: dataProduct.flavour // เพิ่มข้อมูลรสชาติ
+                converterUnit: convertedUnits
             });
 
-            // รวมสินค้าในกลุ่มตามรสชาติ
-            const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}_${dataProduct.flavour}`;
+            // Group products by group, brand, size
+            const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}`;
             if (!listProductGroup[groupKey]) {
                 listProductGroup[groupKey] = {
                     group: dataProduct.group,
                     brand: dataProduct.brand,
                     size: dataProduct.size,
-                    flavour: dataProduct.flavour,
                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
-                    qty: 0,
-                    amount: 0,
-                    converterUnit: convertedUnits,
-                    listProduct: [] // เพิ่ม listProduct
+                    totalQty: 0,
+                    totalAmount: 0,
+                    converterUnit: [],
+                    listProduct: []
                 };
             }
-            listProductGroup[groupKey].qty += factoryCal.convertFact[0].factor * list.qty;
-            listProductGroup[groupKey].amount += amount;
-            listProductGroup[groupKey].converterUnit = convertedUnits;
 
-            // เพิ่มข้อมูลสินค้าใน listProductGroup
+            listProductGroup[groupKey].totalQty += factoryCal.convertFact[0].factor * list.qty;
+            listProductGroup[groupKey].totalAmount += amount;
             listProductGroup[groupKey].listProduct.push({
                 id: dataProduct.id,
                 name: dataProduct.name,
-                group: dataProduct.group,
-                brand: dataProduct.brand,
-                size: dataProduct.size,
-                flavour: dataProduct.flavour
+                flavour: dataProduct.flavour,
+                qtyPerFlavour: factoryCal.convertFact[0].factor * list.qty,
+                amountPerFlavour: amount
             });
         }
 
-        // เปลี่ยน listProductGroup ให้เป็น array ของ object แทนการใช้ key
+        // Calculate converterUnit for each product group
+        for (const groupKey in listProductGroup) {
+            const groupData = listProductGroup[groupKey];
+            const productSample = await Product.findOne({ group: groupData.group, brand: groupData.brand, size: groupData.size });
+
+            if (productSample) {
+                groupData.converterUnit = productSample.convertFact.map(convFact => ({
+                    name: convFact.unitName,
+                    qty: parseInt(groupData.totalQty / convFact.factor),
+                    unitId: convFact.unitId
+                }));
+            }
+        }
+
         const listProductGroupArray = Object.values(listProductGroup);
 
         const summaryMainData = {
@@ -513,6 +372,5 @@ getCart.post('/getSummaryCart', async (req, res) => {
         });
     }
 });
-
 
 module.exports = getCart
