@@ -703,7 +703,32 @@ comparePromotion.post('/compare', async (req, res) => {
                         const matchingUnit = listGroup.converterUnit.find(unit => unit.unitId === itemBuyList.productUnit[0]);
                         const conditionQtyInUnit = matchingUnit ? matchingUnit.qty : 0;
 
-                        if (itemBuyList.productFlavour.length > 0) {
+                        if (promo.proType === 'amount') {
+                            if (totalAmount >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) { 
+                                const rewards = await Promise.all(promo.rewards.map(async (reward) => {
+                                    const dataRewardItem = await fetchProductDetails(reward);
+                                    return {
+                                        productId: reward.productGroup,
+                                        qty: calculateRewardQty(totalAmount, itemBuyList.productAmount, reward.productQty),
+                                        unitQty: await getUnitName(reward.productUnit),
+                                        listProductReward: dataRewardItem
+                                    };
+                                }));
+        
+                                PromotionGroupMatch.push({
+                                    group: listGroup.group,
+                                    size: listGroup.size,
+                                    proId: promo.proId,
+                                    proCode: promo.proCode,
+                                    qtyReward: _.sumBy(rewards, 'qty'),
+                                    qtyUnit: rewards.map(r => r.unitQty).join(', '),
+                                    listProductReward: [rewards[0].listProductReward[0]],
+                                    listProduct: listGroup.listProduct
+                                });
+        
+                                appliedPromotions.add(keyPro);
+                            }
+                        } else if (itemBuyList.productFlavour.length > 0) {
                             for (const product of listGroup.listProduct) {
                                 if (itemBuyList.productFlavour.includes(product.flavour)) {
                                     const productDetails = await Product.findOne({ id: product.id });
@@ -810,33 +835,37 @@ comparePromotion.post('/compare', async (req, res) => {
                                     discount: discountTotal,
                                     listProduct: listGroup.listProduct
                                 });
-                            } else if (promo.proType === 'amount') {
-                                let totalAmountInBrand = listGroup.totalAmount;
-                                if (totalAmountInBrand >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) {
-                                    const rewards = await Promise.all(promo.rewards.map(async (reward) => {
-                                        const dataRewardItem = await fetchProductDetails(reward);
-                                        return {
-                                            productId: reward.productGroup,
-                                            qty: calculateRewardQty(totalAmountInBrand, itemBuyList.productAmount, reward.productQty),
-                                            unitQty: await getUnitName(reward.productUnit),
-                                            listProductReward: dataRewardItem
-                                        };
-                                    }));
+                            } 
+                            // else if (promo.proType === 'amount') {
+                            //     let totalAmountInBrand = listGroup.totalAmount;
+                            //     if (totalAmountInBrand >= itemBuyList.productAmount ) {
+                            //         console.log('1',totalAmountInBrand);
+                            //         console.log('2',listGroup.totalAmount);
+                            //         console.log('3',listGroup);
+                            //         const rewards = await Promise.all(promo.rewards.map(async (reward) => {
+                            //             const dataRewardItem = await fetchProductDetails(reward);
+                            //             return {
+                            //                 productId: reward.productGroup,
+                            //                 qty: calculateRewardQty(totalAmountInBrand, itemBuyList.productAmount, reward.productQty),
+                            //                 unitQty: await getUnitName(reward.productUnit),
+                            //                 listProductReward: dataRewardItem
+                            //             };
+                            //         }));
 
-                                    PromotionGroupMatch.push({
-                                        group: listGroup.group,
-                                        size: listGroup.size,
-                                        proId: promo.proId,
-                                        proCode: promo.proCode,
-                                        qtyReward: _.sumBy(rewards, 'qty'),
-                                        qtyUnit: rewards.map(r => r.unitQty).join(', '),
-                                        listProductReward: [rewards[0].listProductReward[0]],
-                                        listProduct: listGroup.listProduct
-                                    });
+                            //         PromotionGroupMatch.push({
+                            //             group: listGroup.group,
+                            //             size: listGroup.size,
+                            //             proId: promo.proId,
+                            //             proCode: promo.proCode,
+                            //             qtyReward: _.sumBy(rewards, 'qty'),
+                            //             qtyUnit: rewards.map(r => r.unitQty).join(', '),
+                            //             listProductReward: [rewards[0].listProductReward[0]],
+                            //             listProduct: listGroup.listProduct
+                            //         });
 
-                                    appliedPromotions.add(keyPro);
-                                }
-                            }
+                            //         appliedPromotions.add(keyPro);
+                            //     }
+                            // }
                         }
                     }
                 }
@@ -1029,7 +1058,7 @@ comparePromotion.post('/compare', async (req, res) => {
         await RewardSummary.create(saveData);
 
         await createLog('200', req.method, req.originalUrl, res.body, 'getCompare successfully');
-        // res.status(200).json(saveData);
+        // res.status(200).json(combinedPromotions);
         res.status(200).json({ message: 'Update Promotion Success' });
     } catch (error) {
         console.log(error);
