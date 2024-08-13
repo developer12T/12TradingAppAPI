@@ -1,13 +1,101 @@
 const express = require('express')
 
 require('../../configs/connect')
-const { Order, PreOrder } = require("../../models/order")
-const { Unit } = require("../../models/product")
-const { createLog } = require("../../services/errorLog")
+const { Order, PreOrder } = require('../../models/order')
+const { Unit } = require('../../models/product')
+const { createLog } = require('../../services/errorLog')
 const { errResponse } = require('../../services/errorResponse')
-const { getNameStatus, slicePackSize, convertDateFormat } = require("../../utils/utility")
+const { getNameStatus, slicePackSize, convertDateFormat } = require('../../utils/utility')
 const { log } = require('winston')
 const getOrder = express.Router()
+
+// getOrder.get('/getAll', async (req, res) => {
+//     try {
+//         const data = await Order.aggregate([
+//             {$match:{status:"10"}},
+//             {
+//                 $addFields: {
+//                     orderNoInt: {
+//                         $convert: {
+//                             input: "$orderNo",
+//                             to: "int",
+//                             onError: 0,
+//                             onNull: 0
+//                         }
+//                     }
+//                 }
+//             },
+//             { $sort: { orderNoInt: -1 } },
+//             {
+//                 $unwind: "$list" 
+//             },
+//             {
+//                 $lookup: {
+//                     from: "units",
+//                     localField: "list.unitQty",
+//                     foreignField: "idUnit",
+//                     as: "unitDetails"
+//                 }
+//             },
+//             {
+//                 $unwind: {
+//                     path: "$unitDetails",
+//                     preserveNullAndEmptyArrays: true 
+//                 }
+//             },
+//             {
+//                 $addFields: {
+//                     "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] },
+//                     note: { $ifNull: ["$note", ""] }
+//                 }
+//             },
+//             {
+//                 $group: {
+//                     _id: "$_id", 
+//                     orderNo: { $first: "$orderNo" },
+//                     saleMan: { $first: "$saleMan" },
+//                     saleCode: { $first: "$saleCode" },
+//                     area: { $first: "$area" },
+//                     storeId: { $first: "$storeId" },
+//                     storeName: { $first: "$storeName" },
+//                     address: { $first: "$address" },
+//                     taxID: { $first: "$taxID" },
+//                     tel: { $first: "$tel" },
+//                     warehouse: { $first: "$warehouse" },
+//                     note: { $first: "$note" },
+//                     totalPrice: { $first: "$totalPrice" },
+//                     totalDiscount: { $first: "$totalDiscount" },
+//                     status: { $first: "$status" },
+//                     createDate: { $first: "$createDate" },
+//                     list: { $push: "$list" } 
+//                 }
+//             },
+//             {
+//                 $project: {
+//                     _id: 0,
+//                     __v: 0,
+//                     idIndex: 0,
+//                     orderNoInt: 0
+//                 }
+//             }
+//         ]).exec();
+
+//         const mainData = data.map(order => ({
+//             ...order,
+//             createDate: convertDateFormat(order.createDate)
+//         }));
+
+//         await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
+//         res.status(200).json(mainData);
+
+//     } catch (e) {
+//         await createLog('500', req.method, req.originalUrl, res.body, e.message);
+//         res.status(500).json({
+//             status: 500,
+//             message: e.message
+//         })
+//     }
+// })
 
 getOrder.get('/getAll', async (req, res) => {
     try {
@@ -31,6 +119,19 @@ getOrder.get('/getAll', async (req, res) => {
             },
             {
                 $lookup: {
+                    from: "products",
+                    let: { productId: "$list.id", unitId: "$list.unitQty" },
+                    pipeline: [
+                        { $match: { $expr: { $eq: ["$id", "$$productId"] } } },
+                        { $unwind: "$convertFact" },
+                        { $match: { $expr: { $eq: ["$convertFact.unitId", "$$unitId"] } } },
+                        { $project: { factor: "$convertFact.factor", _id: 0 } }
+                    ],
+                    as: "productDetails"
+                }
+            },
+            {
+                $lookup: {
                     from: "units",
                     localField: "list.unitQty",
                     foreignField: "idUnit",
@@ -39,14 +140,17 @@ getOrder.get('/getAll', async (req, res) => {
             },
             {
                 $unwind: {
-                    path: "$unitDetails",
+                    path: "$productDetails",
                     preserveNullAndEmptyArrays: true 
                 }
             },
             {
                 $addFields: {
-                    "list.unitText": { $ifNull: ["$unitDetails.nameEng", ""] },
-                    note: { $ifNull: ["$note", ""] }
+                    "list.unitText": { $arrayElemAt: ["$unitDetails.nameEng", 0] },
+                    note: { $ifNull: ["$note", ""] },
+                    "list.qtyPcs": {
+                        $multiply: [{ $ifNull: ["$list.qty", 0] }, { $ifNull: ["$productDetails.factor", 1] }]
+                    }
                 }
             },
             {
@@ -85,58 +189,17 @@ getOrder.get('/getAll', async (req, res) => {
             createDate: convertDateFormat(order.createDate)
         }));
 
-        await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!');
+        await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
         res.status(200).json(mainData);
 
     } catch (e) {
-        await createLog('500', req.method, req.originalUrl, res.body, e.message);
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
             status: 500,
             message: e.message
-        });
+        })
     }
-});
-
-// getOrder.get('/getAll', async (req, res) => {
-//     try {
-//         // const data = await Order.aggregate([
-//         //     { $addFields: { orderNoInt: { $toInt: "$orderNo" } } },
-//         //     { $sort: { orderNoInt: -1 } }, 
-//         //     { $project: { _id: 0, __v: 0, idIndex: 0, orderNoInt: 0 }} 
-//         // ]).exec();
-//         const data = await Order.aggregate([
-//             { 
-//                 $addFields: { 
-//                     orderNoInt: { 
-//                         $convert: { 
-//                             input: "$orderNo", 
-//                             to: "int", 
-//                             onError: 0, 
-//                             onNull: 0  
-//                         } 
-//                     } 
-//                 } 
-//             },
-//             { $sort: { orderNoInt: -1 } }, 
-//             { $project: { _id: 0, __v: 0, idIndex: 0, orderNoInt: 0 }} 
-//         ]).exec();
-
-//         const mainData = data.map(order => ({
-//             ...order,
-//             createDate: convertDateFormat(order.createDate)
-//         }));
-
-//         await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
-//         res.status(200).json(mainData);
-
-//     } catch (e) {
-//         await createLog('500', req.method, req.originalUrl, res.body, e.message)
-//         res.status(500).json({
-//             status: 500,
-//             message: e.message
-//         })
-//     }
-// });
+})
 
 getOrder.post('/getMain', async (req, res) => {
     try {
