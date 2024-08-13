@@ -39,6 +39,11 @@ addOrder.post('/newOrder', async (req, res) => {
             });
         }
 
+        const storeNewResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreNew`, { area: req.body.area });
+        const isStoreNew = storeNewResponse.data.some(store => store.storeId === req.body.storeId && store.status === '10');
+
+        const orderStatus = isStoreNew ? '0' : '10';
+
         const mainData = {
             orderNo: orderNo,
             saleMan: saleMan,
@@ -61,7 +66,7 @@ addOrder.post('/newOrder', async (req, res) => {
                 dateShip: shippingDate,
                 note: ''
             },
-            status: '10',
+            status: orderStatus, 
             createDate: currentdateSlash(),
             updateDate: null
         };
@@ -89,7 +94,6 @@ addOrder.post('/newOrder', async (req, res) => {
             order: createdOrder,
             visit: visitResponse.data
         });
-        // res.status(200).json(mainData)
         await createLog('200', req.method, req.originalUrl, res.body, 'newOrder Successfully!');
     } catch (error) {
         console.log(error);
@@ -112,18 +116,11 @@ addOrder.post('/newOrder', async (req, res) => {
 
 //         console.log('PreOrder data:', preOrderData);
 
-//         const { area, storeId, idRoute, warehouse } = req.body;
+//         const { area, storeId, idRoute, warehouse, note, latitude, longtitude } = req.body;
 //         const { saleMan, storeName, address, taxID, tel, totalAmount, discount, list, listFree, shippingAddress, shippingDate } = preOrderData;
 
-//         const seriesResponse = await axios.post('http://192.168.2.97:8383/M3API/OrderManage/Order/getNumberSeries', {
-//             series: "ฃ",
-//             seriestype: "01",
-//             companycode: 410,
-//             seriesname: "0"
-//         });
-
-//         const seriesData = seriesResponse.data[0];
-//         const availableNumber = seriesData.lastno;
+//         const numberSeries = await NumberSeries.findOne({ type: 'order' }, { 'detail.available': 1, _id: 0 });
+//         const availableNumber = numberSeries ? numberSeries.detail.available : 0;
 //         const orderNo = (availableNumber + 1).toString();
 
 //         if (!Array.isArray(list) || !Array.isArray(listFree) || (list.length === 0 && listFree.length === 0)) {
@@ -144,6 +141,9 @@ addOrder.post('/newOrder', async (req, res) => {
 //             taxID: taxID,
 //             tel: tel,
 //             warehouse: warehouse,
+//             note: req.body.note,
+//             latitude: req.body.latitude,
+//             longtitude: req.body.longtitude,
 //             totalPrice: parseFloat(parseFloat(totalAmount).toFixed(2)),
 //             totalDiscount: parseFloat(parseFloat(discount).toFixed(2)),
 //             list: [...list, ...listFree],
@@ -161,13 +161,9 @@ addOrder.post('/newOrder', async (req, res) => {
 
 //         await Cart.deleteOne({ area: req.body.area, storeId: req.body.storeId });
 
-//         await axios.post('http://192.168.2.97:8383/M3API/OrderManage/Order/updateNumberRunning', {
-//             lastno: orderNo,
-//             series: "ฃ",
-//             seriesname: "0",
-//             seriestype: "01",
-//             companycode: 410
-//         });
+//         await RewardSummary.deleteOne({ area: req.body.area, storeId: req.body.storeId });
+
+//         await NumberSeries.updateOne({ type: 'order' }, { $set: { 'detail.available': availableNumber + 1 } });
 
 //         const visitResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/route/visit`, {
 //             case: 'sale',
@@ -184,6 +180,7 @@ addOrder.post('/newOrder', async (req, res) => {
 //             order: createdOrder,
 //             visit: visitResponse.data
 //         });
+//         // res.status(200).json(mainData)
 //         await createLog('200', req.method, req.originalUrl, res.body, 'newOrder Successfully!');
 //     } catch (error) {
 //         console.log(error);
