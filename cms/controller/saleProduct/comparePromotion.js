@@ -1022,20 +1022,73 @@ comparePromotion.post('/compare', async (req, res) => {
             }
         }
 
+        // const combinedProducts = {};
+        // freeItem.forEach(product => {
+        //     const { proId, productId, qty, ...rest } = product;
+        //     const key = `${proId}_${productId}`
+        
+        //     if (!combinedProducts[key]) {
+        //         combinedProducts[key] = {
+        //             ...rest,
+        //             summaryQty: qty,
+        //             listProduct: [{ ...rest, qty }],
+        //             proId,
+        //             productId
+        //         };
+        //     } else {
+        //         combinedProducts[key].summaryQty += qty;
+        //         combinedProducts[key].listProduct.push({ ...rest, qty });
+        //     }
+        // });
+        
+        // const listPromotion = Object.values(combinedProducts).map(product => ({
+        //     proId: product.proId,
+        //     proCode: product.proCode,
+        //     proName: product.proName,
+        //     summaryQty: product.summaryQty,
+        //     unitQty: product.unitQty,
+        //     listProduct: product.listProduct,
+        // }));
+
         const combinedProducts = {};
         freeItem.forEach(product => {
-            const { proId, proCode, proName, qty, qtyText, unitQty, ...rest } = product;
+            const { proId, proCode, proName, qty, unitQty, unitQtyThai, proType, productName } = product;
+
             if (!combinedProducts[proId]) {
                 combinedProducts[proId] = {
                     summaryQty: qty,
                     unitQty,
-                    listProduct: [{ ...rest, qty }],
+                    listProduct: [{
+                        productName,
+                        qty,
+                        unitQty,
+                        unitQtyThai,
+                        proType,
+                        proCode,
+                        qtyText: `${qty} ${unitQtyThai}`
+                    }],
                     proName,
                     proCode
                 };
             } else {
                 combinedProducts[proId].summaryQty += qty;
-                combinedProducts[proId].listProduct.push({ ...rest, qty });
+                
+                const existingProduct = combinedProducts[proId].listProduct.find(p => p.productName === productName && p.unitQty === unitQty);
+                
+                if (existingProduct) {
+                    existingProduct.qty += qty;
+                    existingProduct.qtyText = `${existingProduct.qty} ${unitQtyThai}`;
+                } else {
+                    combinedProducts[proId].listProduct.push({
+                        productName,
+                        qty,
+                        unitQty,
+                        unitQtyThai,
+                        proType,
+                        proCode,
+                        qtyText: `${qty} ${unitQtyThai}`
+                    });
+                }
             }
         });
 
