@@ -39,7 +39,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
             storeId: req.body.storeId,
             saleCode: req.body.saleCode
         })
-
+        console.log('Checkout CN:', dataCart.data)
         const { zone, area, storeId, saleCode, warehouse, note, latitude, longtitude, refOrder } = req.body
         const { saleMan, storeName, address, taxID, tel, totalAmount, list, shippingAddress, shippingDate } = dataCart.data
 
