@@ -12,7 +12,7 @@ const { slicePackSize } = require('../../utils/utility')
 
 getCart.post('/getCart', async (req, res) => {
     try {
-        const data = await Cart.find({ area: req.body.area, storeId: req.body.storeId })
+        const data = await Cart.find({ area: req.body.area, storeId: req.body.storeId },{_id:0})
         await createLog('200', req.method, req.originalUrl, res.body, 'getCart successfully')
         res.status(200).json(data)
     } catch (e) {
@@ -94,13 +94,13 @@ getCart.post('/getPreOrder', async (req, res) => {
         const responseData = dataPromotion.data;
 
         if (data) {
-            const dataUser = await User.findOne({ saleCode: req.body.saleCode });
-            const dataStore = await Store.findOne({ storeId: req.body.storeId });
+            const dataUser = await User.findOne({ saleCode: req.body.saleCode })
+            const dataStore = await Store.findOne({ storeId: req.body.storeId })
             const mainList = [];
 
             for (const listdata of data.list) {
-                const unitData = await Unit.findOne({ idUnit: listdata.unitId });
-                const discountInfo = responseData.listDiscount.find(discount => discount.productId.includes(listdata.id));
+                const unitData = await Unit.findOne({ idUnit: listdata.unitId })
+                const discountInfo = responseData.listDiscount.find(discount => discount.productId.includes(listdata.id))
                 const dataList = {
                     id: listdata.id,
                     name: listdata.name,
@@ -117,13 +117,13 @@ getCart.post('/getPreOrder', async (req, res) => {
                     totalAmount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitSale - (discountInfo ? discountInfo.totalDiscount : 0)).toFixed(2))
                 };
 
-                mainList.push(dataList);
+                mainList.push(dataList)
             }
 
             let listFree_Arr = [];
             for (const listFreePro of responseData.listFree) {
                 for (const listFreeItem of listFreePro.listProduct) {
-                    const unitData = await Unit.findOne({ idUnit: listFreeItem.unitQty });
+                    const unitData = await Unit.findOne({ idUnit: listFreeItem.unitQty })
                     const dataListFree = {
                         id: listFreeItem.productId,
                         name: slicePackSize(listFreeItem.productName),
@@ -140,12 +140,12 @@ getCart.post('/getPreOrder', async (req, res) => {
                         amount: 0,
                         totalAmount: '0.00'
                     };
-                    listFree_Arr.push(dataListFree);
+                    listFree_Arr.push(dataListFree)
                 }
             }
 
-            const totalAmountSum = mainList.reduce((sum, item) => sum + item.totalAmount, 0);
-            const totalDiscountSum = mainList.reduce((sum, item) => sum + item.totalDiscount, 0);
+            const totalAmountSum = mainList.reduce((sum, item) => sum + item.totalAmount, 0)
+            const totalDiscountSum = mainList.reduce((sum, item) => sum + item.totalDiscount, 0)
 
             const mainData = {
                 saleMan: dataUser.firstName + ' ' + dataUser.surName,
@@ -165,24 +165,24 @@ getCart.post('/getPreOrder', async (req, res) => {
                 shippingDate: data.shipping.dateShip
             };
 
-            await createLog('200', req.method, req.originalUrl, res.body, 'getPreOrder successfully');
-            res.status(200).json(mainData);
+            await createLog('200', req.method, req.originalUrl, res.body, 'getPreOrder successfully')
+            res.status(200).json(mainData)
         } else {
-            await createLog('200', req.method, req.originalUrl, res.body, 'No Data');
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             res.status(200).json({
                 status: 200,
                 message: 'No Data'
             });
         }
     } catch (error) {
-        console.log(error);
-        await createLog('500', req.method, req.originalUrl, res.body, error.message);
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message
-        });
+        })
     }
-});
+})
 
 // getCart.post('/getSummaryCart', async (req, res) => {
 //     try {

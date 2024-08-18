@@ -1,15 +1,15 @@
 const express = require('express')
 require('../../configs/connect')
-const {createLog} = require("../../services/errorLog")
-const {CnOrder, CartCn} = require("../../models/cnOrder")
-const {errResponse} = require("../../services/errorResponse")
-const axios = require("axios")
-const {Store} = require("../../models/store")
-const {available, updateAvailable} = require("../../services/numberSeriers")
-const {currentYear, currentdate, currentdateSlash} = require("../../utils/utility")
-const {Unit, Product} = require("../../models/product")
+const { createLog } = require('../../services/errorLog')
+const { CnOrder, CartCn } = require('../../models/cnOrder')
+const { errResponse } = require('../../services/errorResponse')
+const axios = require('axios')
+const { Store } = require('../../models/store')
+const { available, updateAvailable } = require('../../services/numberSeriers')
+const { currentYear, currentdate, currentdateSlash, currentdateDash } = require('../../utils/utility')
+const { Unit, Product } = require('../../models/product')
 const jwt = require('jsonwebtoken')
-const {Order} = require("../../models/order");
+const { Order } = require('../../models/order')
 const addCnOrder = express.Router()
 
 const verifyToken = (req, res, next) => {
@@ -25,7 +25,7 @@ const verifyToken = (req, res, next) => {
     if (!token) {
         return res.status(401).json({ status: '401', message: 'Authorization token is missing' })
     }
-    if(token !== process.env.TOKEN_KEY_ACCESS){
+    if (token !== process.env.TOKEN_KEY_ACCESS) {
         return res.status(401).json({ status: '401', message: 'Authorization invalid' })
     }
     next()
@@ -34,24 +34,26 @@ const verifyToken = (req, res, next) => {
 addCnOrder.post('/addCnOrder', async (req, res) => {
     try {
         const data = await CnOrder.find()
-        const dataCart = await axios.post(process.env.API_URL_IN_USE + '/cms/cnOrder/getCartCn', {
+        const dataCart = await axios.post(process.env.API_URL_IN_USE + '/cms/cnOrder/getCnCheckout', {
             area: req.body.area,
-            storeId: req.body.storeId
+            storeId: req.body.storeId,
+            saleCode: req.body.saleCode
         })
-        // console.log(dataCart.data)
-        let {area, storeId, noteCnOrder, totalPrice, list, shipping} = dataCart.data
-        const storeData = await Store.findOne({storeId})
-        const {available, updateAvailable} = require('../../services/numberSeriers')
-        const {currentYear, currentdate, currentdateSlash} = require('../../utils/utility')
-        const idAvailable = await available(currentYear(), 'cnOrder', req.body.zone)
+
+        const { zone, area, storeId, saleCode, warehouse, note, latitude, longtitude, refOrder } = req.body
+        const { saleMan, storeName, address, taxID, tel, totalAmount, list, shippingAddress, shippingDate } = dataCart.data
+
+        const { available, updateAvailable } = require('../../services/numberSeriers')
+        // const { currentYear, currentdateSlash } = require('../../utils/utility')
+        const idAvailable = await available(currentYear(), 'cn', zone)
+
         let listArr = []
         let summary = 0
-        console.log(list)
         for (let listData of list) {
-            listData.totalAmount = listData.pricePerUnitRefund * listData.qty
+            listData.totalAmount = listData.pricePerQty * listData.qty
             listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
-            summary = summary + listData.pricePerUnitRefund * listData.qty
-            const dataQtyText = await Unit.findOne({idUnit: listData.unitId})
+            summary = summary + listData.pricePerQty * listData.qty
+            const dataQtyText = await Unit.findOne({ idUnit: listData.unitQty })
             listData.qtyText = dataQtyText.nameEng
             listArr.push(listData)
         }
@@ -59,43 +61,37 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
         const mainData = {
             orderNo: idAvailable,
-            orderDate: currentdate(),
+            saleMan: saleMan,
+            saleCode: saleCode,
+            area: area,
             storeId: storeId,
-            storeName: storeData.name,
-            address: storeData.address,
-            taxID: storeData.taxId,
-            tel: storeData.tel,
-            totalPrice: summary,
-            zone: req.body.zone,
-            area: req.body.area,
+            storeName: storeName,
+            address: address,
+            taxID: taxID,
+            tel: tel,
+            warehouse: warehouse,
+            note: note,
+            latitude: latitude,
+            longtitude: longtitude,
+            totalAmount: summary,
             list: listArr,
-            saleCode: req.body.saleCode,
             shipping: {
                 address: null,
                 dateShip: null,
                 note: null
             },
-            noteCnOrder,
             status: '10',
             createDate: currentdateSlash(),
-            refOrder:req.body.refOrder
+            updateDate: null,
+            refOrder: refOrder
         }
         console.log(mainData)
 
-        const dataCheck = await axios.post(process.env.API_URL_12SERVICE + "/dataCn/checkOrderReplace", {orderNo:mainData.orderNo})
-        if(dataCheck.data.statusCheck === 0){
-            await CnOrder.create(mainData)
-            await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
-            await updateAvailable(currentYear(),'cnOrder', req.body.zone ,idAvailable + 1)
-            await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
-
-            res.status(200).json({status: 200, message: 'add CnOrder Successfully!'})
-        }else{
-            await createLog('200', req.method, req.originalUrl, res.body, 'CnOrder has replace Successfully!')
-
-            res.status(200).json({status: 200, message: 'CnOrder has replace Successfully!'})
-        }
-        // await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId}) ปิดไว้เพื่อเทส
+        await CnOrder.create(mainData)
+        await updateAvailable(currentYear(), 'cn', zone, idAvailable + 1)
+        await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
+        res.status(200).json({ status: 200, message: 'add CnOrder Successfully!' })
+        await CartCn.deleteOne({area: req.body.area, storeId: req.body.storeId})
     } catch (e) {
         console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
@@ -108,17 +104,17 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
 
 addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
     try {
-        let {orderNo, noteCnOrder, saleCode} = req.body
+        let { orderNo, noteCnOrder, saleCode } = req.body
         if (orderNo && noteCnOrder) {
             const orderRef = await Order.findOne({ orderNo: orderNo })
             const { available, updateAvailable } = require('../../services/numberSeriers')
-            const { currentYear, currentdate, currentdateSlash } = require('../../utils/utility')
-            const idAvailable = await available(currentYear(), 'cnOrder', req.body.zone)
+            // const { currentYear, currentdate, currentdateSlash } = require('../../utils/utility')
+            const idAvailable = await available(currentYear(), 'cn', req.body.zone)
             let listArr = [];
             for (let listData of orderRef.list) {
                 const dataQtyText = await Unit.findOne({ idUnit: listData.unitQty });
                 const dataProduct = await Product.findOne({ id: listData.id, unitList: { $elemMatch: { id: listData.unitQty } } }, { 'unitList.$': 1 });
-                console.log('cn',dataProduct)
+                console.log('cn', dataProduct)
                 let listObj = {
                     id: listData.id,
                     name: listData.name,
@@ -150,7 +146,7 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
                     dateShip: null,
                     note: null
                 },
-                noteCnOrder,
+                note,
                 status: '10',
                 createDate: currentdateSlash(),
                 refOrder: orderRef.orderNo
@@ -159,7 +155,7 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
             await CnOrder.create(mainData)
             await axios.post(process.env.API_URL_12SERVICE + "/dataCn/addDataCn", mainData)
             await Order.updateOne({ orderNo: orderRef.orderNo }, { status: "99" })
-            await updateAvailable(currentYear(), 'cnOrder', req.body.zone, idAvailable + 1)
+            await updateAvailable(currentYear(), 'cn', req.body.zone, idAvailable + 1)
             await createLog('200', req.method, req.originalUrl, res.body, 'add CnOrder Successfully!')
             res.status(200).json({ status: '200', message: 'add CnOrder Successfully!' })
             return;
@@ -178,17 +174,20 @@ addCnOrder.post('/addCnOrderFromOrder', async (req, res) => {
     }
 });
 
-addCnOrder.post('/updateStatusCnOrder',verifyToken, async (req, res) => {
+addCnOrder.post('/UpdateOrder', async (req, res) => {
     try {
-        let {id, status} = req.body
-        if (id && status) {
-            await CnOrder.updateOne({ id }, { status })
-            res.status(200).json({status: '200', message: 'Update Status Successfully'})
+        const { order, status, co } = req.body
+        if (!order) {
+            await createLog('501', req.method, req.originalUrl, res.body, 'require body')
+            res.status(501).json({ status: 501, message: 'require body' })
         } else {
-            res.status(500).json({status: '500', message: 'require req.body!!'})
+
+            await CnOrder.updateOne({ orderNo: order }, { $set: { orderNo: co, status: status, updateDate: currentdateDash() } })
+            await createLog('200', req.method, req.originalUrl, res.body, 'update Status Successfully')
+            res.status(200).json({ status: 200, message: 'Update Status Successfully' })
+
         }
     } catch (e) {
-        console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
         res.status(500).json({
             status: 500,

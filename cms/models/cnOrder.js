@@ -3,12 +3,14 @@ const mongoose = require('mongoose')
 const list = mongoose.Schema({
     id: { type: String},
     name:{type:String},
+    type:{type:String},
     qty:{type:Number},
-    note:String,
-    unitId:{type:String},
-    pricePerUnitRefund:{type:Number},
-    totalAmount:{type:Number}
+    pricePerQty:{type:Number},
+    unitQty:{type:String},
+    amount:{type:Number},
+    note:{type:String}
 })
+
 const shipping = mongoose.Schema({
     address:{type:String},
     dateShip:{type:String},
@@ -17,23 +19,25 @@ const shipping = mongoose.Schema({
 
 const cnOrderSchema = mongoose.Schema({
     orderNo:{type:String},
-    orderDate:String,
+    saleMan:{type:String},
+    saleCode:{type:String},
+    area:{type:String},
     storeId:{type:String},
     storeName:{type:String},
     address:{type:String},
     taxID:{type:String},
     tel:{type:String},
-    note:String,
-    totalPrice:{ type: Number,toFixed: 2, default: 0.00 },
-    zone:String,
-    area:String,
-    saleCode:String,
+    warehouse:{type:String},
+    note:{type:String},
+    latitude:{type:String},
+    longtitude:{type:String},
+    totalAmount:{ type: Number,toFixed: 2, default: 0.00 },
     list:[list],
     shipping:shipping,
-    noteCnOrder:String,
     status:{type:String},
-    createDate:String,
-    refOrder:String
+    createDate:{type:String},
+    updateDate:{type:String},
+    refOrder:{type:String}
 })
 
 const detailSchema = mongoose.Schema({
@@ -41,8 +45,8 @@ const detailSchema = mongoose.Schema({
     name: { type: String, require: true},
     pricePerUnitRefund: { type: Number,toFixed: 2, default: 0.00 },
     qty:{type:Number,require:true},
-    note:String,
     unitId:{type:String,require:true},
+    note:String
 })
 
 const cartCnSchema = mongoose.Schema({
@@ -51,8 +55,7 @@ const cartCnSchema = mongoose.Schema({
     storeId:{type:String},
     totalPrice:{type: Number,toFixed: 2, default: 0.00},
     list:[detailSchema],
-    shipping:shipping,
-    noteCnOrder:String
+    shipping:shipping
 })
 
 const CnOrder = mongoose.model('cnOrder',cnOrderSchema)

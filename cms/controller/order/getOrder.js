@@ -99,7 +99,6 @@ getOrder.get('/getAll', async (req, res) => {
     }
 })
 
-
 getOrder.post('/getMain', async (req, res) => {
     try {
         const { area } = req.body

@@ -7,6 +7,7 @@ const _ = require('lodash')
 const {errResponse} = require("../../services/errorResponse");
 const {createLog} = require("../../services/errorLog");
 const { slicePackSize } = require('../../utils/utility')
+
 getProduct.post('/getProductAll', async (req, res) => {
     try {
         const data = await Product.find({}, {_id: 0, id: 1, name: 1})
@@ -79,11 +80,13 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
     try {
         const data = await Product.findOne({id: req.body.id}, {_id: 0, id: 1, name: 1, unitList: 1})
         if (data){
-            var priceUnit = 0
+            var saleUnit = 0
+            var cnUnit = 0
             const listObj = []
             for (const list of data.unitList) {
                 if (list.id === req.body.unitId) {
-                    priceUnit = list.pricePerUnitSale
+                    saleUnit = list.pricePerUnitSale,
+                    cnUnit = list.pricePerUnitRefund
                 }
                 const dataUnit = await Unit.findOne({idUnit: list.id})
                 const listData = {
@@ -102,7 +105,8 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
                 nameDetail: data.name,
                 unitId: req.body.unitId,
                 qty: req.body.qty,
-                sumPrice: parseFloat(priceUnit * req.body.qty).toFixed(2),
+                sumSale: parseFloat(saleUnit * req.body.qty).toFixed(2),
+                sumCn: parseFloat(cnUnit * req.body.qty).toFixed(2),
                 unitList: listObj
             }
             await createLog('200',req.method,req.originalUrl,res.body,'getProductDetailUnit successfully')
@@ -123,21 +127,138 @@ getProduct.post('/getProductDetailUnit', async (req, res) => {
 })
 
 
+// getProduct.post('/getDataOption', async (req, res) => {
+//     try {
+
+//         for (const key in req.body) {
+//             if (req.body[key] === "") {
+//                 delete req.body[key];
+//             }
+//         }
+//         const data = await Product.find(req.body, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
+//         const dataGroup = await Product.find({},{_id: 0, group: 1 })
+//         if (data.length > 0){
+//             const group = []
+//             const brand = []
+//             const size = []
+//             const flavour = []
+//             for (const subData of data) {
+//                 for (const subGroup of dataGroup) {
+//                     group.push(subGroup.group)
+//                 }
+//                 brand.push(subData.brand)
+//                 size.push(subData.size)
+//                 flavour.push(subData.flavour)
+//             }
+//             const op1 = _.uniq(group)
+//             const op2 = _.uniq(brand)
+//             const op3 = _.uniq(size)
+//             const op4 = _.uniq(flavour)
+
+//             const mainData = {
+//                 group: op1,
+//                 brand: op2,
+//                 size: op3,
+//                 flavour: op4
+//             }
+//             await createLog('200',req.method,req.originalUrl,res.body,'getDataOption successfully')
+//             res.status(200).json(mainData)
+//         }else{
+//             await createLog('200',req.method,req.originalUrl,res.body,'No Data')
+//             await errResponse(res)
+//         }
+
+//     } catch (error) {
+//         await createLog('500',req.method,req.originalUrl,res.body,error.message)
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         })
+//     }
+// })
+
+// getProduct.post('/getDataOption', async (req, res) => {
+//     try {
+//         for (const key in req.body) {
+//             if (req.body[key] === "") {
+//                 delete req.body[key]
+//             }
+//         }
+
+//         const data = await Product.find(req.body, { _id: 0, brand: 1, size: 1, flavour: 1, group: 1 })
+//         let availableSizes = []
+//         if (req.body.group) {
+//             const allSizesInGroup = await Product.find({ group: req.body.group }, { _id: 0, size: 1 })
+//             availableSizes = _.uniq(allSizesInGroup.map(product => product.size))
+//         }
+//         const dataGroup = await Product.find({}, { _id: 0, group: 1 })
+
+//         if (data.length > 0) {
+//             const group = []
+//             const brand = []
+//             const size = []
+//             const flavour = []
+
+//             for (const subData of data) {
+//                 for (const subGroup of dataGroup) {
+//                     group.push(subGroup.group);
+//                 }
+//                 brand.push(subData.brand);
+//                 size.push(subData.size);
+//                 flavour.push(subData.flavour);
+//             }
+
+//             const op1 = _.uniq(group)
+//             const op2 = _.uniq(brand)
+//             const op3 = _.uniq([...size, ...availableSizes])
+//             const op4 = _.uniq(flavour)
+
+//             const mainData = {
+//                 group: op1,
+//                 brand: op2,
+//                 size: op3,
+//                 flavour: op4
+//             };
+
+//             await createLog('200', req.method, req.originalUrl, res.body, 'getDataOption successfully')
+//             res.status(200).json(mainData)
+//         } else {
+//             await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
+//             await errResponse(res)
+//         }
+
+//     } catch (error) {
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message)
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         })
+//     }
+// })
+
 getProduct.post('/getDataOption', async (req, res) => {
     try {
-
         for (const key in req.body) {
             if (req.body[key] === "") {
-                delete req.body[key];
+                delete req.body[key]
             }
         }
-        const data = await Product.find(req.body, {_id: 0, brand: 1, size: 1, flavour: 1, group: 1})
-        const dataGroup = await Product.find({},{_id: 0, group: 1 })
-        if (data.length > 0){
+
+        const data = await Product.find(req.body, { _id: 0, brand: 1, size: 1, flavour: 1, group: 1 })
+        const dataGroup = await Product.find({}, { _id: 0, group: 1 })
+        
+        let availableSizes = []
+        if (req.body.group) {
+            const allSizesInGroup = await Product.find({ group: req.body.group }, { _id: 0, size: 1 })
+            availableSizes = _.uniq(allSizesInGroup.map(product => product.size))
+        }
+
+        if (data.length > 0) {
             const group = []
             const brand = []
             const size = []
             const flavour = []
+            
             for (const subData of data) {
                 for (const subGroup of dataGroup) {
                     group.push(subGroup.group)
@@ -146,9 +267,10 @@ getProduct.post('/getDataOption', async (req, res) => {
                 size.push(subData.size)
                 flavour.push(subData.flavour)
             }
+
             const op1 = _.uniq(group)
             const op2 = _.uniq(brand)
-            const op3 = _.uniq(size)
+            const op3 = _.uniq([...size, ...availableSizes])
             const op4 = _.uniq(flavour)
 
             const mainData = {
@@ -156,23 +278,22 @@ getProduct.post('/getDataOption', async (req, res) => {
                 brand: op2,
                 size: op3,
                 flavour: op4
-            }
-            await createLog('200',req.method,req.originalUrl,res.body,'getDataOption successfully')
+            };
+            await createLog('200', req.method, req.originalUrl, res.body, 'getDataOption successfully')
             res.status(200).json(mainData)
-        }else{
-            await createLog('200',req.method,req.originalUrl,res.body,'No Data')
+        } else {
+            await createLog('200', req.method, req.originalUrl, res.body, 'No Data')
             await errResponse(res)
         }
 
     } catch (error) {
-        await createLog('500',req.method,req.originalUrl,res.body,error.message)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message
-        })
+        });
     }
 })
-
 
 getProduct.post('/getProduct', async (req, res) => {
     try {
