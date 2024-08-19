@@ -11,8 +11,9 @@ const getOrder = express.Router()
 
 getOrder.get('/getAll', async (req, res) => {
     try {
+        const { status } = req.query
         const data = await Order.aggregate([
-            {$match:{status:"10"}},
+            {$match:{ status }},
             { $unwind: "$list" },
             {
                 $lookup: {
