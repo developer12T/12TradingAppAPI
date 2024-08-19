@@ -1116,6 +1116,7 @@ comparePromotion.post('/compare', async (req, res) => {
 
             if (!combinedProducts[proId]) {
                 combinedProducts[proId] = {
+                    proId: proId,
                     summaryQty: qty,
                     unitQty,
                     listProduct: [{
