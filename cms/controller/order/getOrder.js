@@ -13,7 +13,7 @@ getOrder.get('/getAll', async (req, res) => {
     try {
         const { status } = req.query
         const data = await Order.aggregate([
-            {$match:{ status }},
+            { $match:{ status: status  } },
             { $unwind: "$list" },
             {
                 $lookup: {
