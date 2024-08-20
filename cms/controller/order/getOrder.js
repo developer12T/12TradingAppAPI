@@ -89,7 +89,7 @@ getOrder.get('/getAll', async (req, res) => {
             createDate: convertDateFormat(order.createDate)
         }));
 
-        mainData.sort((a, b) => parseInt(a.orderNo) - parseInt(b.orderNo))
+        mainData.sort((b, a) => parseInt(a.orderNo) - parseInt(b.orderNo))
 
         await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
         res.status(200).json(mainData);
