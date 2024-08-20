@@ -47,7 +47,10 @@ getOrder.get('/getAll', async (req, res) => {
                     "list.unitText": { $arrayElemAt: ["$unitDetails.nameEng", 0] },
                     note: { $ifNull: ["$note", ""] },
                     "list.qtyPcs": {
-                        $multiply: [{ $ifNull: ["$list.qty", 0] }, { $ifNull: ["$productDetails.factor", 1] }]
+                        $multiply: [
+                            { $toDouble: { $ifNull: ["$list.qty", 0] } }, 
+                            { $toDouble: { $ifNull: ["$productDetails.factor", 1] } }
+                        ]
                     }
                 }
             },
