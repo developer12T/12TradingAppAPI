@@ -99,7 +99,27 @@ getCnOrder.get('/getAll', async (req, res) => {
 getCnOrder.post('/getMain', async (req, res) => {
     try {
         const { area } = req.body
-        const data = await CnOrder.find({ area }, { _id: 0, __v: 0, idIndex: 0 }).sort({ id: -1 })
+        // const data = await CnOrder.find({ area }, { _id: 0, __v: 0, idIndex: 0 }).sort({ id: -1 })
+
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1; 
+
+        const data = await CnOrder.aggregate([
+            { $match: { area } },
+            { 
+                $match: {
+                    $expr: {
+                        $and: [
+                            { $eq: [{ $year: { $dateFromString: { dateString: "$createDate" } } }, currentYear] },
+                            { $eq: [{ $month: { $dateFromString: { dateString: "$createDate" } } }, currentMonth] }
+                        ]
+                    }
+                }
+            },
+            { $sort: { id: -1 } },
+            { $project: { _id: 0, __v: 0, idIndex: 0 } }
+        ])
+
         if (data.length > 0) {
             const mainData = []
             for (let list of data) {

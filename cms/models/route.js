@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const { status } = require('./status')
 
 const listCheck = mongoose.Schema({
     number: { type: Number, },
     orderId: { type: String, require: true },
+    status: { type: String, require: true },
     date: { type: String, require: true },
 })
 

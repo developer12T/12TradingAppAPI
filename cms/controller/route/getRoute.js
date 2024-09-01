@@ -28,8 +28,11 @@ getRoute.post('/getRouteMain', async (req, res) => {
         const showData = []
         let statusCount = 0
         let statusAll = 0
-        const data = await Route.find({ area: req.body.area }, { _id: 0 }).exec()
-        // console.log(data)
+
+        // const data = await Route.find({ area: req.body.area }, { _id: 0 }).exec()
+        const currentMonth = new Date().toISOString().slice(0, 7).replace('-', '')
+        const data = await Route.find({ area: req.body.area, period: currentMonth }, { _id: 0 }).exec()
+
         if (data.length > 0) {
             for (let i = 0; i < data.length; i++) {
                 for (let j = 0; j < data[i].list.length; j++) {

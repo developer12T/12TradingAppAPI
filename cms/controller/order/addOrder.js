@@ -84,7 +84,7 @@ addOrder.post('/newOrder', async (req, res) => {
             area: req.body.area,
             storeId: req.body.storeId,
             idRoute: req.body.idRoute,
-            note: 'ขายสินค้าแล้ว',
+            status: orderStatus,
             orderId: orderNo
         });
 
