@@ -68,41 +68,61 @@ addRoute.post('/addRouteStoreFromM3', async (req, res) => {
     try {
         const dataFetch = await axios.post('http://58.181.206.159:9814/cms_api/cms_route2.php')
         const { currentdateFormatYearMont } = require('../../utils/utility')
-        const idRu = await Route.findOne({ period: currentdateFormatYearMont() },).sort({ id: -1 })
-        if (!idRu) {
-            var idRoute = currentdateFormatYearMont() + 'R1'
-        } else {
-            var prefix = idRu.id.slice(0, 7)
-            var subfix = parseInt(idRu.id.slice(7)) + 1
+        const idRu = await Route.findOne({ period: currentdateFormatYearMont() }).sort({ id: -1 })
 
-            var idRoute = prefix + subfix
+        let idRoute;
+        if (!idRu) {
+            idRoute = currentdateFormatYearMont() + 'R1'
+        } else {
+            const prefix = idRu.id.slice(0, 7)
+            const subfix = parseInt(idRu.id.slice(7)) + 1
+            idRoute = prefix + subfix
         }
-        const listStore = []
 
         for (const storeList of dataFetch.data) {
-            for (const listSub of storeList.list) {
+            const existingRoute = await Route.findOne({ id: storeList.idRoute, period: currentdateFormatYearMont() })
 
-                // const dataStore = await Store.findOne({idCharecter:list.slice(3),idNumber:parseInt(list.slice(0,3))})
-                const newData = {
-                    storeId: listSub,
-                    latitude: '',
-                    longtitude: '',
-                    status: 0,
-                    note: '',
-                    dateCheck: '****-**-**T**:**',
-                    listCheck: []
+            if (existingRoute) {
+                for (const listSub of storeList.list) {
+                    const storeExists = existingRoute.list.some(store => store.storeId === listSub)
+                    if (!storeExists) {
+                        const newData = {
+                            storeId: listSub,
+                            latitude: '',
+                            longtitude: '',
+                            status: 0,
+                            note: '',
+                            dateCheck: '****-**-**T**:**',
+                            listCheck: []
+                        }
+                        existingRoute.list.push(newData)
+                    }
                 }
-                listStore.push(newData)
+                await existingRoute.save()
+            } else {
+                const listStore = []
+                for (const listSub of storeList.list) {
+                    const newData = {
+                        storeId: listSub,
+                        latitude: '',
+                        longtitude: '',
+                        status: 0,
+                        note: '',
+                        dateCheck: '****-**-**T**:**',
+                        listCheck: []
+                    }
+                    listStore.push(newData)
+                }
+                const mainData = {
+                    id: storeList.idRoute,
+                    area: storeList.area,
+                    period: currentdateFormatYearMont(),
+                    list: listStore
+                }
+                await Route.create(mainData)
             }
-            const mainData = {
-                id: storeList.idRoute,
-                area: storeList.area,
-                period: currentdateFormatYearMont(),
-                list: listStore
-            }
-            await Route.create(mainData)
-            listStore.length = 0
         }
+
         await createLog('200', req.method, req.originalUrl, res.body, 'Add Route Successfully')
         res.status(200).json({ status: 201, message: 'Add Route Successfully' })
     } catch (e) {
