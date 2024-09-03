@@ -40,7 +40,9 @@ addOrder.post('/newOrder', async (req, res) => {
         }
 
         const storeNewResponse = await axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreNew`, { area: req.body.area })
-        const isStoreNew = storeNewResponse.data.some(store => store.storeId === req.body.storeId && store.status === '10')
+        const isStoreNew = Array.isArray(storeNewResponse.data)
+            ? storeNewResponse.data.some(store => store.storeId === req.body.storeId && store.status === '10')
+            : false
 
         const orderStatus = isStoreNew ? '0' : '10';
 
@@ -66,7 +68,7 @@ addOrder.post('/newOrder', async (req, res) => {
                 dateShip: shippingDate,
                 note: ''
             },
-            status: orderStatus, 
+            status: orderStatus,
             createDate: currentdateSlash(),
             updateDate: null
         };
