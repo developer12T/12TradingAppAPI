@@ -178,6 +178,21 @@ function convertDateFormat(dateString) {
     }
 }
 
+function convertTimeFormat(dateString) {
+    const [datePart, timePart] = dateString.split('T');
+    
+    if (timePart) {
+        const [hours, minutes, seconds] = timePart.split(':');
+        if (hours && minutes && seconds) {
+            return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')} น.`;
+        }
+    }
+    return 'Invalid Date';
+}
+
+
+
+
 function convertFormatErp(dateString) {
     if (moment(dateString, 'YYYY/MM/DDTHH:mm:ss', true).isValid()) {
         return moment(dateString, 'YYYY/MM/DDTHH:mm:ss').format('YYYYDDMM')
@@ -224,6 +239,7 @@ module.exports = {
     slicePackSize,
     getNameStatus,
     convertDateFormat,
-    convertFormatErp
+    convertFormatErp,
+    convertTimeFormat
     // convertUnitToCTN
 };

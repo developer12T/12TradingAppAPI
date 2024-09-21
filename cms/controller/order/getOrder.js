@@ -5,7 +5,7 @@ const { Order, PreOrder } = require('../../models/order')
 const { Unit, Product } = require('../../models/product')
 const { createLog } = require('../../services/errorLog')
 const { errResponse } = require('../../services/errorResponse')
-const { getNameStatus, slicePackSize, convertDateFormat } = require('../../utils/utility')
+const { getNameStatus, slicePackSize, convertDateFormat, convertTimeFormat } = require('../../utils/utility')
 const { log } = require('winston')
 const getOrder = express.Router()
 
@@ -137,7 +137,8 @@ getOrder.get('/getAll', async (req, res) => {
 
         const mainData = data.map(order => ({
             ...order,
-            createDate: convertDateFormat(order.createDate)
+            createDate: convertDateFormat(order.createDate),
+            createTime: convertTimeFormat(order.createDate)
         }));
 
         mainData.sort((b, a) => parseInt(a.orderNo) - parseInt(b.orderNo))
