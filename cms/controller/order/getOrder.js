@@ -64,7 +64,7 @@ getOrder.get('/getAll', async (req, res) => {
     try {
         const { status } = req.query
         const data = await Order.aggregate([
-            { $match:{ status: status  } },
+            { $match:{ status: status } },
             { $unwind: "$list" },
             {
                 $lookup: {
@@ -88,9 +88,23 @@ getOrder.get('/getAll', async (req, res) => {
                 }
             },
             {
+                $lookup: {
+                    from: "users",
+                    localField: "saleCode", 
+                    foreignField: "saleCode",
+                    as: "payer"
+                }
+            },
+            {
                 $unwind: {
                     path: "$productDetails",
                     preserveNullAndEmptyArrays: true 
+                }
+            },
+            {
+                $unwind: {
+                    path: "$payer", 
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
@@ -102,6 +116,11 @@ getOrder.get('/getAll', async (req, res) => {
                             { $toDouble: { $ifNull: ["$list.qty", 0] } }, 
                             { $toDouble: { $ifNull: ["$productDetails.factor", 1] } }
                         ]
+                    },
+                    payer: { 
+                        $concat: [
+                            { $ifNull: ["$payer.salePayer", ""] }, " ",
+                        ]
                     }
                 }
             },
@@ -111,6 +130,7 @@ getOrder.get('/getAll', async (req, res) => {
                     orderNo: { $first: "$orderNo" },
                     saleMan: { $first: "$saleMan" },
                     saleCode: { $first: "$saleCode" },
+                    payer: { $first: "$payer" },
                     area: { $first: "$area" },
                     storeId: { $first: "$storeId" },
                     storeName: { $first: "$storeName" },
@@ -141,7 +161,7 @@ getOrder.get('/getAll', async (req, res) => {
             createTime: convertTimeFormat(order.createDate)
         }));
 
-        mainData.sort((b, a) => parseInt(a.orderNo) - parseInt(b.orderNo))
+        mainData.sort((b, a) => parseInt(a.orderNo) - parseInt(b.orderNo));
 
         await createLog('200', req.method, req.originalUrl, res.body, 'getAll Order Successfully!')
         res.status(200).json(mainData);
@@ -153,7 +173,8 @@ getOrder.get('/getAll', async (req, res) => {
             message: e.message
         })
     }
-})
+});
+
 
 // getOrder.post('/getDetail', async (req, res) => {
 //     try {
