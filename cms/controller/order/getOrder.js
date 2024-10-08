@@ -119,7 +119,7 @@ getOrder.get('/getAll', async (req, res) => {
                     },
                     payer: { 
                         $concat: [
-                            { $ifNull: ["$payer.salePayer", ""] }, " ",
+                            { $ifNull: ["$payer.salePayer", ""] },
                         ]
                     }
                 }
