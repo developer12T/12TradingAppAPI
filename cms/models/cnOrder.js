@@ -8,7 +8,9 @@ const list = mongoose.Schema({
     pricePerQty:{type:Number},
     unitQty:{type:String},
     amount:{type:Number},
-    note:{type:String}
+    note:{type:String},
+    lot:{type:String},
+    exp:{type:String}
 })
 
 const shipping = mongoose.Schema({
