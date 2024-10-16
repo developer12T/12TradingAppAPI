@@ -10,7 +10,7 @@ addProductToCnCart.post('/addProductToCart', async (req, res) => {
     try {
         //Declare Variable
         let {area, storeId, noteCnOrder} = req.body
-        let {id, name, pricePerUnitRefund, qty, unitId, note} = req.body.list
+        let {id, name, pricePerUnitRefund, qty, unitId, note, lot, exp} = req.body.list
         //find value
         const checkIdCartCn = await CartCn.findOne({area: area, storeId: storeId})
         console.log(checkIdCartCn)
@@ -27,7 +27,9 @@ addProductToCnCart.post('/addProductToCart', async (req, res) => {
                         pricePerUnitRefund,
                         qty,
                         unitId,
-                        note
+                        note,
+                        lot,
+                        exp
                     }
                 ],
                 shipping: {
