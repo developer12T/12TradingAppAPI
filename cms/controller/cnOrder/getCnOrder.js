@@ -170,7 +170,9 @@ getCnOrder.post('/getDetail', async (req, res) => {
                     unitTypeEng: detail_product.nameEng,
                     pricePerQty: list.pricePerQty.toFixed(2),
                     summaryPrice: list.amount.toFixed(2),
-                    note: ''
+                    note: '',
+                    lot: list.lot,
+                    exp: list.exp
                 }
                 data_list.push(list_obj);
             }
