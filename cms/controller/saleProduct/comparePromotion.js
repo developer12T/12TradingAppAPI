@@ -283,7 +283,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     if (totalAmountInGroup >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) {
                                         const rewards = await Promise.all(promo.rewards.map(async (reward) => {
                                             const dataRewardItem = await fetchProductDetails(reward)
-                                            console.log(dataRewardItem)
+                                            // console.log(dataRewardItem)
                                             return {
                                                 productId: reward.productGroup,
                                                 qty: calculateRewardQty(totalAmountInGroup, itemBuyList.productAmount, reward.productQty),
@@ -434,12 +434,11 @@ comparePromotion.post('/compare', async (req, res) => {
                                 const dataRewardItem = await fetchProductDetails(reward);
                                 return {
                                     productId: reward.productGroup,
-                                    qty: calculateRewardQty(totalAmount, itemBuyList.productAmount, reward.productQty),
+                                    qty: reward.productQty,
                                     unitQty: await getUnitName(reward.productUnit),
                                     listProductReward: dataRewardItem
-                                };
-                            }));
-
+                                }
+                            }))
                             BeautyStorePromotions.push({
                                 group: promo.rewards[0].productGroup,
                                 size: promo.rewards[0].productSize,
@@ -449,8 +448,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                 qtyUnit: rewards.map(r => r.unitQty).join(', '),
                                 listProductReward: [rewards[0].listProductReward[0]],
                             });
-
-                            appliedPromotions.add(promo.proId);
+                            appliedPromotions.add(promo.proId)
                         }
                     }
                 }
@@ -466,7 +464,6 @@ comparePromotion.post('/compare', async (req, res) => {
 
             for (const product of uniqListProduct) {
                 const foundInReward = list.listProductReward.find(reward => reward.id === product.id)
-                console.log(product)
                 if (foundInReward) {
                     matchedProduct = product
                     break
@@ -496,7 +493,7 @@ comparePromotion.post('/compare', async (req, res) => {
         }
 
         for (const list of PromotionDiscountMatch) {
-            const dataPro = await Promotion.findOne({ proId: list.proId });
+            const dataPro = await Promotion.findOne({ proId: list.proId })
             if (list.listProduct && list.listProduct.length > 0) {
                 list.listProduct.forEach(product => {
                     discountItem.push({
@@ -513,7 +510,7 @@ comparePromotion.post('/compare', async (req, res) => {
 
         const combinedProducts = {};
         freeItem.forEach(product => {
-            const { productId, proId, proCode, proName, qty, unitQty, unitQtyThai, proType, productName } = product;
+            const { productId, proId, proCode, proName, qty, unitQty, unitQtyThai, proType, productName } = product
 
             if (!combinedProducts[proId]) {
                 combinedProducts[proId] = {
