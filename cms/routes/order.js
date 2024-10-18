@@ -7,7 +7,6 @@ require('dotenv').config()
 order.use(express.json())
 order.use(cors())
 
-
 const getOrder = require('../controller/order/getOrder')
 const addOrder = require('../controller/order/addOrder')
 const updateOrder = require('../controller/order/updateOrder')

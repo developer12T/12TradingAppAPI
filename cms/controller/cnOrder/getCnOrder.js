@@ -9,8 +9,9 @@ const getCnOrder = express.Router()
 
 getCnOrder.get('/getAll', async (req, res) => {
     try {
+        const { status } = req.query
         const data = await CnOrder.aggregate([
-            {$match:{status:"10"}},
+            { $match:{ status: status } },
             { $unwind: "$list" },
             {
                 $lookup: {
