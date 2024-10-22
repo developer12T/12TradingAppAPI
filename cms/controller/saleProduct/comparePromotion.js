@@ -72,10 +72,11 @@ comparePromotion.post('/compare', async (req, res) => {
 
         await RewardSummary.deleteOne(req.body);
 
-        const [cartData, storeNewResponse, storeBeautyResponse, promotionData] = await Promise.all([
+        const [cartData, storeNewResponse, storeBeautyResponse, storeMkResponse, promotionData] = await Promise.all([
             axios.post(`${process.env.API_URL_IN_USE}/cms/saleProduct/getSummaryCart`, { area: req.body.area, storeId: req.body.storeId }),
             axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreNew`, { area: req.body.area }),
             axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreBeauty`, { area: req.body.area }),
+            axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreMk`, { area: req.body.area }),
             Promotion.find({}).lean()
         ]);
 
@@ -89,6 +90,7 @@ comparePromotion.post('/compare', async (req, res) => {
         // const isStoreBeauty = storeBeautyResponse.data.some(store => store.storeId === req.body.storeId)
         const isStoreNew = Array.isArray(storeNewResponse.data) && storeNewResponse.data.some(store => store.storeId === req.body.storeId)
         const isStoreBeauty = Array.isArray(storeBeautyResponse.data) && storeBeautyResponse.data.some(store => store.storeId === req.body.storeId)
+        const isStoreMk = Array.isArray(storeMkResponse.data) && storeMkResponse.data.some(store => store.storeId === req.body.storeId)
 
         let hasNoOrder = false;
         if (isStoreNew) {
@@ -428,6 +430,44 @@ comparePromotion.post('/compare', async (req, res) => {
 
             if (!orderExists.length) {
                 for (const promo of promotionData.filter(p => p.proType === 'beauty')) {
+                    for (const itemBuyList of promo.conditions) {
+                        if (totalAmount >= itemBuyList.productAmount) {
+                            const rewards = await Promise.all(promo.rewards.map(async (reward) => {
+                                const dataRewardItem = await fetchProductDetails(reward);
+                                return {
+                                    productId: reward.productGroup,
+                                    qty: reward.productQty,
+                                    unitQty: await getUnitName(reward.productUnit),
+                                    listProductReward: dataRewardItem
+                                }
+                            }))
+                            BeautyStorePromotions.push({
+                                group: promo.rewards[0].productGroup,
+                                size: promo.rewards[0].productSize,
+                                proId: promo.proId,
+                                proCode: promo.proCode,
+                                qtyReward: _.sumBy(rewards, 'qty'),
+                                qtyUnit: rewards.map(r => r.unitQty).join(', '),
+                                listProductReward: [rewards[0].listProductReward[0]],
+                            });
+                            appliedPromotions.add(promo.proId)
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isStoreMk) {
+            const currentMonth = new Date().getMonth() + 1;
+            const currentYear = new Date().getFullYear();
+            const orderExists = await Order.aggregate([
+                { $match: { storeId: req.body.storeId, status: { $ne: '90' }, 'list.proCode': 'MK01' } },
+                { $addFields: { createdDateConverted: { $toDate: "$createDate" } } },
+                { $match: { $expr: { $and: [{ $eq: [{ $month: "$createdDateConverted" }, currentMonth] }, { $eq: [{ $year: "$createdDateConverted" }, currentYear] }] } } }
+            ]);
+
+            if (!orderExists.length) {
+                for (const promo of promotionData.filter(p => p.proType === 'marketing')) {
                     for (const itemBuyList of promo.conditions) {
                         if (totalAmount >= itemBuyList.productAmount) {
                             const rewards = await Promise.all(promo.rewards.map(async (reward) => {

@@ -88,8 +88,22 @@ const beautySchema = mongoose.Schema(
         timestamps: false
     })
 
+const marketingSchema = mongoose.Schema(
+    {
+        storeId: { type: String, require: true },
+        name: { type: String, require: true },
+        area: { type: String, require: true },
+        status: { type: String, require: false },
+        createdDate: { type: String },
+        updatedDate: { type: String }
+    },
+    {
+        timestamps: false
+    })
+
 const Store = mongoose.model('Store', storeSchema)
 const TypeStore = mongoose.model('TypeStore', typeStoreSchema)
 const Beauty = mongoose.model('Beauty', beautySchema)
+const Marketing = mongoose.model('Marketing', marketingSchema)
 
-module.exports = { Store, TypeStore, Beauty }
+module.exports = { Store, TypeStore, Beauty, Marketing }

@@ -1,7 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 const getStore = express.Router()
-const { Store, TypeStore, Beauty } = require('../../models/store')
+const { Store, TypeStore, Beauty, Marketing } = require('../../models/store')
 const { User } = require('../../models/user')
 const { ErrorLog } = require("../../models/errorLog")
 const { convertDateFormat, convertFormatErp } = require("../../utils/utility")
@@ -182,9 +182,9 @@ getStore.post('/getStoreBeauty', async (req, res) => {
         if (data.length > 0) {
             data.forEach(item => {
                 if (item.status === 'Y') {
-                    item.statusText = 'ใช้งาน';
+                    item.statusText = 'ใช้งาน'
                 } else if (item.status === 'N') {
-                    item.statusText = 'ไม่ใช้งาน';
+                    item.statusText = 'ไม่ใช้งาน'
                 }
             });
 
@@ -197,20 +197,78 @@ getStore.post('/getStoreBeauty', async (req, res) => {
                     status: list.status,
                     statusText: list.statusText
                 };
-                mainData.push(newData);
+                mainData.push(newData)
             }
-            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreBeauty Successfully');
-            res.status(200).json(mainData);
+            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreBeauty Successfully')
+            res.status(200).json(mainData)
         } else {
-            await createLog('204', req.method, req.originalUrl, res.body, 'No Data');
-            await errResponse(res);
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            await errResponse(res)
         }
     } catch (error) {
-        console.log(error);
-        await createLog('500', req.method, req.originalUrl, res.body, error.message);
-        res.status(500).json({ status: 501, message: error.message });
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({ status: 501, message: error.message })
     }
-});
+})
+
+getStore.post('/getStoreMk', async (req, res) => {
+    try {
+        const { area } = req.body;
+
+        const data = await Marketing.aggregate([
+            {
+                $match: {
+                    area: area,
+                    status: { $in: ['Y'] }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    storeId: 1,
+                    name: 1,
+                    area: 1,
+                    status: 1,
+                }
+            },
+            {
+                $sort: { area: 1 }
+            }
+        ]);
+
+        if (data.length > 0) {
+            data.forEach(item => {
+                if (item.status === 'Y') {
+                    item.statusText = 'ใช้งาน'
+                } else if (item.status === 'N') {
+                    item.statusText = 'ไม่ใช้งาน'
+                }
+            });
+
+            const mainData = [];
+            for (const list of data) {
+                const newData = {
+                    storeId: list.storeId,
+                    name: list.name,
+                    area: list.area,
+                    status: list.status,
+                    statusText: list.statusText
+                };
+                mainData.push(newData)
+            }
+            await createLog('200', req.method, req.originalUrl, res.body, 'getStoreMk Successfully')
+            res.status(200).json(mainData)
+        } else {
+            await createLog('204', req.method, req.originalUrl, res.body, 'No Data')
+            await errResponse(res)
+        }
+    } catch (error) {
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({ status: 501, message: error.message })
+    }
+})
 
 getStore.post('/getDetail', async (req, res) => {
     try {

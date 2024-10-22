@@ -1,7 +1,7 @@
 const express = require('express')
 require('../../configs/connect')
 const addStore = express.Router()
-const { Store, Beauty } = require('../../models/store')
+const { Store, Beauty, Marketing } = require('../../models/store')
 const { currentdateDash, checkDistanceLatLon } = require("../../utils/utility")
 const { status } = require('../../models/status')
 const _ = require('lodash')
@@ -303,7 +303,7 @@ addStore.post('/addStoreFormM3', async (req, res) => {
     }
 })
 
-addStore.post('/addBeautyFormM3', async (req, res) => {
+addStore.post('/addBeautyFromM3', async (req, res) => {
     try {
         const dataArray = []
         const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer_beauty.php')
@@ -329,6 +329,43 @@ addStore.post('/addBeautyFormM3', async (req, res) => {
         }
         await createLog('200', req.method, req.originalUrl, res.body, 'Beauty Added Succesfully')
         res.status(200).json({ status: 201, message: 'Beauty Added Succesfully', additionalData: dataArray })
+
+    } catch (error) {
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
+        res.status(500).json({
+            status: 500,
+            message: error.message
+        })
+    }
+})
+
+addStore.post('/addStoreMkFromM3', async (req, res) => {
+    try {
+        const dataArray = []
+        const response = await axios.post('http://58.181.206.159:9814/cms_api/cms_customer_mk.php')
+        for (const list of response.data) {
+            const mainData = {
+                "storeId": list.storeId,
+                "name": list.name,
+                "area": list.area,
+                status: 'Y',
+                createdDate: currentdateDash(),
+                updatedDate: currentdateDash()
+            }
+            const StoreIf = await Marketing.findOne({ storeId: list.storeId })
+            if (!StoreIf) {
+                await Marketing.create(mainData)
+            } else {
+                const idStoreReplace = {
+                    idStore: list.storeId,
+                    name: list.name
+                }
+                dataArray.push(idStoreReplace)
+            }
+        }
+        await createLog('200', req.method, req.originalUrl, res.body, 'Store Added Succesfully')
+        res.status(200).json({ status: 201, message: 'Store Added Succesfully', additionalData: dataArray })
 
     } catch (error) {
         console.log(error)
