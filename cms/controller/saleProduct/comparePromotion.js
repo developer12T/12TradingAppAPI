@@ -100,13 +100,14 @@ comparePromotion.post('/compare', async (req, res) => {
             hasNoOrder = data.status === 204;
         }
 
-        // const promotionData = await Promotion.find({});
+        // const promotionData = await Promotion.find({})
 
         const PromotionProductMatch = [];
         const PromotionGroupMatch = [];
         const PromotionDiscountMatch = [];
         const NewStorePromotions = [];
         const BeautyStorePromotions = [];
+        const StoreMKPromotions = [];
         let appliedPromotions = new Set();
 
         for (const listGroup of listProduct) {
@@ -479,7 +480,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     listProductReward: dataRewardItem
                                 }
                             }))
-                            BeautyStorePromotions.push({
+                            StoreMKPromotions.push({
                                 group: promo.rewards[0].productGroup,
                                 size: promo.rewards[0].productSize,
                                 proId: promo.proId,
@@ -498,7 +499,7 @@ comparePromotion.post('/compare', async (req, res) => {
         const freeItem = [];
         const discountItem = [];
 
-        for (const list of [...PromotionGroupMatch, ...NewStorePromotions, ...BeautyStorePromotions]) {
+        for (const list of [...PromotionGroupMatch, ...NewStorePromotions, ...BeautyStorePromotions, ...StoreMKPromotions]) {
             const uniqListProduct = _.uniqBy(list.listProduct, 'id')
             let matchedProduct = {}
 
