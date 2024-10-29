@@ -35,9 +35,23 @@ getCnOrder.get('/getAll', async (req, res) => {
                 }
             },
             {
+                $lookup: {
+                    from: "users",
+                    localField: "saleCode", 
+                    foreignField: "saleCode",
+                    as: "payer"
+                }
+            },
+            {
                 $unwind: {
                     path: "$productDetails",
                     preserveNullAndEmptyArrays: true 
+                }
+            },
+            {
+                $unwind: {
+                    path: "$payer", 
+                    preserveNullAndEmptyArrays: true
                 }
             },
             {
@@ -46,6 +60,11 @@ getCnOrder.get('/getAll', async (req, res) => {
                     note: { $ifNull: ["$note", ""] },
                     "list.qtyPcs": {
                         $multiply: [{ $ifNull: ["$list.qty", 0] }, { $ifNull: ["$productDetails.factor", 1] }]
+                    },
+                    payer: { 
+                        $concat: [
+                            { $ifNull: ["$payer.salePayer", ""] },
+                        ]
                     }
                 }
             },
@@ -55,6 +74,7 @@ getCnOrder.get('/getAll', async (req, res) => {
                     orderNo: { $first: "$orderNo" },
                     saleMan: { $first: "$saleMan" },
                     saleCode: { $first: "$saleCode" },
+                    payer: { $first: "$payer" },
                     area: { $first: "$area" },
                     storeId: { $first: "$storeId" },
                     storeName: { $first: "$storeName" },
