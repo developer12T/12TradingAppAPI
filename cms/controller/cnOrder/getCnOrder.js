@@ -149,7 +149,7 @@ getCnOrder.post('/getMain', async (req, res) => {
                     orderDate: list.createDate,
                     number: list.orderNo,
                     name: list.storeName,
-                    totalAmount: list.totalAmount,
+                    totalAmount: parseFloat(list.totalAmount.toFixed(2)),
                     status: list.status,
                     statusText: (await getNameStatus('cn', list.status)).name
                 })

@@ -39,7 +39,6 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
             storeId: req.body.storeId,
             saleCode: req.body.saleCode
         })
-        console.log('Checkout CN:', dataCart.data)
         const { zone, area, storeId, saleCode, warehouse, note, latitude, longtitude, refOrder } = req.body
         const { saleMan, storeName, address, taxID, tel, totalAmount, list, shippingAddress, shippingDate } = dataCart.data
 
@@ -52,7 +51,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
         for (let listData of list) {
             listData.totalAmount = listData.pricePerQty * listData.qty
             listData.totalAmount = parseFloat(listData.totalAmount.toFixed(2))
-            summary = summary + listData.pricePerQty * listData.qty
+            summary = parseFloat((summary + listData.pricePerQty * listData.qty).toFixed(2))
             const dataQtyText = await Unit.findOne({ idUnit: listData.unitQty })
             listData.qtyText = dataQtyText.nameEng
             listArr.push(listData)
