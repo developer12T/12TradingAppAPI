@@ -79,7 +79,7 @@ addCnOrder.post('/addCnOrder', async (req, res) => {
                 dateShip: null,
                 note: null
             },
-            status: '0',
+            status: '10',
             createDate: currentdateSlash(),
             updateDate: null,
             refOrder: refOrder
