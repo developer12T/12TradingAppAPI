@@ -7,7 +7,6 @@ require('dotenv').config()
 cnOrder.use(express.json())
 cnOrder.use(cors())
 
-
 const getCnOrder = require('../controller/cnOrder/getCnOrder')
 const addCnOrder = require('../controller/cnOrder/addCnOrder')
 const updateOrder = require('../controller/cnOrder/updateCnOrder')

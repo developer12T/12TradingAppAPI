@@ -132,7 +132,7 @@ getCartCn.post('/getCnCheckout', async (req, res) => {
                     qtyText: listdata.qty + ' ' + (unitData ? unitData.nameThai : ''),
                     pricePerQty: parseFloat(parseFloat(listdata.pricePerUnitRefund).toFixed(2)),
                     amount: parseFloat(parseFloat(listdata.qty * listdata.pricePerUnitRefund).toFixed(2)),
-                    note: '',
+                    note: listdata.note,
                     lot: listdata.lot,
                     exp: listdata.exp
                 }

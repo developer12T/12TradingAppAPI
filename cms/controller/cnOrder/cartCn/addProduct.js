@@ -1,18 +1,19 @@
 const express = require('express')
 require('../../../configs/connect')
-const {createLog} = require("../../../services/errorLog");
-const {errResponse} = require("../../../services/errorResponse");
-const {CartCn} = require("../../../models/cnOrder");
-const {Cart} = require("../../../models/saleProduct");
-const {exists} = require("fs");
+const { createLog } = require("../../../services/errorLog");
+const { errResponse } = require("../../../services/errorResponse");
+const { CartCn } = require("../../../models/cnOrder");
+const { Cart } = require("../../../models/saleProduct");
+const { exists } = require("fs");
 const addProductToCnCart = express.Router()
+
 addProductToCnCart.post('/addProductToCart', async (req, res) => {
     try {
         //Declare Variable
-        let {area, storeId, noteCnOrder} = req.body
-        let {id, name, pricePerUnitRefund, qty, unitId, note, lot, exp} = req.body.list
+        let { area, storeId, noteCnOrder } = req.body
+        let { id, name, pricePerUnitRefund, qty, unitId, note, lot, exp } = req.body.list
         //find value
-        const checkIdCartCn = await CartCn.findOne({area: area, storeId: storeId})
+        const checkIdCartCn = await CartCn.findOne({ area: area, storeId: storeId })
         console.log(checkIdCartCn)
         if (checkIdCartCn === null) {
             let mainData = {
@@ -45,18 +46,16 @@ addProductToCnCart.post('/addProductToCart', async (req, res) => {
                 message: 'Add Product And Create Id CartCn'
             })
         } else {
-            console.log('มีอยู่แล้ว')
             const checkUnitItem = await CartCn.findOne({
-                    list: {
-                        $elemMatch: {
-                            id: id,
-                            unitId: unitId
-                        }
+                list: {
+                    $elemMatch: {
+                        id: id,
+                        unitId: unitId
                     }
-                },
-                {'list.$': 1})
+                }
+            },
+                { 'list.$': 1 })
 
-            // console.log(checkUnitItem.list.length)
             if (checkUnitItem) {
                 await CartCn.updateOne({
                     area: req.body.area,
@@ -75,11 +74,10 @@ addProductToCnCart.post('/addProductToCart', async (req, res) => {
             } else {
                 await CartCn.updateOne({
                     area: area, storeId: storeId,
-                }, {$push: {list: req.body.list}})
+                }, { $push: { list: req.body.list } })
             }
 
-            const updateTotalPrice = await CartCn.findOne({area: area, storeId: storeId})
-            // console.log(updateTotalPrice.list)
+            const updateTotalPrice = await CartCn.findOne({ area: area, storeId: storeId })
             let summaryTotalAmount = 0
             for (const listData of updateTotalPrice.list) {
                 summaryTotalAmount = summaryTotalAmount + (listData.qty * listData.pricePerUnitRefund)
@@ -112,9 +110,8 @@ addProductToCnCart.post('/addProductToCart', async (req, res) => {
 
 addProductToCnCart.post('/updateQtyProduct', async (req, res) => {
     try {
-        const {area, storeId, id, qty, unitId} = req.body
+        const { area, storeId, id, qty, unitId } = req.body
         let counter
-        // console.log(action)
         if (qty === 0) {
             await CartCn.updateOne({
                 area,
@@ -130,7 +127,7 @@ addProductToCnCart.post('/updateQtyProduct', async (req, res) => {
                 }
             })
 
-        } else if(qty !== 0) {
+        } else if (qty !== 0) {
             await CartCn.updateOne({
                 area, storeId, list: {
                     $elemMatch: {
@@ -144,24 +141,24 @@ addProductToCnCart.post('/updateQtyProduct', async (req, res) => {
                 }
             })
 
-        }else{
-            res.status(200).json({status: '204', message: 'qty has undefined!!'})
+        } else {
+            res.status(200).json({ status: '204', message: 'qty has undefined!!' })
         }
 
         const dataList = await CartCn.findOne({
             area, storeId
-        },{
-            "list":1
+        }, {
+            "list": 1
         })
 
         let ttPrice = 0
-        for (const list of dataList.list){
+        for (const list of dataList.list) {
             ttPrice = ttPrice + (list.pricePerUnitRefund * list.qty)
         }
-        await CartCn.updateOne({ area, storeId},{
-            totalPrice:ttPrice
+        await CartCn.updateOne({ area, storeId }, {
+            totalPrice: ttPrice
         })
-        res.status(200).json({status: '200', message: 'update qty successfully'})
+        res.status(200).json({ status: '200', message: 'update qty successfully' })
     } catch (e) {
         console.log(e)
         await createLog('500', req.method, req.originalUrl, res.body, e.message)
@@ -174,8 +171,8 @@ addProductToCnCart.post('/updateQtyProduct', async (req, res) => {
 
 addProductToCnCart.post('/deleteProduct', async (req, res) => {
     try {
-        const {area, storeId, idProduct, unitId} = req.body
-        await CartCn.updateOne({area: area, storeId: storeId}, {
+        const { area, storeId, idProduct, unitId } = req.body
+        await CartCn.updateOne({ area: area, storeId: storeId }, {
             $pull: {
                 'list': {
                     id: idProduct, unitId: unitId
@@ -183,7 +180,7 @@ addProductToCnCart.post('/deleteProduct', async (req, res) => {
             }
         })
 
-        const updateTotalPrice = await CartCn.findOne({area: area, storeId: storeId})
+        const updateTotalPrice = await CartCn.findOne({ area: area, storeId: storeId })
         // console.log(updateTotalPrice.list)
         let summaryTotalAmount = 0
         for (const listData of updateTotalPrice.list) {
