@@ -2,7 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const addStore = express.Router()
 const { Store, Beauty, Marketing } = require('../../models/store')
-const { currentdateDash, checkDistanceLatLon } = require("../../utils/utility")
+const { currentdateDash, checkDistanceLatLon, currentdateFormatYearMont } = require("../../utils/utility")
 const { status } = require('../../models/status')
 const _ = require('lodash')
 const axios = require("axios")
@@ -208,8 +208,9 @@ addStore.post('/addStore', async (req, res) => {
                 });
             } else {
                 await Store.create(mainData);
+                const period = currentdateFormatYearMont()
 
-                const idRoute = `${area}${route}`;
+                const idRoute = `${period}${area}${route}`;
                 const responseAddRoute = await axios.post(process.env.API_URL_IN_USE + '/cms/route/addRouteStore', {
                     area: area,
                     idRoute: idRoute,

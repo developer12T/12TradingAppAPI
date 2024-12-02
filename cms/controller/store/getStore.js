@@ -4,7 +4,7 @@ const getStore = express.Router()
 const { Store, TypeStore, Beauty, Marketing } = require('../../models/store')
 const { User } = require('../../models/user')
 const { ErrorLog } = require("../../models/errorLog")
-const { convertDateFormat, convertFormatErp } = require("../../utils/utility")
+const { convertDateFormat, convertFormatErp, currentdateFormatYearMont } = require("../../utils/utility")
 const { errResponse } = require('../../services/errorResponse')
 const { createLog } = require("../../services/errorLog")
 
@@ -74,7 +74,7 @@ getStore.post('/getStore', async (req, res) => {
 getStore.post('/getStoreNew', async (req, res) => {
     try {
         const { area } = req.body;
-        
+        const period = currentdateFormatYearMont()
         const currentMonth = new Date().getMonth() + 1; 
         const currentYear = new Date().getFullYear();
 
@@ -127,7 +127,7 @@ getStore.post('/getStoreNew', async (req, res) => {
 
             const mainData = [];
             for (const list of data) {
-                const idRoute = `${list.area}${list.route}`;
+                const idRoute = `${period}${list.area}${list.route}`;
                 const day = 'Day ' + list.route.slice(-2);
                 const newData = {
                     storeId: list.storeId,
