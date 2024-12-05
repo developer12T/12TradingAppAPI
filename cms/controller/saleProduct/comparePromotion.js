@@ -534,12 +534,15 @@ comparePromotion.post('/compare', async (req, res) => {
         }
 
         for (const list of PromotionDiscountMatch) {
-            const dataPro = await Promotion.findOne({ proId: list.proId })
+            const dataPro = await Promotion.findOne({ proId: list.proId });
             if (list.listProduct && list.listProduct.length > 0) {
                 list.listProduct.forEach(product => {
+                    const matchingProduct = listProduct.find(p => p.id === product.id && p.qty === product.qtyPerFlavour);
+                    const unitId = matchingProduct ? matchingProduct.unitId : null;
                     discountItem.push({
                         productId: product.id,
                         productName: product.name,
+                        unitId,
                         proId: list.proId,
                         proName: dataPro ? dataPro.name : '',
                         discount: dataPro ? dataPro.discounts[0].amount : 0,
@@ -680,6 +683,7 @@ comparePromotion.post('/summaryCompare', async (req, res) => {
                 proId: list.proId,
                 proName: list.proName,
                 discount: list.discount,
+                unitId: list.unitId,
                 totalDiscount: list.totalDiscount
             });
         }

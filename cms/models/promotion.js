@@ -79,6 +79,7 @@ const ListDiscount = new Schema({
     proName: {type: String},
     productId: {type: String},
     productName: {type: String},
+    unitId: {type: String},
     discount: {type: Number},
     totalDiscount: {type: Number},
 })
