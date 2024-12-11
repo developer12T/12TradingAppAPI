@@ -12,7 +12,7 @@ const { slicePackSize } = require('../../utils/utility')
 
 getCart.post('/getCart', async (req, res) => {
     try {
-        const data = await Cart.find({ area: req.body.area, storeId: req.body.storeId },{_id:0})
+        const data = await Cart.find({ area: req.body.area, storeId: req.body.storeId }, { _id: 0 })
         await createLog('200', req.method, req.originalUrl, res.body, 'getCart successfully')
         res.status(200).json(data)
     } catch (e) {
@@ -101,10 +101,10 @@ getCart.post('/getPreOrder', async (req, res) => {
             for (const listdata of data.list) {
                 const unitData = await Unit.findOne({ idUnit: listdata.unitId })
                 // const discountInfo = responseData.listDiscount.find(discount => discount.productId.includes(listdata.id))
-                const discountInfo = responseData.listDiscount.find(discount => 
+                const discountInfo = responseData.listDiscount.find(discount =>
                     discount.productId === listdata.id && discount.unitId === listdata.unitId
                 )
-                console.log('ter',discountInfo)
+                console.log('ter', discountInfo)
                 const dataList = {
                     id: listdata.id,
                     name: listdata.name,
@@ -188,6 +188,97 @@ getCart.post('/getPreOrder', async (req, res) => {
     }
 })
 
+// getCart.post('/getSummaryCart', async (req, res) => {
+//     try {
+//         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
+//             'list._id': 0,
+//             __v: 0,
+//             _id: 0
+//         });
+//         const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 })
+//         const listProduct = []
+//         const listProductGroup = {}
+//         let totalAmount = 0
+
+//         for (const list of data.list) {
+//             const dataProduct = await Product.findOne({ id: list.id })
+//             const factoryCal = await Product.findOne({
+//                 id: list.id,
+//                 convertFact: { $elemMatch: { unitId: list.unitId } }
+//             }, { 'convertFact.$': 1 });
+
+//             const unitDetail = await Unit.findOne({ idUnit: list.unitId })
+
+//             const amount = list.qty * list.pricePerUnitSale
+//             totalAmount += amount;
+
+//             const convertedUnits = dataProduct.convertFact.map(convFact => ({
+//                 name: convFact.unitName,
+//                 qty: parseInt((list.qty * factoryCal.convertFact[0].factor) / convFact.factor),
+//                 unitId: convFact.unitId
+//             }));
+
+//             listProduct.push({
+//                 id: list.id,
+//                 qty: factoryCal.convertFact[0].factor * list.qty,
+//                 amount: amount,
+//                 unitId: list.unitId,
+//                 converterUnit: convertedUnits
+//             });
+
+//             const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}__${list.unitId}`;
+//             if (!listProductGroup[groupKey]) {
+//                 listProductGroup[groupKey] = {
+//                     group: dataProduct.group,
+//                     brand: dataProduct.brand,
+//                     size: dataProduct.size,
+//                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
+//                     totalQty: 0,
+//                     totalAmount: 0,
+//                     converterUnit: [...convertedUnits], 
+//                     listProduct: []
+//                 };
+//             } else {
+//                 listProductGroup[groupKey].converterUnit.forEach(unit => {
+//                     const correspondingUnit = convertedUnits.find(u => u.unitId === unit.unitId);
+//                     if (correspondingUnit) {
+//                         unit.qty += correspondingUnit.qty;
+//                     }
+//                 })
+//             }
+
+//             listProductGroup[groupKey].totalQty += factoryCal.convertFact[0].factor * list.qty
+//             listProductGroup[groupKey].totalAmount += amount
+
+//             listProductGroup[groupKey].listProduct.push({
+//                 id: dataProduct.id,
+//                 name: dataProduct.name,
+//                 flavour: dataProduct.flavour,
+//                 qtyPerFlavour: factoryCal.convertFact[0].factor * list.qty,
+//                 amountPerFlavour: amount
+//             });
+//         }
+
+//         const listProductGroupArray = Object.values(listProductGroup);
+
+//         const summaryMainData = {
+//             listProduct: listProduct,
+//             listProductGroup: listProductGroupArray,
+//             totalAmount: totalAmount
+//         };
+
+//         await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully');
+//         res.status(200).json({ typeStore: dataStore.type, list: summaryMainData });
+//     } catch (error) {
+//         console.log(error);
+//         await createLog('500', req.method, req.originalUrl, res.body, error.message);
+//         res.status(500).json({
+//             status: 500,
+//             message: error.message
+//         })
+//     }
+// })
+
 getCart.post('/getSummaryCart', async (req, res) => {
     try {
         const data = await Cart.findOne({ area: req.body.area, storeId: req.body.storeId }, {
@@ -195,28 +286,31 @@ getCart.post('/getSummaryCart', async (req, res) => {
             __v: 0,
             _id: 0
         });
-        const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 });
-        const listProduct = [];
-        const listProductGroup = {};
+        const dataStore = await Store.findOne({ area: req.body.area, storeId: req.body.storeId }, { __v: 0, _id: 0 })
+        const listProduct = []
+        const listProductGroup = {}
         let totalAmount = 0;
 
         for (const list of data.list) {
-            const dataProduct = await Product.findOne({ id: list.id });
+            const dataProduct = await Product.findOne({ id: list.id })
             const factoryCal = await Product.findOne({
                 id: list.id,
                 convertFact: { $elemMatch: { unitId: list.unitId } }
-            }, { 'convertFact.$': 1 });
+            }, { 'convertFact.$': 1 })
 
-            const unitDetail = await Unit.findOne({ idUnit: list.unitId });
+            const unitDetail = await Unit.findOne({ idUnit: list.unitId })
 
-            const amount = list.qty * list.pricePerUnitSale;
-            totalAmount += amount;
+            const amount = list.qty * list.pricePerUnitSale
+            totalAmount += amount
 
-            const convertedUnits = dataProduct.convertFact.map(convFact => ({
-                name: convFact.unitName,
-                qty: parseInt((list.qty * factoryCal.convertFact[0].factor) / convFact.factor),
-                unitId: convFact.unitId
-            }));
+            const convertedUnits = dataProduct.convertFact.map(convFact => {
+                const factor = factoryCal.convertFact[0].factor / convFact.factor
+                return {
+                    name: convFact.unitName,
+                    qty: Math.floor(list.qty * factor),
+                    unitId: convFact.unitId
+                };
+            });
 
             listProduct.push({
                 id: list.id,
@@ -224,9 +318,9 @@ getCart.post('/getSummaryCart', async (req, res) => {
                 amount: amount,
                 unitId: list.unitId,
                 converterUnit: convertedUnits
-            });
+            })
 
-            const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}__${list.unitId}`;
+            const groupKey = `${dataProduct.group}_${dataProduct.brand}_${dataProduct.size}__${list.unitId}`
             if (!listProductGroup[groupKey]) {
                 listProductGroup[groupKey] = {
                     group: dataProduct.group,
@@ -235,30 +329,33 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
                     totalQty: 0,
                     totalAmount: 0,
-                    converterUnit: [...convertedUnits], 
+                    converterUnit: [], 
                     listProduct: []
-                };
-            } else {
-                listProductGroup[groupKey].converterUnit.forEach(unit => {
-                    const correspondingUnit = convertedUnits.find(u => u.unitId === unit.unitId);
-                    if (correspondingUnit) {
-                        unit.qty += correspondingUnit.qty;
-                    }
-                });
+                }
             }
 
-            listProductGroup[groupKey].totalQty += factoryCal.convertFact[0].factor * list.qty;
-            listProductGroup[groupKey].totalAmount += amount;
+            listProductGroup[groupKey].totalQty += factoryCal.convertFact[0].factor * list.qty
+            listProductGroup[groupKey].totalAmount += amount
+
             listProductGroup[groupKey].listProduct.push({
                 id: dataProduct.id,
                 name: dataProduct.name,
                 flavour: dataProduct.flavour,
                 qtyPerFlavour: factoryCal.convertFact[0].factor * list.qty,
                 amountPerFlavour: amount
-            });
+            })
+
+            listProductGroup[groupKey].converterUnit = dataProduct.convertFact.map(convFact => {
+                const factor = convFact.factor;
+                return {
+                    name: convFact.unitName,
+                    qty: Math.floor(listProductGroup[groupKey].totalQty / factor),
+                    unitId: convFact.unitId
+                }
+            })
         }
 
-        const listProductGroupArray = Object.values(listProductGroup);
+        const listProductGroupArray = Object.values(listProductGroup)
 
         const summaryMainData = {
             listProduct: listProduct,
@@ -266,11 +363,11 @@ getCart.post('/getSummaryCart', async (req, res) => {
             totalAmount: totalAmount
         };
 
-        await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully');
-        res.status(200).json({ typeStore: dataStore.type, list: summaryMainData });
+        await createLog('200', req.method, req.originalUrl, res.body, 'getSummary successfully')
+        res.status(200).json({ typeStore: dataStore.type, list: summaryMainData })
     } catch (error) {
-        console.log(error);
-        await createLog('500', req.method, req.originalUrl, res.body, error.message);
+        console.log(error)
+        await createLog('500', req.method, req.originalUrl, res.body, error.message)
         res.status(500).json({
             status: 500,
             message: error.message
