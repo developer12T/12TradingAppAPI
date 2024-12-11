@@ -20,9 +20,11 @@ const ItemCondition = new Schema({
 const ItemFree = new Schema({
     productId: {type: String},
     productGroup: {type: String},
-    productFlavour: {type: String},
+    // productFlavour: {type: String},
+    productFlavour: { type: [String], default: [] },
     productBrand: {type: String},
-    productSize: {type: String},
+    // productSize: {type: String},
+    productSize: { type: [String], default: [] },
     productUnit: {type: String},
     productQty: {type: Number}
 })

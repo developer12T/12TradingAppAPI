@@ -66,7 +66,6 @@ function combineUnitQuantities(productGroups) {
     return Object.values(combinedQuantities)
 }
 
-// version lean ล่าสุด
 comparePromotion.post('/compare', async (req, res) => {
     try {
 
@@ -86,8 +85,6 @@ comparePromotion.post('/compare', async (req, res) => {
         });
 
         const { typeStore, list: { totalAmount, listProduct, listProductGroup } } = cartData.data
-        // const isStoreNew = storeNewResponse.data.some(store => store.storeId === req.body.storeId)
-        // const isStoreBeauty = storeBeautyResponse.data.some(store => store.storeId === req.body.storeId)
         const isStoreNew = Array.isArray(storeNewResponse.data) && storeNewResponse.data.some(store => store.storeId === req.body.storeId)
         const isStoreBeauty = Array.isArray(storeBeautyResponse.data) && storeBeautyResponse.data.some(store => store.storeId === req.body.storeId)
         const isStoreMk = Array.isArray(storeMkResponse.data) && storeMkResponse.data.some(store => store.storeId === req.body.storeId)
@@ -335,7 +332,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     // }
                                 } else if (promo.proType === 'free' && itemBuyList.productQty > 0) {
                                     let totalQtyMatchingConditions = 0;
-
+                                    
                                     listProductGroup.forEach(listGroup => {
                                         const groupMatch = itemBuyList.productGroup.length === 0 || itemBuyList.productGroup.includes(listGroup.group);
                                         const brandMatch = itemBuyList.productBrand.length === 0 || itemBuyList.productBrand.includes(listGroup.brand);
@@ -373,7 +370,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         appliedPromotions.add(keyPro);
                                     }
                                 }
-
+                                
                             } else if (promo.proType === 'discount' && conditionQtyInUnit >= itemBuyList.productQty) {
                                 const discountTotal = calculateDiscount(conditionQtyInUnit, itemBuyList.productQty, promo.discounts[0].amount);
                                 PromotionDiscountMatch.push({
