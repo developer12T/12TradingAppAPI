@@ -326,6 +326,7 @@ getCart.post('/getSummaryCart', async (req, res) => {
                     group: dataProduct.group,
                     brand: dataProduct.brand,
                     size: dataProduct.size,
+                    flavour: dataProduct.flavour,
                     typeUnit: unitDetail.nameThai === 'แผง' ? 'แผง' : 'ไม่แผง',
                     totalQty: 0,
                     totalAmount: 0,

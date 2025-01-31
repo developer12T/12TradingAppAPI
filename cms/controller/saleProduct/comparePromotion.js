@@ -11,18 +11,33 @@ const { log } = require('winston')
 const { restart } = require('nodemon')
 const comparePromotion = express.Router()
 
+// const matchConditions = (promotion, listGroup, req, typeStore) => {
+//     const { conditions, store, typeStore: promoTypeStore, area, except } = promotion
+//     const { storeId, area: reqArea } = req.body
+//     const { group, brand, size } = listGroup
+
+//     return (store.length === 0 || store.includes(storeId)) &&
+//         (promoTypeStore.length === 0 || promoTypeStore.includes(typeStore)) &&
+//         (area.length === 0 || area.includes(reqArea)) &&
+//         (except.length === 0 || !except.includes(storeId)) &&
+//         (conditions[0].productGroup.length === 0 || conditions[0].productGroup.includes(group)) &&
+//         (conditions[0].productBrand.length === 0 || conditions[0].productBrand.includes(brand)) &&
+//         (conditions[0].productSize.length === 0 || conditions[0].productSize.includes(size))
+// }
 const matchConditions = (promotion, listGroup, req, typeStore) => {
-    const { conditions, store, typeStore: promoTypeStore, area, except } = promotion
-    const { storeId, area: reqArea } = req.body
-    const { group, brand, size } = listGroup
+    const { conditions, store, typeStore: promoTypeStore, area, except } = promotion;
+    const { storeId, area: reqArea } = req.body;
+    const { group, brand, size } = listGroup;
 
     return (store.length === 0 || store.includes(storeId)) &&
         (promoTypeStore.length === 0 || promoTypeStore.includes(typeStore)) &&
         (area.length === 0 || area.includes(reqArea)) &&
         (except.length === 0 || !except.includes(storeId)) &&
-        (conditions[0].productGroup.length === 0 || conditions[0].productGroup.includes(group)) &&
-        (conditions[0].productBrand.length === 0 || conditions[0].productBrand.includes(brand)) &&
-        (conditions[0].productSize.length === 0 || conditions[0].productSize.includes(size))
+        conditions.some(cond =>
+            (cond.productGroup.length === 0 || cond.productGroup.includes(group)) &&
+            (cond.productBrand.length === 0 || cond.productBrand.includes(brand)) &&
+            (cond.productSize.length === 0 || cond.productSize.includes(size))
+        );
 }
 
 const calculateRewardQty = (totalAmount, productAmount, productQty) => {
@@ -78,7 +93,7 @@ comparePromotion.post('/compare', async (req, res) => {
             axios.post(`${process.env.API_URL_IN_USE}/cms/store/getStoreMk`, { area: req.body.area }),
             Promotion.find({}).lean()
         ]);
-
+        
         const getPromotion = new Map();
         promotionData.forEach(promo => {
             getPromotion.set(promo.proId, promo);
@@ -195,7 +210,6 @@ comparePromotion.post('/compare', async (req, res) => {
             for (const promo of promotionData) {
                 if (await matchConditions(promo, listGroup, req, typeStore)) {
                     for (const itemBuyList of promo.conditions) {
-                        // console.log(listGroup)
                         const keyPro = `${promo.proId}`
 
                         const groupMatch = itemBuyList.productGroup.length === 0 || itemBuyList.productGroup.includes(listGroup.group)
@@ -204,32 +218,97 @@ comparePromotion.post('/compare', async (req, res) => {
                         const matchingUnit = listGroup.converterUnit.find(unit => unit.unitId === itemBuyList.productUnit[0])
                         const conditionQtyInUnit = matchingUnit ? matchingUnit.qty : 0
 
+                        // if (promo.proType === 'amount') {
+                        //     if (totalAmount >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) {
+                        //         const selectedReward = promo.rewards[0];
+                        //         const rewards = await Promise.all([selectedReward].map(async (reward) => {
+                        //             const dataRewardItem = await fetchProductDetails(reward);
+                        //             return {
+                        //                 productId: reward.productGroup,
+                        //                 qty: calculateRewardQty(totalAmount, itemBuyList.productAmount, reward.productQty),
+                        //                 unitQty: await getUnitName(reward.productUnit),
+                        //                 listProductReward: dataRewardItem
+                        //             };
+                        //         }));
+
+                        //         PromotionGroupMatch.push({
+                        //             group: listGroup.group,
+                        //             size: listGroup.size,
+                        //             proId: promo.proId,
+                        //             proCode: promo.proCode,
+                        //             qtyReward: _.sumBy(rewards, 'qty'),
+                        //             qtyUnit: rewards.map(r => r.unitQty).join(', '),
+                        //             listProductReward: [rewards[0].listProductReward[0]],
+                        //             listProduct: listGroup.listProduct
+                        //         });
+
+                        //         appliedPromotions.add(keyPro);
+                        //     }
+                        // }
                         if (promo.proType === 'amount') {
-                            if (totalAmount >= itemBuyList.productAmount && !appliedPromotions.has(keyPro)) {
-                                const rewards = await Promise.all(promo.rewards.map(async (reward) => {
+                            let totalAmountForCondition = 0;
+                            let isEligibleForReward = false;
+                        
+                            for (const itemBuyList of promo.conditions) {
+                                let amountForThisCondition = 0;
+                        
+                                for (const listGroup of listProductGroup) {
+                                    const groupMatch = itemBuyList.productGroup.length === 0 || itemBuyList.productGroup.includes(listGroup.group);
+                                    const brandMatch = itemBuyList.productBrand.length === 0 || itemBuyList.productBrand.includes(listGroup.brand);
+                                    const flavourMatch = itemBuyList.productFlavour.length === 0 || 
+                                        (listGroup.flavour && itemBuyList.productFlavour.includes(listGroup.flavour));
+                        
+                                    if (groupMatch && brandMatch && flavourMatch) {
+                                        amountForThisCondition += listGroup.totalAmount;
+                                    }
+                                }
+                        
+                                totalAmountForCondition += amountForThisCondition;
+                            }
+                        
+                        
+                            if (totalAmountForCondition >= promo.conditions[0].productAmount) {
+                                isEligibleForReward = true;
+                            }
+                        
+                            if (isEligibleForReward && !appliedPromotions.has(promo.proId)) {
+                        
+                                const matchingRewards = promo.rewards.filter(reward => {
+                                    return promo.conditions.some(condition =>
+                                        (condition.productGroup.length === 0 || condition.productGroup.includes(reward.productGroup)) &&
+                                        (condition.productFlavour.length === 0 || (reward.productFlavour && condition.productFlavour.includes(reward.productFlavour)))
+                                    );
+                                });
+                        
+                                if (matchingRewards.length === 0) {
+                                    matchingRewards.push(...promo.rewards);
+                                }
+                        
+                                const rewards = await Promise.all(matchingRewards.map(async (reward) => {
                                     const dataRewardItem = await fetchProductDetails(reward);
                                     return {
                                         productId: reward.productGroup,
-                                        qty: calculateRewardQty(totalAmount, itemBuyList.productAmount, reward.productQty),
+                                        qty: calculateRewardQty(totalAmountForCondition, promo.conditions.find(c => c.productAmount).productAmount, reward.productQty),
                                         unitQty: await getUnitName(reward.productUnit),
                                         listProductReward: dataRewardItem
-                                    };
-                                }));
-
+                                    }
+                                }))
+                        
                                 PromotionGroupMatch.push({
-                                    group: listGroup.group,
-                                    size: listGroup.size,
+                                    group: listProductGroup.map(g => g.group).join(", "),
+                                    size: listProductGroup.map(g => g.size).join(", "),
                                     proId: promo.proId,
                                     proCode: promo.proCode,
                                     qtyReward: _.sumBy(rewards, 'qty'),
                                     qtyUnit: rewards.map(r => r.unitQty).join(', '),
-                                    listProductReward: [rewards[0].listProductReward[0]],
-                                    listProduct: listGroup.listProduct
+                                    listProductReward: rewards.map(r => r.listProductReward[0]),
+                                    listProduct: listProductGroup
                                 });
-
-                                appliedPromotions.add(keyPro);
+                        
+                                appliedPromotions.add(promo.proId);
                             }
-                        } else if (itemBuyList.productFlavour.length > 0) {
+                        }
+                        else if (itemBuyList.productFlavour.length > 0) {
                             for (const product of listGroup.listProduct) {
                                 if (itemBuyList.productFlavour.includes(product.flavour)) {
                                     const productDetails = await Product.findOne({ id: product.id });
@@ -275,7 +354,12 @@ comparePromotion.post('/compare', async (req, res) => {
                                         const groupMatch = itemBuyList.productGroup.length === 0 || itemBuyList.productGroup.includes(listGroup.group);
                                         const brandMatch = itemBuyList.productBrand.length === 0 || itemBuyList.productBrand.includes(listGroup.brand);
 
+                                        const flavourMatch = listGroup.group === "ผงปรุงรส"
+                                            ? itemBuyList.productFlavour.includes(listGroup.flavour)
+                                            : true;
+
                                         if (groupMatch && brandMatch) {
+                                            // if (groupMatch && brandMatch && flavourMatch) {
                                             totalAmountInGroup += listGroup.totalAmount;
                                         }
                                     }
@@ -332,7 +416,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                     // }
                                 } else if (promo.proType === 'free' && itemBuyList.productQty > 0) {
                                     let totalQtyMatchingConditions = 0;
-                                    
+
                                     listProductGroup.forEach(listGroup => {
                                         const groupMatch = itemBuyList.productGroup.length === 0 || itemBuyList.productGroup.includes(listGroup.group);
                                         const brandMatch = itemBuyList.productBrand.length === 0 || itemBuyList.productBrand.includes(listGroup.brand);
@@ -370,7 +454,7 @@ comparePromotion.post('/compare', async (req, res) => {
                                         appliedPromotions.add(keyPro);
                                     }
                                 }
-                                
+
                             } else if (promo.proType === 'discount' && conditionQtyInUnit >= itemBuyList.productQty) {
                                 const discountTotal = calculateDiscount(conditionQtyInUnit, itemBuyList.productQty, promo.discounts[0].amount);
                                 PromotionDiscountMatch.push({
@@ -515,7 +599,7 @@ comparePromotion.post('/compare', async (req, res) => {
             // const dataPro = await Promotion.findOne({ proId: list.proId });
             const dataPro = getPromotion.get(list.proId);
             const unitThai = await Unit.findOne({ nameEng: list.qtyUnit });
-
+            
             freeItem.push({
                 productId: matchedProduct.id,
                 productName: slicePackSize(matchedProduct.name),
@@ -613,8 +697,8 @@ comparePromotion.post('/compare', async (req, res) => {
         await RewardSummary.create(saveData);
 
         await createLog('200', req.method, req.originalUrl, res.body, 'getCompare successfully')
-        // res.status(200).json(saveData)
-        res.status(200).json({ message: 'Update Promotion Success' })
+        res.status(200).json(listPromotion)
+        // res.status(200).json({ message: 'Update Promotion Success' })
     } catch (error) {
         console.log(error)
         await createLog('500', req.method, req.originalUrl, res.body, error.message)

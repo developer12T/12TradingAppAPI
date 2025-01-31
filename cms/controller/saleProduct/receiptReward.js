@@ -22,13 +22,16 @@ receiptReward.post('/getChangeRewardSummary', async (req, res) => {
         let mainData = [];
         let groupObj = [];
         const responseData = await Promotion.findOne({ proId: req.body.proId }, { rewards: 1, name: 1, _id: 0 });
-
+        
         for (const list of responseData.rewards) {
             if (list.productId === '') {
                 if (list.productGroup !== '') {
                     const itemFreeData = await Product.find({
                         group: list.productGroup,
-                        size: list.productSize,
+                        size: { $in: Array.isArray(list.productSize) ? list.productSize : [list.productSize] },
+                        ...(list.productFlavour.length > 0 && list.productFlavour[0] !== "" 
+                            ? { flavour: { $in: list.productFlavour } } 
+                            : {}),
                         "convertFact.unitId": { $ne: '3' }
                     }, { id: 1, _id: 0, name: 1 });
 
@@ -40,7 +43,8 @@ receiptReward.post('/getChangeRewardSummary', async (req, res) => {
                     mainData.push(slicedItemFreeData);
                     groupObj.push({
                         group: list.productGroup,
-                        size: list.productSize
+                        size: list.productSize,
+                        flavour: list.productFlavour
                     });
                 } else {
                     console.log('empty condition');
@@ -65,7 +69,7 @@ receiptReward.post('/getChangeRewardSummary', async (req, res) => {
             proId: req.body.proId,
             proName: responseData.name,
             groupObj,
-            listProduct: mainData[0] 
+            listProduct: mainData.flat()
         };
 
         await createLog('200', req.method, req.originalUrl, res.body, 'getChangeRewardSummary successfully');
