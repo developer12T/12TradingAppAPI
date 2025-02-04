@@ -309,7 +309,8 @@ getProduct.post('/getProduct', async (req, res) => {
         if (data.length > 0){
             const responseData = data.map(main => ({
                 id: main.id,
-                name: slicePackSize(main.name),
+                // name: slicePackSize(main.name),
+                name: main.name,
                 nameDetail: main.name,
                 unitList: main.unitList.map(list => ({
                     id: list.id,
