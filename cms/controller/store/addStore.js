@@ -2,6 +2,7 @@ const express = require('express')
 require('../../configs/connect')
 const addStore = express.Router()
 const { Store, Beauty, Marketing } = require('../../models/store')
+const { Order } = require('../../models/order')
 const { currentdateDash, checkDistanceLatLon, currentdateFormatYearMont } = require("../../utils/utility")
 const { status } = require('../../models/status')
 const _ = require('lodash')
@@ -400,6 +401,27 @@ addStore.post('/updateStatusStore', async (req, res) => {
     }
 })
 
+addStore.post('/updateOrderByStore', async (req, res) => {
+    try {
+        const { storeId, status } = req.body
+        if (!storeId) {
+            await createLog('501', req.method, req.originalUrl, res.body, 'require body')
+            res.status(501).json({ status: 501, message: 'require body' })
+        } else {
+
+            await Order.updateOne({ storeId: storeId }, { $set: { status: status, updatedDate: currentdateDash() } })
+            await createLog('200', req.method, req.originalUrl, res.body, 'update Status Successfully')
+            res.status(200).json({ status: 200, message: 'Update Status Successfully' })
+
+        }
+    } catch (e) {
+        await createLog('500', req.method, req.originalUrl, res.body, e.message)
+        res.status(500).json({
+            status: 500,
+            message: e.message
+        })
+    }
+})
 
 addStore.put('/updateStore', async (req, res) => {
     try {

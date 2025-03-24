@@ -46,8 +46,8 @@ const storeSchema = mongoose.Schema(
         postCode: { type: String, require: true },
         zone: { type: String, require: true },
         area: { type: String, require: true },
-        latitude: { type: String, require: true },
-        longtitude: { type: String, require: true },
+        latitude: { type: String, require: true, default: "0.00" },
+        longtitude: { type: String, require: true, default: "0.00" },
         lineId: { type: String, require: true },
         approve: approveSchema,
         status: { type: String, require: false }, // 0=ปิด ,1=เปิด

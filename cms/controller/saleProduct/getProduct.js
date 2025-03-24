@@ -300,12 +300,12 @@ getProduct.post('/getProduct', async (req, res) => {
 
         for (const key in req.body) {
             if (req.body[key] === "") {
-                delete req.body[key];
+                delete req.body[key]
             }
         }
-        // console.log(req.body);
+        // console.log(req.body)
         const data = await Product.find(req.body, {_id: 0, idIndex: 0, __v: 0, status: 0})
-        // console.log(data);
+        console.log(data)
         if (data.length > 0){
             const responseData = data.map(main => ({
                 id: main.id,
